@@ -64,6 +64,12 @@ class Translation2_Container_gettext extends Translation2_Container
      */
     var $cachedDomains = array();
 
+    /**
+     * @var boolean
+     * @access private
+     */
+    var $_extensionLoaded = false;
+
     // }}}
     // {{{ init
 
@@ -77,6 +83,7 @@ class Translation2_Container_gettext extends Translation2_Container
     {
         $this->_setDefaultOptions();
         $this->_parseOptions($options);
+        $this->_extensionLoaded = function_exists('gettext');
         
         $this->_domains = @parse_ini_file($this->options['domains_path_file']);
         
@@ -111,6 +118,7 @@ class Translation2_Container_gettext extends Translation2_Container
         $this->options['domains_path_file'] = 'domains.ini';
         $this->options['default_domain']    = 'messages';
         $this->options['carriage_return']   = "\n";
+        $this->options['file_type']   		= 'mo';
         //$this->options['path_to_locale']  = './';
     }
 
@@ -124,7 +132,7 @@ class Translation2_Container_gettext extends Translation2_Container
      */
     function _switchLang($langID)
     {
-        if (!isset($langID) || ($langID == $this->currentLang['id'])) {
+        if (is_null($langID) || ($langID == $this->currentLang['id'])) {
             return $this->currentLang['id'];
         }
         $oldLang = $this->currentLang['id'];
@@ -179,7 +187,7 @@ class Translation2_Container_gettext extends Translation2_Container
         $oldLang = $this->_switchLang($langID);
         $curLang = $this->currentLang['id'];
         
-        if (!isset($pageID)) {
+        if (is_null($pageID)) {
             $pageID = $this->options['default_domain'];
         }
         
@@ -197,32 +205,38 @@ class Translation2_Container_gettext extends Translation2_Container
             );
         }
         
-        $path = sprintf('%s/%s/LC_MESSAGES/', $this->_domains[$pageID], $curLang);
-        $file = $path . $pageID .'.mo';
-        
-        require_once 'File/Gettext.php';
-        $MO = &File_Gettext::factory('MO');
+        if (strtolower($this->options['file_type']) == 'po') {
+        	$file_extension = '.po';
+	        require_once 'File/Gettext/PO.php';
+	        $gtFile = &File_Gettext::factory('PO');
+        } else {
+        	$file_extension = '.mo';
+	        require_once 'File/Gettext/MO.php';
+	        $gtFile = &File_Gettext::factory('MO');
+        }
 
-        if (PEAR::isError($e = $MO->load($file))) {
+        $path = sprintf('%s/%s/LC_MESSAGES/', $this->_domains[$pageID], $curLang);
+        $file = $path . $pageID . $file_extension;
+
+        if (PEAR::isError($e = $gtFile->load($file))) {
             if (is_file($file)) {
                 return $this->raiseError(sprintf(
                         '%s [%s on line %d]', $e->getMessage(), __FILE__, __LINE__
                     ),
                     TRANSLATION2_ERROR
                 );
-            } else {
-                return $this->raiseError(sprintf(
-                        'Cannot find file "%s" [%s on line %d]', 
-                        $file, __FILE__, __LINE__
-                    ),
-                    TRANSLATION2_ERROR_CANNOT_FIND_FILE
-                );
             }
+            return $this->raiseError(sprintf(
+                    'Cannot find file "%s" [%s on line %d]',
+                    $file, __FILE__, __LINE__
+                ),
+                TRANSLATION2_ERROR_CANNOT_FIND_FILE
+            );
         }
         
-        $this->cachedDomains[$curLang][$pageID] = $MO->strings;
+        $this->cachedDomains[$curLang][$pageID] = $gtFile->strings;
         $this->_switchLang($oldLang);
-        return $MO->strings;
+        return $gtFile->strings;
     }
 
     // }}}
@@ -238,13 +252,23 @@ class Translation2_Container_gettext extends Translation2_Container
      */
     function getOne($stringID, $pageID = null, $langID = null)
     {
-        $oldLang = $this->_switchLang($langID);
+        if ($this->_extensionLoaded) {
+            $oldLang = $this->_switchLang($langID);
 
-        textdomain(isset($pageID) ? $pageID : $this->options['default_domain']);
-        $string = gettext($stringID);
+            textdomain(isset($pageID) ? $pageID : $this->options['default_domain']);
+            $string = gettext($stringID);
 
-        $this->_switchLang($oldLang);
-        return $string;
+            $this->_switchLang($oldLang);
+            return $string;
+        }
+        //gettext extension not loaded, use File_Gettext
+        $page = $this->getPage($pageID, $langID);
+
+        if (is_array($page) && array_key_exists($stringID, $page)) {
+            return $page[$stringID];
+        }
+        return $stringID; //mimic gettext behaviour
+        //return '';
     }
 
     // }}}
