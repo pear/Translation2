@@ -50,6 +50,8 @@ Currently, the following decorators are provided:
     <state>beta</state>
     <notes>
 - added Translation2::getRaw()
+- fixed bug #3068: Translation2_Admin::update() on multiple tables didn't insert
+  new records for missing langs, only updated the existing ones.
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -150,6 +152,8 @@ Currently, the following decorators are provided:
       <state>beta</state>
       <notes>
 - added Translation2::getRaw()
+- fixed bug #3068: Translation2_Admin::update() on multiple tables didn't insert
+  new records for missing langs, only updated the existing ones.
       </notes>
     </release>
     <release>
