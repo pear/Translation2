@@ -5,10 +5,10 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 1997-2004 The PHP Group                                |
 // +----------------------------------------------------------------------+
-// | This source file is subject to version 2.02 of the PHP license,      |
+// | This source file is subject to version 3.0 of the PHP license,       |
 // | that is bundled with this package in the file LICENSE, and is        |
 // | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
+// | http://www.php.net/license/3_0.txt.                                  |
 // | If you did not receive a copy of the PHP license and are unable to   |
 // | obtain it through the world-wide-web, please send a note to          |
 // | license@php.net so we can mail you a copy immediately.               |
@@ -68,20 +68,6 @@ class Translation2_Container
                 $this->options[$key] = $value;
             }
         }
-    }
-
-    // }}}
-    // {{{ fetchData()
-
-    /**
-     * Fetch data from storage container
-     *
-     * Has to be overwritten by each storage class
-     *
-     * @access public
-     */
-    function fetchData()
-    {
     }
 
     // }}}
@@ -171,7 +157,8 @@ class Translation2_Container
      */
     function fetchLangs()
     {
-        return $this->raiseError(TRANSLATION_ERROR_METHOD_NOT_SUPPORTED);
+        return $this->raiseError('method "fetchLangs" not supported',
+                                 TRANSLATION_ERROR_METHOD_NOT_SUPPORTED);
     }
 
     // }}}
@@ -185,7 +172,8 @@ class Translation2_Container
      */
     function getPage($pageID)
     {
-        return $this->raiseError(TRANSLATION_ERROR_METHOD_NOT_SUPPORTED);
+        return $this->raiseError('method "getPage" not supported',
+                                 TRANSLATION_ERROR_METHOD_NOT_SUPPORTED);
     }
 
     // }}}
@@ -197,7 +185,8 @@ class Translation2_Container
      */
     function getOne($stringID, $pageID=null, $langID=null)
     {
-        return $this->raiseError(TRANSLATION_ERROR_METHOD_NOT_SUPPORTED);
+        return $this->raiseError('method "getOne" not supported',
+                                 TRANSLATION_ERROR_METHOD_NOT_SUPPORTED);
     }
 
     // }}}
@@ -211,7 +200,24 @@ class Translation2_Container
      */
     function getStringID($string, $pageID)
     {
-        return $this->raiseError(TRANSLATION_ERROR_METHOD_NOT_SUPPORTED);
+        return $this->raiseError('method "getStringID" not supported',
+                                 TRANSLATION_ERROR_METHOD_NOT_SUPPORTED);
+    }
+
+    // }}}
+    // {{{ raiseError()
+
+    /**
+     * Trigger a PEAR error
+     *
+     * @param string $msg error message
+     * @param int $code error code
+     * @access public
+     */
+    function raiseError($msg, $code, $mode=PEAR_ERROR_TRIGGER)
+    {
+        //PEAR::raiseError($msg, $code, $this->_pearErrorMode);
+        PEAR::raiseError($msg, $code, $mode);
     }
 
     // }}}
