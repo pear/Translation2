@@ -60,21 +60,19 @@ class Translation2_Container_gettext extends Translation2_Container
     var $cachedDomains = array();
 
     // }}}
-    // {{{ Constructor
+    // {{{ init
 
     /**
-     * Constructor of the container class
-     *
-     * Initate connection to the database via PEAR::DB
+     * Initialize the container 
      *
      * @param  array  gettext parameters
-     * @return object Returns an error object if something went wrong
+     * @return boolean|PEAR_Error object if something went wrong
      */
-    function Translation2_Container_gettext($options)
+    function init($options)
     {
         $this->_setDefaultOptions();
         $this->_parseOptions($options);
-
+        
         $this->_domains = @parse_ini_file($this->options['domains_path_file']);
         if ($this->_domains === false) {
             return $this->raiseError(
@@ -87,6 +85,8 @@ class Translation2_Container_gettext extends Translation2_Container
         foreach ($this->_domains as $domain => $path) {
             bindtextdomain($domain, $path);
         }
+        
+        return true;
     }
 
     // }}}
