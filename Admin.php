@@ -81,7 +81,7 @@ class Translation2_Admin extends Translation2
      */
     function createNewLang($langData)
     {
-        $res = $this->storage->createNewLang($langData['lang_id']);
+        $res = $this->storage->createNewLang($langData);
         if (PEAR::isError($res)) {
             return $res;
         }

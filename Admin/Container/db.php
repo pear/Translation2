@@ -43,17 +43,14 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
     // {{{ class vars
 
     // }}}
-    // {{{ createNewLang()
-
+    // {{{
+    
     /**
-     * Creates a new table to store the strings in this language.
-     * If the table is shared with other langs, it is ALTERed to
-     * hold strings in this lang too.
-     *
-     * @param string $langID
-     * @return mixed true on success, PEAR_Error on failure
+     * Fetch the table names from the db
+     * @access private
+     * @return mixed array on success, PEAR_Error on failure
      */
-    function createNewLang($langID)
+    function _fetchTableNames()
     {
         $res = $this->query('SHOW TABLES', 'getAll');
         if (PEAR::isError($res)) {
@@ -62,16 +59,40 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         if (empty($res) || !is_array($res)) {
             //return error
         }
+        $tables = array();
+        foreach ($res as $record) {
+            $tables[] = $record[0];
+        }
+        return $tables;
+    }
+    
+    // }}}
+    // {{{ createNewLang()
 
-        $lang_col = str_replace('%s', $langID, $this->options['string_text_col']);
+    /**
+     * Creates a new table to store the strings in this language.
+     * If the table is shared with other langs, it is ALTERed to
+     * hold strings in this lang too.
+     *
+     * @param array $langData
+     * @return mixed true on success, PEAR_Error on failure
+     */
+    function createNewLang($langData)
+    {
+        $tables = $this->_fetchTableNames();
+        if (PEAR::isError($tables)) {
+            return $tables;
+        }
+        
+        $lang_col = str_replace('%s', $langData['lang_id'], $this->options['string_text_col']);
         if (empty($lang_col)) {
             $lang_col = $this->currentLang['id'];
         }
-
-        if (in_array($this->options['strings_tables'][$langID], $res)) {
+     
+        if (in_array($langData['table_name'], $tables)) {
             //table exists
-            $query = sprintf('ALTER TABLE %s ADD COLUMN %s',
-                            $this->options['strings_tables'][$langID],
+            $query = sprintf('ALTER TABLE %s ADD COLUMN %s TEXT',
+                            $langData['table_name'],
                             $lang_col
             );
         } else {
@@ -83,7 +104,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
                             .'UNIQUE KEY tablekey (%s, %s), '
                             .'KEY page_id (%s), '
                             .'KEY string_id (%s))',
-                            $this->options['strings_tables'][$langID],
+                            $langData['table_name'],
                             $this->options['string_page_id_col'],
                             $this->options['string_id_col'],
                             $lang_col,
@@ -112,15 +133,12 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      */
     function addLangToAvailList($langData)
     {
-        $res = $this->query('SHOW TABLES', 'getAll');
-        if (PEAR::isError($res)) {
-            return $res;
-        }
-        if (empty($res) || !is_array($res)) {
-            //return error
+        $tables = $this->_fetchTableNames();
+        if (PEAR::isError($tables)) {
+            return $tables;
         }
 
-        if (!in_array($this->options['langs_avail_table'], $res)) {
+        if (!in_array($langData['table_name'], $tables)) {
             //is this query portable??
             $query = sprintf('CREATE TABLE %s ('
                             .'%s CHAR(16), '
@@ -331,9 +349,24 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         $langs = $this->getLangs('ids');
         $tables = array();
         foreach ($langs as $langID) {
-            $tables[] = $this->options['strings_tables'][$langID];
+            if (isset($this->options['strings_tables'][$langID])) {
+                $tables[] = $this->options['strings_tables'][$langID];
+            } else {
+                $tables[] = $this->options['strings_default_table'];
+            }
+            
         }
         $tables = array_unique($tables);
+        //get the tables and remove the non existent ones from the list
+        $dbTables = $this->_fetchTableNames();
+        if (!PEAR::isError($dbTables)) {
+            foreach ($tables as $k => $table) {
+                if (!in_array($table, $dbTables)) {
+                    unset($tables[$k]);
+                }
+            }
+        }
+
         foreach ($tables as $table) {
             $query = 'DELETE FROM '.$table.' WHERE ';
             $where = array();
