@@ -213,6 +213,27 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     }
 
     // }}}
+    // {{{ update()
+    
+    /**
+     * Update
+     * 
+     * Alias for Translation2_Admin_Container_gettext::add()
+     * 
+     * @see add()
+     * 
+     * @access  public
+     * @return  mixed
+     * @param   string  $stringID
+     * @param   string  $pageID
+     * @param   array   $strings
+     */
+    function update($stringID, $pageID, $strings)
+    {
+        return $this->add($stingID, $pageID, $strings);
+    }
+    
+    // }}}
     // {{{ removeLang()
     
     /**
