@@ -147,7 +147,9 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
                     $this->db->getTextValue($langData['error_text'])
         );
 
-        return $this->query($query);
+        $success = $this->query($query);
+        $this->options['strings_tables'][$langData['lang_id']] = $langData['table_name'];
+        return $success;
     }
 
     // }}}
