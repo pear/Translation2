@@ -53,18 +53,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      */
     function _fetchTableNames()
     {
-        $res = $this->query('SHOW TABLES', 'queryAll');
-        if (PEAR::isError($res)) {
-            return $res;
-        }
-        if (empty($res) || !is_array($res)) {
-            //return error
-        }
-        $tables = array();
-        foreach ($res as $record) {
-            $tables[] = $record[0];
-        }
-        return $tables;
+        $this->db->loadModule('manager');
+        return $this->db->manager->listTables();
     }
 
     // }}}
