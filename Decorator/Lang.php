@@ -43,21 +43,6 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
     var $fallbackLang;
 
     // }}}
-    // {{{ setFallbackLang()
-
-    /**
-     * Set the fallback lang. When the requested string
-     * is not available in the primary lang, this decorator
-     * will try with another lang before returning an empty string.
-     *
-     * @param string $langID
-     */
-    function setFallbackLang($langID)
-    {
-        $this->fallbackLang = $langID;
-    }
-
-    // }}}
     // {{{ setOption()
 
     /**
