@@ -265,5 +265,23 @@ class TestOfContainerDB extends UnitTestCase {  //TestOfTranslation2 {
         $this->tr =& $this->tr->getDecorator('SpecialChars');
         $this->assertEqual('venerd&igrave;', $this->tr->get('day_5', 'calendar', 'it'));
     }
+    function testCacheMemoryDecorator() {
+        $this->tr->setLang('en');
+        $original = 'hello &&user&&, today is &&weekday&&, &&day&&th &&month&& &&year&&';
+        $this->assertEqual($original, $this->tr->get('hello_user'));
+        $this->tr =& $this->tr->getDecorator('CacheMemory');
+        $replacements = array('Joe', 'Boe', 'Moe');
+        foreach ($replacements as $v) {
+            $this->tr->setParams(array('user' => $v));
+            $v = str_replace('&&user&&', $v, $original);
+            $this->assertEqual($v, $this->tr->get('hello_user'));
+        }
+    }
+}
+
+if (!defined('TEST_RUNNING')) {
+    define('TEST_RUNNING', true);
+    $test = &new TestOfContainerDB();
+    $test->run(new HtmlReporter());
 }
 ?>
