@@ -42,6 +42,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
 
     var $_bulk = false;
     var $_queue = array();
+    var $_fields = array('name', 'meta', 'error_text', 'encoding');
 
     // }}}
     // {{{ createNewLang()
@@ -49,8 +50,8 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     /**
      * Creates a new entry in the langs_avail .ini file.
      *
-     * @param array $langData
-     * @return mixed true on success, PEAR_Error on failure
+     * @param   array   $langData
+     * @return  mixed   Returns true on success or PEAR_Error on failure.
      */
     function createNewLang($langData, $path = null)
     {
@@ -91,47 +92,10 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      */
     function addLangToAvailList($langData)
     {
-        static $fields = array('name', 'meta', 'error_text', 'encoding');
-        
-        if (PEAR::isError($langs = $this->getLangs())) {
-            return $langs;
+        if (PEAR::isError($changed = $this->_updateLangData($langData))) {
+            return $changed;
         }
-        if (isset($langs[$langData['lang_id']])) {
-            return true;
-        }
-        
-        $lang = &$langs[$langData['lang_id']];
-
-        foreach ($fields as $k) {
-            $lang[$k] = isset($langData[$k]) ? $langData[$k] : '';
-        }
-        
-        if (!is_resource($f = fopen($this->options['langs_avail_file'], 'w'))) {
-            return $this->raiseError(sprintf(
-                    'Cannot write to available langs INI file "%s"',
-                    $this->options['langs_avail_file']
-                ),
-                TRANSLATION2_ERROR_CANNOT_WRITE_FILE
-            );
-        }
-        $CRLF = $this->options['carriage_return'];
-
-        @flock($f, LOCK_EX);
-        
-        foreach ($langs as $id => $data) {
-            fwrite($f, '['. $id .']'. $CRLF);
-            foreach ($fields as $k) {
-                if (isset($data[$k])) {
-                    fwrite($f, $k . ' = ' . $data[$k] . $CRLF);
-                }
-            }
-            fwrite($f, $CRLF);
-        }
-        
-        @flock($f, LOCK_UN);
-        fclose($f);
-        
-        return true;
+        return $changed ? $this->_writeLangsAvailFile() : true;
     }
 
     // }}}
@@ -254,12 +218,31 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     }
     
     // }}}
+    // {{{ updateLang()
+    
+    /**
+     * Update the lang info in the langs_avail file
+     * 
+     * @access  public
+     * @return  mixed   Returns true on success or PEAR_Error on failure.
+     * @param   array   $langData
+     */
+    function updateLang($langData)
+    {
+        if (PEAR::isError($changed = $this->_updateLangData($langData))) {
+            return $changed;
+        }
+        return $changed ? $this->_writeLangsAvailFile() : true;
+    }
+    
+    // }}}
     // {{{ getPageNames()
 
     /**
      * Get a list of all the domains
      *
-     * @return array
+     * @access  public
+     * @return  array
      */
     function getPageNames()
     {
@@ -287,7 +270,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      * Commit
      * 
      * @access  public
-     * @return  true|PEAR_Error
+     * @return  mixed   Returns true on success or PEAR_Error on failure.
      */
     function commit()
     {
@@ -312,7 +295,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      * Add
      * 
      * @access  private
-     * @return  true|PEAR_Error
+     * @return  mixed   Returns true on success or PEAR_Error on failure.
      */
     function _add(&$bulk)
     {
@@ -374,7 +357,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      * Remove
      * 
      * @access  private
-     * @return  true|PEAR_Error
+     * @return  mixed   Returns true on success or PEAR_Error on failure.
      */
     function _remove(&$bulk)
     {
@@ -423,8 +406,8 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      * Add the path-to-the-new-domain to the domains-path-INI-file
      *
      * @access  private
-     * @param $pageID string domain name
-     * @return  true|PEAR_Error
+     * @param   $pageID string domain name
+     * @return  mixed   Returns true on success or PEAR_Error on failure.
      */
     function _addDomain($pageID)
     {
@@ -449,6 +432,81 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
         $this->_domains[$pageID] = $domain_path;
 
         return true;
+    }
+    
+    // }}}
+    // {{{ _writeLangsAvailFile()
+    
+    /**
+     * Write the langs_avail INI file
+     * 
+     * @access  private
+     * @return  mixed   Returns true on success or PEAR_Error on failure.
+     */
+    function _writeLangsAvailFile()
+    {
+        if (PEAR::isError($langs = $this->getLangs())) {
+            return $langs;
+        }
+        
+        if (!is_resource($f = fopen($this->options['langs_avail_file'], 'w'))) {
+            return $this->raiseError(sprintf(
+                    'Cannot write to available langs INI file "%s"',
+                    $this->options['langs_avail_file']
+                ),
+                TRANSLATION2_ERROR_CANNOT_WRITE_FILE
+            );
+        }
+        $CRLF = $this->options['carriage_return'];
+
+        @flock($f, LOCK_EX);
+        
+        foreach ($langs as $id => $data) {
+            fwrite($f, '['. $id .']'. $CRLF);
+            foreach ($this->_fields as $k) {
+                if (isset($data[$k])) {
+                    fwrite($f, $k . ' = ' . $data[$k] . $CRLF);
+                }
+            }
+            fwrite($f, $CRLF);
+        }
+        
+        @flock($f, LOCK_UN);
+        fclose($f);
+        return true;
+    }
+    
+    // }}}
+    // {{{ _updateLangData()
+    
+    /**
+     * Update Lang Data
+     * 
+     * @access  private
+     * @return  mixed   Returns true on success or PEAR_Error on failure.
+     * @param   array   $langData
+     */
+    function _updateLangData($langData)
+    {
+        if (PEAR::isError($langs = $this->getLangs())) {
+            return $langs;
+        }
+        
+        $lang     = &$langs[$langData['lang_id']];
+        $changed  = false;
+        foreach ($this->_fields as $k) {
+            if (    isset($langData[$k]) && 
+                    (!isset($lang[$k]) || $langData[$k] != $lang[$k])) {
+                $lang[$k] = $langData[$k];
+                $changed  = true;
+            }
+        }
+        
+        if ($changed) {
+            $lang['id']  = $langData['lang_id'];
+            $this->langs = $langs;
+        }
+        return $changed;
     }
     
     // }}}
