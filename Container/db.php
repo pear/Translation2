@@ -27,6 +27,7 @@
  * require Translation2_Container class and PEAR::DB
  */
 require_once 'Translation2/Container.php';
+require_once 'DB.php';
 
 /**
  * Storage driver for fetching data from a database
