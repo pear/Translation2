@@ -51,36 +51,25 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      * @param array $langData
      * @return mixed true on success, PEAR_Error on failure
      */
-    function createNewLang($langData, $path=null)
+    function createNewLang($langData, $path = null)
     {
-        if (is_null($path)) {
-            //use the path of the first domain
-            $path = reset($this->_domains);
+        if (!isset($path)) {
+            $path = $this->_domains[$this->options['default_domain']];
         }
+        
+        $path .= '/'. $langData['lang_id'] . '/LC_MESSAGES';
+        
         if (!is_dir($path)) {
-            return $this->raiseError(
-                'the specified path ("'.$path.'") is not valid',
-                TRANSLATION2_ERROR_INVALID_PATH
-            );
-        }
-        $path .= DIRECTORY_SEPARATOR.$langData['lang_id'];
-        if (!is_dir($path)) {
-            if (!mkdir($path)) {
-                return $this->raiseError(
-                    'cannot create directory "'.$path.'"',
+            require_once 'System.php';
+            if (!System::mkdir(array('-p'. $path))) {
+                return $this->raiseError(sprintf(
+                        'Cannot create new language in path "%s"', $path
+                    ),
                     TRANSLATION2_ERROR_CANNOT_CREATE_DIR
                 );
             }
         }
-        $path .= DIRECTORY_SEPARATOR.'LC_MESSAGES';
-        if (!is_dir($path)) {
-            if (!mkdir($path)) {
-                return $this->raiseError(
-                    'cannot create directory "'.$path.'"',
-                    TRANSLATION2_ERROR_CANNOT_CREATE_DIR
-                );
-            }
-        }
+        
         return true;
     }
 
@@ -100,46 +89,50 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      */
     function addLangToAvailList($langData)
     {
-        $langs = parse_ini_file($this->options['langs_avail_file'], true);
-        if (in_array($langData['lang_id'], array_keys($this->langs))) {
+        if (PEAR::isError($langs = $this->getLangs())) {
+            return $langs;
+        }
+        if (isset($langs[$langData['lang_id']])) {
             return true;
         }
-
+        
         $valid_keys = array(
             'name',
             'meta',
             'error_text',
             'windows'
         );
-
-        $langs[$langData['lang_id']] = array();
-        $langs[$langData['lang_id']]['id']      = $langData['lang_id'];
-        if (array_key_exists('use', $langData)) {
-            $langs[$langData['lang_id']]['use'] = $langData['use'];
-        } else {
-            foreach ($valid_keys as $valid_key) {
-                $langs[$langData['lang_id']][$valid_key] =
-                    isset($langData[$valid_key]) ? $langData[$valid_key] : '';
-            }
+        
+        $lang = &$langs[$langData['lang_id']];
+        
+        foreach (array('name', 'meta', 'error_text', 'windows') as $k) {
+            $lang[$k] = isset($langData[$k]) ? $langData[$k] : '';
         }
-
-        //write to file
-        $fp = fopen($this->options['langs_avail_file'], 'w');
-        foreach ($langs as $key => $lang) {
-            fwrite($fp, '[' . $key . ']' . $this->options['carriage_return']);
-            if (array_key_exists('use', $lang)) {
-                fwrite($fp, 'use = ' . $lang['use'] . $this->options['carriage_return']);
-            } else {
-                fwrite($fp, 'id = '  . $lang['id']  . $this->options['carriage_return']);
-            }
-            foreach ($valid_keys as $valid_key) {
-                if (array_key_exists($valid_key, $lang)) {
-                    fwrite($fp, $valid_key .' = '. $lang[$valid_key] . $this->options['carriage_return']);
+        
+        if (!is_resource($f = fopen($this->options['langs_avail_file'], 'w'))) {
+            return $this->raiseError(sprintf(
+                    'Cannot write to available langs INI file "%s"',
+                    $this->options['langs_avail_file']
+                ),
+                TRANSLATION2_ERROR_CANNOT_WRITE_FILE
+            );
+        }
+        @flock($f, LOCK_EX);
+        
+        $CRLF = $this->options['carriage_return'];
+        foreach ($langs as $id => $data) {
+            fwrite($f, '['. $id .']'. $CRLF);
+            foreach (array('name', 'meta', 'error_text', 'windows') as $k) {
+                if (isset($data[$k])) {
+                    fwrite($f, $k .'='. $data[$k] . $CRLF);
                 }
             }
-            fwrite($fp, $this->options['carriage_return']);
+            fwrite($f, $CRLF);
         }
-        fclose($fp);
+        
+        @flock($f, LOCK_UN);
+        fclose($f);
+        
         return true;
     }
 
@@ -151,59 +144,40 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      *
      * @param string $stringID
      * @param string $pageID
-     * @param array  $stringArray Associative array with string translations.
+     * @param array  $strings Associative array with string translations.
      *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
      * @return mixed true on success, PEAR_Error on failure
      */
-    function add($stringID, $pageID, $stringArray)
+    function add($stringID, $pageID, $strings)
     {
-        if (is_null($pageID)) {
-            //use the first domain
-            reset($this->_domains);
-            $pageID = key($this->_domains);
+        if (!isset($pageID)) {
+            $pageID = $this->options['default_domain'];
         }
-
-        $langs = array_keys($stringArray);
-        $numLangs = count($langs);
-        $availableLangs = $this->getLangs('ids');
-        foreach ($langs as $key => $langID) {
-            if (!in_array($langID, $availableLangs)) {
-                unset($langs[$key]);
-            }
-        }
-
+        
+        $langs = array_intersect(array_keys($strings), $this->getLangs('ids'));
+        
         if (!count($langs)) {
-            //return error: no valid lang provided
-            return true;
+            return true; // really?
         }
-
-        require_once 'File/Gettext/MO.php';
-
-        foreach ($langs as $langID) {
-            $moFile = new File_Gettext_MO;
-            $domainPath = $this->_domains[$pageID]
-                    . DIRECTORY_SEPARATOR.$langID
-                    . DIRECTORY_SEPARATOR.'LC_MESSAGES';
-            $filename = $domainPath.DIRECTORY_SEPARATOR.$pageID.'.mo';
-            if (!file_exists($filename)) {
-                //create an empty .mo file
-                $moFile->fromArray(
-                    array(
-                        'meta'    => array(),
-                        'strings' => array()
-                    )
-                );
-                $moFile->save($filename);
+        
+        $file = '/LC_MESSAGES/'. $pageID .'.mo';
+        
+        require_once 'File/Gettext.php';
+        $MO = &File_Gettext::factory('MO');
+        
+        foreach ((array) $langs as $id) {
+            $path = $this->_domains[$pageID] .'/'. $id;
+            
+            if (is_file($path . $file)) {
+                if (PEAR::isError($e = $MO->load($path . $file))) {
+                    return $e;
+                }
             }
 
-            $err = $moFile->load($filename);
-            if (PEAR::isError($err)) {
-                return $err;
+            $MO->strings[$stringID] = $strings[$id];
+            if (PEAR::isError($e = $MO->save($path . $file))) {
+                return $e;
             }
-
-            $moFile->strings[$stringID] = $stringArray[$langID];
-            $moFile->save($filename);
-            unset($moFile);
         }
         return true;
     }
@@ -212,7 +186,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     // {{{ remove()
 
     /**
-     * Remove an entry from the strings domain.
+     * Remove an entry from the domain.
      *
      * @param string $stringID
      * @param string $pageID
@@ -220,38 +194,25 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      */
     function remove($stringID, $pageID)
     {
-        if (is_null($pageID)) {
-            //use the first domain
-            reset($this->_domains);
-            $pageID = key($this->_domains);
+        if (!isset($pageID)) {
+            $pageID = $this->options['default_domain'];
         }
-
-        $langs = $this->getLangs('ids');
-        $tables = array();
-
-        require_once 'File/Gettext/MO.php';
-        $moFile = new File_Gettext_MO;
-
-        foreach ($langs as $langID) {
-            $domainPath = $this->_domains[$pageID]
-                    . DIRECTORY_SEPARATOR.$langID
-                    . DIRECTORY_SEPARATOR.'LC_MESSAGES';
-            $filename = $domainPath.DIRECTORY_SEPARATOR.$pageID.'.mo';
-            if (!file_exists($filename)) {
-               continue;  //nothing to do
-            }
-
-            $err = $moFile->load($filename);
-            if (PEAR::isError($err)) {
-                return $err;
-            }
-
-            if (array_key_exists($stringID, $moFile->strings)) {
-                unset($moFile->strings[$stringID]);
-                $moFile->save($filename);
+        
+        $file = '/LC_MESSAGES/'. $pageID .'.mo';
+        
+        foreach ($this->getLangs('ids') as $lang) {
+            $path = $this->_domains[$pageID] .'/'. $lang;
+            
+            if (is_file($path . $file)) {
+                if (PEAR::isError($e = $MO->load($path . $file))) {
+                    return $e;
+                }
+                unset($MO->strings[$stringID]);
+                if (PEAR::isError($e = $MO->save($path . $file))) {
+                    return $e;
+                }
             }
         }
-        unset($moFile);
         return true;
     }
 
