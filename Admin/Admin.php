@@ -26,7 +26,7 @@
 /**
  * require Translation2 base class
  */
-require_once 'Translation2/Translation2.php';
+require_once 'Translation2.php';
 
 /**
  * Administration utilities for translation string management

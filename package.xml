@@ -49,12 +49,12 @@ An Admin class is provided to easily manage translations (add/remove a language,
       <dep type="pkg" rel="has" optional="yes">File_Gettext</dep>
     </deps>
     <filelist>
+      <file role="php" name="Translation2.php" />
       <dir name="/" baseinstalldir="Translation2">
-        <file role="php" name="Translation2.php" />
+        <file role="php" name="Admin.php" />
         <file role="php" name="Container.php" />
         <file role="php" name="Decorator.php" />
         <dir name="Admin" role="php">
-          <file role="php" name="Admin.php" />
           <dir name="Container" role="php">
             <file name="dataobjectsimple.php" />
             <file name="db.php" />
