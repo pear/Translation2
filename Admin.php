@@ -138,34 +138,15 @@ class Translation2_Admin extends Translation2
 
     /**
      * remove a translated string
-    *
+     *
      * @param string $stringID
      * @param string $pageID
      * @return mixed true on success, PEAR_Error on failure
+     * @todo add a third $langs option, to conditionally remove only the langs specified
      */
     function remove($stringID, $pageID=null)
     {
         return $this->storage->remove($stringID, $pageID);
-    }
-
-    // }}}
-    // {{{ ____remove  (backup code, just a proof of concept...)
-
-    /**
-     * remove a translated string
-     *
-     * @param string $stringID
-     * @param string $pageID
-     * @param array  $langs  leave empty if the string must be removed from all langs
-     */
-    function ____remove($stringID, $pageID=null, $langs=null)
-    {
-        if (is_null($langs)) {
-            $langs = $this->getLangs('ids');
-        } elseif (!is_array($langs)) {
-            $langs = array($langs);
-        }
-        $this->storage->remove($stringID, $pageID, $langs);
     }
 
     // }}}
