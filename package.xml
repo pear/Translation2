@@ -30,17 +30,20 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta2</version>
-    <date>2004-07-31</date>
+    <date>2004-09-02</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
-- add emptyPrefix and emptyPostfix options to the DefaultText decorator
+- added emptyPrefix and emptyPostfix options to the DefaultText decorator
   (can be used to mark empty strings)
 - don't pass objects by ref in the Decorator, as it's deprecated
 - better check for existing connections in the MDB and MDB2 drivers
-- fix assignment of datobjects simple to empty string using default constructor
+- fixed assignment of datobjects simple to empty string using default constructor
   in the dataobjectsimple driver (alan_k)
 - updated the example
+- fixed the db, mdb and mdb2 admin classes (bugs #2153 and #2248)
+- added a 'strings_default_table' parameter as a fallback table
+  for translations
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -95,17 +98,20 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta2</version>
-      <date>2004-07-31</date>
+      <date>2004-09-02</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
-- add emptyPrefix and emptyPostfix options to the DefaultText decorator
+- added emptyPrefix and emptyPostfix options to the DefaultText decorator
   (can be used to mark empty strings)
 - don't pass objects by ref in the Decorator, as it's deprecated
 - better check for existing connections in the MDB and MDB2 drivers
-- fix assignment of datobjects simple to empty string using default constructor
+- fixed assignment of datobjects simple to empty string using default constructor
   in the dataobjectsimple driver (alan_k)
 - updated the example
+- fixed the db, mdb and mdb2 admin classes (bugs #2153 and #2248)
+- added a 'strings_default_table' parameter as a fallback table
+  for translations
       </notes>
     </release>
     <release>
