@@ -10,9 +10,6 @@ require_once 'Translation2.php';
 //$tr = new Translation2_Admin($driver, $dbinfo, $params);
 
 $tr = new Translation2($driver, $dbinfo, $params);
-if (PEAR::isError($tr)) {
-    debug($tr);
-}
 
 writeTitle('ITALIANO');
 $tr->setLang('it');
@@ -64,7 +61,14 @@ EOT;
 debug($str);
 
 
-debug('$tr->get(\'test\');');
+debug('$test = $tr->get(\'test\');
+if (PEAR::isError($test)) {
+    //you must check for errors on the first $tr->get*() call,
+    //since the db connection is not estabilished beforehand.
+
+    //handle error
+}
+echo $test');
 writeValue('test', $tr->get('test'));
 debug('$tr->get(\'only_english\'); //test fallback language for a string not translated in Italian');
 writeValue('only_english', $tr->get('only_english'));
