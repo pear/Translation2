@@ -10,6 +10,7 @@ The following containers are provided, more will follow:
 - PEAR::MDB
 - PEAR::MDB2
 - gettext
+- XML
 - PEAR::DB_DataObject (experimental)
 It is designed to reduce the number of queries to the db, caching the results when possible.
 An Admin class is provided to easily manage translations (add/remove a language, add/remove a string).
@@ -42,7 +43,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta3</version>
-    <date>2004-11-07</date>
+    <date>2004-11-11</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
@@ -154,7 +155,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta3</version>
-      <date>2004-11-07</date>
+      <date>2004-11-11</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
