@@ -41,9 +41,6 @@ require_once 'Translation2.php';
  */
 class Translation2_Admin extends Translation2
 {
-    // {{{ class vars
-
-    // }}}
     // {{{ factory()
 
     /**
