@@ -37,16 +37,16 @@ require_once 'Translation2/Decorator.php';
  */
 class Translation2_Admin_Decorator extends Translation2_Decorator
 {
-    // {{{ createNewLang()
+    // {{{ addLang()
 
     /**
      * Create a new language
      *
-     * @see  Translation2_Admin::createNewLang()
+     * @see  Translation2_Admin::addLang()
      */
-    function createNewLang($langData)
+    function addLang($langData)
     {
-        return $this->translation2->createNewLang($langData);
+        return $this->translation2->addLang($langData);
     }
     
     // }}}

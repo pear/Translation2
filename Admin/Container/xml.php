@@ -42,7 +42,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
     // {{{ class vars
 
     // }}}
-    // {{{ createNewLang()
+    // {{{ addLang()
 
     /**
      * Does nothing (here for compatibility with the container interface)
@@ -50,13 +50,13 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      * @param array $langData
      * @return true|PEAR_Error
      */
-    function createNewLang($langData)
+    function addLang($langData)
     {
         return true;
     }
 
     // }}}
-    // {{{ addLangToAvailList()
+    // {{{ addLangToList()
 
     /**
      * Creates a new entry in the <languages> section
@@ -69,7 +69,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      *              );
      * @return true|PEAR_Error
      */
-    function addLangToAvailList($langData)
+    function addLangToList($langData)
     {
         $validInput = array(
             'name'       => '',

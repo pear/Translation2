@@ -24,7 +24,7 @@ class TestOfAdminContainerDB extends UnitTestCase {
         }
         $this->assertTrue(!PEAR::isError($this->tr));
     }
-    function testCreateNewLang() {
+    function testAddLang() {
         $langData = array(
             'lang_id'    => 'fr',
             'table_name' => 'i18n',
@@ -35,7 +35,7 @@ class TestOfAdminContainerDB extends UnitTestCase {
         );
         $pre = $this->tr->getLangs('array');
         // create a new language
-        $this->tr->createNewLang($langData);
+        $this->tr->addLang($langData);
         $post = $this->tr->getLangs('array');
         $expected = array(
             'id'         => 'fr',

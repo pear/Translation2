@@ -18,7 +18,7 @@ class TestOfAdminContainerXML extends TestOfAdminContainerDB {
     function tearDown() {
         unset($this->tr);
     }
-    function testCreateNewLang() {
+    function testAddLang() {
         $langData = array(
             'lang_id'    => 'fr',
             'name'       => 'français',
@@ -28,7 +28,7 @@ class TestOfAdminContainerXML extends TestOfAdminContainerDB {
         );
         $pre = $this->tr->getLangs('array');
         // create a new language
-        $this->tr->createNewLang($langData);
+        $this->tr->addLang($langData);
         $post = $this->tr->getLangs('array');
         $post = $this->tr->getLangs('array');
         $expected = array(

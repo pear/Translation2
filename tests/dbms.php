@@ -6,10 +6,10 @@ class dbms
     function getParams() {
         return array(
             'langs_avail_table' => 'langs_avail',
-            'lang_id_col'     => 'id',
-            'lang_name_col'   => 'name',
-            'lang_meta_col'   => 'meta',
-            'lang_errmsg_col' => 'error_text',
+            'lang_id_col'       => 'id',
+            'lang_name_col'     => 'name',
+            'lang_meta_col'     => 'meta',
+            'lang_errmsg_col'   => 'error_text',
             'lang_encoding_col' => 'encoding',
             /*
             'strings_tables'  => array(

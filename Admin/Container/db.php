@@ -43,7 +43,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
     // {{{ class vars
     
     // }}}
-    // {{{ createNewLang()
+    // {{{ addLang()
 
     /**
      * Creates a new table to store the strings in this language.
@@ -53,7 +53,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      * @param array $langData
      * @return mixed true on success, PEAR_Error on failure
      */
-    function createNewLang($langData)
+    function addLang($langData)
     {
         $tables = $this->db->getListOf('tables');
         if (PEAR::isError($tables)) {
@@ -112,7 +112,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
     }
 
     // }}}
-    // {{{ addLangToAvailList()
+    // {{{ addLangToList()
 
     /**
      * Creates a new entry in the langsAvail table.
@@ -126,7 +126,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      *                              'encoding'   => 'iso-8859-1');
      * @return mixed true on success, PEAR_Error on failure
      */
-    function addLangToAvailList($langData)
+    function addLangToList($langData)
     {
         $tables = $this->db->getListOf('tables');
         if (PEAR::isError($tables)) {

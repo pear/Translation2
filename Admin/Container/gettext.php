@@ -45,7 +45,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     var $_fields = array('name', 'meta', 'error_text', 'encoding');
 
     // }}}
-    // {{{ createNewLang()
+    // {{{ addLang()
 
     /**
      * Creates a new entry in the langs_avail .ini file.
@@ -53,7 +53,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      * @param   array   $langData
      * @return  mixed   Returns true on success or PEAR_Error on failure.
      */
-    function createNewLang($langData, $path = null)
+    function addLang($langData, $path = null)
     {
         if (!isset($path)) {
             $path = $this->_domains[$this->options['default_domain']];
@@ -76,7 +76,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     }
 
     // }}}
-    // {{{ addLangToAvailList()
+    // {{{ addLangToList()
 
     /**
      * Creates a new entry in the langsAvail .ini file.
@@ -90,7 +90,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      * );
      * @return mixed true on success, PEAR_Error on failure
      */
-    function addLangToAvailList($langData)
+    function addLangToList($langData)
     {
         if (PEAR::isError($changed = $this->_updateLangData($langData))) {
             return $changed;

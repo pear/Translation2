@@ -21,7 +21,7 @@
 /**
  * @package Translation2
  * @version $Id$
-*/
+ */
 
 /**
  * require Translation2_Container_dataobjectsimple class
@@ -55,7 +55,7 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
     // {{{ class vars
 
     // }}}
-    // {{{ createNewLang()
+    // {{{ addLang()
 
     /**
      * Creates a new table to store the strings in this language.
@@ -65,7 +65,7 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
      * @param string $langID
      * @return mixed true on success, PEAR_Error on failure
      */
-    function createNewLang($langID)
+    function addLang($langID)
     {
         $do = DB_DataObject::factory($this->options['table']);
         $do->lang= $langID;
@@ -75,7 +75,7 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
     }
 
     // }}}
-    // {{{ addLangToAvailList()
+    // {{{ addLangToList()
 
     /**
      * Creates a new entry in the langsAvail table.
@@ -88,7 +88,7 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
      *                              'error_text' => 'not available');
      * @return mixed true on success, PEAR_Error on failure
      */
-    function addLangToAvailList($langData)
+    function addLangToList($langData)
     {
         return true;
     }
@@ -107,7 +107,6 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
      */
     function add($string, $page, $stringArray)
     {
-
         //look up the string id first..
         $do = DB_DataObject::factory($this->options['table']);
         $do->lang = '-';

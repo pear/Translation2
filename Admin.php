@@ -144,7 +144,7 @@ class Translation2_Admin extends Translation2
     }
 
     // }}}
-    // {{{ createNewLang
+    // {{{ addLang
 
     /**
      * Prepare the storage container for a new lang.
@@ -157,13 +157,13 @@ class Translation2_Admin extends Translation2
      *                              'error_text' => 'not available');
      * @return mixed true on success, PEAR_Error on failure
      */
-    function createNewLang($langData)
+    function addLang($langData)
     {
-        $res = $this->storage->createNewLang($langData);
+        $res = $this->storage->addLang($langData);
         if (PEAR::isError($res)) {
             return $res;
         }
-        $res = $this->storage->addLangToAvailList($langData);
+        $res = $this->storage->addLangToList($langData);
         if (PEAR::isError($res)) {
             return $res;
         }
