@@ -20,9 +20,9 @@ $tr->setPageID();
 $tr =& $tr->getDecorator('CacheMemory');
 //$tr->prefetch = false;
 $tr =& $tr->getDecorator('Lang');
-$tr->setDecoratedLang('en');
+$tr->setFallbackLang('en');
 $tr =& $tr->getDecorator('Lang');
-$tr->setDecoratedLang('de');
+$tr->setFallbackLang('de');
 
 
 // =[DEBUG INFO]======================================
@@ -43,11 +43,11 @@ $str = <<<EOT
 
 // set an 'English Decorator', i.e. add English as a fallback language
 \$tr = & \$tr->getDecorator('Lang');
-\$tr->setDecoratedLang('en');
+\$tr->setFallbackLang('en');
 
 // add a 'German Decorator', i.e. add German as a third fallback language
 \$tr = & \$tr->getDecorator('Lang');
-\$tr->setDecoratedLang('en');
+\$tr->setFallbackLang('en');
 EOT;
 // ====================================================
 debug($str);
@@ -104,7 +104,7 @@ $tr->setPageID();
 $tr = & $tr->getDecorator('CacheMemory');
 //$tr->prefetch = false;
 $tr = & $tr->getDecorator('Lang');
-$tr->setDecoratedLang('it');
+$tr->setFallbackLang('it');
 
 
 // =[DEBUG INFO]======================================
@@ -124,7 +124,7 @@ $str = <<<EOT
 
 // set an 'Italian Decorator', i.e. add Italian as a fallback language
 \$tr = & \$tr->getDecorator('Lang');
-\$tr->setDecoratedLang('it');
+\$tr->setFallbackLang('it');
 EOT;
 // ====================================================
 debug($str);
@@ -172,7 +172,7 @@ writeValue('[EN] hello, user', $tr->get('hello_user'));
 
 
 $tr->setLang('it');
-$tr->setDecoratedLang('en');
+$tr->setFallbackLang('en');
 $tr->setParams(array(
     0         => '',
     'user'    => 'Joe',
@@ -184,7 +184,7 @@ $tr->setParams(array(
 // =[DEBUG INFO]======================================
 $str = <<<EOT
 \$tr->setLang('it');
-\$tr->setDecoratedLang('en');
+\$tr->setFallbackLang('en');
 \$tr->setParams(array(
     0         => '',
     'user'    => 'Joe',
@@ -244,13 +244,13 @@ writeValue('[EN] alone', $tr->get('alone', 'alone', 'en'));
 
 writeTitle('HANDLE CONFLICTS');
 $tr->setLang('en');
-$tr->setDecoratedLang('it');
+$tr->setFallbackLang('it');
 $tr->setPageID('in_page');
 
 // =[DEBUG INFO]======================================
 $str = <<<EOT
 \$tr->setLang('en');
-\$tr->setDecoratedLang('it');
+\$tr->setFallbackLang('it');
 \$tr->setPageID('in_page');
 EOT;
 // ====================================================
