@@ -200,7 +200,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
     }
 
     // }}}
-    // {{{
+    // {{{ removeLang()
 
     /**
      * Remove the lang from the langsAvail table and drop the strings table.
@@ -241,6 +241,45 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         //remove the whole table
         ++$this->_queries;
         return $this->db->query('DROP TABLE ' . $lang_table);
+    }
+
+    // }}}
+    // {{{ updateLang()
+
+    /**
+     * Update the lang info in the langsAvail table
+     *
+     * @param array  $langData
+     * @return mixed true on success, PEAR_Error on failure
+     */
+    function updateLang($langData)
+    {
+        $allFields = array(
+            //'lang_id'    => 'lang_id_col',
+            'name'       => 'lang_name_col',
+            'meta'       => 'lang_meta_col',
+            'error_text' => 'lang_errmsg_col',
+            'encoding'   => 'lang_encoding_col',
+        );
+        $updateFields = array_keys($langData);
+        $langSet = array();
+        foreach ($allFields as $field => $col) {
+            if (in_array($field, $updateFields)) {
+                $langSet[] = $this->options[$col] . ' = ' .
+                             $this->db->quote($langData[$field]);
+            }
+        }
+        $query = sprintf('UPDATE %s SET %s WHERE %s=%s',
+            $this->options['langs_avail_table'],
+            implode(', ', $langSet),
+            $this->options['lang_id_col'],
+            $this->db->quote($langData['lang_id'])
+        );
+
+        ++$this->_queries;
+        $success = $this->db->query($query);
+        $this->fetchLangs();  //update memory cache
+        return $success;
     }
 
     // }}}
@@ -340,9 +379,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         $pageID = is_null($pageID) ? ' IS NULL' : ' = ' . $this->db->quote($pageID, 'text');
         foreach ($this->_tableLangs($langs) as $table => $tableLangs) {
             $tableCols = $this->_getLangCols($tableLangs);
-            $langData = array();
 
-            unset($langSet);
+            $langSet = array();
             foreach ($tableLangs as $lang) {
                 $langSet[] = $tableCols[$lang] . ' = ' .
                              $this->db->quote($stringArray[$lang], 'text');

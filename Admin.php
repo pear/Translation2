@@ -204,6 +204,24 @@ class Translation2_Admin extends Translation2
     }
 
     // }}}
+    // {{{ updateLang
+
+    /**
+     * Update the lang info in the langsAvail table
+     *
+     * @param array  $langData
+     * @return mixed true on success, PEAR_Error on failure
+     */
+    function updateLang($langData)
+    {
+        $result = $this->storage->updateLang($langData);
+        if ($this->options['autoCleanCache']) {
+            $this->cleanCache();
+        }
+        return $result;
+    }
+
+    // }}}
     // {{{ add
 
     /**
