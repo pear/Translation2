@@ -118,7 +118,7 @@ class Translation2_Container_gettext extends Translation2_Container
         $this->options['domains_path_file'] = 'domains.ini';
         $this->options['default_domain']    = 'messages';
         $this->options['carriage_return']   = "\n";
-        $this->options['file_type']   		= 'mo';
+        $this->options['file_type']   	    = 'mo';
         //$this->options['path_to_locale']  = './';
     }
 
@@ -132,7 +132,7 @@ class Translation2_Container_gettext extends Translation2_Container
      */
     function _switchLang($langID)
     {
-        if (is_null($langID) || ($langID == $this->currentLang['id'])) {
+        if (!isset($langID) || ($langID == $this->currentLang['id'])) {
             return $this->currentLang['id'];
         }
         $oldLang = $this->currentLang['id'];
@@ -187,7 +187,7 @@ class Translation2_Container_gettext extends Translation2_Container
         $oldLang = $this->_switchLang($langID);
         $curLang = $this->currentLang['id'];
         
-        if (is_null($pageID)) {
+        if (!isset($pageID)) {
             $pageID = $this->options['default_domain'];
         }
         
@@ -205,18 +205,11 @@ class Translation2_Container_gettext extends Translation2_Container
             );
         }
         
-        if (strtolower($this->options['file_type']) == 'po') {
-        	$file_extension = '.po';
-	        require_once 'File/Gettext/PO.php';
-	        $gtFile = &File_Gettext::factory('PO');
-        } else {
-        	$file_extension = '.mo';
-	        require_once 'File/Gettext/MO.php';
-	        $gtFile = &File_Gettext::factory('MO');
-        }
-
-        $path = sprintf('%s/%s/LC_MESSAGES/', $this->_domains[$pageID], $curLang);
-        $file = $path . $pageID . $file_extension;
+        require_once 'File/Gettext.php';
+        $gtFile = &File_Gettext::factory($this->options['file_type']);
+        
+        $path = $this->_domains[$pageID] .'/'. $curLang .'/LC_MESSAGES/';
+        $file = $path . $pageID .'.'. $this->options['file_type'];
 
         if (PEAR::isError($e = $gtFile->load($file))) {
             if (is_file($file)) {
@@ -261,14 +254,11 @@ class Translation2_Container_gettext extends Translation2_Container
             $this->_switchLang($oldLang);
             return $string;
         }
+        
         //gettext extension not loaded, use File_Gettext
         $page = $this->getPage($pageID, $langID);
-
-        if (is_array($page) && array_key_exists($stringID, $page)) {
-            return $page[$stringID];
-        }
-        return $stringID; //mimic gettext behaviour
-        //return '';
+        // return original string if no translation available
+        return isset($page[$stringID]) ? $page[$stringID] : $stringID;
     }
 
     // }}}
