@@ -22,39 +22,74 @@
  * @package Translation2
  * @version $Id$
  */
+
+require_once 'Translation2/Decorator.php';
+ 
 /**
  * Decorates a Translation2_Admin class.
  * Create a subclass of this class for your own "decoration".
  * @abstract
  * @package Translation2
+ * @todo Don't allow stacking on top of regular Decorators, since that will
+ *       break.
  */
 class Translation2_Admin_Decorator extends Translation2_Decorator
 {
+    /**
+     * Create a new language
+     *
+     * @see  Translation2_Admin::createNewLang()
+     */
     function createNewLang($langData)
     {
         return $this->translation2->createNewLang($langData);
     }
 
+    /**
+     * Remove a language
+     *
+     * @see  Translation2_Admin::removeLang()
+     */
     function removeLang($langID = null, $force = false)
     {
         return $this->translation2->removeLang($langID, $force);
     }
 
+    /**
+     * Add a translation
+     *
+     * @see  Translation2_Admin::add()
+     */
     function add($stringID, $pageID = null, $stringArray)
     {
         return $this->translation2->add($stringID, $pageID, $stringArray);
     }
 
+    /**
+     * Update a translation
+     *
+     * @see  Translation2_Admin::update()
+     */
     function update($stringID, $pageID = null, $stringArray)
     {
         return $this->translation2->update($stringID, $pageID, $stringArray);
     }
 
+    /**
+     * Remove a translation
+     *
+     * @see  Translation2_Admin::remove()
+     */
     function remove($stringID, $pageID = null)
     {
         return $this->translation2->remove($stringID, $pageID);
     }
 
+    /**
+     * Clean the cache
+     *
+     * @see  Translation2_Admin::cleanCache()
+     */
     function cleanCache()
     {
         return $this->translation2->cleanCache();
