@@ -29,8 +29,8 @@ Currently, the following decorators are provided:
     </maintainer>
   </maintainers>
   <release>
-    <version>2.0.0alpha3</version>
-    <date>2004-04-26</date>
+    <version>2.0.0beta1</version>
+    <date>2004-05-05</date>
     <license>PHP License</license>
     <state>alpha</state>
     <notes>
@@ -99,8 +99,8 @@ Currently, the following decorators are provided:
   </release>
   <changelog>
     <release>
-      <version>2.0.0alpha3</version>
-      <date>2004-04-26</date>
+      <version>2.0.0beta1</version>
+      <date>2004-05-05</date>
       <license>PHP License</license>
       <state>alpha</state>
       <notes>
