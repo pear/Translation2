@@ -56,7 +56,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      */
     function createNewLang($langID)
     {
-        $res = $this->query('SHOW TABLES', 'getAll');
+        $res = $this->query('SHOW TABLES', 'queryAll');
         if (PEAR::isError($res)) {
             return $res;
         }
@@ -113,7 +113,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      */
     function addLangToAvailList($langData)
     {
-        $res = $this->query('SHOW TABLES', 'getAll');
+        $res = $this->query('SHOW TABLES', 'queryAll');
         if (PEAR::isError($res)) {
             return $res;
         }
