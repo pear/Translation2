@@ -44,12 +44,6 @@ class Translation2_Container_db extends Translation2_Container
     // {{{ class vars
 
     /**
-     * Additional options for the storage container
-     * @var array
-     */
-    var $options = array();
-
-    /**
      * DB object
      * @var object
      */
@@ -75,7 +69,7 @@ class Translation2_Container_db extends Translation2_Container
      */
     function Translation2_Container_db($dsn)
     {
-        $this->_setDefaults();
+        $this->_setDefaultOptions();
         $this->options['dsn'] = $dsn;
     }
 
@@ -161,7 +155,7 @@ class Translation2_Container_db extends Translation2_Container
     }
 
     // }}}
-    // {{{ _setDefaults()
+    // {{{ _setDefaultOptions()
 
     /**
      * Set some default options
@@ -169,7 +163,7 @@ class Translation2_Container_db extends Translation2_Container
      * @access private
      * @return void
      */
-    function _setDefaults()
+    function _setDefaultOptions()
     {
         $this->options['langs_avail_table'] = 'langs';
         $this->options['lang_id_col']       = 'ID';

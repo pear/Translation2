@@ -41,12 +41,6 @@ class Translation2_Container_gettext extends Translation2_Container
     // {{{ class vars
 
     /**
-     * Additional options for the storage container
-     * @var array
-     */
-    var $options = array();
-
-    /**
      * domain bindings
      * @var array
      * @access private
@@ -78,7 +72,7 @@ class Translation2_Container_gettext extends Translation2_Container
      */
     function Translation2_Container_gettext($options)
     {
-        $this->_setDefaults();
+        $this->_setDefaultOptions();
         $this->_parseOptions($options);
 
         $this->_domains = @parse_ini_file($this->options['domains_path_file']);
@@ -96,7 +90,7 @@ class Translation2_Container_gettext extends Translation2_Container
     }
 
     // }}}
-    // {{{ _setDefaults()
+    // {{{ _setDefaultOptions()
 
     /**
      * Set some default options
@@ -104,7 +98,7 @@ class Translation2_Container_gettext extends Translation2_Container
      * @access private
      * @return void
      */
-    function _setDefaults()
+    function _setDefaultOptions()
     {
         $this->options['langs_avail_file']  = 'langs.ini';
         $this->options['domains_path_file'] = 'domains.ini';

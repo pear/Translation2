@@ -61,14 +61,6 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
 
     // {{{ class vars
 
-    /**
-     * Additional options for the storage container
-     * @var array
-     */
-    var $options = array(
-        'table' => 'translations',
-    );
-
     // }}}
     // {{{ Constructor
 
@@ -77,12 +69,29 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
      *
      * Initate connection to the database via PEAR::DB
      *
-     * @param  string Connection data or DB object
+     * @param  string table name
      * @return object Returns an error object if something went wrong
      */
     function Translation2_Container_dataobjectsimple($table=null)
     {
-        $this->options['table'] = $table ? $table : $this->options['table'];
+        $this->_setDefaultOptions();
+        if (!is_null($table)) {
+            $this->options['table'] = $table;
+        }
+    }
+
+    // }}}
+    // {{{ _setDefaultOptions()
+
+    /**
+     * Set some default options
+     *
+     * @access private
+     * @return void
+     */
+    function _setDefaultOptions()
+    {
+        $this->options['table'] = 'translations';
     }
 
     // }}}

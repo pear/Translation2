@@ -33,6 +33,12 @@ class Translation2_Container
     // {{{ Class vars
 
     /**
+     * Additional options for the storage container
+     * @var array
+     */
+    var $options = array();
+
+    /**
      * @var array
      * @access private
      */
@@ -60,7 +66,7 @@ class Translation2_Container
     // {{{ _parseOptions()
 
     /**
-    * Parse options passed to the container class
+     * Parse options passed to the container class
      *
      * @access private
      * @param  array
@@ -137,20 +143,20 @@ class Translation2_Container
         $tmp = array();
         switch ($format) {
             case 'array':
-                    foreach ($this->langs as $aLang) {
-                        $tmp[$aLang['id']] = $aLang;
-                    }
-                    break;
+                foreach ($this->langs as $aLang) {
+                    $tmp[$aLang['id']] = $aLang;
+                }
+                break;
             case 'ids':
-                    foreach ($this->langs as $aLang) {
-                        $tmp[] = $aLang['id'];
-                    }
-                    break;
+                foreach ($this->langs as $aLang) {
+                    $tmp[] = $aLang['id'];
+                }
+                break;
             case 'names':
             default:
-                    foreach ($this->langs as $aLang) {
-                        $tmp[$aLang['id']] = $aLang['name'];
-                    }
+                foreach ($this->langs as $aLang) {
+                    $tmp[$aLang['id']] = $aLang['name'];
+                }
         }
         return $tmp;
     }
