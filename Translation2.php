@@ -40,8 +40,8 @@ if (!defined('TRANSLATION2_EMPTY_PAGEID_KEY')) {
  */
 define('TRANSLATION2_ERROR_METHOD_NOT_SUPPORTED', -1);
 define('TRANSLATION2_ERROR_CANNOT_CONNECT',       -2);
-define('TRANSLATION_ERROR_CANNOT_FIND_FILE',      -3);
-define('TRANSLATION_ERROR_DOMAIN_NOT_SET',        -4);
+define('TRANSLATION2_ERROR_CANNOT_FIND_FILE',     -3);
+define('TRANSLATION2_ERROR_DOMAIN_NOT_SET',       -4);
 
 /**
  * Translation2 class
@@ -89,7 +89,7 @@ class Translation2
     var $langFallback = array();
 
     /**
-     * String parameters
+     * Array parameters
      * @var array
      */
     var $params = array();
@@ -106,7 +106,7 @@ class Translation2
      *                        driver, you have to pass the dsn string here)
      * @param array $params
      */
-    function Translation2($storageDriver, $options='', $params)
+    function Translation2($storageDriver, $options='', $params=array())
     {
         if (is_object($storageDriver)) {
             $this->storage =& $storageDriver;
@@ -248,18 +248,13 @@ class Translation2
             $lang = $this->storage->getLangData($langID);
         }
 
-        switch ($format) {
-            case 'name':
-            case 'meta':
-            case 'error_text':
-                    return $lang[$format];
-                    break;
-            case 'array':
-                    return $lang;
-                    break;
-            default:
-                    return $lang['name'];
-        }
+        if ($format == 'array') {
+            return $lang;
+        } elseif (isset($lang[$format])) {
+            return $lang[$format];
+        } else {
+            return $lang['name'];
+        }
     }
 
     // }}}
