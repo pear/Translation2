@@ -51,7 +51,6 @@ require_once 'Translation2/Container/dataobjectsimple.php';
  */
 class Translation2_Admin_Container_dataobjectsimple extends Translation2_Container_dataobjectsimple
 {
-
     // {{{ class vars
 
     // }}}
@@ -85,7 +84,13 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
     /**
      * Creates a new entry in the langsAvail table.
      * If the table doesn't exist yet, it is created.
-      * @return mixed true on success, PEAR_Error on failure
+     *
+     * @param array $langData array('lang_id'    => 'en',
+     *                              'table_name' => 'i18n',
+     *                              'name'       => 'english',
+     *                              'meta'       => 'some meta info',
+     *                              'error_text' => 'not available');
+     * @return true|PEAR_Error
      */
     function addLangToList($langData)
     {
@@ -102,7 +107,7 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
      * @param string $pageID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function add($string, $page, $stringArray)
     {
@@ -147,7 +152,7 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
      * @param string $pageID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function update($stringID, $pageID, $stringArray)
     {
@@ -163,21 +168,27 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
      *
      * @param string $stringID
      * @param string $pageID
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function remove($stringID, $pageID)
     {
-        return; //todo..
+        // get the string id
+        $do = DB_DataObject::factory($this->options['table']);
+        $do->page = $pageID;
+        $do->translation = $stringID;
+        // we dont have the base language translation..
+        if (!$do->find()) {
+            return '';
+        }
 
-        $langs = $this->getLangs('ids');
-        foreach ($langs as $langID) {
-            $do = DB_DataObject::factory($this->options['table']);
-            $do->whereAdd('page = \''.$do->escape($page).'\'');
-            $do->whereAdd('lang = \''.$do->escape($lang).'\'');
-            $do->delete(true); // delete base on where.
+        while ($do->fetch()) {
+            $do2 = DB_DataObject::factory($this->options['table']);
+            $do2->get($do->id);
+            $do2->delete();
         }
         return true;
     }
 
     // }}}
 }
+?>
