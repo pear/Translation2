@@ -259,7 +259,7 @@ class Translation2
 
     /**
      * Set parameters for next string
-     * @param params $params
+     * @param array $params
      */
     function setParams($params=null)
     {

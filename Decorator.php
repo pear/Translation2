@@ -188,7 +188,7 @@ class Translation2_Decorator
 
     /**
      * Set parameters for next string
-     * @param params $params
+     * @param array $params
      */
     function setParams($params=null)
     {
