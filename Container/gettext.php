@@ -118,7 +118,7 @@ class Translation2_Container_gettext extends Translation2_Container
         $this->options['domains_path_file'] = 'domains.ini';
         $this->options['default_domain']    = 'messages';
         $this->options['carriage_return']   = "\n";
-        $this->options['file_type']   	    = 'mo';
+        $this->options['file_type']         = 'mo';
         //$this->options['path_to_locale']  = './';
     }
 
