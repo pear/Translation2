@@ -137,6 +137,7 @@ class Translation2_Container_db extends Translation2_Container
      * This function checks if we have already opened a connection to
      * the database. If that's not the case, a new connection is opened.
      * After that the query is passed to the database.
+     *
      * @access private
      * @param  string Query string
      * @param  string query type (query, getOne, getRow, ...)
@@ -171,7 +172,7 @@ class Translation2_Container_db extends Translation2_Container
         $this->options['lang_meta_col']     = 'meta';
         $this->options['lang_errmsg_col']   = 'error_text';
 
-        $this->options['strings_tables'] = array(); // 'lang_id' => 'table_name'
+        $this->options['strings_tables']     = array(); // 'lang_id' => 'table_name'
         $this->options['string_id_col']      = 'ID';
         $this->options['string_page_id_col'] = 'page_id';
         $this->options['string_text_col']    = '%s'; // col_name if one table per lang is used,
@@ -183,8 +184,6 @@ class Translation2_Container_db extends Translation2_Container
 
     /**
      * Fetch the available langs if they're not cached yet.
-     *
-     * NB: table names will be customizable via an option...
      */
     function fetchLangs()
     {
