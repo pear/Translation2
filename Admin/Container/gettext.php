@@ -189,25 +189,13 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
             $pageID = $this->options['default_domain'];
         }
         
-        $file = '/LC_MESSAGES/'. $pageID .'.'. $this->options['file_type'];
-        
-        require_once 'File/Gettext.php';
-        $gtFile = &File_Gettext::factory($this->options['file_type']);
-        
-        foreach ($this->getLangs('ids') as $lang) {
-            $path = $this->_domains[$pageID] .'/'. $lang;
-            
-            if (is_file($path . $file)) {
-                if (PEAR::isError($e = $gtFile->load($path . $file))) {
-                    return $e;
-                }
-                unset($gtFile->strings[$stringID]);
-                if (PEAR::isError($e = $gtFile->save($path . $file))) {
-                    return $e;
-                }
-            }
+        if ($this->_bulk) {
+            $this->_queue['remove'][$pageID][$stringID] = true;
+            return true;
+        } else {
+            return $this->_remove(array($pageID => array($stringID => true)));
         }
-        return true;
+        
     }
 
     // }}}
@@ -287,8 +275,15 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     function commit()
     {
         $this->_bulk = false;
+        if (isset($this->_queue['remove'])) {
+            if (PEAR::isError($e = $this->_remove($this->_queue['remove']))) {
+                return $e;
+            }
+        }
         if (isset($this->_queue['add'])) {
-            return $this->_add($this->_queue['add']);
+            if (PEAR::isError($e = $this->_add($this->_queue['add']))) {
+                return $e;
+            }
         }
         return true;
     }
@@ -309,14 +304,13 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
         
         foreach ((array) $bulk as $pageID => $languages) {
             
+            $path = $this->_domains[$pageID] .'/';
             $file = '/LC_MESSAGES/'. $pageID .'.'. $this->options['file_type'];
             
             foreach ($languages as $lang => $strings) {
 
-                $path = $this->_domains[$pageID] .'/'. $lang;
-
-                if (is_file($path . $file)) {
-                    if (PEAR::isError($e = $gtFile->load($path . $file))) {
+                if (is_file($path . $lang . $file)) {
+                    if (PEAR::isError($e = $gtFile->load($path . $lang . $file))) {
                         return $e;
                     }
                 }
@@ -325,11 +319,58 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
                     $gtFile->strings[$stringID] = $string;
                 }
 
-                if (PEAR::isError($e = $gtFile->save($path . $file))) {
+                if (PEAR::isError($e = $gtFile->save($path . $lang . $file))) {
                     return $e;
                 }
             }
         }
+        
+        $bulk = null;
+        return true;
+    }
+    
+    // }}}
+    // {{{ _remove()
+    
+    /**
+     * Remove
+     * 
+     * @access  private
+     * @return  true|PEAR_Error
+     */
+    function _remove(&$bulk)
+    {
+        require_once 'File/Gettext.php';
+        $gtFile = &File_Gettext::factory($this->options['file_type']);
+        
+        foreach ($this->getLangs('ids') as $lang) {
+            
+            foreach ((array) $bulk as $pageID => $stringIDs) {
+                
+                $file = sprintf(
+                    '%s/%s/LC_MESSAGES/%s.%s',
+                    $this->_domains[$pageID],
+                    $lang,
+                    $pageID,
+                    $this->options['file_type']
+                );
+                
+                if (is_file($file)) {
+                    if (PEAR::isError($e = $gtFile->load($file))) {
+                        return $e;
+                    }
+                    
+                    foreach (array_keys($stringIDs) as $stringID) {
+                        unset($gtFile->strings[$stringID]);
+                    }
+                    
+                    if (PEAR::isError($e = $gtFile->save($file))) {
+                        return $e;
+                    }
+                }
+            }
+        }
+        
         $bulk = null;
         return true;
     }
