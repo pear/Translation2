@@ -185,9 +185,9 @@ class Translation2
         require_once $decorator_path;
         if (func_num_args() > 1) {
             $obj =& func_get_arg(1);
-            return new $decorator_class(&$obj);
+            return new $decorator_class($obj);
         } else {
-            return new $decorator_class(&$this);
+            return new $decorator_class($this);
         }
     }
 
