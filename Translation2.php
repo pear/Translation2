@@ -49,6 +49,7 @@ define('TRANSLATION2_ERROR_INVALID_PATH',         -6);
 define('TRANSLATION2_ERROR_CANNOT_CREATE_DIR',    -7);
 define('TRANSLATION2_ERROR_CANNOT_WRITE_FILE',    -8);
 define('TRANSLATION2_ERROR_UNKNOWN_LANG',         -9);
+define('TRANSLATION2_ERROR_ENCODING_CONVERSION', -10);
 /**
  * Translation2 class
  * @package Translation2
