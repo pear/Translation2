@@ -160,6 +160,32 @@
         <tr lang="it"> solo soletto </tr>
       </string>
     </page>
+    <page key="bbcode">
+      <string key="bbcode">
+        <tr lang="en"> [b]this text should be bold[/b],
+[i]italic[/i], 
+here's a link: http://www.server.com 
+email@address.com
+[email=email@address.com]write me![/email]
+        </tr>
+        <tr lang="it"> [b]grassetto[/b],
+[i]corsivo[/i],
+un link: http://www.server.com 
+email@address.com
+[email=email@address.com]write me![/email] 
+        </tr>
+      </string>
+    </page>
+    <page key="de">
+      <string key="Entirely new string">
+        <tr lang="en"> Entirely new string </tr>
+      </string>
+    </page>
+    <page key="samplePage">
+      <string key="Entirely new string">
+        <tr lang="en"> Entirely new string </tr>
+      </string>
+    </page>
     <page key="in_page">
       <string key="prova_conflitto">
         <tr lang="en"> conflicting text - in page </tr>

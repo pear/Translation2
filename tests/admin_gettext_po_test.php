@@ -111,6 +111,19 @@ class TestOfAdminContainerGettextPO extends TestOfAdminContainerDB {
         //with gettext, empty strings are replaced by the stringID
         $this->assertEqual('sample', $this->tr->get('sample', 'new page', 'en'));
     }
-    
+    function testGetPageNames() {
+        $expected = array(
+            'admin',
+            'alone',
+            'calendar',
+            'in_page',
+            'messages',
+            'small page',
+        );
+        sort($expected);
+        $actual = $this->tr->getPageNames();
+        sort($actual);
+        $this->assertEqual($expected, $actual);
+    }
 }
 ?>

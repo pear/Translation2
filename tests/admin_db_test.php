@@ -72,5 +72,22 @@ class TestOfAdminContainerDB extends UnitTestCase {
         $this->assertTrue($this->tr->remove('sample', 'new page'));
         $this->assertEqual('', $this->tr->get('sample', 'new page', 'en'));
     }
+    function testGetPageNames() {
+        $expected = array(
+            null,
+            '',
+            'alone',
+            'bbcode',
+            'calendar',
+            'de',
+            'in_page',
+            'samplePage',
+            'small page',
+        );
+        sort($expected);
+        $actual = $this->tr->getPageNames();
+        sort($actual);
+        $this->assertEqual($expected, $actual);
+    }
 }
 ?>
