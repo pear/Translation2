@@ -72,14 +72,17 @@ class Translation2_Container_gettext extends Translation2_Container
     function Translation2_Container_gettext($options)
     {
         $this->_setDefaults();
+        $this->_parseOptions($options);
+
         $this->_domains = @parse_ini_file($this->options['domains_path_file']);
         if ($this->_domains === false) {
             return $this->raiseError(
                 'cannot find file '.$this->options['domains_path_file']
                 .' in '.__FILE__.' on line '.__LINE__,
-                TRANSLATION_ERROR_CANNOT_FIND_FILE
+                TRANSLATION2_ERROR_CANNOT_FIND_FILE
             );
         }
+
         foreach ($this->_domains as $domain => $path) {
             bindtextdomain($domain, $path);
         }
@@ -108,11 +111,18 @@ class Translation2_Container_gettext extends Translation2_Container
     /**
      * Fetch the available langs if they're not cached yet.
      *
-     * @return array
+     * @return void
      */
     function fetchLangs()
     {
         $this->langs = parse_ini_file($this->options['langs_avail_file'], true);
+
+        // maps en to en_US or whatever the user defines
+        foreach ($this->langs as $id => $lang) {
+            if (isset($lang['use']) && isset($this->langs[$lang['use']])) {
+                $this->langs[$id] = $this->langs[$lang['use']];
+            }
+        }
     }
 
     // }}}
@@ -125,10 +135,30 @@ class Translation2_Container_gettext extends Translation2_Container
      */
     function setLang($langID)
     {
+        // prepare i.e. en-us to en_US
+        if (strlen($langID) > 2) {
+            list($lang, $country) = preg_split('/[_-]/', $langID, 1);
+            $langID = strtolower($lang) . '_' . strtoupper($country);
+        } else {
+            $langID = strtolower($langID);
+        }
+
         $this->getLangs(); //load available languages, if not loaded yet (ignore return value)
         $this->currentLang = $this->langs[$langID];
-        putenv('LANG='.$this->currentLang['id']);
-        setlocale(LC_ALL, $this->currentLang['id']);
+
+        if (OS_WINDOWS) {
+            $locale   = $this->currentLang['windows'];
+            $language = substr($this->currentLang['id'], 0, 2);
+        } else {
+            $locale = $language = $this->currentLang['id'];
+        }
+
+        // satisfy gettext
+        putenv('LANG=' . $language);
+        putenv('LANGUAGE=' . $language);
+        // set corresponding locale
+        setLocale(LC_ALL, $locale);
+
         return $this->langs[$langID];
     }
 
@@ -156,7 +186,7 @@ class Translation2_Container_gettext extends Translation2_Container
             return $this->raiseError(
                 'the domain "'.$pageID.'" was not specified in the .ini file'
                 .' ['.__FILE__.' on line '.__LINE__.']',
-                TRANSLATION_ERROR_DOMAIN_NOT_SET
+                TRANSLATION2_ERROR_DOMAIN_NOT_SET
             );
         }
         $domainPath = $this->_domains[$pageID]
@@ -166,7 +196,7 @@ class Translation2_Container_gettext extends Translation2_Container
             return $this->raiseError(
                 'cannot find file '.$domainPath.DIRECTORY_SEPARATOR.$pageID.'.po'
                 .' in '.__FILE__.' on line '.__LINE__,
-                TRANSLATION_ERROR_CANNOT_FIND_FILE
+                TRANSLATION2_ERROR_CANNOT_FIND_FILE
             );
         }
         $this->cachedDomains[$this->currentLang['id']][$pageID] =
@@ -226,7 +256,7 @@ class Translation2_Container_gettext extends Translation2_Container
             return $this->raiseError(
                 'the domain "'.$pageID.'" was not specified in the .ini file'
                 .' ['.__FILE__.' on line '.__LINE__.']',
-                TRANSLATION_ERROR_DOMAIN_NOT_SET
+                TRANSLATION2_ERROR_DOMAIN_NOT_SET
             );
         }
         $this->getPage($pageID);
