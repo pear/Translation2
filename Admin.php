@@ -200,6 +200,28 @@ class Translation2_Admin extends Translation2
     }
 
     // }}}
+    // {{{ update
+
+    /**
+     * Update an existing translation
+     *
+     * @param string $stringID
+     * @param string $pageID
+     * @param array  $stringArray Associative array with string translations.
+     *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     * @return mixed true on success, PEAR_Error on failure
+     * @author Ian Eure
+     */
+    function update($stringID, $pageID = null, $stringArray)
+    {
+        $result = $this->storage->update($stringID, $pageID, $stringArray);
+        if ($this->options['autoCleanCache']) {
+            $this->cleanCache();
+        }
+        return $result;
+    }
+
+    // }}}
     // {{{ remove
 
     /**
