@@ -3,8 +3,14 @@
   <name>Translation2</name>
   <summary>Class for multilingual applications management.</summary>
   <description>
-This class provides an easy way to retrieve all the strings for a multilingual site from a data source (i.e. db).
-A PEAR::DB, a PEAR::MDB, a PEAR::MDB2 and an experimental gettext container are provided, more containers will follow.
+This class provides an easy way to retrieve all the strings for a multilingual
+site from a data source (i.e. db).
+The following containers are provided, more will follow:
+- PEAR::DB
+- PEAR::MDB
+- PEAR::MDB2
+- gettext
+- PEAR::DB_DataObject (experimental)
 It is designed to reduce the number of queries to the db, caching the results when possible.
 An Admin class is provided to easily manage translations (add/remove a language, add/remove a string).
 </description>
@@ -18,7 +24,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
   </maintainers>
   <release>
     <version>2.0.0alpha3</version>
-    <date>2004-03-26</date>
+    <date>2004-04-15</date>
     <license>PHP License</license>
     <state>alpha</state>
     <notes>
@@ -33,6 +39,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
 - fixes in the db admin classes
 - when adding a new string, if it matches one already in the db,
   the old one is replaced by the new one.
+- added a DB_DataObject driver (by Alan Knowles)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">DB</dep>
@@ -49,19 +56,19 @@ An Admin class is provided to easily manage translations (add/remove a language,
         <dir name="Admin" role="php">
           <file role="php" name="Admin.php" />
           <dir name="Container" role="php">
+            <file name="dataobjectsimple.php" />
             <file name="db.php" />
             <file name="gettext.php" />
             <file name="mdb.php" />
             <file name="mdb2.php" />
-            <file name="dataobjectsimple.php" />
           </dir>
         </dir>
         <dir name="Container" role="php">
+          <file name="dataobjectsimple.php" />
           <file name="db.php" />
           <file name="gettext.php" />
           <file name="mdb.php" />
           <file name="mdb2.php" />
-            <file name="dataobjectsimple.php" />
         </dir>
         <dir name="Decorator" role="php">
           <file name="CacheMemory.php" />
@@ -83,7 +90,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
   <changelog>
     <release>
       <version>2.0.0alpha3</version>
-      <date>2004-03-26</date>
+      <date>2004-04-15</date>
       <license>PHP License</license>
       <state>alpha</state>
       <notes>
@@ -98,6 +105,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
 - fixes in the db admin classes
 - when adding a new string, if it matches one already in the db,
   the old one is replaced by the new one.
+- added a DB_DataObject driver (by Alan Knowles)
       </notes>
     </release>
     <release>
