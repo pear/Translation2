@@ -2,22 +2,21 @@ Package: PEAR::Translation2
 http://pear.php.net/Translation2
 --------------------------------
 
-This is an *experimental* gettext driver for Translation2.
+PEAR::Translation2 offers a gettext driver along with the db-based ones.
 
 Gettext is designed to offer the best performance when
 used on its own, without wrappers like this one.
 
-This driver has an internal .po parser to offer
-the getPage() functionality. To make it work, 
-.po files must be placed in the same dir as
-the matching .mo files.
+This driver resorts to the .mo parser provided by the
+PEAR::File_Gettext class to offer the getPage() functionality.
 This can be useful to get all the strings from a domain
 and to pass them to a template engine, for instance.
 
-Obviously, this also lead to worse gettext performance.
-If you want to use gettext at the max speed,
-don't use this class ;), or at least turn 'prefetch' off
-AND don't use getPage() method.
+Obviously, it may lead to worse gettext performance.
+If you want to use gettext at the max speed, don't use this class ;),
+or at least turn 'prefetch' off AND don't use the getPage() method.
+Anyway, I haven't done any benchmark, so I can't say how worse it is.
+The speed difference may be negligible, I really don't know.
 
 End of the necessary preface :)
 
