@@ -42,7 +42,6 @@ class Translation2_Admin extends Translation2
 
     // {{{ class vars
 
-
     // }}}
     // {{{ factory()
 
@@ -104,6 +103,22 @@ class Translation2_Admin extends Translation2
     }
 
     // }}}
+    // {{{ _setDefaultOptions()
+
+    /**
+     * Set some default options
+     *
+     * @access private
+     * @return void
+     */
+    function _setDefaultOptions()
+    {
+        $this->options['autoCleanCache'] = false;
+        $this->options['cacheOptions']   = array();
+        parent::_setDefaultOptions();
+    }
+
+    // }}}
     // {{{ createNewLang
 
     /**
@@ -128,6 +143,9 @@ class Translation2_Admin extends Translation2
             return $res;
         }
         $this->storage->fetchLangs(); //update local cache
+        if ($this->options['autoCleanCache']) {
+            $this->cleanCache();
+        }
         return true;
     }
 
@@ -154,6 +172,9 @@ class Translation2_Admin extends Translation2
             return $res;
         }
         unset($this->storage->langs[$langID]);
+        if ($this->options['autoCleanCache']) {
+            $this->cleanCache();
+        }
         return true;
     }
 
@@ -171,7 +192,11 @@ class Translation2_Admin extends Translation2
      */
     function add($stringID, $pageID=null, $stringArray)
     {
-        return $this->storage->add($stringID, $pageID, $stringArray);
+        $result = $this->storage->add($stringID, $pageID, $stringArray);
+        if ($this->options['autoCleanCache']) {
+            $this->cleanCache();
+        }
+        return $result;
     }
 
     // }}}
@@ -187,7 +212,28 @@ class Translation2_Admin extends Translation2
      */
     function remove($stringID, $pageID=null)
     {
-        return $this->storage->remove($stringID, $pageID);
+        $result = $this->storage->remove($stringID, $pageID);
+        if ($this->options['autoCleanCache']) {
+            $this->cleanCache();
+        }
+        return $result;
+    }
+
+    // }}}
+    // {{{ cleanCache()
+
+    /**
+     * If you use the CacheLiteFunction decorator, you may want to invalidate
+     * the cache after a change in the data base.
+     */
+    function cleanCache()
+    {
+        static $cacheLiteFunction = null;
+        if (is_null($cacheLiteFunction)) {
+            require_once 'Cache/Lite/Function.php';
+            $cacheLiteFunction = new Cache_Lite_Function($this->options['cacheOptions']);
+        }
+        $cacheLiteFunction->clean();
     }
 
     // }}}
