@@ -49,7 +49,7 @@ Currently, the following decorators are provided:
     <license>PHP License</license>
     <state>beta</state>
     <notes>
-- added TestSuite
+- added a complete TestSuite
 - updated gettext docs
 - fixed typo in error code (TRANSLATION_ERROR_UNKNOWN_LANG => TRANSLATION2_ERROR_UNKNOWN_LANG)
 - fixed typo in the MDB Admin container [quote() => getTextValue()]
@@ -61,6 +61,14 @@ Currently, the following decorators are provided:
   * fixed typo in update() [$stingID => $stringID]
   * in _add(), create the domains on demand
   * handle stale cache
+- many fixes/updates to the xml container:
+  * init() accepts an array as parameter (not a string)
+  * added 'save_on_shutdown' option
+    (you can choose to save in real time, now)
+  * return Translation2 errors with numeric codes
+  * added 'encoding' field
+  * added removeLang()
+  * other minor fixes and tweaks
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -130,6 +138,7 @@ Currently, the following decorators are provided:
           <file name="admin_gettext_po_test.php" />
           <file name="admin_mdb2_test.php" />
           <file name="admin_mdb_test.php" />
+          <file name="admin_xml_test.php" />
           <file name="all_tests.php" />
           <file name="containers_tests.php" />
           <file name="db_test.php" />
@@ -139,6 +148,7 @@ Currently, the following decorators are provided:
           <file name="gettext_mo_test.php" />
           <file name="gettext_po_test.php" />
           <file name="gettext_prepare.php" />
+          <file name="i18n.xml" />
           <file name="mdb2_test.php" />
           <file name="mdb_test.php" />
           <file name="readme.txt" />
@@ -146,6 +156,7 @@ Currently, the following decorators are provided:
           <file name="tests.sql" />
           <file name="translation2_admin_include.php" />
           <file name="translation2_include.php" />
+          <file name="xml_test.php" />
         </dir>
       </dir>
     </filelist>
@@ -157,18 +168,26 @@ Currently, the following decorators are provided:
       <license>PHP License</license>
       <state>beta</state>
       <notes>
-- added TestSuite
+- added a complete TestSuite
 - updated gettext docs
 - fixed typo in error code (TRANSLATION_ERROR_UNKNOWN_LANG => TRANSLATION2_ERROR_UNKNOWN_LANG)
 - fixed typo in the MDB Admin container [quote() => getTextValue()]
 - fixed typo in db admin containers ($this->queries => $this->_queries)
-- in the gettext admin container
+- in the gettext admin container 
 - fixed many bugs in the gettext admin container:
   * fixed old field [remove "windows", add "encoding"]
   * fixed error in remove() [can't pass by reference]
   * fixed typo in update() [$stingID => $stringID]
   * in _add(), create the domains on demand
   * handle stale cache
+- many fixes/updates to the xml container:
+  * init() accepts an array as parameter (not a string)
+  * added 'save_on_shutdown' option
+    (you can choose to save in real time, now)
+  * return Translation2 errors with numeric codes
+  * added 'encoding' field
+  * added removeLang()
+  * other minor fixes and tweaks
       </notes>
     </release>
     <release>
