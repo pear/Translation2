@@ -41,6 +41,12 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
 
     // {{{ class vars
 
+    /**
+     * Whether _saveData() is already registered at shutdown or not
+     * @var boolean
+     */
+    var $_isScheduledSaving = false;
+
     // }}}
     // {{{ addLang()
 
@@ -250,8 +256,11 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
     function _scheduleSaving()
     {
         if ($this->options['save_on_shutdown']) {
-            // save the changes on shutdown
-            register_shutdown_function(array(&$this, '_saveData'));
+            if (!$this->_isScheduledSaving) {
+                // save the changes on shutdown
+                register_shutdown_function(array(&$this, '_saveData'));
+                $this->_isScheduledSaving = true;
+            }
             return true;
         }
         
