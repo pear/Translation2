@@ -118,6 +118,9 @@ class Translation2_Container_mdb2 extends Translation2_Container
      */
     function _prepare()
     {
+        if (is_a($this->db, 'MDB2_Driver_Common')) {
+            return true;
+        }
         return $this->_connect($this->options['dsn']);
     }
 

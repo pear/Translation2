@@ -119,6 +119,9 @@ class Translation2_Container_mdb extends Translation2_Container
      */
     function _prepare()
     {
+        if (is_a($this->db, 'MDB_Common')) {
+            return true;
+        }
         return $this->_connect($this->options['dsn']);
     }
 
