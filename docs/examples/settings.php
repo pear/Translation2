@@ -43,7 +43,7 @@ $dbinfo = array(
 
 $params = array(
     'langs_avail_table' => TABLE_PREFIX.'langs_avail',
-    'lang_id_col'     => 'ID',
+    'lang_id_col'     => 'id',
     'lang_name_col'   => 'name',
     'lang_meta_col'   => 'meta',
     'lang_errmsg_col' => 'error_text',
@@ -54,8 +54,8 @@ $params = array(
                             //'es' => TABLE_PREFIX.'i18n',
                             //'fr' => TABLE_PREFIX.'i18n'
                          ),
-    'string_id_col'        => 'ID',
-    'string_page_id_col'   => 'pageID',
+    'string_id_col'        => 'id',
+    'string_page_id_col'   => 'page_id',
     'string_text_col'      => '%s',
     //'prefetch' => false  //more queries, smaller result sets
                            //(use when db load is cheaper than network load)
