@@ -19,6 +19,13 @@ class TestOfContainerDB extends UnitTestCase {  //TestOfTranslation2 {
     function tearDown() {
         unset($this->tr);
     }
+    function testFactory() {
+        if (PEAR::isError($this->tr)) {
+            var_dump($this->tr->getUserInfo());
+            var_dump($this->tr->getMessage());
+        }
+        $this->assertTrue(!PEAR::isError($this->tr));
+    }
     function testGet() {
         $this->assertEqual('gennaio', $this->tr->get('month_01', 'calendar', 'it'));
         $this->assertEqual('january', $this->tr->get('month_01', 'calendar', 'en'));

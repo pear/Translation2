@@ -15,6 +15,15 @@ class TestOfAdminContainerDB extends UnitTestCase {
     function tearDown() {
         unset($this->tr);
     }
+    function testFactory() {
+        if (PEAR::isError($this->tr)) {
+            var_dump($this->tr->getUserInfo());
+            var_dump($this->tr->getMessage());
+            //var_dump(debug_backtrace());
+            exit;
+        }
+        $this->assertTrue(!PEAR::isError($this->tr));
+    }
     function testCreateNewLang() {
         $langData = array(
             'lang_id'    => 'fr',
@@ -37,7 +46,7 @@ class TestOfAdminContainerDB extends UnitTestCase {
         );
         $this->assertEqual($expected, array_pop(array_diff_assoc($post, $pre)));
         // remove the new language
-        $this->tr->removeLang('fr');
+        $this->assertTrue($this->tr->removeLang('fr'));
         $this->assertEqual($pre, $this->tr->getLangs('array'));
     }
     function testAddUpdateRemove() {
