@@ -337,5 +337,20 @@ class Translation2_Decorator
     }
 
     // }}}
+    // {{{ __clone()
+
+    /**
+     * Clone internal object references
+     *
+     * This method is called automatically by PHP5
+     *
+     * @access protected
+     */
+    function __clone()
+    {
+        $this->translation2 = clone($this->translation2);
+    }
+
+    // }}}
 }
 ?>

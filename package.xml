@@ -45,10 +45,12 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta7</version>
-    <date>2005-02-21</date>
+    <date>2005-03-03</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
+- added a __clone() method to clone the internal object references
+  (bug #3641, patch by Olivier Guilyardi)
 - Some fixes to the XML container, many thanks to Olivier Guilyardi:
   * fixed bug #3408: empty data sets were not correctly handled;
   * fixed bug #3420: get a shared file lock instead of an exclusive one;
@@ -154,10 +156,12 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta7</version>
-      <date>2005-02-21</date>
+      <date>2005-03-03</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
+- added a __clone() method to clone the internal object references
+  (bug #3641, patch by Olivier Guilyardi)
 - Some fixes to the XML container, many thanks to Olivier Guilyardi:
   * fixed bug #3408: empty data sets were not correctly handled;
   * fixed bug #3420: get a shared file lock instead of an exclusive one;

@@ -500,5 +500,20 @@ class Translation2
     }
 
     // }}}
+    // {{{ __clone()
+
+    /**
+     * Clone internal object references
+     *
+     * This method is called automatically by PHP5
+     *
+     * @access protected
+     */
+    function __clone()
+    {
+        $this->storage = clone($this->storage);
+    }
+
+    // }}}
 }
 ?>
