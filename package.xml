@@ -18,8 +18,10 @@ Currently, the following decorators are provided:
 - CacheLiteFunction (for file-based caching)
 - CacheMemory (for memory-based caching)
 - DefaultText (to replace empty strings with their keys)
+- Iconv (to switch from/to different encodings)
 - Lang (resort to fallback languages for empty strings)
 - SpecialChars (replace html entities with their hex codes)
+- UTF-8 (to convert UTF-8 strings to ISO-8859-1)
 </description>
   <maintainers>
     <maintainer>
