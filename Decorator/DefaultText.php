@@ -101,10 +101,11 @@ class Translation2_Decorator_DefaultText extends Translation2_Decorator
      */
     function get($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
     {
-        $str = $this->translation2->get($stringID, $pageID, $langID);
         if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->translation2->currentPageID;
         }
+        $str = $this->translation2->get($stringID, $pageID, $langID);
+
         if (!empty($str)) {
             return $str;
         }
@@ -121,7 +122,7 @@ class Translation2_Decorator_DefaultText extends Translation2_Decorator
         $replace = array(
             $stringID,
             urlencode($stringID),
-            urlencode($tmp_pageID),
+            urlencode($pageID),
             $this->url
         );
         return $this->emptyPrefix.str_replace($search, $replace, $this->outputString).$this->emptyPostfix;
