@@ -4,7 +4,7 @@
   <summary>Class for multilingual applications management.</summary>
   <description>
 This class provides an easy way to retrieve all the strings for a multilingual site from a data source (i.e. db).
-A PEAR::DB and a PEAR::MDB container are provided, more containers will follow.
+A PEAR::DB, a PEAR::MDB and an experimental gettext container are provided, more containers will follow.
 It is designed to reduce the number of queries to the db, caching the results when possible.
 An Admin class is provided to easily manage translations (add/remove a language, add/remove a string).
 </description>
@@ -18,7 +18,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
   </maintainers>
   <release>
     <version>2.0.0-alpha2</version>
-    <date>2004-02-05</date>
+    <date>2004-02-20</date>
     <license>PHP License</license>
     <state>alpha</state>
     <notes>
@@ -27,10 +27,12 @@ An Admin class is provided to easily manage translations (add/remove a language,
 - PHP5 fix
 - renamed old getPage() to getRawPage()
 - new getPage() resorts to fallback lang and replaces parameters when needed
+- added error checking/codes
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">DB</dep>
       <dep type="pkg" rel="has" optional="yes">MDB</dep>
+      <dep type="ext" rel="has" optional="yes">gettext</dep>
     </deps>
     <filelist>
       <dir name="/" baseinstalldir="Translation2">
@@ -66,6 +68,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
 - PHP5 fix
 - renamed old getPage() to getRawPage()
 - new getPage() resorts to fallback lang and replaces parameters when needed
+- added error checking/codes
       </notes>
     </release>
     <release>
