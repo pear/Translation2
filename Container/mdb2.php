@@ -114,7 +114,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
      * the database. If that's not the case, a new connection is opened.
      *
      * @access private
-     * @return mixed True or a DB error object.
+     * @return mixed True or a MDB2 error object.
      */
     function _prepare()
     {
@@ -133,10 +133,10 @@ class Translation2_Container_mdb2 extends Translation2_Container
      *
      * @access private
      * @param  string Query string
-     * @param  string query type (query, getOne, getRow, ...)
-     * @return mixed  a MDB_result object or MDB_OK on success, a MDB
+     * @param  string query type (query, queryOne, queryRow, ...)
+     * @return mixed  a MDB2_result object or MDB2_OK on success, a MDB2
      *                or PEAR error on failure
-     */
+    */
     function query($query, $queryType='query')
     {
         $err = $this->_prepare();
