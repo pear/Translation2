@@ -254,6 +254,19 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     }
     
     // }}}
+    // {{{ getPageNames()
+
+    /**
+     * Get a list of all the domains
+     *
+     * @return array
+     */
+    function getPageNames()
+    {
+        return array_keys($this->_domains);
+    }
+
+    // }}}
     // {{{ begin()
     
     /**

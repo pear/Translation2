@@ -188,6 +188,28 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
     }
 
     // }}}
+    // {{{ getPageNames()
+
+    /**
+     * Get a list of all the pageIDs.
+     *
+     * @return array
+     */
+    function getPageNames()
+    {
+        $pages = array_keys($this->_data['pages']);
+        $k = array_search('#NULL', $pages);
+        if ($k !== false && !is_null($k)) {
+            $pages[$k] = null;
+        }
+        $k = array_search('#EMPTY', $pages);
+        if ($k !== false && !is_null($k)) {
+            $pages[$k] = '';
+        }
+        return $pages;
+    }
+
+    // }}}
     // {{{ _scheduleSaving()
     
     /**

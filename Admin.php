@@ -267,6 +267,19 @@ class Translation2_Admin extends Translation2
     }
 
     // }}}
+    // {{{ getPageNames()
+
+    /**
+     * Get a list of all the pageIDs in any table.
+     *
+     * @return array
+     */
+    function getPageNames()
+    {
+        return $this->storage->getPageNames();
+    }
+
+    // }}}
     // {{{ cleanCache()
 
     /**

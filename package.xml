@@ -44,31 +44,12 @@ Currently, the following decorators are provided:
     </maintainer>
   </maintainers>
   <release>
-    <version>2.0.0beta4</version>
-    <date>2004-11-20</date>
+    <version>2.0.0beta5</version>
+    <date>2004-11-30</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
-- added a complete TestSuite
-- updated gettext docs
-- fixed typo in error code (TRANSLATION_ERROR_UNKNOWN_LANG => TRANSLATION2_ERROR_UNKNOWN_LANG)
-- fixed typo in the MDB Admin container [quote() => getTextValue()]
-- fixed typo in db admin containers ($this->queries => $this->_queries)
-- in the gettext admin container 
-- fixed many bugs in the gettext admin container:
-  * fixed old field [remove "windows", add "encoding"]
-  * fixed error in remove() [can't pass by reference]
-  * fixed typo in update() [$stingID => $stringID]
-  * in _add(), create the domains on demand
-  * handle stale cache
-- many fixes/updates to the xml container:
-  * init() accepts an array as parameter (not a string)
-  * added 'save_on_shutdown' option
-    (you can choose to save in real time, now)
-  * return Translation2 errors with numeric codes
-  * added 'encoding' field
-  * added removeLang()
-  * other minor fixes and tweaks
+- added Translation2_Admin::getPageNames()
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -162,6 +143,15 @@ Currently, the following decorators are provided:
     </filelist>
   </release>
   <changelog>
+    <release>
+      <version>2.0.0beta5</version>
+      <date>2004-11-30</date>
+      <license>PHP License</license>
+      <state>beta</state>
+      <notes>
+- added Translation2_Admin::getPageNames()
+      </notes>
+    </release>
     <release>
       <version>2.0.0beta4</version>
       <date>2004-11-20</date>
