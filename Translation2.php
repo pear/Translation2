@@ -5,10 +5,10 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 1997-2004 The PHP Group                                |
 // +----------------------------------------------------------------------+
-// | This source file is subject to version 2.02 of the PHP license,      |
+// | This source file is subject to version 3.0 of the PHP license,       |
 // | that is bundled with this package in the file LICENSE, and is        |
 // | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
+// | http://www.php.net/license/3_0.txt.                                  |
 // | If you did not receive a copy of the PHP license and are unable to   |
 // | obtain it through the world-wide-web, please send a note to          |
 // | license@php.net so we can mail you a copy immediately.               |
@@ -39,6 +39,9 @@ if (!defined('TRANSLATION2_EMPTY_PAGEID_KEY')) {
  * Class Error codes
  */
 define('TRANSLATION2_ERROR_METHOD_NOT_SUPPORTED', -1);
+define('TRANSLATION2_ERROR_CANNOT_CONNECT',       -2);
+define('TRANSLATION_ERROR_CANNOT_FIND_FILE',      -3);
+define('TRANSLATION_ERROR_DOMAIN_NOT_SET',        -4);
 
 /**
  * Translation2 class
@@ -429,7 +432,7 @@ class Translation2
         if (PEAR::isError($stringID) || empty($stringID)) {
             return $this->lang['error_text'];
         }
-        return $this->get($stringID, $pageID, $langID); //$pageID IS NOT USED. IS IT OK WITH EVERYONE?
+        return $this->get($stringID, $pageID, $langID);
     }
 
     // }}}
