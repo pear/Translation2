@@ -58,7 +58,7 @@ $str = <<<EOT
 
 // add a 'German Decorator', i.e. add German as a third fallback language
 \$tr = & \$tr->getDecorator('Lang');
-\$tr->setOption('fallbackLang', 'en');
+\$tr->setOption('fallbackLang', 'de');
 EOT;
 // ====================================================
 debug($str);
