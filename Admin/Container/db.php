@@ -43,30 +43,6 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
     // {{{ class vars
 
     // }}}
-    // {{{
-    
-    /**
-     * Fetch the table names from the db
-     * @access private
-     * @return mixed array on success, PEAR_Error on failure
-     */
-    function _fetchTableNames()
-    {
-        $res = $this->query('SHOW TABLES', 'getAll');
-        if (PEAR::isError($res)) {
-            return $res;
-        }
-        if (empty($res) || !is_array($res)) {
-            //return error
-        }
-        $tables = array();
-        foreach ($res as $record) {
-            $tables[] = $record[0];
-        }
-        return $tables;
-    }
-    
-    // }}}
     // {{{ createNewLang()
 
     /**
@@ -79,7 +55,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      */
     function createNewLang($langData)
     {
-        $tables = $this->_fetchTableNames();
+        $tables = $this->db->getListOf('tables');
         if (PEAR::isError($tables)) {
             return $tables;
         }
@@ -133,7 +109,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      */
     function addLangToAvailList($langData)
     {
-        $tables = $this->_fetchTableNames();
+        $tables = $this->db->getListOf('tables');
         if (PEAR::isError($tables)) {
             return $tables;
         }
@@ -358,7 +334,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         }
         $tables = array_unique($tables);
         //get the tables and remove the non existent ones from the list
-        $dbTables = $this->_fetchTableNames();
+        $dbTables = $this->db->getListOf('tables');
         if (!PEAR::isError($dbTables)) {
             foreach ($tables as $k => $table) {
                 if (!in_array($table, $dbTables)) {
