@@ -226,8 +226,8 @@ class Translation2_Decorator
      * @param string $stringID
      * @param string $pageID
      * @param string $langID
-     * @param string $defaultText Text to display when the strings in both
-     *                            the default and the fallback lang are empty
+     * @param string $defaultText Text to display when the string is empty
+     *               NB: This parameter is only used in the DefaultText decorator
      * @return string
      */
     function get($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
@@ -263,9 +263,9 @@ class Translation2_Decorator
      * @param string $langID
      * @return array
      */
-    function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
+    function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null)
     {
-        $this->translation2->getPage($pageID, $langID, $defaultText);
+        $this->translation2->getPage($pageID, $langID);
     }
 
     // }}}
