@@ -22,7 +22,9 @@
  * @package Translation2
  * @version $Id$
  */
-
+/**
+ * Load Translation2_Decorator class
+ */
 require_once 'Translation2/Decorator.php';
  
 /**
