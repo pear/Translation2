@@ -193,19 +193,18 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      */
     function add($stringID, $pageID, $stringArray)
     {
-        $langs = array_intersect($this->getLangs('ids'),
-                                 array_keys($stringArray));
+        $langs = array_intersect(
+            array_keys($stringArray),
+            $this->getLangs('ids')
+        );
 
-        if (count($langs) === 0) {
+        if (!count($langs)) {
             //return error: no valid lang provided
             return true;
         }
 
-        /*
-         * Langs may be in different tables - we need to split up queries along
-         * table lines, so we can keep DB traffic to a minimum.
-         *
-         */
+        // Langs may be in different tables - we need to split up queries along
+        // table lines, so we can keep DB traffic to a minimum.
 
         $stringID = $this->db->quote($stringID);
         $pageID = is_null($pageID) ? 'NULL' : $this->db->quote($pageID);
@@ -250,10 +249,12 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      */
     function update($stringID, $pageID, $stringArray)
     {
-        $langs = array_intersect($this->getLangs('ids'),
-                                 array_keys($stringArray));
+        $langs = array_intersect(
+            array_keys($stringArray),
+            $this->getLangs('ids')
+        );
 
-        if (count($langs) === 0) {
+        if (!count($langs)) {
             //return error: no valid lang provided
             return true;
         }
@@ -270,7 +271,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
                              $this->db->quote($stringArray[$lang]);
             }
 
-            $query = sprintf("UPDATE %s SET %s WHERE %s = %s AND %s %s",
+            $query = sprintf('UPDATE %s SET %s WHERE %s = %s AND %s %s',
                              $table,
                              implode(', ', $langSet),
                              $this->options['string_id_col'],
@@ -298,13 +299,15 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      * @param string $pageID
      * @return mixed true on success, PEAR_Error on failure
      */
-    function remove($stringID, $pageID = null)
+    function remove($stringID, $pageID)
     {
         $tables = array_unique($this->_getLangTables());
 
         $stringID = $this->db->quote($stringID);
+        // get the tables and skip the non existent ones
+        $dbTables = $this->db->getListOf('tables');
         foreach ($tables as $table) {
-            if (!in_array($table, $this->db->getListOf('tables'))) {
+            if (!in_array($table, $dbTables)) {
                 continue;
             }
             $query = sprintf('DELETE FROM %s WHERE %s = %s AND %s',
@@ -330,12 +333,13 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
     }
 
     // }}}
+    // {{{ _tableLangs()
 
     /**
      * Get table -> language mapping
      *
-     * The key of the array is the table that a language is stored in; the
-     * value is an /array/ of languages stored in that table.
+     * The key of the array is the table that a language is stored in; 
+     * the value is an /array/ of languages stored in that table.
      *
      * @param   array  $langs  Languages to get mapping for
      * @return  array  Table -> language mapping
@@ -352,6 +356,9 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         }
         return $tables;
     }
+
+    // }}}
+    // {{{ _getLangTables()
 
     /**
      * Get tables for languages
@@ -374,6 +381,9 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         return $tables;
     }
 
+    // }}}
+    // {{{ _getLangCols()
+
     /**
      * Get table columns strings are stored in
      *
@@ -394,5 +404,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         }
         return $cols;
     }
+    
+    // }}}
 }
 ?>
