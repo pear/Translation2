@@ -153,7 +153,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
             return true; // really?
         }
         
-        $file = '/LC_MESSAGES/'. $pageID . $this->options['file_type'];
+        $file = '/LC_MESSAGES/'. $pageID .'.'. $this->options['file_type'];
         
         require_once 'File/Gettext.php';
         $gtFile = &File_Gettext::factory($this->options['file_type']);
@@ -167,7 +167,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
                 }
             }
 
-            $MO->strings[$stringID] = $strings[$id];
+            $gtFile->strings[$stringID] = $strings[$id];
             if (PEAR::isError($e = $gtFile->save($path . $file))) {
                 return $e;
             }
@@ -191,7 +191,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
             $pageID = $this->options['default_domain'];
         }
         
-        $file = '/LC_MESSAGES/'. $pageID . $this->options['file_type'];
+        $file = '/LC_MESSAGES/'. $pageID .'.'. $this->options['file_type'];
         
         require_once 'File/Gettext.php';
         $gtFile = &File_Gettext::factoryy($this->options['file_type']);
