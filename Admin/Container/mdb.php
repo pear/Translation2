@@ -207,10 +207,23 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
         // Langs may be in different tables - we need to split up queries along
         // table lines, so we can keep DB traffic to a minimum.
 
+        $unquoted_stringID = $stringID;
+        $unquoted_pageID = $pageID;
         $stringID = $this->db->getTextValue($stringID);
         $pageID = is_null($pageID) ? 'NULL' : $this->db->getTextValue($pageID);
         // Loop over the tables we need to insert into.
         foreach ($this->_tableLangs($langs) as $table => $tableLangs) {
+            //before INSERTing a new record, check if it exists already.
+            $exists = $this->_recordExists($unquoted_stringID, $unquoted_pageID, $table);
+            if (PEAR::isError($exists)) {
+                return $exists;
+            }
+            if ($exists) {
+                $this->update($unquoted_stringID, $unquoted_pageID,
+                    $this->_filterStringsByTable($stringArray, $table));
+                continue;
+            }
+
             $tableCols = $this->_getLangCols($tableLangs);
             $langData = array();
             foreach ($tableLangs as $lang) {
@@ -404,6 +417,60 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
             $cols[$lang] = $this->_getLangCol($lang);
         }
         return $cols;
+    }
+
+    // }}}
+    // {{{
+
+    /**
+     * Check if there's already a record in the table with the
+     * given (pageID, stringID) pair.
+     *
+     * @param string $stringID
+     * @param string $pageID
+     * @param string $table
+     * @return boolean
+     * @access private
+     */
+    function _recordExists($stringID, $pageID, $table)
+    {
+        $stringID = $this->db->getTextValue($stringID);
+        $pageID = is_null($pageID) ? ' IS NULL' : ' = ' . $this->db->getTextValue($pageID);
+        $query = sprintf('SELECT COUNT(*) FROM %s WHERE %s=%s AND %s%s',
+                         $table,
+                         $this->options['string_id_col'],
+                         $stringID,
+                         $this->options['string_page_id_col'],
+                         $pageID
+        );
+        ++$this->_queries;
+        $res = $this->db->getOne($query);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
+        return ($res > 0);
+    }
+
+    // }}}
+    // {{{
+
+    /**
+     * Get only the strings for the langs in the given table
+     *
+     * @param string $pageID
+     * @param array  $stringArray Associative array with string translations.
+     *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     * @access private
+     */
+    function &_filterStringsByTable($stringArray, $table)
+    {
+        $strings = array();
+        foreach ($stringArray as $lang => $string) {
+            if ($table == $this->_getLangTable($lang)) {
+                $strings[$lang] = $string;
+            }
+        }
+        return $strings;
     }
 
     // }}}
