@@ -10,7 +10,8 @@ class ContainersTests extends GroupTest {
         $this->addTestFile('db_test.php');
         $this->addTestFile('mdb_test.php');
         $this->addTestFile('mdb2_test.php');
-        //$this->addTestFile('gettext_test.php');
+        $this->addTestFile('gettext_mo_test.php');
+        $this->addTestFile('gettext_po_test.php');
         //$this->addTestFile('xml_test.php');
     }
 }

@@ -1,16 +1,20 @@
 <?php
 // $Id$
 
-require_once 'dbms_test.php';
 
-class TestOfContainerDB extends TestOfContainerDBMS {
+require_once 'simple_include.php';
+require_once 'translation2_include.php';
+require_once 'dbms.php';
+//require_once 'common_tests.php';
+
+class TestOfContainerDB extends UnitTestCase {  //TestOfTranslation2 {
     var $tr;
     function TestOfContainerDB($name='Test of Container DB') {
         $this->UnitTestCase($name);
     }
     function setUp() {
         $driver = 'DB';
-        $this->tr = Translation2::factory($driver, $this->_getDbInfo(), $this->_getParams());
+        $this->tr = Translation2::factory($driver, dbms::getDbInfo(), dbms::getParams());
     }
     function tearDown() {
         unset($this->tr);
@@ -18,7 +22,7 @@ class TestOfContainerDB extends TestOfContainerDBMS {
     function testGet() {
         $this->assertEqual('gennaio', $this->tr->get('month_01', 'calendar', 'it'));
         $this->assertEqual('january', $this->tr->get('month_01', 'calendar', 'en'));
-        $this->tr->setLang('en');         //set default lang
+        $this->assertFalse(PEAR::isError($this->tr->setLang('en')));         //set default lang
         $this->assertEqual('sunday', $this->tr->get('day_0', 'calendar'));
         $this->assertEqual('monday', $this->tr->get('day_1', 'calendar'));
         $this->tr->setPageID('calendar'); //set default lang AND default pageID
@@ -98,7 +102,7 @@ class TestOfContainerDB extends TestOfContainerDBMS {
         $expected = array(
             'id'         => 'it',
             'name'       => 'italiano',
-            'meta'       => 'charset=iso-8859-1',
+            'meta'       => 'charset: iso-8859-1',
             'error_text' => 'non disponibile in Italiano',
             'encoding'   => 'iso-8859-1',
         );
@@ -121,7 +125,7 @@ class TestOfContainerDB extends TestOfContainerDBMS {
             'it' => array(
                 'id'         => 'it',
                 'name'       => 'italiano',
-                'meta'       => 'charset=iso-8859-1',
+                'meta'       => 'charset: iso-8859-1',
                 'error_text' => 'non disponibile in Italiano',
                 'encoding'   => 'iso-8859-1',
             ),
@@ -135,7 +139,7 @@ class TestOfContainerDB extends TestOfContainerDBMS {
             'de' => array(
                 'id'         => 'de',
                 'name'       => 'deutsch',
-                'meta'       => 'charset=iso-8859-1',
+                'meta'       => 'charset: iso-8859-1',
                 'error_text' => 'kein Text auf Deutsch verfügbar',
                 'encoding'   => 'iso-8859-1',
             ),
@@ -151,8 +155,8 @@ class TestOfContainerDB extends TestOfContainerDBMS {
             'only_italian' => 'testo solo in italiano',
             'hello_user'   => 'ciao, &&user&&, oggi è il &&day&& &&month&& &&year&& (&&weekday&&)',
             'isempty'      => null,
-            'test'         => 'stringa di prova',
             'prova_conflitto' => 'testo con conflitto - globale',
+            'test'         => 'stringa di prova',
             'Entirely new string' => null,
         );
         //with decorator
@@ -164,8 +168,8 @@ class TestOfContainerDB extends TestOfContainerDBMS {
             'only_italian' => 'testo solo in italiano',
             'hello_user'   => 'ciao, &&user&&, oggi è il &&day&& &&month&& &&year&& (&&weekday&&)',
             'isempty'      => 'isempty',
-            'test'         => 'stringa di prova',
             'prova_conflitto' => 'testo con conflitto - globale',
+            'test'         => 'stringa di prova',
             'Entirely new string' => 'Entirely new string',
         );
         $this->assertEqual($expected, $this->tr->getPage());
@@ -180,8 +184,8 @@ class TestOfContainerDB extends TestOfContainerDBMS {
             'only_italian' => 'testo solo in italiano',
             'hello_user'   => 'ciao, &&user&&, oggi è il &&day&& &&month&& &&year&& (&&weekday&&)',
             'isempty'      => null,
-            'test'         => 'stringa di prova',
             'prova_conflitto' => 'testo con conflitto - globale',
+            'test'         => 'stringa di prova',
             'Entirely new string' => null,
         );
         $this->assertEqual($expected, $this->tr->getRawPage());

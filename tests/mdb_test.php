@@ -9,7 +9,7 @@ class TestOfContainerMDB extends TestOfContainerDB {
     }
     function setUp() {
         $driver = 'MDB';
-        $this->tr = Translation2::factory($driver, $this->_getDbInfo(), $this->_getParams());
+        $this->tr = Translation2::factory($driver, dbms::getDbInfo(), dbms::getParams());
     }
 }
 ?>

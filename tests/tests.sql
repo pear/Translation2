@@ -54,6 +54,6 @@ CREATE TABLE langs_avail (
 
 CREATE UNIQUE INDEX langs_avail_id_index ON langs_avail (id);
 
-INSERT INTO langs_avail (id, name, meta, error_text, encoding) VALUES("it", "italiano", "charset=iso-8859-1", "non disponibile in Italiano", "iso-8859-1");
+INSERT INTO langs_avail (id, name, meta, error_text, encoding) VALUES("it", "italiano", "charset: iso-8859-1", "non disponibile in Italiano", "iso-8859-1");
 INSERT INTO langs_avail (id, name, meta, error_text, encoding) VALUES("en", "english", "my meta info", "not available in English", "iso-8859-1");
-INSERT INTO langs_avail (id, name, meta, error_text, encoding) VALUES("de", "deutsch", "charset=iso-8859-1", "kein Text auf Deutsch verfügbar", "iso-8859-1");
+INSERT INTO langs_avail (id, name, meta, error_text, encoding) VALUES("de", "deutsch", "charset: iso-8859-1", "kein Text auf Deutsch verfügbar", "iso-8859-1");

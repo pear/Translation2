@@ -8,8 +8,8 @@ class TestOfAdminContainerMDB2 extends TestOfAdminContainerDB {
         $this->UnitTestCase($name);
     }
     function setUp() {
-        $driver = 'DB';
-        $this->tr = Translation2_Admin::factory($driver, $this->_getDbInfo(), $this->_getParams());
+        $driver = 'MDB2';
+        $this->tr = Translation2_Admin::factory($driver, dbms::getDbInfo(), dbms::getParams());
     }
 }
 ?>

@@ -1,11 +1,9 @@
 <?php
 // $Id$
 
-require_once 'simple_include.php';
-require_once 'translation2_include.php';
-
-class TestOfContainerDBMS extends UnitTestCase {
-    function _getParams() {
+class dbms
+{
+    function getParams() {
         return array(
             'langs_avail_table' => 'langs_avail',
             'lang_id_col'     => 'id',
@@ -28,7 +26,7 @@ class TestOfContainerDBMS extends UnitTestCase {
                                    //(use when db load is cheaper than network load)
         );
     }
-    function _getDbInfo() {
+    function getDbInfo() {
         return array(
             'hostspec' => 'localhost',
             'database' => 'translation2',
