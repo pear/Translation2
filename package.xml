@@ -18,7 +18,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
   </maintainers>
   <release>
     <version>2.0.0alpha3</version>
-    <date>2004-03-22</date>
+    <date>2004-03-26</date>
     <license>PHP License</license>
     <state>alpha</state>
     <notes>
@@ -27,12 +27,17 @@ An Admin class is provided to easily manage translations (add/remove a language,
   added a Decorator class and some subclasses to control
   the output (now you can set a stack of fallback languages,
   a filter to deal with empty strings, one or more cache layers...)
-- improved gettext support (Michael Wallner)
+- improved gettext support (thanks to Michael Wallner)
+- added gettext admin class
+- fixes in the db admin classes
+- when adding a new string, if it matches one already in the db,
+  the old one is replaced by the new one.
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">DB</dep>
       <dep type="pkg" rel="has" optional="yes">MDB</dep>
       <dep type="ext" rel="has" optional="yes">gettext</dep>
+      <dep type="pkg" rel="has" optional="yes">File_Gettext</dep>
     </deps>
     <filelist>
       <dir name="/" baseinstalldir="Translation2">
@@ -70,16 +75,20 @@ An Admin class is provided to easily manage translations (add/remove a language,
   <changelog>
     <release>
       <version>2.0.0alpha3</version>
-      <date>2004-03-22</date>
+      <date>2004-03-26</date>
       <license>PHP License</license>
       <state>alpha</state>
       <notes>
+- BC break! Run the example to see what's new
 - refactoring in progress:
   added a Decorator class and some subclasses to control
   the output (now you can set a stack of fallback languages,
-  a filter to deal with empty strings, one or more cache layers,
-  and define your own decorators...)
-- improved gettext support (Michael Wallner)
+  a filter to deal with empty strings, one or more cache layers...)
+- improved gettext support (thanks to Michael Wallner)
+- added gettext admin class
+- fixes in the db admin classes
+- when adding a new string, if it matches one already in the db,
+  the old one is replaced by the new one.
       </notes>
     </release>
     <release>
