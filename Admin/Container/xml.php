@@ -48,7 +48,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      * Does nothing (here for compatibility with the container interface)
      *
      * @param array $langData
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function createNewLang($langData)
     {
@@ -67,7 +67,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      *                              'error_text' => 'not available',
      *                              'encoding'   => 'iso-8859-1',
      *              );
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function addLangToAvailList($langData)
     {
@@ -87,6 +87,28 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
     }
 
     // }}}
+    // {{{ updateLang()
+
+    /**
+     * Update the lang info in the langsAvail table
+     *
+     * @param array  $langData
+     * @return true|PEAR_Error
+     */
+    function updateLang($langData)
+    {
+        $allFields = array( //'lang_id',
+            'name', 'meta', 'error_text', 'encoding',
+        );
+        foreach ($allFields as $field) {
+            if (isset($this->_data['languages'][$langData['lang_id']][$field])) {
+                $this->_data['languages'][$langData['lang_id']][$field] = $langData[$field];
+            }
+        }
+        return $this->_scheduleSaving();
+    }
+
+    // }}}
     // {{{ add()
 
     /**
@@ -96,7 +118,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      * @param string $pageID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function add($stringID, $pageID, $stringArray)
     {
@@ -131,7 +153,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      * @param string $pageID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function update($stringID, $pageID, $stringArray)
     {
@@ -146,7 +168,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      *
      * @param string $stringID
      * @param string $pageID
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function remove($stringID, $pageID)
     {
@@ -169,7 +191,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      *
      * @param string  $langID
      * @param boolean $force (ignored)
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function removeLang($langID, $force = true)
     {
@@ -219,7 +241,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      * is to avoid saving multiple times if the programmer makes several 
      * changes.
      * 
-     * @return mixed true on success or a PEAR_Error on failure
+     * @return true|PEAR_Error
      * @access private
      * @see Translation2_Admin_Container_xml::_saveData()
      */
