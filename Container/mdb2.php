@@ -85,13 +85,13 @@ class Translation2_Container_mdb2 extends Translation2_Container
      */
     function _connect(&$db)
     {
-        if (is_object($db) && is_a($dsn, 'MDB2_Driver_Common')) {
+        if (is_object($db) && is_a($db, 'MDB2_Driver_Common')) {
             $this->db = &$db;
         } elseif (is_string($db) || is_array($db)) {
             require_once 'MDB2.php';
             $this->db =& MDB2::connect($db);
         } elseif (is_object($db) && MDB2::isError($db)) {
-            return PEAR::raiseError($dsn->getMessage(), $dsn->code);
+            return PEAR::raiseError($db->getMessage(), $db->code);
         } else {
             return PEAR::raiseError('The given dsn was not valid in file '
                                     . __FILE__ . ' at line ' . __LINE__,
@@ -117,14 +117,14 @@ class Translation2_Container_mdb2 extends Translation2_Container
     function _setDefaultOptions()
     {
         $this->options['langs_avail_table'] = 'langs';
-        $this->options['lang_id_col']       = 'ID';
+        $this->options['lang_id_col']       = 'id';
         $this->options['lang_name_col']     = 'name';
         $this->options['lang_meta_col']     = 'meta';
         $this->options['lang_errmsg_col']   = 'error_text';
 
         $this->options['strings_default_table'] = 'i18n';
         $this->options['strings_tables']        = array(); // 'lang_id' => 'table_name'
-        $this->options['string_id_col']         = 'ID';
+        $this->options['string_id_col']         = 'id';
         $this->options['string_page_id_col']    = 'page_id';
         $this->options['string_text_col']       = '%s'; // col_name if one table per lang is used,
                                                         // or a pattern (i.e. "tr_%s" => "tr_EN_US")
@@ -190,8 +190,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
         }
 
         $strings = array();
-        while ($row = $res->fetchRow()) {
-            list($key, $value) = $row;
+        while (list($key, $value) = $res->fetchRow()) {
             $strings[$key] = $value;
         }
         $res->free();
@@ -220,7 +219,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
                          $table,
                          $table,
                          $this->options['string_id_col'],
-                         $this->db->quote($stringID),
+                         $this->db->quote($stringID, 'text'),
                          $this->options['string_page_id_col']
                          );
 
@@ -252,7 +251,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
                          $this->options['string_id_col'],
                          $table,
                          $lang_col,
-                         $this->db->quote($string),
+                         $this->db->quote($string, 'text'),
                          $this->options['string_page_id_col']
                          );
         if (is_null($pageID)) {
