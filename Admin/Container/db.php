@@ -310,7 +310,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
                 if (PEAR::isError($res)) {
                     return $res;
                 }
-           }
+            }
         }
 
        return true;

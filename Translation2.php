@@ -376,7 +376,7 @@ class Translation2
 
     /**
      * Same as getRawPage, but resort to fallback language and
-    * replace parameters when needed
+     * replace parameters when needed
      *
      * @param string $pageID
      * @param string $langID
