@@ -73,7 +73,7 @@ class Translation2_Decorator_Iconv extends Translation2_Decorator
                 $this->lang_encodings[$langID] = $encoding;
             }
         }
-        if (!is_null($langID)) {
+        if (!is_null($langID) && isset($this->lang_encodings[$langID])) {
             return $this->lang_encodings[$langID];
         }
         return $this->lang['encoding'];
