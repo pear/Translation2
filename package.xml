@@ -45,7 +45,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta7</version>
-    <date>2005-03-09</date>
+    <date>2005-03-30</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
@@ -58,6 +58,9 @@ Currently, the following decorators are provided:
   * fixed bug #3420: get a shared file lock instead of an exclusive one;
   * fixed bug #3498: saveData() is not registered multiple times as shutdown
     function anymore; optimized saving when save_on_shutdown is set to false.
+- added blank_on_missing option to the gettext container, which makes it
+  behave like the other containers and automatically disables native mode;
+  * see bug #4002
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -157,7 +160,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta7</version>
-      <date>2005-03-09</date>
+      <date>2005-03-30</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
@@ -170,6 +173,9 @@ Currently, the following decorators are provided:
   * fixed bug #3420: get a shared file lock instead of an exclusive one;
   * fixed bug #3498: saveData() is not registered multiple times as shutdown
     function anymore; optimized saving when save_on_shutdown is set to false.
+- added blank_on_missing option to the gettext container, which makes it
+  behave like the other containers and automatically disables native mode;
+  * see bug #4002
       </notes>
     </release>
     <release>
