@@ -24,10 +24,9 @@
  */
 
 /**
- * require Translation2_Container class and PEAR::MDB2
+ * require Translation2_Container class
  */
 require_once 'Translation2/Container.php';
-require_once 'MDB2.php';
 
 /**
  * Storage driver for fetching data from a database
@@ -65,11 +64,10 @@ class Translation2_Container_mdb2 extends Translation2_Container
      * @param  string Connection data or MDB2 object
      * @return boolean|PEAR_Error object if something went wrong
      */
-    function init($dsn)
+    function init(&$db)
     {
         $this->_setDefaultOptions();
-        $this->options['dsn'] = $dsn;
-        if (PEAR::isError($err = $this->_connect($dsn))) {
+        if (PEAR::isError($err = $this->_connect($db))) {
             return $err;
         }
         return true;
@@ -85,13 +83,14 @@ class Translation2_Container_mdb2 extends Translation2_Container
      * @param  mixed DSN string | array | mdb2 object
      * @return mixed  Object on error, otherwise bool
      */
-    function _connect($dsn)
+    function _connect(&$db)
     {
-        if (is_string($dsn) || is_array($dsn)) {
-            $this->db =& MDB2::connect($dsn);
-        } elseif (is_a($dsn, 'MDB2_Driver_Common')) {
-            $this->db = $dsn;
-        } elseif (is_object($dsn) && MDB2::isError($dsn)) {
+        if (is_object($db) && is_a($dsn, 'MDB2_Driver_Common')) {
+            $this->db = &$db;
+        } elseif (is_string($db) || is_array($db)) {
+            require_once 'MDB2.php';
+            $this->db =& MDB2::connect($db);
+        } elseif (is_object($db) && MDB2::isError($db)) {
             return PEAR::raiseError($dsn->getMessage(), $dsn->code);
         } else {
             return PEAR::raiseError('The given dsn was not valid in file '
@@ -104,53 +103,6 @@ class Translation2_Container_mdb2 extends Translation2_Container
             return PEAR::raiseError($this->db->getMessage(), $this->db->code);
         }
         return true;
-    }
-
-    // }}}
-    // {{{ _prepare()
-
-    /**
-     * Prepare database connection
-     *
-     * This function checks if we have already opened a connection to
-     * the database. If that's not the case, a new connection is opened.
-     *
-     * @access private
-     * @return mixed True or a MDB2 error object.
-     */
-    function _prepare()
-    {
-        if (is_a($this->db, 'MDB2_Driver_Common')) {
-            return true;
-        }
-        return $this->_connect($this->options['dsn']);
-    }
-
-    // }}}
-    // {{{ query()
-
-    /**
-     * Prepare query to the database
-     *
-     * This function checks if we have already opened a connection to
-     * the database. If that's not the case, a new connection is opened.
-     * After that the query is passed to the database.
-     *
-     * @access private
-     * @param  string Query string
-     * @param  string query type (query, queryOne, queryRow, ...)
-     * @return mixed  a MDB2_result object or MDB2_OK on success, a MDB2
-     *                or PEAR error on failure
-    */
-    function query($query, $queryType='query')
-    {
-        $err = $this->_prepare();
-        if ($err !== true) {
-            return $err;
-        }
-        ++$this->_queries;
-        //echo '<div style="background-color: yellow; border: 1px solid red">['.$this->_queries.'] '.$query .'</div>';
-        return $this->db->$queryType($query);
     }
 
     // }}}
@@ -186,30 +138,21 @@ class Translation2_Container_mdb2 extends Translation2_Container
      */
     function fetchLangs()
     {
-        $query = sprintf('SELECT %s, %s, %s, %s FROM %s',
+        $query = sprintf('SELECT %s AS id, %s AS name, %s AS meta, %s AS error_text FROM %s',
                         $this->options['lang_id_col'],
                         $this->options['lang_name_col'],
                         $this->options['lang_meta_col'],
                         $this->options['lang_errmsg_col'],
                         $this->options['langs_avail_table']);
 
-        $res = $this->query($query);
+        ++$this->_queries;
+        $res = $this->db->queryAll($query, null, MDB2_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             return $res;
         }
-        $langs = array();
-        $numrows = $res->numRows();
-        for ($i=0; $i<$numrows; $i++) {
-            $tmp = array();
-            list($tmp['id'],
-                 $tmp['name'],
-                 $tmp['meta'],
-                 $tmp['error_text']
-            ) = $res->fetchRow();
-            $langs[$tmp['id']] = $tmp;
+        foreach ($res as $row) {
+            $this->langs[$row['id']] = $row;
         }
-        $this->langs = $langs;
-        $res->free();
     }
 
     // }}}
@@ -222,39 +165,33 @@ class Translation2_Container_mdb2 extends Translation2_Container
      * @param string $langID
      * @return array
      */
-    function getPage($pageID=null, $langID=null)
+    function &getPage($pageID = null, $langID = null)
     {
-        if (is_null($langID)) {
-            $langID = $this->currentLang['id'];
-        }
-        $lang_col = str_replace('%s', $langID, $this->options['string_text_col']);
-        if (empty($lang_col)) {
-            $lang_col = $langID;
-        }
-        $query = sprintf('SELECT %s, %s FROM %s',
+        $langID = is_null($langID) ? $this->currentLang['id'] : $langID;
+        $lang_col = $this->_getLangCol($langID);
+        $table = $this->_getLangTable($langID);
+        
+        $query = sprintf('SELECT %s, %s FROM %s WHERE %s ',
                          $this->options['string_id_col'],
                          $lang_col,
-                         $this->options['strings_tables'][$langID]);
-        $where = array();
-        if (!empty($pageID)) {
-            $where[] = $this->options['strings_tables'][$langID]. '.' .
-                       $this->options['string_page_id_col']. '=' . $this->db->quote($pageID, 'text');
-        } elseif (is_null($pageID)) {
-            $where[] = $this->options['strings_tables'][$langID]. '.' .
-                       $this->options['string_page_id_col']. ' IS NULL';
+                         $table,
+                         $this->options['string_page_id_col']);
+
+        if (is_null($pageID)) {
+            $query .= 'IS NULL';
         } else {
-            $where[] = $this->options['strings_tables'][$langID]. '.' .
-                       $this->options['string_page_id_col']. '=""';
+            $query .= ' = ' . $this->db->quote($pageID, 'text');
         }
-        $query .= ' WHERE ' .implode(' AND ', $where);
-        $res = $this->query($query);
+
+        ++$this->_queries;
+        $res = $this->db->query($query);
         if (PEAR::isError($res)) {
             return $res;
         }
+
         $strings = array();
-        $numrows = $res->numRows();
-        for ($i=0; $i<$numrows; $i++) {
-            list($key, $value) = $res->fetchRow();
+        while ($row = $res->fetchRow()) {
+            list($key, $value) = $row;
             $strings[$key] = $value;
         }
         $res->free();
@@ -272,43 +209,29 @@ class Translation2_Container_mdb2 extends Translation2_Container
      * @param string $langID
      * @return string
      */
-    function getOne($stringID, $pageID=null, $langID=null)
+    function getOne($stringID, $pageID = null, $langID = null)
     {
-        $lang_col = str_replace('%s', $langID, $this->options['string_text_col']);
-        if (empty($lang_col)) {
-            $lang_col = $this->currentLang['id'];
-        }
-        if (is_null($langID)) {
-            $langID = $this->currentLang['id'];
-        }
-        $query = sprintf('SELECT %s FROM %s',
-                         $lang_col,
-                         $this->options['strings_tables'][$langID]);
-        $where = array();
-        if (!empty($pageID)) {
-            $where[] = $this->options['strings_tables'][$langID]. '.' .
-                       $this->options['string_page_id_col']. '='. $this->db->quote($pageID, 'text');
-        } elseif (is_null($pageID)) {
-            $where[] = $this->options['strings_tables'][$this->currentLang['id']]. '.' .
-                       $this->options['string_page_id_col']. ' IS NULL';
-        } else {
-            $where[] = $this->options['strings_tables'][$langID]. '.' .
-                       $this->options['string_page_id_col']. '=""';
-        }
-        $where[] = $this->options['strings_tables'][$langID]. '.' .
-                   $this->options['string_id_col'] .'='. $this->db->quote($stringID, 'text');
-        $query .= ' WHERE '.implode(' AND ', $where);
+        $langID = is_null($langID) ? $this->currentLang['id'] : $langID;
+        $lang_col = $this->_getLangCol($langID);
+        $table = $this->_getLangTable($langID);
 
-        $res = $this->query($query);
-        if (PEAR::isError($res)) {
-            return $res;
+        $query = sprintf('SELECT %s FROM %s WHERE %s.%s = %s AND %s',
+                         $lang_col,
+                         $table,
+                         $table,
+                         $this->options['string_id_col'],
+                         $this->db->quote($stringID),
+                         $this->options['string_page_id_col']
+                         );
+
+        if (is_null($pageID)) {
+            $query .= ' IS NULL';
+        } else {
+            $query .= ' = ' . $this->db->quote($pageID, 'text');
         }
-        if (!$res->numRows()) {
-            return '';
-        }
-        $val = $res->fetch();
-        $res->free();
-        return $val;
+
+        ++$this->_queries;
+        return $this->db->queryOne($query);
     }
 
     // }}}
@@ -321,29 +244,73 @@ class Translation2_Container_mdb2 extends Translation2_Container
      * @param string $pageID
      * @return string
      */
-    function getStringID($string, $pageID=null)
+    function getStringID($string, $pageID = null)
     {
-        $lang_col = str_replace('%s', $this->currentLang['id'], $this->options['string_text_col']);
-        if (empty($lang_col)) {
-            $lang_col = $this->currentLang['id'];
-        }
-        $query = sprintf('SELECT %s FROM %s WHERE %s=%s',
+        $lang_col = $this->_getLangCol($this->currentLang['id']);
+        $table = $this->_getLangTable($this->currentLang['id']);
+        $query = sprintf('SELECT %s FROM %s WHERE %s = %s AND %s',
                          $this->options['string_id_col'],
-                         $this->options['strings_tables'][$this->currentLang['id']],
+                         $table,
                          $lang_col,
-                         $this->db->quote($string, 'text')
+                         $this->db->quote($string),
+                         $this->options['string_page_id_col']
                          );
-        if (!empty($pageID)) {
-            $query .= ' AND '.$this->options['strings_tables'][$this->currentLang['id']]. '.'
-                    . $this->options['string_page_id_col']. '='. $this->db->quote($pageID, 'text');
-        } elseif (is_null($pageID)) {
-            $query .= ' AND '.$this->options['strings_tables'][$this->currentLang['id']]. '.'
-                    . $this->options['string_page_id_col']. ' IS NULL';
+        if (is_null($pageID)) {
+            $query .= ' IS NULL';
         } else {
-            $query .= ' AND '.$this->options['strings_tables'][$this->currentLang['id']]. '.'
-                    . $this->options['string_page_id_col']. '=""';
+            $query .= ' = ' . $this->db->quote($pageID, 'text');
         }
-        return $this->query($query, 'queryOne');
+        ++$this->_queries;
+        return $this->db->queryOne($query);
+    }
+
+    // }}}
+    // {{{ _getLangTable()
+
+    /**
+     * Get the table a language is stored in
+     *
+     * @param string $langID Language
+     * @return string table $langID is stored in
+     * @access private
+     * @author Ian Eure
+     */
+    function _getLangTable($langID)
+    {
+        static $tables;
+        if (!isset($tables[$langID])) {
+            if (isset($this->options['strings_tables'][$langID])) {
+                $tables[$langID] = $this->options['strings_tables'][$langID];
+            } else {
+                $tables[$langID] = $this->options['strings_default_table'];
+            }
+        }
+        return $tables[$langID];
+    }
+
+    // }}}
+    // {{{ _getLangCol()
+
+    /**
+     * Get the column a language's string is stored in
+     *
+     * @param string $langID Language
+     * @return string column $langID is stored in
+     * @access private
+     * @author Ian Eure
+     */
+    function _getLangCol($langID)
+    {
+        static $cols;
+        if (!isset($cols[$langID])) {
+            if (isset($this->options['string_text_col']) &&
+                !empty($this->options['string_text_col'])) {
+                $cols[$langID] = str_replace('%s', $langID, $this->options['string_text_col']);
+            } else {
+                $cols[$langID] = $langID;
+            }
+        }
+        return $cols[$langID];
     }
 
     // }}}
