@@ -458,7 +458,7 @@ class Translation2
      * @param string $langID
      * @return string
      */
-    function translate($string, $langID, $pageID=TRANSLATION2_DEFAULT_PAGEID)
+    function translate($string, $langID = null, $pageID=TRANSLATION2_DEFAULT_PAGEID)
     {
         $pageID = ($pageID == TRANSLATION2_DEFAULT_PAGEID ? $this->currentPageID : $pageID);
         $stringID = $this->storage->getStringID($string, $pageID);
