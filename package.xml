@@ -27,14 +27,21 @@ Currently, the following decorators are provided:
       <email>l.alberton@quipo.it</email>
       <role>lead</role>
     </maintainer>
+    <maintainer>
+      <user>ieure</user>
+      <name>Ian Eure</name>
+      <email>ieure@php.net</email>
+      <role>developer</role>
+    </maintainer>
   </maintainers>
   <release>
     <version>2.0.0beta3</version>
-    <date>2004-10-18</date>
+    <date>2004-10-19</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
-- the last release contained an old gettext driver (bug #2503) (thanks to Ian Eure)
+- welcome to the new developer, Ian Eure
+- the last release contained an old gettext driver (bug #2503) (ieure)
 - many portability fixes applied to the database containers (thanks to Ian Eure and 
   Xavier Lembo for their suggestions and patches)
 - minor changes to the table definitions for better portability (lowercase field names,
@@ -98,12 +105,13 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta3</version>
-      <date>2004-10-18</date>
+      <date>2004-10-19</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
-- the last release contained an old gettext driver (bug #2503) (thanks to Ian Eure)
-- many portability fixes applied to the database containers (thanks to Ian Eure and 
+- welcome to the new developer, Ian Eure
+- the last release contained an old gettext driver (bug #2503) (ieure)
+- many portability fixes applied to the database containers (thanks to Ian Eure and
   Xavier Lembo for their suggestions and patches)
 - minor changes to the table definitions for better portability (lowercase field names,
   VARCHAR instead of CHAR, bigger field size)
