@@ -35,6 +35,8 @@ require_once 'Translation2/Decorator.php';
  */
 class Translation2_Admin_Decorator extends Translation2_Decorator
 {
+    // {{{ createNewLang()
+
     /**
      * Create a new language
      *
@@ -44,6 +46,9 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
     {
         return $this->translation2->createNewLang($langData);
     }
+    
+    // }}}
+    // {{{ removeLang()
 
     /**
      * Remove a language
@@ -55,6 +60,9 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
         return $this->translation2->removeLang($langID, $force);
     }
 
+    // }}}
+    // {{{ add()
+
     /**
      * Add a translation
      *
@@ -64,6 +72,9 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
     {
         return $this->translation2->add($stringID, $pageID, $stringArray);
     }
+
+    // }}}
+    // {{{ update()
 
     /**
      * Update a translation
@@ -75,6 +86,9 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
         return $this->translation2->update($stringID, $pageID, $stringArray);
     }
 
+    // }}}
+    // {{{ remove()
+
     /**
      * Remove a translation
      *
@@ -85,6 +99,22 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
         return $this->translation2->remove($stringID, $pageID);
     }
 
+    // }}}
+    // {{{ getPageNames()
+
+    /**
+     * Get a list of all the pageIDs in any table.
+     *
+     * @see  Translation2_Admin::getPageNames()
+     */
+    function getPageNames()
+    {
+        return $this->translation2->getPageNames();
+    }
+
+    // }}}
+    // {{{ cleanCache()
+
     /**
      * Clean the cache
      *
@@ -94,5 +124,7 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
     {
         return $this->translation2->cleanCache();
     }
+
+    // }}}
 }
 ?>
