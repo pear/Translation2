@@ -63,7 +63,10 @@ Currently, the following decorators are provided:
   table per language without having to explicitly specify them all. (ieure)
 - DefaultText decorator has new translate() method, which will return the string which
   was requested to be translated if no suitable translation exists. This mirrors the
-  gettext() semantics.
+  gettext() semantics. (ieure)
+- Add Admin_Decorator class, which allows you to create Decorators for
+  Translation2_Admin. (ieure)
+- New 'Autoadd' Admin Decorator, which automatically adds requested strings. (ieure)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -81,12 +84,16 @@ Currently, the following decorators are provided:
         <file role="php" name="Container.php" />
         <file role="php" name="Decorator.php" />
         <dir name="Admin" role="php">
+          <file name="Decorator.php" />
           <dir name="Container" role="php">
             <file name="dataobjectsimple.php" />
             <file name="db.php" />
             <file name="gettext.php" />
             <file name="mdb.php" />
             <file name="mdb2.php" />
+          </dir>
+          <dir name="Decorator" role="php">
+            <file name="Autoadd.php" />
           </dir>
         </dir>
         <dir name="Container" role="php">
@@ -103,7 +110,6 @@ Currently, the following decorators are provided:
           <file name="Lang.php" />
           <file name="SpecialChars.php" />
           <file name="UTF8.php" />
-          <file name="Rawfallback.php" />
         </dir>
         <dir name="docs" role="doc">
           <file name="gettext_readme.txt" />
