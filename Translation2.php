@@ -91,7 +91,24 @@ class Translation2
 
     /**
      * Constructor
+     */
+    function Translation2()
+    {
+        if (func_num_args()) {
+            $msg = '<b>Translation2 error:</b>'
+                  .' Don\'t use the constructor - use factory()';
+            trigger_error($msg, E_USER_ERROR);
+        }
+    }
+
+    // }}}
+    // {{{ factory()
+
+    /**
+     * Return a Translation2 instance already initialized
      *
+     * @access public
+     * @static
      * @param string $storageDriver Type of the storage driver
      * @param mixed  $options Additional options for the storage driver
      *                        (example: if you are using DB as the storage
@@ -99,21 +116,23 @@ class Translation2
      * @param array $params Array of parameters for the adapter class
      *                      (i.e. you can set here the mappings between your
      *                      table/field names and the ones used by this class)
+     * @return object Translation2 instance or PEAR_Error on failure
      */
-    function Translation2($storageDriver, $options='', $params=array())
+    function & factory($driver, $options='', $params=array())
     {
-        if (is_object($storageDriver)) {
-            $this->storage =& $storageDriver;
-        } else {
-            $this->storage = $this->_factory($storageDriver, $options);
+        $tr =& new Translation2;
+        $tr->storage = Translation2::_storageFactory($driver, $options);
+        if (PEAR::isError($tr->storage)) {
+            return $tr->storage;
         }
-        $this->_setDefaultOptions();
-        $this->_parseOptions($params);
-        $this->storage->_parseOptions($params);
+        $tr->_setDefaultOptions();
+        $tr->_parseOptions($params);
+        $tr->storage->_parseOptions($params);
+        return $tr;
     }
 
     // }}}
-    // {{{ _factory()
+    // {{{ _storageFactory()
 
     /**
      * Return a storage driver based on $driver and $options
@@ -124,12 +143,18 @@ class Translation2
      * @param  string $options Optional parameters for the storage class
      * @return object Object   Storage object
      */
-    function _factory($driver, $options='')
+    function & _storageFactory($driver, $options='')
     {
         $storage_path = 'Translation2/Container/'.strtolower($driver).'.php';
         $storage_class = 'Translation2_Container_'.strtolower($driver);
         require_once $storage_path;
-        return new $storage_class($options);
+        $storage =& new $storage_class;
+        $err = $storage->init($options);
+        if (PEAR::isError($err)) {
+            return $err;
+        }
+        return $storage;
+        
     }
 
     // }}}

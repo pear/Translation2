@@ -44,12 +44,42 @@ class Translation2_Admin extends Translation2
 
 
     // }}}
-    // {{{ _factory()
+    // {{{ factory()
+
+    /**
+     * Return a Translation2_Admin instance already initialized
+     *
+     * @access public
+     * @static
+     * @param string $storageDriver Type of the storage driver
+     * @param mixed  $options Additional options for the storage driver
+     *                        (example: if you are using DB as the storage
+     *                        driver, you have to pass the dsn string here)
+     * @param array $params Array of parameters for the adapter class
+     *                      (i.e. you can set here the mappings between your
+     *                      table/field names and the ones used by this class)
+     * @return object Translation2 instance or PEAR_Error on failure
+     */
+    function & factory($driver, $options='', $params=array())
+    {
+        $tr =& new Translation2_Admin;
+        $tr->storage = Translation2_Admin::_storageFactory($driver, $options);
+        if (PEAR::isError($tr->storage)) {
+            return $tr->storage;
+        }
+        $tr->_setDefaultOptions();
+        $tr->_parseOptions($params);
+        $tr->storage->_parseOptions($params);
+        return $tr;
+    }
+
+    // }}}
+    // {{{ _storageFactory()
 
     /**
      * Return a storage driver based on $driver and $options
      *
-     * Override Translation2::_factory()
+     * Override Translation2::_storageFactory()
      *
      * @access private
      * @static
@@ -57,12 +87,20 @@ class Translation2_Admin extends Translation2
      * @param  string $options Optional parameters for the storage class
      * @return object Object   Storage object
      */
-    function _factory($driver, $options='')
+    function & _storageFactory($driver, $options='')
     {
+        if (is_object($driver)) {
+            return $driver;
+        }
         $storage_path = 'Translation2/Admin/Container/'.strtolower($driver).'.php';
         $storage_class = 'Translation2_Admin_Container_'.strtolower($driver);
         require_once $storage_path;
-        return new $storage_class($options);
+        $storage =& new $storage_class;
+        $err = $storage->init($options);
+        if (PEAR::isError($err)) {
+            return $err;
+        }
+        return $storage;
     }
 
     // }}}

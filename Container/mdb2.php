@@ -57,20 +57,22 @@ class Translation2_Container_mdb2 extends Translation2_Container
     var $_queries = 0;
 
     // }}}
-    // {{{ Constructor
+    // {{{ init
 
     /**
-     * Constructor of the container class
-     *
-     * Initate connection to the database via PEAR::MDB2
+     * Initialize the container
      *
      * @param  string Connection data or MDB2 object
-     * @return object Returns an error object if something went wrong
+     * @return boolean|PEAR_Error object if something went wrong
      */
-    function Translation2_Container_mdb2($dsn)
+    function init($dsn)
     {
         $this->_setDefaultOptions();
         $this->options['dsn'] = $dsn;
+        if (PEAR::isError($err = $this->_connect($dsn))) {
+            return $err;
+        }
+        return true;
     }
 
     // }}}
