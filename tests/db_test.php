@@ -47,7 +47,7 @@ class TestOfContainerDB extends UnitTestCase {  //TestOfTranslation2 {
         ));
         $expected = 'ciao, &&user&&, oggi è il &&day&& &&month&& &&year&& (&&weekday&&)';
         $this->assertEqual($expected, $this->tr->getRaw('hello_user'));
-
+        
         $this->tr =& $this->tr->getDecorator('SpecialChars');
         $this->assertEqual('venerdì', $this->tr->getRaw('day_5', 'calendar', 'it'));
     }
@@ -193,6 +193,36 @@ class TestOfContainerDB extends UnitTestCase {  //TestOfTranslation2 {
             'prova_conflitto' => 'testo con conflitto - globale',
             'test'         => 'stringa di prova',
             'Entirely new string' => 'Entirely new string',
+        );
+        $this->assertEqual($expected, $this->tr->getPage());
+    }
+    function testErrorTextDecorator() {
+        $lang = 'it';
+        $this->tr->setLang($lang);
+        //without decorator
+        $this->assertEqual('', $this->tr->get('isempty'));
+        $expected = array(
+            'only_english' => null,
+            'only_italian' => 'testo solo in italiano',
+            'hello_user'   => 'ciao, &&user&&, oggi è il &&day&& &&month&& &&year&& (&&weekday&&)',
+            'isempty'      => null,
+            'prova_conflitto' => 'testo con conflitto - globale',
+            'test'         => 'stringa di prova',
+            'Entirely new string' => null,
+        );
+        $error_text = $this->tr->getLang($lang, 'error_text');
+        //with decorator
+        $this->tr =& $this->tr->getDecorator('ErrorText');
+        $this->assertEqual($error_text, $this->tr->get('isempty'));
+        $this->assertEqual($expected, $this->tr->getRawPage());
+        $expected = array(
+            'only_english' => $error_text,
+            'only_italian' => 'testo solo in italiano',
+            'hello_user'   => 'ciao, &&user&&, oggi è il &&day&& &&month&& &&year&& (&&weekday&&)',
+            'isempty'      => $error_text,
+            'prova_conflitto' => 'testo con conflitto - globale',
+            'test'         => 'stringa di prova',
+            'Entirely new string' => $error_text,
         );
         $this->assertEqual($expected, $this->tr->getPage());
     }

@@ -45,7 +45,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta6</version>
-    <date>2005-01-26/date>
+    <date>2005-01-30/date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
@@ -55,7 +55,8 @@ Currently, the following decorators are provided:
 - fixed bug #3149: XML container didn't properly handle redundant strings
 - added TRANSLATION2_DTD constant to the xml container (thanks to Olivier Guilyardi) 
 - added t2xmlchk.php script to check if a XML file is Translation2 compliant
-  (thanks to Olivier Guilyardi) 
+  (thanks to Olivier Guilyardi)
+- added ErrorText decorator
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -100,6 +101,7 @@ Currently, the following decorators are provided:
           <file name="CacheLiteFunction.php" />
           <file name="CacheMemory.php" />
           <file name="DefaultText.php" />
+          <file name="ErrorText.php" />
           <file name="Iconv.php" />
           <file name="Lang.php" />
           <file name="SpecialChars.php" />
@@ -154,7 +156,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta6</version>
-      <date>2005-01-26/date>
+      <date>2005-01-30/date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
@@ -165,6 +167,7 @@ Currently, the following decorators are provided:
 - added TRANSLATION2_DTD constant to the xml container (thanks to Olivier Guilyardi) 
 - added t2xmlchk.php script to check if a XML file is Translation2 compliant
   (thanks to Olivier Guilyardi) 
+- added ErrorText decorator
       </notes>
     </release>
     <release>
