@@ -314,7 +314,7 @@ class Translation2
             $pageID = $this->currentPageID;
         }
         if ($this->options['prefetch']) {
-            $this->getPage($pageID, $langID);
+            $this->getRawPage($pageID, $langID);
         }
         $pageID_key = empty($pageID) ? TRANSLATION2_EMPTY_PAGEID_KEY : $pageID;
         $langID_key = empty($langID) ? $this->lang['id'] : $langID;
@@ -354,7 +354,7 @@ class Translation2
     }
 
     // }}}
-    // {{{ getPage()
+    // {{{ getRawPage()
 
     /**
      * Get the array of strings in a page
@@ -366,8 +366,7 @@ class Translation2
      * @param string $langID
      * @return array
      */
-    //function getPage($pageID=null, $langID=null, $tryFallback=false, $defaultText='') <= WHAT ABOUT THIS?
-    function getPage($pageID=null, $langID=null)
+    function getRawPage($pageID=null, $langID=null)
     {
         if (is_null($pageID)) {
             $pageID = $this->currentPageID;
@@ -387,6 +386,28 @@ class Translation2
             $this->setLang($bkp_lang);
         }
         return $this->data[$langID_key][$pageID_key];
+    }
+
+    // }}}
+    // {{{ getPage()
+
+    /**
+     * Same as getRawPage, but resort to fallback language and
+     * replace parameters when needed
+     *
+     * @param string $pageID
+     * @param string $langID
+     * @return array
+     */
+    function getPage($pageID=null, $langID=null, $defaultText='')
+    {
+        $pageData = $this->getRawPage($pageID, $langID);
+        foreach ($pageData as $stringID => $string) {
+            if (empty($string) || strpos($string, $this->options['ParameterPrefix']) !== false) {
+                $pageData[$stringID] = $this->get($stringID, $pageID, $this->lang['id'], $defaultText);
+            }
+        }
+        return $pageData;
     }
 
     // }}}
