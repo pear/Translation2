@@ -3,8 +3,7 @@
   <name>Translation2</name>
   <summary>Class for multilingual applications management.</summary>
   <description>
-This class provides an easy way to retrieve all the strings for a multilingual
-site from a data source (i.e. db).
+This class provides an easy way to retrieve all the strings for a multilingual site from a data source (i.e. db).
 The following containers are provided, more will follow:
 - PEAR::DB
 - PEAR::MDB
@@ -18,6 +17,7 @@ Currently, the following decorators are provided:
 - CacheLiteFunction (for file-based caching)
 - CacheMemory (for memory-based caching)
 - DefaultText (to replace empty strings with their keys)
+- ErrorText (to replace empty strings with a custom error text)
 - Iconv (to switch from/to different encodings)
 - Lang (resort to fallback languages for empty strings)
 - SpecialChars (replace html entities with their hex codes)
