@@ -60,6 +60,9 @@ $params = array(
     //'prefetch' => false  //more queries, smaller result sets
                            //(use when db load is cheaper than network load)
 );
+
+$driver = 'MDB';
+
 /*
 $cache_options = array(
     'cacheDir' => 'cache/',

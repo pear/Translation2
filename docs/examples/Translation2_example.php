@@ -4,8 +4,9 @@
  * set parameters and options
  */
 require_once './settings.php';
+require_once 'Translation2/Translation2.php';
 
-$tr = new Translation2('MDB', $dbinfo, $params);
+$tr = new Translation2($driver, $dbinfo, $params);
 if (PEAR::isError($tr)) {
     debug($tr);
 }
@@ -13,11 +14,11 @@ if (PEAR::isError($tr)) {
 writeTitle('ITALIANO');
 $tr->setLang('it');
 $tr->setPageID();
-$tr = &new Translation2_Decorator_CacheMemory(&$tr);
+$tr =& $tr->getDecorator('CacheMemory');
 //$tr->prefetch = false;
-$tr = &new Translation2_Decorator_Lang(&$tr);
+$tr =& $tr->getDecorator('Lang');
 $tr->setDecoratedLang('en');
-$tr = &new Translation2_Decorator_Lang(&$tr);
+$tr =& $tr->getDecorator('Lang');
 $tr->setDecoratedLang('de');
 
 
@@ -25,7 +26,7 @@ $tr->setDecoratedLang('de');
 $str = <<<EOT
 // new Translation2 instance
 // (look at settings.php for an example of \$dbinfo and \$params)
-\$tr = new Translation2('MDB', \$dbinfo, \$params);
+\$tr = new Translation2("\$driver", \$dbinfo, \$params);
 
 // set Italian as default lang
 \$tr->setLang('it');
@@ -35,14 +36,14 @@ $str = <<<EOT
 
 // add a 'CacheMemory Decorator', i.e. add a memory-cache layer
 // to avoid multiple queries to the db
-\$tr = & new Translation2_Decorator_CacheMemory(&\$tr);
+\$tr = & \$tr->getDecorator('CacheMemory');
 
 // set an 'English Decorator', i.e. add English as a fallback language
-\$tr = &new Translation2_Decorator_Lang(&\$tr);
+\$tr = & \$tr->getDecorator('Lang');
 \$tr->setDecoratedLang('en');
 
 // add a 'German Decorator', i.e. add German as a third fallback language
-\$tr = &new Translation2_Decorator_Lang(&\$tr);
+\$tr = & \$tr->getDecorator('Lang');
 \$tr->setDecoratedLang('en');
 EOT;
 // ====================================================
@@ -94,19 +95,19 @@ unset($tr);
 //new example
 
 writeTitle('ENGLISH');
-$tr = new Translation2('MDB', $dbinfo, $params);
+$tr = new Translation2($driver, $dbinfo, $params);
 $tr->setLang('en');
 $tr->setPageID();
-$tr = &new Translation2_Decorator_CacheMemory(&$tr);
+$tr = & $tr->getDecorator('CacheMemory');
 //$tr->prefetch = false;
-$tr = &new Translation2_Decorator_Lang(&$tr);
+$tr = & $tr->getDecorator('Lang');
 $tr->setDecoratedLang('it');
 
 
 // =[DEBUG INFO]======================================
 $str = <<<EOT
 // new Translation2 instance
-\$tr = new Translation2('MDB', \$dbinfo, \$params);
+\$tr = new Translation2("\$driver", \$dbinfo, \$params);
 
 // set English as default lang
 \$tr->setLang('en');
@@ -116,10 +117,10 @@ $str = <<<EOT
 
 // add a 'CacheMemory Decorator', i.e. add a memory-cache layer
 // to avoid multiple queries to the db
-\$tr = & new Translation2_Decorator_CacheMemory(&\$tr);
+\$tr = & \$tr->getDecorator('CacheMemory');
 
 // set an 'Italian Decorator', i.e. add Italian as a fallback language
-\$tr = &new Translation2_Decorator_Lang(&\$tr);
+\$tr = & \$tr->getDecorator('Lang');
 \$tr->setDecoratedLang('it');
 EOT;
 // ====================================================
@@ -199,7 +200,7 @@ writeValue('[IT] hello, user', $tr->get('hello_user'));
 
 
 writeTitle('SPECIAL CHARS DECORATOR');
-$tr = &new Translation2_Decorator_SpecialChars(&$tr);
+$tr = & $tr->getDecorator('SpecialChars');
 
 // =[DEBUG INFO]======================================
 $str = <<<EOT
@@ -264,13 +265,14 @@ writeValue('[EN] (in page) string', $tr->get('prova_conflitto', 'in_page'));
 
 
 writeTitle('USE A DefaultText DECORATOR TO DEAL WITH EMPTY STRINGS');
-$tr = &new Translation2_Decorator_DefaultText(&$tr);
+$tr = & $tr->getDecorator('DefaultText');
 
 // =[DEBUG INFO]======================================
 $str = <<<EOT
-\$tr = &new Translation2_Decorator_DefaultText(&\$tr);
+\$tr = & \$tr->getDecorator('DefaultText');
 EOT;
 // ====================================================
+debug($str);
 
 debug('$tr->get(\'isempty\'); //get stringID when the string is empty');
 writeValue('[EN] empty string', $tr->get('isempty'));
