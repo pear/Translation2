@@ -138,9 +138,10 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      */
     function get($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
     {
-        if (is_null($pageID)) {
+        if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->translation2->currentPageID;
         }
+        $langID = empty($langID) ? $this->translation2->lang['id'] : $langID;
 
         $this->_prepare();
         global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
@@ -167,9 +168,11 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      */
     function getRawPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null)
     {
-        if (is_null($pageID)) {
+        if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->translation2->currentPageID;
         }
+        $langID = empty($langID) ? $this->translation2->lang['id'] : $langID;
+
         $this->_prepare();
         global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
         ${$this->tempVarName} = $this->translation2;
@@ -191,9 +194,11 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      */
     function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
     {
-        if (is_null($pageID)) {
+        if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->translation2->currentPageID;
         }
+        $langID = empty($langID) ? $this->translation2->lang['id'] : $langID;
+
         $this->_prepare();
         global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
         ${$this->tempVarName} = $this->translation2;
@@ -216,7 +221,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      */
     function translate($string, $langID, $pageID=TRANSLATION2_DEFAULT_PAGEID)
     {
-        if (is_null($pageID)) {
+        if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->translation2->currentPageID;
         }
         $this->_prepare();
