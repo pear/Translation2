@@ -46,41 +46,41 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
     var $cacheLiteFunction = null;
 
     /**
-	 * @var int (default 1)
-	 * @access private
-	 */
-	var $tempVarNameGenerator = 1;
+     * @var int (default 1)
+     * @access private
+     */
+    var $tempVarNameGenerator = 1;
 
-	/**
-	 * @var string
-	 * @access private
-	 */
-	var $tempVarName = null;
+    /**
+     * @var string
+     * @access private
+     */
+    var $tempVarName = null;
 
-	/**
-	 * Cache lifetime (in seconds)
+    /**
+     * Cache lifetime (in seconds)
      * @var int $lifeTime
-	 * @access private
-	 */
-	var $lifeTime = 3600;
+     * @access private
+     */
+    var $lifeTime = 3600;
 
-	/**
-	 * Directory where to put the cache files
+    /**
+     * Directory where to put the cache files
      * (make sure to add a trailing slash)
      * @var string $cacheDir
-	 * @access private
-	 */
-	var $cacheDir = '/tmp/';
+     * @access private
+     */
+    var $cacheDir = '/tmp/';
 
-	/**
-	 * Directory where to put the cache files
+    /**
+     * Directory where to put the cache files
      * (make sure to add a trailing slash)
      * @var string $cacheDir
-	 * @access private
-	 */
-	var $fileLocking = true;
+     * @access private
+     */
+    var $fileLocking = true;
 
-	/**
+    /**
      * Enable / disable caching
      * (can be very useful to debug cached scripts)
      * @var boolean $caching
@@ -111,12 +111,12 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
         if (is_null($this->tempVarName)) {
             $prefix = 'translation2_temp_';
             $var = $this->tempVarNameGenerator++;
-    		if ($var > 26) {
-    			$this->tempVarName = $prefix. chr(64 + $var % 26) . chr(64 + $var / 26);
-    		} else {
-    			$this->tempVarName = $prefix. chr(64 + $var);
-    		}
-    	}
+            if ($var > 26) {
+                $this->tempVarName = $prefix. chr(64 + $var % 26) . chr(64 + $var / 26);
+            } else {
+                $this->tempVarName = $prefix. chr(64 + $var);
+            }
+        }
     }
 
     // }}}
