@@ -98,7 +98,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
                              $this->options['string_id_col'],
                              $lang_col
         );
-        $queries[] = sprintf('CREATE UNIQUE INDEX %s_index ON %s (%s)',
+        $queries[] = sprintf('CREATE UNIQUE INDEX %s_%s_index ON %s (%s)',
                              $langData['table_name'],
                              $this->options['string_id_col'],
                              $langData['table_name'],
@@ -137,7 +137,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      *                              'table_name' => 'i18n',
      *                              'name'       => 'english',
      *                              'meta'       => 'some meta info',
-     *                              'error_text' => 'not available');
+     *                              'error_text' => 'not available',
+     *                              'encoding'   => 'iso-8859-1');
      * @return mixed true on success, PEAR_Error on failure
      */
     function addLangToAvailList($langData)
@@ -178,16 +179,18 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             }
         }
 
-        $query = sprintf('INSERT INTO %s (%s, %s, %s, %s) VALUES (%s, %s, %s, %s)',
+        $query = sprintf('INSERT INTO %s (%s, %s, %s, %s, %s) VALUES (%s, %s, %s, %s, %s)',
 	                $this->options['langs_avail_table'],
                     $this->options['lang_id_col'],
                     $this->options['lang_name_col'],
                     $this->options['lang_meta_col'],
                     $this->options['lang_errmsg_col'],
-                    $this->db->quote($langData['lang_id'], 'text'),
-                    $this->db->quote($langData['name'], 'text'),
-                    $this->db->quote($langData['meta'], 'text'),
-                    $this->db->quote($langData['error_text'], 'text')
+                    $this->options['lang_encoding_col'],
+                    $this->db->quote($langData['lang_id']),
+                    $this->db->quote($langData['name']),
+                    $this->db->quote($langData['meta']),
+                    $this->db->quote($langData['error_text']),
+                    $this->db->quote($langData['encoding'])
         );
 
         ++$this->_queries;
