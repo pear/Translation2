@@ -53,12 +53,6 @@ class Translation2_Container_gettext extends Translation2_Container
     var $_domains = array();
 
     /**
-     * @var string
-     * @access private
-     */
-    var $currentDomain = '';
-
-    /**
      * @var array
      * @access private
      */
@@ -68,7 +62,7 @@ class Translation2_Container_gettext extends Translation2_Container
      * @var boolean
      * @access private
      */
-    var $_extensionLoaded = false;
+    var $_native = false;
 
     // }}}
     // {{{ init
@@ -83,7 +77,7 @@ class Translation2_Container_gettext extends Translation2_Container
     {
         $this->_setDefaultOptions();
         $this->_parseOptions($options);
-        $this->_extensionLoaded = (
+        $this->_native = (
             function_exists('gettext') &&
             ($this->options['file_type'] != 'po')
         );
@@ -125,6 +119,7 @@ class Translation2_Container_gettext extends Translation2_Container
         $this->options['carriage_return']   = "\n";
         $this->options['file_type']         = 'mo';
         $this->options['default_lang']      = 'en';
+        $this->options['default_encoding']  = 'iso-8859-1';
     }
 
     // }}}
@@ -250,7 +245,8 @@ class Translation2_Container_gettext extends Translation2_Container
      */
     function getOne($stringID, $pageID = null, $langID = null)
     {
-        if ($this->_extensionLoaded) {
+        // native mode
+        if ($this->_native) {
             $oldLang = $this->_switchLang($langID);
 
             textdomain(isset($pageID) ? $pageID : $this->options['default_domain']);
@@ -260,10 +256,15 @@ class Translation2_Container_gettext extends Translation2_Container
             return $string;
         }
         
-        //gettext extension not loaded, use File_Gettext
+        // use File_Gettext
         $page = $this->getPage($pageID, $langID);
-        // return original string if no translation available
-        return isset($page[$stringID]) ? $page[$stringID] : $stringID;
+        
+        // return original string if there's no translation available
+        if (isset($page[$stringID]) && strlen($page[$stringID])) {
+            return $page[$stringID];
+        } else {
+            return $stringID;
+        }
     }
 
     // }}}
