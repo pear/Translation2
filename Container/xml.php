@@ -122,6 +122,7 @@ class Translation2_Container_xml extends Translation2_Container
 
         // unserialize data
         $this->_data = $unserializer->getUnserializedData();
+        $this->_fixDuplicateEntries();
 
         // Handle default language settings.
         // This allows, for example, to rapidly write the meta data as:
@@ -245,6 +246,40 @@ class Translation2_Container_xml extends Translation2_Container
             }
         }
         return true;
+    }
+
+    // }}}
+    // {{{ _fixDuplicateEntries()
+
+    /**
+     * Remove duplicate entries from the xml data
+     */
+    function _fixDuplicateEntries()
+    {
+        foreach($this->_data['pages'] as $pagename => $pagedata) {
+            foreach($pagedata as $stringname => $stringvalues) {
+                if (is_array(array_pop($stringvalues))) {
+                    $this->_data['pages'][$pagename][$stringname] =
+                        call_user_func_array(array($this, '_merge'), $stringvalues);
+                }
+            }
+        }
+    }
+
+    // }}}
+    // {{{ _merge()
+
+    /**
+     * Wrapper for array_merge()
+     * @param array reference
+     */
+    function _merge()
+    {
+        $return = array();
+        foreach (func_get_args() as $arg) {
+            $return = array_merge($return, $arg);
+        }
+        return $return;
     }
 
     // }}}
