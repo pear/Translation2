@@ -38,12 +38,11 @@ class Translation2_Decorator_UTF8 extends Translation2_Decorator
     /**
      * Get translated string
      *
-     * If the string is empty, check the fallback language; if
-     * the latter is empty too, then return the $defaultText.
+     * Decode the UTF-8 string to ISO-8859-1
      *
      * @param string $stringID
      * @param string $pageID
-    * @param string $langID
+     * @param string $langID
      * @param string $defaultText Text to display when the strings in both
      *                            the default and the fallback lang are empty
      * @return string
@@ -63,6 +62,8 @@ class Translation2_Decorator_UTF8 extends Translation2_Decorator
     /**
      * Same as getRawPage, but resort to fallback language and
      * replace parameters when needed
+     *
+     * Decode each UTF-8 string in the group to ISO-8859-1
      *
      * @param string $pageID
      * @param string $langID
