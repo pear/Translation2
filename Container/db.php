@@ -86,7 +86,7 @@ class Translation2_Container_db extends Translation2_Container
     {
         if (is_string($dsn) || is_array($dsn)) {
             $this->db =& DB::Connect($dsn);
-        } elseif (get_parent_class($dsn) == 'db_common') {
+        } elseif (is_a($dsn, 'DB_Common')) {
             $this->db = $dsn;
         } elseif (is_object($dsn) && DB::isError($dsn)) {
             return PEAR::raiseError($dsn->getMessage(), $dsn->code);
@@ -315,9 +315,10 @@ class Translation2_Container_db extends Translation2_Container
     /**
      * Get the stringID for the given string
      * @param string $stringID
+     * @param string $pageID
      * @return string
      */
-    function getStringID($string)
+    function getStringID($string, $pageID=null)
     {
         $lang_col = str_replace('%s', $this->currentLang['id'], $this->options['string_text_col']);
         if (empty($lang_col)) {
@@ -329,6 +330,13 @@ class Translation2_Container_db extends Translation2_Container
                          $lang_col,
                          $this->db->quote($string)
                          );
+        if (!empty($pageID)) {
+            $query .= ' AND '.$this->options['strings_tables'][$langID]. '.'
+                    . $this->options['string_page_id_col']. '='. $this->db->quote($pageID);
+        } elseif (!is_null($pageID)) {
+            $query .= ' AND '.$this->options['strings_tables'][$this->currentLang['id']]. '.'
+                    . $this->options['string_page_id_col']. ' IS NULL';
+        }
         return $this->query($query, 'getOne');
     }
 
