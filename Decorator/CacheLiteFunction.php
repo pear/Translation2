@@ -87,6 +87,14 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      */
     var $caching = true;
 
+    /**
+     * Frequency of cache cleaning. 
+     * Higher values mean lower cleaning probability.
+     * Set 0 to disable. Set 1 to clean at every request.
+     * @var boolean $caching
+     */
+    var $cleaningFrequency = 0;
+
     // }}}
     // {{{ _prepare()
 
@@ -108,6 +116,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
             $this->cacheLiteFunction = new Cache_Lite_Function($cache_options);
         }
 
+        $this->_cleanCache();
         //generate temp variable
         if (is_null($this->tempVarName)) {
             $prefix = 'translation2_temp_';
@@ -146,8 +155,6 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
         $this->_prepare();
         global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
         ${$this->tempVarName} = $this->translation2;
-
-        //echo '<pre>'; print_r(get_object_vars($this)); exit;
 
         return $this->cacheLiteFunction->call($this->tempVarName.'->get',
             $stringID, $pageID, $langID, $defaultText);
@@ -230,6 +237,21 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
 
         return $this->cacheLiteFunction->call($this->tempVarName.'->translate',
             $string, $langID, $pageID);
+    }
+
+    // }}}
+    // {{{ _cleanCache()
+
+    /**
+     * Statistically purge the cache
+     */
+    function _cleanCache()
+    {
+        if ($this->cleaningFrequency > 0) {
+            if (mt_rand(1, $this->cleaningFrequency) == 1) {
+            	$this->cacheLiteFunction->clean();
+            }
+        }
     }
 
     // }}}
