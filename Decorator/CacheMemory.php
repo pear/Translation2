@@ -81,6 +81,7 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
      *
      * @param mixed $pageID (string or null)
      * @return string
+     * @access private
      */
     function _getPageIDKey($pageID)
     {
@@ -112,7 +113,7 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
      *                            the default and the fallback lang are empty
      * @return string
      */
-    function get($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
+    function get($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText=null)
     {
         $pageID_key = $this->_getPageIDKey($pageID);
         $langID_key = empty($langID) ? $this->translation2->lang['id'] : $langID;
@@ -127,9 +128,9 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
         //$str = $defaultText;
         if (array_key_exists($pageID_key, $this->data[$langID_key])) {
             $str = (isset($this->data[$langID_key][$pageID_key][$stringID]) ?
-                    $this->data[$langID_key][$pageID_key][$stringID] : '');
+                    $this->data[$langID_key][$pageID_key][$stringID] : ''); //empty string or null value?
         } else {
-            $str = $this->translation2->get($stringID, $pageID, $langID);
+            $str = $this->translation2->get($stringID, $pageID, $langID, $defaultText);
         }
         return $this->_replaceParams($str);
     }
@@ -156,7 +157,7 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
             $this->rawData[$langID_key] = array();
         }
         if (!array_key_exists($pageID_key, $this->rawData[$langID_key])) {
-            $this->rawData[$langID_key][$pageID_key] =
+           $this->rawData[$langID_key][$pageID_key] =
                 $this->translation2->getRawPage($pageID, $langID);
         }
         return $this->rawData[$langID_key][$pageID_key];
@@ -166,14 +167,14 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
     // {{{ getPage()
 
     /**
-    * Same as getRawPage, but resort to fallback language and
+     * Same as getRawPage, but resort to fallback language and
      * replace parameters when needed
      *
      * @param string $pageID
      * @param string $langID
      * @return array
      */
-    function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
+    function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText=null)
     {
         $pageID_key = $this->_getPageIDKey($pageID);
         $langID_key = empty($langID) ? $this->translation2->lang['id'] : $langID;
