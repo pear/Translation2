@@ -53,13 +53,6 @@ class Translation2_Decorator
     var $lang;
 
     /**
-     * fallback lang
-     * @var string
-     * @access protected
-     */
-    var $fallbackLang;
-
-    /**
      * @var string
      * @access protected
      */
@@ -201,34 +194,6 @@ class Translation2_Decorator
     {
         $this->translation2->setParams($params);
     }
-
-    // }}}
-    // {{{ setDecoratedLang()
-
-    /**
-     * Set fallback lang
-     * @param string $langID
-     */
-    function setFallbackLang($langID)
-    {
-        if (isset($this->translation2->fallbackLang)) {
-            $this->translation2->fallbackLang = $langID;
-        }
-    }
-
-    // }}}
-    // {{{
-
-    /**
-     * Pass a Cache_Lite_Function object to the decorator
-     * @param object Cache_Lite_Function instance
-     */
-    /*
-    function setCacheLite(& $cacheLiteFunction)
-    {
-        $this->cacheLiteFunction = & $cacheLiteFunction;
-    }
-    */
 
     // }}}
     // {{{ get()
