@@ -45,10 +45,12 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta5</version>
-    <date>2004-12-05</date>
+    <date>2004-12-07</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
+- renamed createNewLang() to addLang()  [BC break!]
+- renamed addLangToAvailList() to addLangToList()
 - added Translation2_Admin::getPageNames()
 - added Translation2_Admin::updateLang()
 - fixed bug #2890: getLang() raised a NOTICE if setLang() was not called before
@@ -147,10 +149,12 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta5</version>
-      <date>2004-12-05</date>
+      <date>2004-12-07</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
+- renamed createNewLang() to addLang()  [BC break!]
+- renamed addLangToAvailList() to addLangToList()
 - added Translation2_Admin::getPageNames()
 - added Translation2_Admin::updateLang()
 - fixed bug #2890: getLang() raised a NOTICE if setLang() was not called before
