@@ -32,7 +32,7 @@ Currently, the following decorators are provided:
     <version>2.0.0beta1</version>
     <date>2004-05-05</date>
     <license>PHP License</license>
-    <state>alpha</state>
+    <state>beta</state>
     <notes>
 - BC break! Run the example to see what's new
 - refactoring in progress:
@@ -102,7 +102,7 @@ Currently, the following decorators are provided:
       <version>2.0.0beta1</version>
       <date>2004-05-05</date>
       <license>PHP License</license>
-      <state>alpha</state>
+      <state>beta</state>
       <notes>
 - BC break! Run the example to see what's new
 - refactoring in progress:
