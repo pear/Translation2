@@ -371,6 +371,9 @@ class Translation2
     {
         $pageID = ($pageID == TRANSLATION2_DEFAULT_PAGEID ? $this->currentPageID : $pageID);
         $str = $this->storage->getOne($stringID, $pageID, $langID);
+        if (PEAR::isError($str)) {
+            return $str;
+        }
         return $this->_replaceParams($str);
     }
 
