@@ -157,6 +157,12 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      */
     function add($stringID, $pageID, $stringArray)
     {
+        if (is_null($pageID)) {
+            //use the first domain
+            reset($this->_domains);
+            $pageID = key($this->_domains);
+        }
+
         $langs = array_keys($stringArray);
         $numLangs = count($langs);
         $availableLangs = $this->getLangs('ids');
@@ -214,6 +220,12 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      */
     function remove($stringID, $pageID)
     {
+        if (is_null($pageID)) {
+            //use the first domain
+            reset($this->_domains);
+            $pageID = key($this->_domains);
+        }
+
         $langs = $this->getLangs('ids');
         $tables = array();
 
