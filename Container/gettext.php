@@ -18,7 +18,14 @@
 //
 // $Id$
 //
+/**
+ * @package Translation2
+ * @version $Id$
+ */
 
+/**
+ * require Translation2_Container class
+ */
 require_once 'Translation2'.DIRECTORY_SEPARATOR.'Container.php';
 
 /**

@@ -18,7 +18,14 @@
 //
 // $Id$
 //
+/**
+ * @package Translation2
+ * @version $Id$
+ */
 
+/**
+ * require Translation2_Container_mdb2 class
+ */
 require_once 'Translation2'.DIRECTORY_SEPARATOR.'Container'.DIRECTORY_SEPARATOR.'mdb2.php';
 
 /**

@@ -18,6 +18,10 @@
 //
 // $Id$
 //
+/**
+ * @package Translation2
+ * @version $Id$
+ */
 
 /**
  * Storage class

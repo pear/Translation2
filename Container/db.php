@@ -18,7 +18,14 @@
 //
 // $Id$
 //
+/**
+ * @package Translation2
+ * @version $Id$
+ */
 
+/**
+ * require Translation2_Container class and PEAR::DB
+ */
 require_once 'Translation2'.DIRECTORY_SEPARATOR.'Container.php';
 require_once 'DB.php';
 

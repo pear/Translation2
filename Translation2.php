@@ -50,7 +50,7 @@ define('TRANSLATION2_ERROR_CANNOT_CREATE_DIR',    -7);
 
 /**
  * Translation2 class
- *
+ * @package Translation2
  */
 class Translation2
 {
