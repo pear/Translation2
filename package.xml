@@ -36,13 +36,13 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta3</version>
-    <date>2004-10-20</date>
+    <date>2004-10-28</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
 - welcome to the new developer, Ian Eure
 - the last release contained an old gettext driver (bug #2503) (ieure)
-- many portability fixes applied to the database containers (thanks to Ian Eure and 
+- many portability fixes applied to the database containers (thanks to Ian Eure and
   Xavier Lembo for their suggestions and patches)
 - minor changes to the table definitions for better portability (lowercase field names,
   VARCHAR instead of CHAR, bigger field size)
@@ -55,18 +55,22 @@ Currently, the following decorators are provided:
   (ieure)
 - Added update() method to Translation2_Admin. This is a BC break; you used to be able
   to update strings with add(). This is no longer possible, use update(). (ieure)
+- re-added a check in add() to see if an update() is needed instead of an insert
 - String ID columns are created as type TEXT to support gettext-style string IDs.
   (ieure)
 - reflect the changes made to the DB container into the MDB and MDB2 containers too,
   plus other minor fixes/optimizations.
 - strings_default_table may use %s to represent the language name. You may now have one
   table per language without having to explicitly specify them all. (ieure)
-- DefaultText decorator has new translate() method, which will return the string which
-  was requested to be translated if no suitable translation exists. This mirrors the
-  gettext() semantics. (ieure)
+- DefaultText decorator has new getStringID() method, which will return the string which
+  was requested if no stringID exists. This mirrors the gettext() semantics. (ieure)
 - Add Admin_Decorator class, which allows you to create Decorators for
   Translation2_Admin. (ieure)
 - New 'Autoadd' Admin Decorator, which automatically adds requested strings. (ieure)
+- removed translate(), added getStringID(). You can mimic the old behaviour in
+  two steps:
+  $stringID = $tr->getStringID('mystring', 'mypage');
+  $translatedString = $tr->get($stringID, 'mypage', $otherLangID);
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -125,7 +129,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta3</version>
-      <date>2004-10-20</date>
+      <date>2004-10-28</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
@@ -144,10 +148,22 @@ Currently, the following decorators are provided:
   (ieure)
 - Added update() method to Translation2_Admin. This is a BC break; you used to be able
   to update strings with add(). This is no longer possible, use update(). (ieure)
+- re-added a check in add() to see if an update() is needed instead of an insert
 - String ID columns are created as type TEXT to support gettext-style string IDs.
   (ieure)
 - reflect the changes made to the DB container into the MDB and MDB2 containers too,
   plus other minor fixes/optimizations.
+- strings_default_table may use %s to represent the language name. You may now have one
+  table per language without having to explicitly specify them all. (ieure)
+- DefaultText decorator has new getStringID() method, which will return the string which
+  was requested if no stringID exists. This mirrors the gettext() semantics. (ieure)
+- Add Admin_Decorator class, which allows you to create Decorators for
+  Translation2_Admin. (ieure)
+- New 'Autoadd' Admin Decorator, which automatically adds requested strings. (ieure)
+- removed translate(), added getStringID(). You can mimic the old behaviour in
+  two steps:
+  $stringID = $tr->getStringID('mystring', 'mypage');
+  $translatedString = $tr->get($stringID, 'mypage', $otherLangID);
       </notes>
     </release>
     <release>
