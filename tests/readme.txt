@@ -14,5 +14,5 @@ Setup:
    /tests/translation2_admin_include.php
 5) create a new database called 'translation2',
    and feed it with the /tests/tests.sql file.
-6) set your connection info in /tests/db_test.php
+6) set your connection info in /tests/dbms_test.php
 7) point your browser to http://localhost/path/to/tests/all_tests.php
