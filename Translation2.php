@@ -47,7 +47,7 @@ define('TRANSLATION2_ERROR_CANNOT_FIND_FILE',     -4);
 define('TRANSLATION2_ERROR_DOMAIN_NOT_SET',       -5);
 define('TRANSLATION2_ERROR_INVALID_PATH',         -6);
 define('TRANSLATION2_ERROR_CANNOT_CREATE_DIR',    -7);
-
+define('TRANSLATION_ERROR_UNKNOWN_LANG',          -8);
 /**
  * Translation2 class
  * @package Translation2
@@ -231,7 +231,11 @@ class Translation2
      */
     function setLang($langID)
     {
-        $this->lang = $this->storage->setLang($langID);
+        $res = $this->storage->setLang($langID);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
+        $this->lang = $res;
     }
 
     // }}}
