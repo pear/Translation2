@@ -173,9 +173,12 @@ class Translation2
     /**
      * Return an instance of a decorator
      *
+     * This method is used to get a decorator instance.
+     * A decorator can be seen as a filter, i.e. something that can change
+     * or handle the values of the objects/vars that pass through.
+     *
      * @access public
      * @param  string $decorator  Name of the decorator
-     * @param  object [optional]
      * @return object Decorator object reference
      */
     function & getDecorator($decorator)
@@ -196,7 +199,10 @@ class Translation2
 
     /**
      * Set default lang
-     * @param string $langID
+     *
+     * Set the language that shall be used when retrieving strings.
+     *
+     * @param string $langID language code (for instance, 'en' or 'it')
      */
     function setLang($langID)
     {
@@ -208,6 +214,10 @@ class Translation2
 
     /**
      * Set default page
+     *
+     * Set the page (aka "group of strings") that shall be used when retrieving strings.
+     * If you set it, you don't have to state it in each get() call.
+     *
      * @param string $langID
      */
     function setPageID($pageID=null)
@@ -220,6 +230,10 @@ class Translation2
 
     /**
      * get lang info
+     *
+     * Get some extra information about the language (its full name,
+     * the localized error text, ...)
+     *
      * @param string $langID
      * @param string $format ['name', 'meta', 'error_text', 'array']
      * @return mixed [string | array], depending on $format
@@ -246,6 +260,10 @@ class Translation2
 
     /**
      * get langs
+     *
+     * Get some extra information about the languages (their full names,
+     * the localized error text, their codes, ...)
+     *
      * @param string $format ['ids', 'names', 'array']
      * @return array
      */
@@ -259,6 +277,10 @@ class Translation2
 
     /**
      * Set parameters for next string
+     *
+     * Set the replacement for the parameters in the string(s).
+     * Paramter delimiters are customizable.
+     *
      * @param array $params
      */
     function setParams($params=null)
@@ -358,8 +380,8 @@ class Translation2
     /**
      * Get the array of strings in a page
      *
-     * First check if the strings are cached, if not => fetch the page
-     * from the container and cache it for later use.
+     * Fetch the page (aka "group of strings) from the container,
+     * without applying any formatting and without replacing the parameters
      *
      * @param string $pageID
      * @param string $langID
@@ -375,6 +397,8 @@ class Translation2
     // {{{ getPage()
 
     /**
+     * Get an entire group of strings
+     *
      * Same as getRawPage, but resort to fallback language and
      * replace parameters when needed
      *
@@ -393,6 +417,8 @@ class Translation2
 
     /**
      * Get translated string
+     *
+     * Search the translation for the string passed as parameter.
      *
      * @param string $string This is NOT the stringID, this is a real string.
      *               The method will search for its matching stringID, and then

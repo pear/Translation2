@@ -31,6 +31,9 @@ require_once 'Translation2.php';
 /**
  * Administration utilities for translation string management
  *
+ * Set of methods to easily add/remove languages and strings,
+ * with a common API for all the containers.
+ *
  * @package  Translation2
  * @version  $Revision$
  */
