@@ -39,6 +39,11 @@ Currently, the following decorators are provided:
   Xavier Lembo for their suggestions and patches)
 - minor changes to the table definitions for better portability (lowercase field names,
   VARCHAR instead of CHAR, bigger field size)
+- setLang() now returns an error if called with an unknown $langID (bug #2498).
+- added $cleaningFrequency option to the CacheLiteFunction to implement
+  statistic cache cleaning
+- added Translation2_Admin::cleanCache() method to clean the cache on demand.
+  It can be triggered automatically after a change if $options['autoCleanCache'] is TRUE.
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -102,6 +107,11 @@ Currently, the following decorators are provided:
   Xavier Lembo for their suggestions and patches)
 - minor changes to the table definitions for better portability (lowercase field names,
   VARCHAR instead of CHAR, bigger field size)
+- setLang() now returns an error if called with an unknown $langID (bug #2498).
+- added $cleaningFrequency option to the CacheLiteFunction to implement
+  statistic cache cleaning
+- added Translation2_Admin::cleanCache() method to clean the cache on demand.
+  It can be triggered automatically after a change if $options['autoCleanCache'] is TRUE.
       </notes>
     </release>
     <release>
