@@ -36,7 +36,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta3</version>
-    <date>2004-10-19</date>
+    <date>2004-10-20</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
@@ -57,16 +57,18 @@ Currently, the following decorators are provided:
   to update strings with add(). This is no longer possible, use update(). (ieure)
 - String ID columns are created as type TEXT to support gettext-style string IDs.
   (ieure)
+- reflect the changes made to the DB container into the MDB and MDB2 containers too,
+  plus other minor fixes/optimizations.
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
-   <dep type="pkg" rel="has" optional="yes">DB</dep>
-   <dep type="pkg" rel="has" optional="yes">DB_DataObject</dep>
-   <dep type="pkg" rel="has" optional="yes">MDB</dep>
+      <dep type="pkg" rel="has" optional="yes">DB</dep>
+      <dep type="pkg" rel="has" optional="yes">DB_DataObject</dep>
+      <dep type="pkg" rel="has" optional="yes">MDB</dep>
       <dep type="pkg" rel="has" optional="yes">MDB2</dep>
       <dep type="ext" rel="has" optional="yes">gettext</dep>
-   <dep type="pkg" rel="has" optional="yes">File_Gettext</dep>
-  </deps>
+      <dep type="pkg" rel="has" optional="yes">File_Gettext</dep>
+    </deps>
     <filelist>
       <file role="php" name="Translation2.php" />
       <dir name="/" baseinstalldir="Translation2">
@@ -111,7 +113,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta3</version>
-      <date>2004-10-19</date>
+      <date>2004-10-20</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
@@ -126,6 +128,14 @@ Currently, the following decorators are provided:
   statistic cache cleaning
 - added Translation2_Admin::cleanCache() method to clean the cache on demand.
   It is automatically triggered after a change if $options['autoCleanCache'] is TRUE.
+- Big cleanup of the DB and Admin_DB containers. See CVS changelog for details.
+  (ieure)
+- Added update() method to Translation2_Admin. This is a BC break; you used to be able
+  to update strings with add(). This is no longer possible, use update(). (ieure)
+- String ID columns are created as type TEXT to support gettext-style string IDs.
+  (ieure)
+- reflect the changes made to the DB container into the MDB and MDB2 containers too,
+  plus other minor fixes/optimizations.
       </notes>
     </release>
     <release>
