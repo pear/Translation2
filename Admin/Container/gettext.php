@@ -61,7 +61,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
         
         if (!is_dir($path)) {
             require_once 'System.php';
-            if (!System::mkdir(array('-p'. $path))) {
+            if (!System::mkdir(array('-p', $path))) {
                 return $this->raiseError(sprintf(
                         'Cannot create new language in path "%s"', $path
                     ),
@@ -95,13 +95,6 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
         if (isset($langs[$langData['lang_id']])) {
             return true;
         }
-        
-        $valid_keys = array(
-            'name',
-            'meta',
-            'error_text',
-            'windows'
-        );
         
         $lang = &$langs[$langData['lang_id']];
         
