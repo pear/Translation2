@@ -42,7 +42,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta3</version>
-    <date>2004-11-01</date>
+    <date>2004-11-02</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
@@ -82,6 +82,8 @@ Currently, the following decorators are provided:
 - the gettext container no longer require the gettext extension (thanks to Sergey Korotkov);
   it is used when loaded, though, since it's faster.
 - both .mo and .po files are valid data sources for the gettext container (Sergey Korotkov)
+- new Iconv decorator based on the one written by Sergey Korotkov
+- added a new "encoding" column to the langsAvail table
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -141,7 +143,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta3</version>
-      <date>2004-11-01</date>
+      <date>2004-11-02</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
@@ -181,6 +183,8 @@ Currently, the following decorators are provided:
 - the gettext container no longer require the gettext extension (thanks to Sergey Korotkov);
   it is used when loaded, though, since it's faster.
 - both .mo and .po files are valid data sources for the gettext container (Sergey Korotkov)
+- new Iconv decorator based on the one written by Sergey Korotkov
+- added a new "encoding" column to the langsAvail table
       </notes>
     </release>
     <release>
