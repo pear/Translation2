@@ -91,6 +91,8 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      */
     function addLangToAvailList($langData)
     {
+        static $fields = array('name', 'meta', 'error_text', 'encoding');
+        
         if (PEAR::isError($langs = $this->getLangs())) {
             return $langs;
         }
@@ -99,8 +101,8 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
         }
         
         $lang = &$langs[$langData['lang_id']];
-        
-        foreach (array('name', 'meta', 'error_text', 'windows') as $k) {
+
+        foreach ($fields as $k) {
             $lang[$k] = isset($langData[$k]) ? $langData[$k] : '';
         }
         
@@ -117,7 +119,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
         $CRLF = $this->options['carriage_return'];
         foreach ($langs as $id => $data) {
             fwrite($f, '['. $id .']'. $CRLF);
-            foreach (array('name', 'meta', 'error_text', 'windows') as $k) {
+            foreach ($fields as $k) {
                 if (isset($data[$k])) {
                     fwrite($f, $k .'='. $data[$k] . $CRLF);
                 }
