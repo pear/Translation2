@@ -271,19 +271,24 @@ class Translation2
      */
     function getLang($langID=null, $format='name')
     {
-        if (is_null($langID) || ($langID == $this->lang['id'])) {
+        if (is_null($langID)
+            || !isset($this->lang['id'])
+            || ($langID == $this->lang['id'])
+        ) {
             $lang = $this->lang;
         } else {
             $lang = $this->storage->getLangData($langID);
         }
-
         if ($format == 'array') {
             return $lang;
         } elseif (isset($lang[$format])) {
             return $lang[$format];
-        } else {
+        } elseif (isset($lang['name'])) {
             return $lang['name'];
         }
+        $msg = 'Translation2::getLang(): unknown language "'.$langID.'".'
+              .' Use Translation2::setLang() to set a default language.';
+        return $this->storage->raiseError($msg, TRANSLATION2_ERROR_UNKNOWN_LANG);
     }
 
     // }}}
