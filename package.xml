@@ -13,6 +13,12 @@ The following containers are provided, more will follow:
 - PEAR::DB_DataObject (experimental)
 It is designed to reduce the number of queries to the db, caching the results when possible.
 An Admin class is provided to easily manage translations (add/remove a language, add/remove a string).
+Currently, the following decorators are provided:
+- CacheLiteFunction (for file-based caching)
+- CacheMemory (for memory-based caching)
+- DefaultText (to replace empty strings with their keys)
+- Lang (resort to fallback languages for empty strings)
+- SpecialChars (replace html entities with their hex codes)
 </description>
   <maintainers>
     <maintainer>
@@ -24,7 +30,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
   </maintainers>
   <release>
     <version>2.0.0alpha3</version>
-    <date>2004-04-15</date>
+    <date>2004-04-26</date>
     <license>PHP License</license>
     <state>alpha</state>
     <notes>
@@ -42,6 +48,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
 - added a DB_DataObject container (by Alan Knowles)
     </notes>
     <deps>
+      <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
       <dep type="pkg" rel="has" optional="yes">DB</dep>
       <dep type="pkg" rel="has" optional="yes">DB_DataObject</dep>
       <dep type="pkg" rel="has" optional="yes">MDB</dep>
@@ -72,9 +79,10 @@ An Admin class is provided to easily manage translations (add/remove a language,
           <file name="mdb2.php" />
         </dir>
         <dir name="Decorator" role="php">
+          <file name="CacheLiteFunction.php" />
           <file name="CacheMemory.php" />
           <file name="DefaultText.php" />
-          <file name="Lang.php" />
+         <file name="Lang.php" />
           <file name="SpecialChars.php" />
         </dir>
         <dir name="docs" role="doc">
@@ -91,7 +99,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
   <changelog>
     <release>
       <version>2.0.0alpha3</version>
-      <date>2004-04-15</date>
+      <date>2004-04-26</date>
       <license>PHP License</license>
       <state>alpha</state>
       <notes>
