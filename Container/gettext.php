@@ -72,7 +72,7 @@ class Translation2_Container_gettext extends Translation2_Container
     function Translation2_Container_gettext($options)
     {
         $this->_setDefaults();
-        //$this->_parseOptions($options);
+        $this->_parseOptions($options);
 
         $this->_domains = @parse_ini_file($this->options['domains_path_file']);
         if ($this->_domains === false) {
@@ -102,6 +102,7 @@ class Translation2_Container_gettext extends Translation2_Container
         $this->options['langs_avail_file']  = 'langs.ini';
         $this->options['domains_path_file'] = 'domains.ini';
         $this->options['default_domain']    = 'messages';
+        $this->options['carriage_return']   = "\n";
         //$this->options['path_to_locale']  = './';
     }
 
@@ -197,7 +198,8 @@ class Translation2_Container_gettext extends Translation2_Container
             return $this->cachedDomains[$this->currentLang['id']][$pageID];
         }
 
-        require_once 'Translation2'.DIRECTORY_SEPARATOR.'Utils.php';
+        require_once 'File'.DIRECTORY_SEPARATOR.'Gettext'.DIRECTORY_SEPARATOR.'MO.php';
+
         if (is_null($pageID)) {
             $pageID = $this->options['default_domain'];
         }
@@ -211,16 +213,21 @@ class Translation2_Container_gettext extends Translation2_Container
         $domainPath = $this->_domains[$pageID]
                     . DIRECTORY_SEPARATOR.$this->currentLang['id']
                     . DIRECTORY_SEPARATOR.'LC_MESSAGES';
-        $file = $domainPath.DIRECTORY_SEPARATOR.$pageID.'.po';
-        if (!file_exists($file)) {
+        $filename = $domainPath.DIRECTORY_SEPARATOR.$pageID.'.mo';
+        if (!file_exists($filename)) {
             return $this->raiseError(
-                'cannot find file '.$file .' ['.__FILE__.' on line '.__LINE__.']',
+                'cannot find file '.$filename .' ['.__FILE__.' on line '.__LINE__.']',
                 TRANSLATION2_ERROR_CANNOT_FIND_FILE
             );
         }
 
-        $this->cachedDomains[$this->currentLang['id']][$pageID] =
-                    Translation2_Utils::po_parser($domainPath, $pageID);
+        $moFile = new File_Gettext_MO;
+        $err = $moFile->load($filename);
+        if (PEAR::isError($err)) {
+            return $err;
+        }
+        $contents = $moFile->toArray();
+        $this->cachedDomains[$this->currentLang['id']][$pageID] = $contents['strings'];
         $langID = $this->switchLang($oldLang);
         return $this->cachedDomains[$langID][$pageID];
     }
