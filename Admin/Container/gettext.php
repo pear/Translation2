@@ -38,7 +38,6 @@ require_once 'Translation2/Container/gettext.php';
  */
 class Translation2_Admin_Container_gettext extends Translation2_Container_gettext
 {
-
     // {{{ class vars
 
     var $_bulk = false;
@@ -85,8 +84,9 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      * @param array $langData array('lang_id'    => 'en',
      *                              'name'       => 'english',
      *                              'meta'       => 'some meta info',
-     *                              'windows'    => 'enu',
-     *                              'error_text' => 'not available');
+     *                              'error_text' => 'not available'
+     *                              'encoding'   => 'iso-8859-1',
+     * );
      * @return mixed true on success, PEAR_Error on failure
      */
     function addLangToAvailList($langData)
@@ -114,14 +114,15 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
                 TRANSLATION2_ERROR_CANNOT_WRITE_FILE
             );
         }
+        $CRLF = $this->options['carriage_return'];
+
         @flock($f, LOCK_EX);
         
-        $CRLF = $this->options['carriage_return'];
         foreach ($langs as $id => $data) {
             fwrite($f, '['. $id .']'. $CRLF);
             foreach ($fields as $k) {
                 if (isset($data[$k])) {
-                    fwrite($f, $k .'='. $data[$k] . $CRLF);
+                    fwrite($f, $k . ' = ' . $data[$k] . $CRLF);
                 }
             }
             fwrite($f, $CRLF);
@@ -195,7 +196,8 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
             $this->_queue['remove'][$pageID][$stringID] = true;
             return true;
         } else {
-            return $this->_remove(array($pageID => array($stringID => true)));
+            $tmp = array($pageID => array($stringID => true));
+            return $this->_remove($tmp);
         }
         
     }
@@ -218,7 +220,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      */
     function update($stringID, $pageID, $strings)
     {
-        return $this->add($stingID, $pageID, $strings);
+        return $this->add($stringID, $pageID, $strings);
     }
     
     // }}}
@@ -306,12 +308,20 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
         $langs  = $this->getLangs('array');
         
         foreach ((array) $bulk as $pageID => $languages) {
-            
-            $path = $this->_domains[$pageID] .'/';
+            //create the new domain on demand
+            if (!isset($this->_domains[$pageID])) {
+                if (PEAR::isError($e = $this->_addDomain($pageID))) {
+                    return $e;
+                }
+            }
+            $path = $this->_domains[$pageID];
+            if ($path[strlen($path)-1] != '/' && $path[strlen($path)-1] != '\\') {
+                $path .= '/';
+            }
             $file = '/LC_MESSAGES/'. $pageID .'.'. $this->options['file_type'];
             
             foreach ($languages as $lang => $strings) {
-
+            
                 if (is_file($path . $lang . $file)) {
                     if (PEAR::isError($e = $gtFile->load($path . $lang . $file))) {
                         return $e;
@@ -334,6 +344,9 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
                 if (PEAR::isError($e = $gtFile->save($path . $lang . $file))) {
                     return $e;
                 }
+                
+                //refresh cache
+                $this->cachedDomains[$lang][$pageID] = $gtFile->strings;
             }
         }
         
@@ -380,6 +393,9 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
                         return $e;
                     }
                 }
+                
+                //refresh cache
+                $this->cachedDomains[$lang][$pageID] = $gtFile->strings;
             }
         }
         
@@ -388,6 +404,40 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     }
     
     // }}}
+    // {{{ _addDomain()
     
+    /**
+     * Add the path-to-the-new-domain to the domains-path-INI-file
+     *
+     * @access  private
+     * @param $pageID string domain name
+     * @return  true|PEAR_Error
+     */
+    function _addDomain($pageID)
+    {
+        $domain_path = count($this->_domains) ? reset($this->_domains) : 'locale/';
+        
+        if (!is_resource($f = fopen($this->options['domains_path_file'], 'a'))) {
+            return $this->raiseError(sprintf(
+                    'Cannot write to domains path INI file "%s"',
+                    $this->options['domains_path_file']
+                ),
+                TRANSLATION2_ERROR_CANNOT_WRITE_FILE
+            );
+        }
+        
+        $CRLF = $this->options['carriage_return'];
+        
+        @flock($f, LOCK_EX);
+        fwrite($f, $CRLF . $pageID . ' = ' . $domain_path . $CRLF);
+        @flock($f, LOCK_UN);
+        fclose($f);
+
+        $this->_domains[$pageID] = $domain_path;
+
+        return true;
+    }
+    
+    // }}}
 }
 ?>
