@@ -106,6 +106,23 @@ class Translation2_Container_gettext extends Translation2_Container
     }
 
     // }}}
+    // {{{ switchLang()
+
+    /**
+     * @param string new langID
+     * @return string previous lang
+     */
+    function switchLang($langID)
+    {
+        if (is_null($langID) || ($langID == $this->currentLang['id'])) {
+            return $this->currentLang['id'];
+        }
+        $oldLang = $this->currentLang['id'];
+        $this->setLang($langID);
+        return $oldLang;
+    }
+
+    // }}}
     // {{{ fetchLangs()
 
     /**
@@ -132,6 +149,7 @@ class Translation2_Container_gettext extends Translation2_Container
      * Sets the current lang
      *
      * @param  string $langID
+     * @return array Lang data
      */
     function setLang($langID)
     {
@@ -172,6 +190,7 @@ class Translation2_Container_gettext extends Translation2_Container
      */
     function getPage($pageID=null, $langID=null)
     {
+        $oldLang = $this->switchLang($langID);
         if (array_key_exists($this->currentLang['id'], $this->cachedDomains) &&
             array_key_exists($pageID, $this->cachedDomains[$this->currentLang['id']])
         ) {
@@ -192,16 +211,18 @@ class Translation2_Container_gettext extends Translation2_Container
         $domainPath = $this->_domains[$pageID]
                     . DIRECTORY_SEPARATOR.$this->currentLang['id']
                     . DIRECTORY_SEPARATOR.'LC_MESSAGES';
-        if (!file_exists($domainPath.DIRECTORY_SEPARATOR.$pageID.'.po')) {
+        $file = $domainPath.DIRECTORY_SEPARATOR.$pageID.'.po';
+        if (!file_exists($file)) {
             return $this->raiseError(
-                'cannot find file '.$domainPath.DIRECTORY_SEPARATOR.$pageID.'.po'
-                .' in '.__FILE__.' on line '.__LINE__,
+                'cannot find file '.$file .' ['.__FILE__.' on line '.__LINE__.']',
                 TRANSLATION2_ERROR_CANNOT_FIND_FILE
             );
         }
+
         $this->cachedDomains[$this->currentLang['id']][$pageID] =
                     Translation2_Utils::po_parser($domainPath, $pageID);
-        return $this->cachedDomains[$this->currentLang['id']][$pageID];
+        $langID = $this->switchLang($oldLang);
+        return $this->cachedDomains[$langID][$pageID];
     }
 
     // }}}
@@ -216,12 +237,7 @@ class Translation2_Container_gettext extends Translation2_Container
      */
     function getOne($stringID, $pageID=null, $langID=null)
     {
-        $langChanged = false;
-        if (!is_null($langID) && ($langID != $this->currentLang['id'])) {
-            $bkpLang = $this->currentLang['id'];
-            $langChanged = true;
-            $this->setLang($langID);
-        }
+        $oldLang = $this->switchLang($langID);
 
         if (is_null($pageID)) {
             textdomain($this->options['default_domain']);
@@ -231,10 +247,7 @@ class Translation2_Container_gettext extends Translation2_Container
 
         $string = gettext($stringID);
 
-        if ($langChanged) {
-            $this->setLang($bkpLang);
-        }
-
+        $this->switchLang($oldLang);
         return $string;
     }
 
