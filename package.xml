@@ -44,11 +44,13 @@ An Admin class is provided to easily manage translations (add/remove a language,
         <file role="php" name="Translation2.php" />
         <file role="php" name="Container.php" />
         <file role="php" name="Decorator.php" />
-        <file role="php" name="Utils.php" />
         <dir name="Admin" role="php">
           <file role="php" name="Admin.php" />
-          <file role="php" name="Container/db.php" />
-          <file role="php" name="Container/mdb.php" />
+          <dir name="Container" role="php">
+            <file name="db.php" />
+            <file name="gettext.php" />
+            <file name="mdb.php" />
+          </dir>
         </dir>
         <dir name="Container" role="php">
           <file name="db.php" />
