@@ -49,7 +49,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
     /**
      * Fetch the table names from the db
      * @access private
-     * @return mixed array on success, PEAR_Error on failure
+     * @return array|PEAR_Error
      */
     function _fetchTableNames()
     {
@@ -66,7 +66,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      * hold strings in this lang too.
      *
      * @param array $langData
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function addLang($langData)
     {
@@ -139,7 +139,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      *                              'meta'       => 'some meta info',
      *                              'error_text' => 'not available',
      *                              'encoding'   => 'iso-8859-1');
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function addLangToList($langData)
     {
@@ -210,7 +210,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      *
      * @param string  $langID
      * @param boolean $force
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function removeLang($langID, $force)
     {
@@ -250,7 +250,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      * Update the lang info in the langsAvail table
      *
      * @param array  $langData
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function updateLang($langData)
     {
@@ -292,7 +292,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      * @param string $pageID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function add($stringID, $pageID, $stringArray)
     {
@@ -310,37 +310,18 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         // table lines, so we can keep DB traffic to a minimum.
 
         $unquoted_stringID = $stringID;
-        $unquoted_pageID = $pageID;
+        $unquoted_pageID   = $pageID;
         $stringID = $this->db->quote($stringID, 'text');
-        $pageID = is_null($pageID) ? 'NULL' : $this->db->quote($pageID, 'text');
+        $pageID   = is_null($pageID) ? 'NULL' : $this->db->quote($pageID, 'text');
         // Loop over the tables we need to insert into.
         foreach ($this->_tableLangs($langs) as $table => $tableLangs) {
-            //before INSERTing a new record, check if it exists already.
             $exists = $this->_recordExists($unquoted_stringID, $unquoted_pageID, $table);
             if (PEAR::isError($exists)) {
                 return $exists;
             }
-            if ($exists) {
-                $this->update($unquoted_stringID, $unquoted_pageID,
-                    $this->_filterStringsByTable($stringArray, $table));
-                continue;
-            }
-
-            $tableCols = $this->_getLangCols($tableLangs);
-            $langData = array();
-            foreach ($tableLangs as $lang) {
-                $langData[$lang] =& $this->db->quote($stringArray[$lang], 'text');
-            }
-
-            $query = sprintf('INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s)',
-                             $table,
-                             $this->options['string_id_col'],
-                             $this->options['string_page_id_col'],
-                             implode(', ', $tableCols),
-                             $stringID,
-                             $pageID,
-                             implode(', ', $langData)
-            );
+            $func  = $exists ? '_getUpdateQuery' : '_getInsertQuery';
+            $query = $this->$func($table, $tableLangs, $stringID, $pageID, $stringArray);
+            
             ++$this->_queries;
             $res = $this->db->query($query);
             if (PEAR::isError($res)) {
@@ -361,46 +342,67 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      * @param string $pageID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function update($stringID, $pageID, $stringArray)
     {
-        $langs = array_intersect(
-            array_keys($stringArray),
-            $this->getLangs('ids')
+        return $this->add($stringID, $pageID, $stringArray);
+    }
+
+    // }}}
+    // {{{ _getInsertQuery()
+
+    /**
+     * Build a SQL query to INSERT a record
+     *
+     * @access private
+     * @return string
+     */
+    function _getInsertQuery($table, &$tableLangs, $stringID, $pageID, &$stringArray)
+    {
+        $tableCols = $this->_getLangCols($tableLangs);
+        $langData = array();
+        foreach ($tableLangs as $lang) {
+            $langData[$lang] =& $this->db->quote($stringArray[$lang], 'text');
+        }
+
+        return sprintf('INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s)',
+            $table,
+            $this->options['string_id_col'],
+            $this->options['string_page_id_col'],
+            implode(', ', $tableCols),
+            $stringID,
+            $pageID,
+            implode(', ', $langData)
         );
+    }
 
-        if (!count($langs)) {
-            //return error: no valid lang provided
-            return true;
+    // }}}
+    // {{{ _getUpdateQuery()
+
+    /**
+     * Build a SQL query to UPDATE a record
+     *
+     * @access private
+     * @return string
+     */
+    function _getUpdateQuery($table, &$tableLangs, $stringID, $pageID, &$stringArray)
+    {
+        $tableCols = $this->_getLangCols($tableLangs);
+        $langSet = array();
+        foreach ($tableLangs as $lang) {
+            $langSet[] = $tableCols[$lang] . ' = ' .
+                         $this->db->quote($stringArray[$lang], 'text');
         }
 
-        $stringID = $this->db->quote($stringID, 'text');
-        $pageID = is_null($pageID) ? ' IS NULL' : ' = ' . $this->db->quote($pageID, 'text');
-        foreach ($this->_tableLangs($langs) as $table => $tableLangs) {
-            $tableCols = $this->_getLangCols($tableLangs);
-
-            $langSet = array();
-            foreach ($tableLangs as $lang) {
-                $langSet[] = $tableCols[$lang] . ' = ' .
-                             $this->db->quote($stringArray[$lang], 'text');
-            }
-
-            $query = sprintf('UPDATE %s SET %s WHERE %s = %s AND %s %s',
-                             $table,
-                             implode(', ', $langSet),
-                             $this->options['string_id_col'],
-                             $stringID,
-                             $this->options['string_page_id_col'],
-                             $pageID
-            );
-            ++$this->_queries;
-            $res = $this->db->query($query);
-            if (PEAR::isError($res)) {
-                return $res;
-            }
-        }
-        return true;
+        return sprintf('UPDATE %s SET %s WHERE %s = %s AND %s = %s',
+            $table,
+            implode(', ', $langSet),
+            $this->options['string_id_col'],
+            $stringID,
+            $this->options['string_page_id_col'],
+            $pageID
+        );
     }
 
     // }}}
@@ -546,7 +548,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
     }
 
     // }}}
-    // {{{ _recordExists)()
+    // {{{ _recordExists()
 
     /**
      * Check if there's already a record in the table with the
