@@ -35,7 +35,7 @@ $gettext_options = array(
     'default_domain' => 'messages'
 );
 
-$tr = new Translation2('gettext', null, $params);
+$tr =& Translation2::factory('gettext', null, $params);
 $tr->setLang('en');
 
 echo $tr->get('mystring');
