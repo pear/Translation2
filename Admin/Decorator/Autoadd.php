@@ -30,10 +30,11 @@ require_once 'Translation2/Admin/Decorator.php';
  * Example:
  *
  * $tr =& Translation2_Admin::factory(...);
+ * $tr->setLang('en');
  * $tr =& $tr->getAdminDecorator('Autoadd');
  * $tr->setOption('autoaddlang', 'en');
  * ...
- * $tr->translate('Entirely new string', 'de');
+ * $tr->get('Entirely new string', 'samplePage', 'de');
  *
  * 'Entirely new string' will be added to the English language table.
  *
@@ -52,24 +53,19 @@ class Translation2_Admin_Decorator_Autoadd extends Translation2_Admin_Decorator 
     var $autoaddlang = '';
 
     /**
-     * Translate a string
+     * Get a translated string
      *
-     * @todo  Return $this->translation2->translate(...) instead of the raw
-     *        string. Unfortunately, we have to be at the bottom of the
-     *        decorator stack (admin methods aren't proxied by regular
-     *        decorators), so we don't get the benefit of Lang / DefaultText
-     *        decorators, and return an empty string.
-     * @see   Translation2::translate()
+     * @see   Translation2::get()
      */
-    function translate($string, $lang = null, $page = TRANSLATION2_DEFAULT_PAGEID)
+    function get($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)
     {
-        $page = ($page == TRANSLATION2_DEFAULT_PAGEID ? $this->translation2->currentPageID : $page);
-        $stringID = $this->translation2->storage->getStringID($string, $page);
-        if (PEAR::isError($stringID) || empty($stringID) && 
+        $pageID = ($pageID == TRANSLATION2_DEFAULT_PAGEID ? $this->translation2->currentPageID : $pageID);
+        $string = $this->translation2->get($stringID, $pageID, $langID);
+        if (PEAR::isError($string) || empty($string) &&
             !empty($this->autoaddlang)) {
-            // Add the string.
-            $this->translation2->add($string, $page, array(
-                $this->autoaddlang => $string
+            // Add the string
+            $this->translation2->add($stringID, $pageID, array(
+                $this->autoaddlang => $stringID
             ));
         }
         return $string;
