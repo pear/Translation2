@@ -82,8 +82,9 @@ Currently, the following decorators are provided:
           <file name="CacheLiteFunction.php" />
           <file name="CacheMemory.php" />
           <file name="DefaultText.php" />
-         <file name="Lang.php" />
+          <file name="Lang.php" />
           <file name="SpecialChars.php" />
+          <file name="UTF8.php" />
         </dir>
         <dir name="docs" role="doc">
           <file name="gettext_readme.txt" />
