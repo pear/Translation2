@@ -86,7 +86,8 @@ class Translation2_Container_gettext extends Translation2_Container
         $this->_parseOptions($options);
         $this->_native = (
             function_exists('gettext') &&
-            ($this->options['file_type'] != 'po')
+            ($this->options['file_type'] != 'po') &&
+            !$this->options['blank_on_missing']
         );
         
         $this->_domains = @parse_ini_file($this->options['domains_path_file']);
@@ -127,6 +128,7 @@ class Translation2_Container_gettext extends Translation2_Container
         $this->options['file_type']         = 'mo';
         $this->options['default_lang']      = 'en';
         $this->options['default_encoding']  = 'iso-8859-1';
+        $this->options['blank_on_missing']  = false;
     }
 
     // }}}
@@ -197,10 +199,12 @@ class Translation2_Container_gettext extends Translation2_Container
         }
         
         if (isset($this->cachedDomains[$curLang][$pageID])) {
+            $this->_switchLang($oldLang);
             return $this->cachedDomains[$curLang][$pageID];
         }
         
         if (!isset($this->_domains[$pageID])) {
+            $this->_switchLang($oldLang);
             return $this->raiseError(sprintf(
                     'The domain "%s" was not specified in the domains INI '.
                     'file "%s" [%s on line %d]', $pageID,
@@ -218,12 +222,14 @@ class Translation2_Container_gettext extends Translation2_Container
 
         if (PEAR::isError($e = $gtFile->load($file))) {
             if (is_file($file)) {
+                $this->_switchLang($oldLang);
                 return $this->raiseError(sprintf(
                         '%s [%s on line %d]', $e->getMessage(), __FILE__, __LINE__
                     ),
                     TRANSLATION2_ERROR
                 );
             }
+            $this->_switchLang($oldLang);
             return $this->raiseError(sprintf(
                     'Cannot find file "%s" [%s on line %d]',
                     $file, __FILE__, __LINE__
@@ -271,8 +277,10 @@ class Translation2_Container_gettext extends Translation2_Container
         // return original string if there's no translation available
         if (isset($page[$stringID]) && strlen($page[$stringID])) {
             return $page[$stringID];
-        } else {
+        } else if (false == $this->options['blank_on_missing']) {
             return $stringID;
+        } else {
+            return '';
         }
     }
 
