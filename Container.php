@@ -94,6 +94,12 @@ class Translation2_Container
     function setLang($langID)
     {
         $this->getLangs(); //load available languages, if not loaded yet (ignore return value)
+        if (!array_key_exists($langID, $this->langs)) {
+            return $this->raiseError('unknown language: "'.$langID.'"',
+                                    TRANSLATION_ERROR_UNKNOWN_LANG,
+                                    PEAR_ERROR_RETURN,
+                                    E_USER_WARNING);
+        }
         $this->currentLang = $this->langs[$langID];
         return $this->langs[$langID];
     }
@@ -227,10 +233,14 @@ class Translation2_Container
      * @param int $code error code
      * @access public
      */
-    function raiseError($msg, $code, $mode=PEAR_ERROR_TRIGGER)
+    function raiseError($msg, $code, $mode=PEAR_ERROR_TRIGGER, $option=E_USER_WARNING)
     {
         //PEAR::raiseError($msg, $code, $this->_pearErrorMode);
-        PEAR::raiseError($msg, $code, $mode);
+        if ($mode == PEAR_ERROR_RETURN) {
+            return PEAR::raiseError($msg, $code, $mode, $option);
+        } else {
+            PEAR::raiseError($msg, $code, $mode, $option);
+        }
     }
 
     // }}}
