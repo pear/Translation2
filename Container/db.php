@@ -225,29 +225,34 @@ class Translation2_Container_db extends Translation2_Container
      * NB: table names will be customizable via an option...
      *
      * @param string $pageID
+     * @param string $langID
      * @return array
      */
-    function getPage($pageID=null)
+    function getPage($pageID=null, $langID=null)
     {
-        $lang_col = str_replace('%s', $this->currentLang['id'], $this->options['string_text_col']);
+        if (is_null($langID)) {
+            $langID = $this->currentLang['id'];
+        }
+        $lang_col = str_replace('%s', $langID, $this->options['string_text_col']);
         if (empty($lang_col)) {
-            $lang_col = $this->currentLang['id'];
+            $lang_col = $langID;
         }
         $query = sprintf('SELECT %s, %s FROM %s',
                          $this->options['string_id_col'],
                          $lang_col,
-                         $this->options['strings_tables'][$this->currentLang['id']]);
+                         $this->options['strings_tables'][$langID]);
         $where = array();
         if (!empty($pageID)) {
-            $where[] = $this->options['strings_tables'][$this->currentLang['id']]. '.' .
+            $where[] = $this->options['strings_tables'][$langID]. '.' .
                        $this->options['string_page_id_col']. '=' . $this->db->quote($pageID);
-        } elseif (!is_null($pageID)) {
-            $where[] = $this->options['strings_tables'][$this->currentLang['id']]. '.' .
+        } elseif (is_null($pageID)) {
+            $where[] = $this->options['strings_tables'][$langID]. '.' .
                        $this->options['string_page_id_col']. ' IS NULL';
+        } else {
+            $where[] = $this->options['strings_tables'][$langID]. '.' .
+                       $this->options['string_page_id_col']. '=""';
         }
-        if (count($where)) {
-            $query .= ' WHERE ' .implode(' AND ', $where);
-        }
+        $query .= ' WHERE ' .implode(' AND ', $where);
         $res = $this->query($query);
         if (PEAR::isError($res)) {
             return $res;
@@ -287,9 +292,12 @@ class Translation2_Container_db extends Translation2_Container
         if (!empty($pageID)) {
             $where[] = $this->options['strings_tables'][$langID]. '.' .
                        $this->options['string_page_id_col']. '='. $this->db->quote($pageID);
-        } elseif (!is_null($pageID)) {
+        } elseif (is_null($pageID)) {
             $where[] = $this->options['strings_tables'][$this->currentLang['id']]. '.' .
                        $this->options['string_page_id_col']. ' IS NULL';
+        } else {
+            $where[] = $this->options['strings_tables'][$langID]. '.' .
+                       $this->options['string_page_id_col']. '=""';
         }
         $where[] = $this->options['strings_tables'][$langID]. '.' .
                    $this->options['string_id_col'] .'='. $this->db->quote($stringID);
@@ -328,11 +336,14 @@ class Translation2_Container_db extends Translation2_Container
                          $this->db->quote($string)
                          );
         if (!empty($pageID)) {
-            $query .= ' AND '.$this->options['strings_tables'][$langID]. '.'
+            $query .= ' AND '.$this->options['strings_tables'][$this->currentLang['id']]. '.'
                     . $this->options['string_page_id_col']. '='. $this->db->quote($pageID);
-        } elseif (!is_null($pageID)) {
+        } elseif (is_null($pageID)) {
             $query .= ' AND '.$this->options['strings_tables'][$this->currentLang['id']]. '.'
                     . $this->options['string_page_id_col']. ' IS NULL';
+        } else {
+            $query .= ' AND '.$this->options['strings_tables'][$this->currentLang['id']]. '.' .
+                       $this->options['string_page_id_col']. '=""';
         }
         return $this->query($query, 'getOne');
     }

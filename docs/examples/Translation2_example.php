@@ -1,104 +1,142 @@
 <?php
-/*************************************
- * helper methods:
- * debug(), writeTitle(), writeValue()
- *************************************/
-function debug($str='')
-{
-    echo '<pre><div style="background-color: #ccffcc; border: 1px solid red; padding-left: 4px;">';
-    print_r($str);
-    echo '</div></pre>';
-}
-function writeTitle($str='')
-{
-    echo '<br /> <h2 style="padding: 5px; background-color: #ccccff; border: 1px solid black;">'.$str.'</h2>';
-}
-function writeValue($desc='', $var)
-{
-    echo '<div style="background-color: #f8f8f8; border: 1px solid #ccc; margin: 4px; padding: 4px;">'. $desc .' = ';
-    var_dump($var);
-    echo '</div>';
-}
-
-
 /**
- * require class, set parameters and options
+ * require file with settings and Translation2 class,
+ * set parameters and options
  */
-require_once 'Translation2/Translation2.php';
-
-define('TABLE_PREFIX', 'mytable_');
-
-$dbinfo = array(
-    'hostspec' => 'myhost',
-    'database' => 'mydb',
-    'phptype'  => 'mysql',
-    'username' => 'myuid',
-    'password' => 'mypwd'
-);
-
-$params = array(
-    'langs_avail_table' => TABLE_PREFIX.'langs_avail',
-    'lang_id_col'     => 'ID',
-    'lang_name_col'   => 'name',
-    'lang_meta_col'   => 'meta',
-    'lang_errmsg_col' => 'error_text',
-    'strings_tables'  => array(
-                            'en' => TABLE_PREFIX.'i18n',
-                            'it' => TABLE_PREFIX.'i18n'
-                         ),
-    'string_id_col'        => 'ID',
-    'string_page_id_col'   => 'pageID',
-    'string_text_col'      => '%s',
-    //'prefetch' => false  //more queries, smaller result sets
-                           //(use when db load is cheaper than network load)
-);
-
+require_once './settings.php';
 
 $tr = new Translation2('MDB', $dbinfo, $params);
 if (PEAR::isError($tr)) {
     debug($tr);
 }
 
-
-
 writeTitle('ITALIANO');
 $tr->setLang('it');
-$tr->setLangFallback('en');
 $tr->setPageID();
-debug('setLang(\'it\');');
-debug('setLangFallback(\'en\');');
-debug('setPageID(); //get global strings');
-debug('get(\'month_01\');');
-writeValue('month_01', $tr->get('month_01'));
-debug('get(\'only_english\'); //test fallback language');
-writeValue('only_english', $tr->get('only_english'));
-debug('getPage();');
-writeValue('all the page', $tr->getPage());
+$tr = &new Translation2_Decorator_CacheMemory(&$tr);
+//$tr->prefetch = false;
+$tr = &new Translation2_Decorator_Lang(&$tr);
+$tr->setDecoratedLang('en');
+$tr = &new Translation2_Decorator_Lang(&$tr);
+$tr->setDecoratedLang('de');
 
+
+// =[DEBUG INFO]======================================
+$str = <<<EOT
+// new Translation2 instance
+// (look at settings.php for an example of \$dbinfo and \$params)
+\$tr = new Translation2('MDB', \$dbinfo, \$params);
+
+// set Italian as default lang
+\$tr->setLang('it');
+
+// get global strings (pageID = NULL)
+\$tr->setPageID();
+
+// add a 'CacheMemory Decorator', i.e. add a memory-cache layer
+// to avoid multiple queries to the db
+\$tr = & new Translation2_Decorator_CacheMemory(&\$tr);
+
+// set an 'English Decorator', i.e. add English as a fallback language
+\$tr = &new Translation2_Decorator_Lang(&\$tr);
+\$tr->setDecoratedLang('en');
+
+// add a 'German Decorator', i.e. add German as a third fallback language
+\$tr = &new Translation2_Decorator_Lang(&\$tr);
+\$tr->setDecoratedLang('en');
+EOT;
+// ====================================================
+debug($str);
+
+
+//$tr = &new Translation2_Decorator_CacheMemory(&$tr);
+//$tr->prefetch = false;
+//$tr = &new Translation2_Decorator_CacheLiteFunction(&$tr);
+//$tr->setCacheLite(new Cache_Lite_Function($cache_options));
+
+debug('$tr->get(\'test\');');
+writeValue('test', $tr->get('test'));
+debug('$tr->get(\'only_english\'); //test fallback language for a string not translated in Italian');
+writeValue('only_english', $tr->get('only_english'));
+debug('$tr->getRawPage();');
+writeValue('all the page (raw)', $tr->getRawPage());
+debug('$tr->getPage();');
+writeValue('all the page (with fallback langs)', $tr->getPage());
+
+
+//-------------------------------------------------------
 
 writeTitle('GET LANG INFO');
-debug('getLang(); //no langID => get current lang');
+debug('$tr->getLang(); //no langID => get current lang');
 writeValue('[IT] LANG_NAME', $tr->getLang()); //no langID => get current lang
-debug('getLang(\'it\', \'error_text\'); //use 2nd parameter to choose the lang info you need');
+debug('$tr->getLang(\'it\', \'error_text\'); //use 2nd parameter to choose the lang info you need');
 writeValue('[IT] LANG_ERRTXT', $tr->getLang('it', 'error_text'));
-debug('getLang(\'it\', \'meta\'); //use 2nd parameter to choose the lang info you need');
+debug('$tr->getLang(\'it\', \'meta\'); //use 2nd parameter to choose the lang info you need');
 writeValue('[EN] LANG_META', $tr->getLang('it', 'meta'));
-debug('getLang(\'en\'); //default format is \'name\'');
+debug('$tr->getLang(\'en\'); //default format is \'name\'');
 writeValue('[EN] LANG_NAME', $tr->getLang('en'));
+debug('$tr->getLang(\'en\', \'error_text\');');
 writeValue('[EN] LANG_ERRTXT', $tr->getLang('en', 'error_text'));
+debug('$tr->getLang(\'en\', \'meta\');');
 writeValue('[EN] LANG_META', $tr->getLang('en', 'meta'));
 
 
+//-------------------------------------------------------
+
+
+writeTitle('DEBUG INFO');
+debug('NUMBER OF DB QUERIES: '.$tr->storage->_queries);
+unset($tr);
+
+
+//-------------------------------------------------------
+
+//new example
 
 writeTitle('ENGLISH');
+$tr = new Translation2('MDB', $dbinfo, $params);
 $tr->setLang('en');
-$tr->setLangFallback('it');
-debug('setLang(\'en\');');
-debug('setLangFallback(\'it\');');
-writeValue('month_01', $tr->get('month_01'));
-debug('get(\'only_italian\'); //test fallback language');
+$tr->setPageID();
+$tr = &new Translation2_Decorator_CacheMemory(&$tr);
+//$tr->prefetch = false;
+$tr = &new Translation2_Decorator_Lang(&$tr);
+$tr->setDecoratedLang('it');
+
+
+// =[DEBUG INFO]======================================
+$str = <<<EOT
+// new Translation2 instance
+\$tr = new Translation2('MDB', \$dbinfo, \$params);
+
+// set English as default lang
+\$tr->setLang('en');
+
+// get global strings (empty pageID)
+\$tr->setPageID();
+
+// add a 'CacheMemory Decorator', i.e. add a memory-cache layer
+// to avoid multiple queries to the db
+\$tr = & new Translation2_Decorator_CacheMemory(&\$tr);
+
+// set an 'Italian Decorator', i.e. add Italian as a fallback language
+\$tr = &new Translation2_Decorator_Lang(&\$tr);
+\$tr->setDecoratedLang('it');
+EOT;
+// ====================================================
+debug($str);
+
+
+debug('$tr->get(\'test\');');
+writeValue('test', $tr->get('test'));
+debug('get(\'only_italian\'); //test fallback language for a string not translated in English');
 writeValue('only_italian', $tr->get('only_italian'));
-writeValue('all the page', $tr->getPage());
+debug('getRawPage();');
+writeValue('all the page (raw)', $tr->getRawPage());
+debug('getPage();');
+writeValue('all the page (with fallback langs)', $tr->getPage());
+
+
+//-------------------------------------------------------
 
 
 writeTitle('TEST PARAMETER SUBSTITUTION');
@@ -106,42 +144,164 @@ $tr->setParams(array(
     0         => '',
     'user'    => 'Joe',
     'day'     => '15',
-    'month'   => $tr->get('month_01', '', 'en'),
+    'month'   => $tr->get('month_01', 'calendar', 'en'),
     'year'    => '2004',
-    'weekday' => $tr->get('day_5', '', 'en')
+    'weekday' => $tr->get('day_5', 'calendar', 'en')
 ));
+// =[DEBUG INFO]======================================
+$str = <<<EOT
+\$tr->setParams(array(
+    0         => '',
+    'user'    => 'Joe',
+    'day'     => '15',
+    'month'   => \$tr->get('month_01', 'calendar', 'en'),
+    'year'    => '2004',
+    'weekday' => \$tr->get('day_5', 'calendar', 'en')
+));
+EOT;
+// ====================================================
+debug($str);
+
+debug('$tr->get(\'hello_user\');');
 writeValue('[EN] hello, user', $tr->get('hello_user'));
 
-$tr->setLang('it');
-$tr->setLangFallback('en');
 
+
+$tr->setLang('it');
+$tr->setDecoratedLang('en');
 $tr->setParams(array(
     0         => '',
     'user'    => 'Joe',
     'day'     => '15',
-    'month'   => $tr->get('month_01', '', 'it'),
-   'year'    => '2004',
-    'weekday' => $tr->get('day_5', '', 'it')
+    'month'   => $tr->get('month_01', 'calendar'),
+    'year'    => '2004',
+    'weekday' => $tr->get('day_5', 'calendar')
 ));
+// =[DEBUG INFO]======================================
+$str = <<<EOT
+\$tr->setLang('it');
+\$tr->setDecoratedLang('en');
+\$tr->setParams(array(
+    0         => '',
+    'user'    => 'Joe',
+    'day'     => '15',
+    'month'   => \$tr->get('month_01', 'calendar', 'it'),
+    'year'    => '2004',
+    'weekday' => \$tr->get('day_5', 'calendar', 'it')
+));
+EOT;
+// ====================================================
+debug($str);
 writeValue('[IT] hello, user', $tr->get('hello_user'));
 
+
+//-------------------------------------------------------
+
+
+writeTitle('SPECIAL CHARS DECORATOR');
+$tr = &new Translation2_Decorator_SpecialChars(&$tr);
+
+// =[DEBUG INFO]======================================
+$str = <<<EOT
+// set a 'SpecialChars Decorator' to replace htmlentities
+\$tr = &new Translation2_Decorator_SpecialChars(&\$tr);
+\$tr->setOptions(array('charset' => 'ISO-8859-1'); //default
+EOT;
+// ====================================================
+debug($str);
+debug('$tr->get(\'day_5\', \'calendar\', \'it\');');
+
+writeValue('venerdì', $tr->get('day_5', 'calendar', 'it'));
+
+
+//-------------------------------------------------------
+
+
 writeTitle('TRANSLATION (STRING TO STRING)');
-writeValue('gennaio', $tr->translate('gennaio', 'en'));
+debug('$tr->translate(\'gennaio\', \'en\', \'calendar\');');
+writeValue('gennaio', $tr->translate('gennaio', 'en', 'calendar'));
+
+
+
+
+
+//-------------------------------------------------------
+
 
 writeTitle('TEST STRINGS WITH pageID NOT NULL');
+debug('$tr->get(\'alone\', \'alone\');');
 writeValue('[IT] alone', $tr->get('alone', 'alone'));
-$tr->setLang('en');
-$tr->setLangFallback('it');
-writeValue('[EN] alone', $tr->get('alone', 'alone'));
+debug('$tr->get(\'alone\', \'alone\', \'en\');');
+writeValue('[EN] alone', $tr->get('alone', 'alone', 'en'));
 
-writeTitle('Use error_text when default and fallback lang and defaultText are EMPTY');
+
+//-------------------------------------------------------
+
+
+writeTitle('HANDLE CONFLICTS');
+$tr->setLang('en');
+$tr->setDecoratedLang('it');
+$tr->setPageID('in_page');
+
+// =[DEBUG INFO]======================================
+$str = <<<EOT
+\$tr->setLang('en');
+\$tr->setDecoratedLang('it');
+\$tr->setPageID('in_page');
+EOT;
+// ====================================================
+debug($str);
+
+debug('$tr->get(\'prova_conflitto\'); //pageID=TRANSLATION2_DEFAULT_PAGEID => get current pageID');
+writeValue('[EN] (in page) string', $tr->get('prova_conflitto'));
+debug('$tr->get(\'prova_conflitto\', null); //pageID=null => get strings with pageID = NULL');
+writeValue('[EN] (global)  string', $tr->get('prova_conflitto', null));
+debug('$tr->get(\'prova_conflitto\', \'in_page\'); //force pageID');
+writeValue('[EN] (in page) string', $tr->get('prova_conflitto', 'in_page'));
+
+
+//-------------------------------------------------------
+
+
+writeTitle('USE A DefaultText DECORATOR TO DEAL WITH EMPTY STRINGS');
+$tr = &new Translation2_Decorator_DefaultText(&$tr);
+
+// =[DEBUG INFO]======================================
+$str = <<<EOT
+\$tr = &new Translation2_Decorator_DefaultText(&$tr);
+EOT;
+// ====================================================
+
+debug('$tr->get(\'isempty\'); //get stringID when the string is empty');
 writeValue('[EN] empty string', $tr->get('isempty'));
 
-$tr->setPageID('in_page');
-writeTitle('HANDLE CONFLICTS');
-writeValue('[EN] (in page) string', $tr->get('prova_conflitto'));     //pageID=null  => get current pageID
-writeValue('[EN] (global)  string', $tr->get('prova_conflitto', '')); //pageID=''    => get strings with no pageID
-writeValue('[EN] (in page) string', $tr->get('prova_conflitto', 'in_page'));  // => force pageID
+debug('$tr->get(\'isempty\', null, \'en\', \'show this default text\'); //use a custom fallback text');
+writeValue('[EN] empty string', $tr->get('isempty', null, 'en', 'show this default text'));
+
+
+
+
+/*
+writeTitle('Use error_text when default and fallback lang and defaultText are EMPTY');
+writeValue('[EN] empty string', $tr->get('isempty'));
+*/
+
+
+
+if (strtolower(get_class($tr)) == 'translation2_admin') {
+
+    writeTitle('TEST ADMIN');
+    $res = $tr->add('smallTest', null, array('it' => 'piccolo test',
+                                             'en' => 'small test')
+            );
+    writeValue('add(smallTest)', $res);
+
+    $res = $tr->add('smallTest', null, array('de' => 'kinder'));
+    writeValue('add(smallTest)', $res);
+
+    $res = $tr->remove('smallTest', null);
+    writeValue('remove(smallTest)', $res);
+}
 
 
 writeTitle('DEBUG INFO');

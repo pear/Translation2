@@ -170,7 +170,7 @@ class Translation2_Container
      * @param string $pageID
      * @return array
      */
-    function getPage($pageID)
+    function getPage($pageID, $langID)
     {
         return $this->raiseError('method "getPage" not supported',
                                  TRANSLATION_ERROR_METHOD_NOT_SUPPORTED);

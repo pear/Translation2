@@ -29,12 +29,14 @@
 require_once 'PEAR.php';
 
 /**
- * Allows redefinition of alternate key for empty pageID
+ * Allows redefinition of the default pageID.
+ * This constant is needed to allow both NULL and EMPTY pageID values
+ * and to have them match
+ *
  */
-if (!defined('TRANSLATION2_EMPTY_PAGEID_KEY')) {
-    define('TRANSLATION2_EMPTY_PAGEID_KEY', 'array_key_4_empty_pageID');
+if (!defined('TRANSLATION2_DEFAULT_PAGEID')) {
+    define('TRANSLATION2_DEFAULT_PAGEID', 'translation2_default_pageID');
 }
-
 /**
  * Class Error codes
  */
@@ -64,13 +66,6 @@ class Translation2
     var $options = array();
 
     /**
-     * Translated strings array
-     * Used for cache purposes
-     * @var array
-     */
-    var $data = array();
-
-    /**
      * Default lang
      * @var array
      */
@@ -81,12 +76,6 @@ class Translation2
      * @var string
      */
     var $currentPageID = null;
-
-    /**
-     * Fallback lang
-     * @var array
-     */
-    var $langFallback = array();
 
     /**
      * Array parameters
@@ -104,7 +93,9 @@ class Translation2
      * @param mixed  $options Additional options for the storage driver
      *                        (example: if you are using DB as the storage
      *                        driver, you have to pass the dsn string here)
-     * @param array $params
+     * @param array $params Array of parameters for the adapter class
+     *                      (i.e. you can set here the mappings between your
+     *                      table/field names and the ones used by this class)
      */
     function Translation2($storageDriver, $options='', $params=array())
     {
@@ -184,34 +175,6 @@ class Translation2
     function setLang($langID)
     {
         $this->lang = $this->storage->setLang($langID);
-        //prepare cache container
-        if (!array_key_exists($langID, $this->data)) {
-            $this->data[$langID] = array();
-        }
-    }
-
-    // }}}
-    // {{{ setLangFallback()
-
-    /**
-     * Set default fallback lang
-     *
-     * When a string in the default lang is empty,
-     * fetch the string in the fallback language
-     * @param string $langID
-     */
-    function setLangFallback($langID=null)
-    {
-        if (empty($langID)) {
-            //unset fallback language
-            $this->langFallback = array();
-        } else {
-            $this->langFallback = $this->storage->getLangData($langID);
-            //prepare cache container
-            if (!array_key_exists($langID, $this->data)) {
-                $this->data[$langID] = array();
-            }
-        }
     }
 
     // }}}
@@ -219,16 +182,11 @@ class Translation2
 
     /**
      * Set default page
-     * Prefetch strings for this page
      * @param string $langID
      */
     function setPageID($pageID=null)
     {
         $this->currentPageID = $pageID;
-        if ($this->options['prefetch']) {
-            $key = empty($pageID) ? TRANSLATION2_EMPTY_PAGEID_KEY : $pageID;
-            $this->data[$this->lang['id']][$key] = $this->storage->getPage($pageID);
-        }
     }
 
     // }}}
@@ -254,7 +212,7 @@ class Translation2
             return $lang[$format];
         } else {
             return $lang['name'];
-        }
+        }
     }
 
     // }}}
@@ -289,6 +247,61 @@ class Translation2
     }
 
     // }}}
+    // {{{ _replaceParams()
+
+    /**
+     * Replace parameters in strings
+     * @param mixed $params
+     * @access protected
+     */
+    function _replaceParams($strings)
+    {
+        if (empty($strings) || is_object($strings) || !count($this->params)) {
+            return $strings;
+        }
+        if (is_array($strings)) {
+            foreach ($strings as $key => $string) {
+                $strings[$key] = $this->_replaceParams($string);
+            }
+        } else {
+            if (strpos($strings, $this->options['ParameterPrefix']) !== false) {
+                foreach ($this->params as $name => $value) {
+        		    $strings = str_replace($this->options['ParameterPrefix']
+        			            	       . $name . $this->options['ParameterPostfix'],
+        			                       $value,
+        			                       $strings);
+                }
+                if ($this->options['ParameterAutoFree']) {
+                    $this->params = array();
+                }
+            }
+        }
+        return $strings;
+    }
+
+    // }}}
+    // {{{ replaceEmptyStringsWithKeys()
+
+    /**
+     * Replace empty strings with their stringID
+     * @param mixed $params
+     * @static
+     * @access public
+     */
+    function replaceEmptyStringsWithKeys($strings)
+    {
+        if (!is_array($strings)) {
+            return $strings;
+        }
+        foreach ($strings as $key => $string) {
+            if (empty($string)) {
+                $strings[$key] = $key;
+            }
+        }
+        return $strings;
+    }
+
+    // }}}
     // {{{ get()
 
     /**
@@ -306,49 +319,11 @@ class Translation2
      *                            the default and the fallback lang are empty
      * @return string
      */
-    function get($stringID, $pageID=null, $langID=null, $defaultText='')
+    function get($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
     {
-        if (is_null($pageID)) {
-            $pageID = $this->currentPageID;
-        }
-        if ($this->options['prefetch']) {
-            $this->getRawPage($pageID, $langID);
-        }
-        $pageID_key = empty($pageID) ? TRANSLATION2_EMPTY_PAGEID_KEY : $pageID;
-        $langID_key = empty($langID) ? $this->lang['id'] : $langID;
-
-        if (!array_key_exists($langID_key, $this->data) ||
-            !array_key_exists($pageID_key, $this->data[$langID_key])
-        ) {
-            $str = $this->storage->getOne($stringID, $pageID, $langID);
-        } else {
-            if (!array_key_exists($stringID, $this->data[$langID_key][$pageID_key])) {
-                $str = '';
-            } else {
-                $str = $this->data[$langID_key][$pageID_key][$stringID];
-            }
-        }
-
-        if (empty($str)) {
-            if ($langID != $this->langFallback['id']) {
-                return $this->get($stringID, $pageID, $this->langFallback['id'], $defaultText);
-            } else {
-                $str = empty($defaultText) ? $this->lang['error_text'] : $defaultText;
-            }
-        }
-
-        if (count($this->params)) {
-            while (list($name, $value) = each($this->params)) {
-			    $str = str_replace($this->options['ParameterPrefix']
-			            	       . $name . $this->options['ParameterPostfix'],
-			                       $value,
-			                       $str);
-			}
-            if ($this->options['ParameterAutoFree']) {
-                $this->params = array();
-            }
-        }
-        return $str;
+        $pageID = ($pageID == TRANSLATION2_DEFAULT_PAGEID ? $this->currentPageID : $pageID);
+        $str = $this->storage->getOne($stringID, $pageID, $langID);
+        return $this->_replaceParams($str);
     }
 
     // }}}
@@ -364,26 +339,10 @@ class Translation2
      * @param string $langID
      * @return array
      */
-    function getRawPage($pageID=null, $langID=null)
+    function getRawPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null)
     {
-        if (is_null($pageID)) {
-            $pageID = $this->currentPageID;
-        }
-        $pageID_key = empty($pageID) ? TRANSLATION2_EMPTY_PAGEID_KEY : $pageID;
-        $langID_key = empty($langID) ? $this->lang['id'] : $langID;
-
-        $notDefaultLang = (!is_null($langID) && ($langID != $this->lang['id'])) ? true : false;
-        if ($notDefaultLang) {
-            $bkp_lang = $this->lang['id'];
-            $this->setLang($langID);
-        }
-        if (!array_key_exists($pageID_key, $this->data[$langID_key])) {
-            $this->data[$langID_key][$pageID_key] = $this->storage->getPage($pageID);
-        }
-        if ($notDefaultLang) {
-            $this->setLang($bkp_lang);
-        }
-        return $this->data[$langID_key][$pageID_key];
+        $pageID = ($pageID == TRANSLATION2_DEFAULT_PAGEID ? $this->currentPageID : $pageID);
+        return $this->storage->getPage($pageID, $langID);
     }
 
     // }}}
@@ -397,15 +356,10 @@ class Translation2
      * @param string $langID
      * @return array
      */
-    function getPage($pageID=null, $langID=null, $defaultText='')
+    function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
     {
         $pageData = $this->getRawPage($pageID, $langID);
-        foreach ($pageData as $stringID => $string) {
-            if (empty($string) || strpos($string, $this->options['ParameterPrefix']) !== false) {
-                $pageData[$stringID] = $this->get($stringID, $pageID, $this->lang['id'], $defaultText);
-            }
-        }
-        return $pageData;
+        return $this->_replaceParams($pageData);
     }
 
     // }}}
@@ -420,9 +374,9 @@ class Translation2
      * @param string $langID
      * @return string
      */
-    function translate($string, $langID, $pageID=null)
+    function translate($string, $langID, $pageID=TRANSLATION2_DEFAULT_PAGEID)
     {
-        //is a search in the cache (before the db query) worth it?
+        $pageID = ($pageID == TRANSLATION2_DEFAULT_PAGEID ? $this->currentPageID : $pageID);
         $stringID = $this->storage->getStringID($string, $pageID);
         if (PEAR::isError($stringID) || empty($stringID)) {
             return $this->lang['error_text'];

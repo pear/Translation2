@@ -17,17 +17,17 @@ An Admin class is provided to easily manage translations (add/remove a language,
     </maintainer>
   </maintainers>
   <release>
-    <version>2.0.0alpha2</version>
-    <date>2004-02-22</date>
+    <version>2.0.0alpha3</version>
+    <date>2004-03-22</date>
     <license>PHP License</license>
     <state>alpha</state>
     <notes>
-- added an experimental GNU gettext driver
-- translate() now accepts a third parameter ($pageID)
-- PHP5 fix
-- renamed old getPage() to getRawPage()
-- new getPage() resorts to fallback lang and replaces parameters when needed
-- added error checking/codes
+- BC break! Run the example to see what's new
+- refactoring in progress:
+  added a Decorator class and some subclasses to control
+  the output (now you can set a stack of fallback languages,
+  a filter to deal with empty strings, one or more cache layers...)
+- improved gettext support (Michael Wallner)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">DB</dep>
@@ -38,22 +38,30 @@ An Admin class is provided to easily manage translations (add/remove a language,
       <dir name="/" baseinstalldir="Translation2">
         <file role="php" name="Translation2.php" />
         <file role="php" name="Container.php" />
+        <file role="php" name="Decorator.php" />
         <file role="php" name="Utils.php" />
         <dir name="Admin" role="php">
-          <file name="Admin.php" />
-          <file name="Container/db.php" />
-          <file name="Container/mdb.php" />
+          <file role="php" name="Admin.php" />
+          <file role="php" name="Container/db.php" />
+          <file role="php" name="Container/mdb.php" />
         </dir>
         <dir name="Container" role="php">
           <file name="db.php" />
           <file name="gettext.php" />
           <file name="mdb.php" />
         </dir>
+        <dir name="Decorator" role="php">
+          <file name="CacheMemory.php" />
+          <file name="DefaultText.php" />
+          <file name="Lang.php" />
+          <file name="SpecialChars.php" />
+        </dir>
         <dir name="docs" role="doc">
           <file name="gettext_readme.txt" />
           <dir name="examples" role="doc">
-            <file name="Translation2_example.php" />
-            <file name="Translation2_example.sql" />
+            <file role="doc" name="settings.php" />
+            <file role="doc" name="Translation2_example.php" />
+            <file role="doc" name="Translation2_example.sql" />
           </dir>
         </dir>
       </dir>
@@ -61,8 +69,22 @@ An Admin class is provided to easily manage translations (add/remove a language,
   </release>
   <changelog>
     <release>
+      <version>2.0.0alpha3</version>
+      <date>2004-03-22</date>
+      <license>PHP License</license>
+      <state>alpha</state>
+      <notes>
+- refactoring in progress:
+  added a Decorator class and some subclasses to control
+  the output (now you can set a stack of fallback languages,
+  a filter to deal with empty strings, one or more cache layers,
+  and define your own decorators...)
+- improved gettext support (Michael Wallner)
+      </notes>
+    </release>
+    <release>
       <version>2.0.0alpha2</version>
-      <date>2004-02-22</date>
+      <date>2004-02-05</date>
       <license>PHP License</license>
       <state>alpha</state>
       <notes>

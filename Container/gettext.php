@@ -72,7 +72,7 @@ class Translation2_Container_gettext extends Translation2_Container
     function Translation2_Container_gettext($options)
     {
         $this->_setDefaults();
-        $this->_parseOptions($options);
+        //$this->_parseOptions($options);
 
         $this->_domains = @parse_ini_file($this->options['domains_path_file']);
         if ($this->_domains === false) {
@@ -170,7 +170,7 @@ class Translation2_Container_gettext extends Translation2_Container
      * @param string $pageID
      * @return array
      */
-    function getPage($pageID=null)
+    function getPage($pageID=null, $langID=null)
     {
         if (array_key_exists($this->currentLang['id'], $this->cachedDomains) &&
             array_key_exists($pageID, $this->cachedDomains[$this->currentLang['id']])
