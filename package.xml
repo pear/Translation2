@@ -36,11 +36,11 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta3</version>
-    <date>2004-10-28</date>
+    <date>2004-10-31</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
-- welcome to the new developer, Ian Eure
+- welcome to the new developers, Ian Eure and Michael Wallner
 - the last release contained an old gettext driver (bug #2503) (ieure)
 - many portability fixes applied to the database containers (thanks to Ian Eure and
   Xavier Lembo for their suggestions and patches)
@@ -71,6 +71,8 @@ Currently, the following decorators are provided:
   two steps:
   $stringID = $tr->getStringID('mystring', 'mypage');
   $translatedString = $tr->get($stringID, 'mypage', $otherLangID);
+- major cleanup of the gettext container and added some examples (mike)
+- removeLang() was missing. Fixed.
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -129,11 +131,11 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta3</version>
-      <date>2004-10-28</date>
+      <date>2004-10-31</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
-- welcome to the new developer, Ian Eure
+- welcome to the new developers, Ian Eure and Michael Wallner
 - the last release contained an old gettext driver (bug #2503) (ieure)
 - many portability fixes applied to the database containers (thanks to Ian Eure and
   Xavier Lembo for their suggestions and patches)
@@ -164,6 +166,8 @@ Currently, the following decorators are provided:
   two steps:
   $stringID = $tr->getStringID('mystring', 'mypage');
   $translatedString = $tr->get($stringID, 'mypage', $otherLangID);
+- major cleanup of the gettext container and added some examples (mike)
+- removeLang() was missing. Fixed.
       </notes>
     </release>
     <release>
