@@ -18,11 +18,11 @@ writeTitle('ITALIANO');
 $tr->setLang('it');
 $tr->setPageID();
 $tr =& $tr->getDecorator('CacheMemory');
-//$tr->prefetch = false;
+//$tr->setOption('prefetch', false);
 $tr =& $tr->getDecorator('Lang');
-$tr->setFallbackLang('en');
+$tr->setOption('fallbackLang', 'en');
 $tr =& $tr->getDecorator('Lang');
-$tr->setFallbackLang('de');
+$tr->setOption('fallbackLang', 'de');
 
 
 // =[DEBUG INFO]======================================
@@ -43,20 +43,15 @@ $str = <<<EOT
 
 // set an 'English Decorator', i.e. add English as a fallback language
 \$tr = & \$tr->getDecorator('Lang');
-\$tr->setFallbackLang('en');
+\$tr->setOption('fallbackLang', 'en');
 
 // add a 'German Decorator', i.e. add German as a third fallback language
 \$tr = & \$tr->getDecorator('Lang');
-\$tr->setFallbackLang('en');
+\$tr->setOption('fallbackLang', 'en');
 EOT;
 // ====================================================
 debug($str);
 
-
-//$tr = &new Translation2_Decorator_CacheMemory(&$tr);
-//$tr->prefetch = false;
-//$tr = &new Translation2_Decorator_CacheLiteFunction(&$tr);
-//$tr->setCacheLite(new Cache_Lite_Function($cache_options));
 
 debug('$tr->get(\'test\');');
 writeValue('test', $tr->get('test'));
@@ -104,7 +99,7 @@ $tr->setPageID();
 $tr = & $tr->getDecorator('CacheMemory');
 //$tr->prefetch = false;
 $tr = & $tr->getDecorator('Lang');
-$tr->setFallbackLang('it');
+$tr->setOption('fallbackLang', 'it');
 
 
 // =[DEBUG INFO]======================================
@@ -124,7 +119,7 @@ $str = <<<EOT
 
 // set an 'Italian Decorator', i.e. add Italian as a fallback language
 \$tr = & \$tr->getDecorator('Lang');
-\$tr->setFallbackLang('it');
+\$tr->setOption('fallbackLang', 'it');
 EOT;
 // ====================================================
 debug($str);
@@ -172,7 +167,7 @@ writeValue('[EN] hello, user', $tr->get('hello_user'));
 
 
 $tr->setLang('it');
-$tr->setFallbackLang('en');
+$tr->setOption('fallbackLang', 'en');
 $tr->setParams(array(
     0         => '',
     'user'    => 'Joe',
@@ -184,7 +179,7 @@ $tr->setParams(array(
 // =[DEBUG INFO]======================================
 $str = <<<EOT
 \$tr->setLang('it');
-\$tr->setFallbackLang('en');
+\$tr->setOption('fallbackLang', 'en');
 \$tr->setParams(array(
     0         => '',
     'user'    => 'Joe',
@@ -208,7 +203,7 @@ $tr = & $tr->getDecorator('SpecialChars');
 // =[DEBUG INFO]======================================
 $str = <<<EOT
 // set a 'SpecialChars Decorator' to replace htmlentities
-\$tr = &new Translation2_Decorator_SpecialChars(&\$tr);
+\$tr = & Translation2->getDecorator('SpecialChars');
 \$tr->setOptions(array('charset' => 'ISO-8859-1'); //default
 EOT;
 // ====================================================
@@ -244,13 +239,13 @@ writeValue('[EN] alone', $tr->get('alone', 'alone', 'en'));
 
 writeTitle('HANDLE CONFLICTS');
 $tr->setLang('en');
-$tr->setFallbackLang('it');
+$tr->setOption('fallbackLang', 'it');
 $tr->setPageID('in_page');
 
 // =[DEBUG INFO]======================================
 $str = <<<EOT
 \$tr->setLang('en');
-\$tr->setFallbackLang('it');
+\$tr->setOption('fallbackLang', 'it');
 \$tr->setPageID('in_page');
 EOT;
 // ====================================================
