@@ -6,14 +6,14 @@
 // | Copyright (c) 1997-2004 The PHP Group                                |
 // +----------------------------------------------------------------------+
 // | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
+// | that is available through the world-wide-web at                      |
 // | http://www.php.net/license/3_0.txt.                                  |
 // | If you did not receive a copy of the PHP license and are unable to   |
 // | obtain it through the world-wide-web, please send a note to          |
 // | license@php.net so we can mail you a copy immediately.               |
 // +----------------------------------------------------------------------+
-// | Author: Olivier Guilyardi <olivier at samalyse dot com>              |
+// | Authors: Olivier Guilyardi <olivier at samalyse dot com>             |
+// |          Lorenzo Alberton <l dot alberton at quipo dot it>           |
 // +----------------------------------------------------------------------+
 //
 // $Id$
@@ -28,7 +28,7 @@
  */
 require_once 'Translation2/Container/xml.php';
 
-require_once "XML/Util.php";
+require_once 'XML/Util.php';
 
 /**
  * Storage driver for storing/fetching data to/from an XML file
@@ -41,12 +41,6 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
 
     // {{{ class vars
 
-    /**
-     * File resource. Opened in write mode when saving is scheduled.
-     * @var resource
-     */
-    var $_fileRes = null;
-    
     // }}}
     // {{{ createNewLang()
 
@@ -70,15 +64,18 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      * @param array $langData array('lang_id'    => 'en',
      *                              'name'       => 'english',
      *                              'meta'       => 'some meta info',
-     *                              'error_text' => 'not available');
+     *                              'error_text' => 'not available',
+     *                              'encoding'   => 'iso-8859-1',
+     *              );
      * @return mixed true on success, PEAR_Error on failure
      */
     function addLangToAvailList($langData)
     {
         $validInput = array(
-            'name' => '',
-            'meta' => 'iso-8859-1',
-            'error_text' => ''
+            'name'       => '',
+            'meta'       => '',
+            'error_text' => '',
+            'encoding'   => 'iso-8859-1',
         );
         
         foreach ($validInput as $key => $val) {
@@ -86,7 +83,6 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
         }
         
         $this->_data['languages'][$langData['lang_id']] = $validInput;
-
         return $this->_scheduleSaving();
     }
 
@@ -109,13 +105,20 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
             $this->getLangs('ids')
         );
 
-        $pageID = is_null($pageID) ? '#NULL' : $pageID;
-        $pageID = empty($pageID) ? '#EMPTY' : $pageID;
+        $pageID = is_null($pageID) ? '#NULL'  : $pageID;
+        $pageID = empty($pageID)   ? '#EMPTY' : $pageID;
+
+        if (!array_key_exists($pageID, $this->_data['pages'])) {
+            $this->_data['pages'][$pageID] = array();
+        }
+        if (!array_key_exists($stringID, $this->_data['pages'][$pageID])) {
+            $this->_data['pages'][$pageID][$stringID] = array();
+        }
         foreach ($langs as $lang) {
             $this->_data['pages'][$pageID][$stringID][$lang] = $stringArray[$lang];
         }
         
-       return $this->_scheduleSaving();
+        return $this->_scheduleSaving();
     }
 
     // }}}
@@ -151,7 +154,36 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
         $pageID = empty($pageID) ? '#EMPTY' : $pageID;
 
         unset ($this->_data['pages'][$pageID][$stringID]);
+        if (!count($this->_data['pages'][$pageID])) {
+            unset ($this->_data['pages'][$pageID]);
+        }
 
+        return $this->_scheduleSaving();
+    }
+
+    // }}}
+    // {{{ removeLang()
+
+    /**
+     * Remove all the entries for the given lang from the strings table.
+     *
+     * @param string  $langID
+     * @param boolean $force (ignored)
+     * @return mixed true on success, PEAR_Error on failure
+     */
+    function removeLang($langID, $force = true)
+    {
+        // remove lang metadata 
+        unset($this->_data['languages'][$langID]);
+
+        // remove the entries
+        foreach (array_keys($this->_data['pages']) as $pageID) {
+            foreach (array_keys($this->_data['pages'][$pageID]) as $stringID) {
+                if (array_key_exists($langID, $this->_data['pages'][$pageID][$stringID])) {
+                    unset($this->_data['pages'][$pageID][$stringID]);
+                }
+            }
+        }
         return $this->_scheduleSaving();
     }
 
@@ -171,14 +203,18 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      */
     function _scheduleSaving()
     {
-        if (is_null($this->_fileRes)) {
-            if (!$this->_fileRes = fopen ($this->_filename, 'w')) {
-                return new PEAR_Error ('Unable to open the XML file for writing : '.
-                                       $this->_filename);
-            }
-            register_shutdown_function (array(&$this, '_saveData'));
+        if ($this->options['save_on_shutdown']) {
+            // save the changes on shutdown
+            register_shutdown_function(array(&$this, '_saveData'));
+            return true;
         }
-        return true;
+        
+        // save the changes now
+        if (PEAR::isError($e = $this->_saveData())) {
+            return $e;
+        }
+        // refresh memory cache
+        return $this->_loadFile();
     }
 
     // }}}
@@ -187,13 +223,14 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
     /**
      * Serialize and save the updated tranlation data to the XML file
      *
-     * @return void
+     * @return boolean | PEAR_Error
      * @access private
      * @see Translation2_Admin_Container_xml::_scheduleSaving()
      */
     function _saveData()
     {
         $this->_convertEncodings('to_xml');
+        $this->_convertLangEncodings('to_xml');
         
         // Serializing
         
@@ -259,8 +296,22 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
                 "</translation2>\n";
 
         // Saving
-        fwrite ($this->_fileRes, $xml);
-        fclose ($this->_fileRes);
+
+        if (!$f = fopen ($this->_filename, 'w')) {
+            return $this->raiseError(sprintf(
+                    'Unable to open the XML file ("%s") for writing',
+                    $this->_filename
+                ),
+                TRANSLATION2_ERROR_CANNOT_WRITE_FILE,
+                PEAR_ERROR_TRIGGER,
+                E_USER_ERROR
+            );
+        }
+        @flock($f, LOCK_EX);
+        fwrite ($f, $xml);
+        @flock($f, LOCK_UN);
+        fclose ($f);
+        return true;
     }
 
     // }}}
