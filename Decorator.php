@@ -126,9 +126,9 @@ class Translation2_Decorator
     {
         if (func_num_args() > 1) {
             $obj =& func_get_arg(1);
-            return $this->translation2->getDecorator($decorator, &$obj);
+            return $this->translation2->getDecorator($decorator, $obj);
         } else {
-            return $this->translation2->getDecorator($decorator, &$this);
+            return $this->translation2->getDecorator($decorator, $this);
         }
     }
 
