@@ -55,33 +55,23 @@ langs.ini file format example
 
 [en_US]
 name = English
-meta = iso-8859-1
-error_text = not available in English
-windows = enu
+encoding = iso-8859-1
 
 [en_GB]
 name = English
-meta = iso-8859-1
-windows = eng
+encoding = iso-8859-1
 
 [de_DE]
-id = de_DE
 name = Deutsch
-meta = iso-8859-1
-windows = deu
+encoding = iso-8859-1
 
 [de_AT]
-id = de_AT
 name = Deutsch
-meta = iso-8859-1
-windows = dea
+encoding = iso-8859-1
 
 [it]
-id = it
 name = italiano
-meta = iso-8859-1
-error_text = non disponibile in italiano
-windows = ita
+encoding = iso-8859-1
 
 
 ===============================
