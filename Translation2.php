@@ -316,7 +316,7 @@ class Translation2
      * Set parameters for next string
      *
      * Set the replacement for the parameters in the string(s).
-     * Paramter delimiters are customizable.
+     * Parameter delimiters are customizable.
      *
      * @param array $params
      */
@@ -395,8 +395,7 @@ class Translation2
      * @param string $stringID
      * @param string $pageID
      * @param string $langID
-     * @param string $defaultText Text to display when the strings in both
-     *                            the default and the fallback lang are empty
+     * @param string $defaultText Text to display when the string is empty
      * @return string|PEAR_Error
      */
     function getRaw($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
