@@ -53,11 +53,11 @@ class Translation2_Decorator
     var $lang;
 
     /**
-     * decorated lang
+     * fallback lang
      * @var string
      * @access protected
      */
-    var $decoratedLang;
+    var $fallbackLang;
 
     /**
      * @var string
@@ -209,10 +209,10 @@ class Translation2_Decorator
      * Set fallback lang
      * @param string $langID
      */
-    function setDecoratedLang($langID)
+    function setFallbackLang($langID)
     {
-        if (isset($this->translation2->decoratedLang)) {
-            $this->translation2->decoratedLang = $langID;
+        if (isset($this->translation2->fallbackLang)) {
+            $this->translation2->fallbackLang = $langID;
         }
     }
 
@@ -256,8 +256,7 @@ class Translation2_Decorator
     /**
      * Get the array of strings in a page
      *
-     * First check if the strings are cached, if not => fetch the page
-     * from the container and cache it for later use.
+     * Fetch the strings from the container, without any replacing
      *
      * @param string $pageID
      * @param string $langID
