@@ -172,11 +172,11 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
                     $this->options['lang_meta_col'],
                     $this->options['lang_errmsg_col'],
                     $this->options['lang_encoding_col'],
-                    $this->db->quote($langData['lang_id']),
-                    $this->db->quote($langData['name']),
-                    $this->db->quote($langData['meta']),
-                    $this->db->quote($langData['error_text']),
-                    $this->db->quote($langData['encoding'])
+                    $this->db->getTextValue($langData['lang_id']),
+                    $this->db->getTextValue($langData['name']),
+                    $this->db->getTextValue($langData['meta']),
+                    $this->db->getTextValue($langData['error_text']),
+                    $this->db->getTextValue($langData['encoding'])
         );
 
         ++$this->_queries;
