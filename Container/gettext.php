@@ -108,13 +108,14 @@ class Translation2_Container_gettext extends Translation2_Container
     }
 
     // }}}
-    // {{{ switchLang()
+    // {{{ _switchLang()
 
     /**
      * @param string new langID
      * @return string previous lang
+     * @access private
      */
-    function switchLang($langID)
+    function _switchLang($langID)
     {
         if (is_null($langID) || ($langID == $this->currentLang['id'])) {
             return $this->currentLang['id'];
@@ -193,7 +194,7 @@ class Translation2_Container_gettext extends Translation2_Container
      */
     function getPage($pageID=null, $langID=null)
     {
-        $oldLang = $this->switchLang($langID);
+        $oldLang = $this->_switchLang($langID);
         if (array_key_exists($this->currentLang['id'], $this->cachedDomains) &&
             array_key_exists($pageID, $this->cachedDomains[$this->currentLang['id']])
         ) {
@@ -230,7 +231,7 @@ class Translation2_Container_gettext extends Translation2_Container
         }
         $contents = $moFile->toArray();
         $this->cachedDomains[$this->currentLang['id']][$pageID] = $contents['strings'];
-        $langID = $this->switchLang($oldLang);
+        $langID = $this->_switchLang($oldLang);
         return $this->cachedDomains[$langID][$pageID];
     }
 
@@ -247,7 +248,7 @@ class Translation2_Container_gettext extends Translation2_Container
      */
     function getOne($stringID, $pageID=null, $langID=null)
     {
-        $oldLang = $this->switchLang($langID);
+        $oldLang = $this->_switchLang($langID);
 
         if (is_null($pageID)) {
             textdomain($this->options['default_domain']);
@@ -257,7 +258,7 @@ class Translation2_Container_gettext extends Translation2_Container
 
         $string = gettext($stringID);
 
-        $this->switchLang($oldLang);
+        $this->_switchLang($oldLang);
         return $string;
     }
 
