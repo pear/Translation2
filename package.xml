@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<package version="1.0">
+  <name>Translation2</name>
+  <summary>Class for multilingual applications management.</summary>
+  <description>
+This class provides an easy way to retrieve all the strings for a multilingual site from a data source (i.e. db).
+A PEAR::DB and a PEAR::MDB container are provided, more containers will follow.
+It is designed to reduce the number of queries to the db, caching the results when possible.
+</description>
+  <maintainers>
+    <maintainer>
+      <user>quipo</user>
+      <name>Lorenzo Alberton</name>
+      <email>l.alberton@quipo.it</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>0.0.1</version>
+    <date>2004-01-04</date>
+    <license>PHP License</license>
+    <state>alpha</state>
+    <notes>
+    First alpha release
+    </notes>
+    <filelist>
+      <dir name="/" baseinstalldir="Translation2">
+        <file role="php" name="Translation2.php" />
+        <file role="php" name="Container.php" />
+        <file role="php" name="Container/db.php" />
+        <file role="php" name="Container/mdb.php" />
+        <dir name="Admin" role="php">
+          <file role="php" name="Admin.php" />
+          <file role="php" name="Container/db.php" />
+          <file role="php" name="Container/mdb.php" />
+        </dir>
+        <dir name="examples" role="doc">
+          <file role="doc" name="Translation2_example.php" />
+          <file role="doc" name="Translation2_example.sql" />
+        </dir>
+      </dir>
+    </filelist>
+  </release>
+  <changelog>
+    <release>
+      <version>0.0.1</version>
+      <date>2004-01-04</date>
+      <license>PHP License</license>
+      <state>alpha</state>
+      <notes>
+      First alpha release
+      </notes>
+    </release>
+  </changelog>
+</package>
