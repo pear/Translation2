@@ -431,7 +431,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             }
             $pages = array_merge($pages, $res);
         }
-        return $pages;
+        return array_unique($pages);
     }
     
     // }}}
