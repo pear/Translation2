@@ -122,6 +122,7 @@ class Translation2_Container_db extends Translation2_Container
         $this->options['lang_name_col']     = 'name';
         $this->options['lang_meta_col']     = 'meta';
         $this->options['lang_errmsg_col']   = 'error_text';
+        $this->options['lang_encoding_col'] = 'encoding';
 
         $this->options['strings_default_table'] = 'i18n';
         $this->options['strings_tables']        = array(); // 'lang_id' => 'table_name'
