@@ -35,7 +35,6 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
 
     // {{{ class vars
 
-
     // }}}
     // {{{ createNewLang()
 
@@ -180,6 +179,15 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
             return true;
         }
 
+        //very loose check to see if an update is needed instead of an insert
+        $query = 'SELECT COUNT(*) FROM '.$this->options['strings_tables'][$langs[0]]
+                .' WHERE '. $this->options['string_id_col'] . '='. $this->db->quote($stringID)
+                .' AND '. $this->options['string_page_id_col']
+                . (empty($pageID) ? ' IS NULL' : '='.$this->db->quote($pageID));
+        if ($this->query($query, 'getOne')) {
+            return $this->update($stringID, $pageID, $stringArray);
+        }
+
         //naive algorithm: if the strings table is the same for all languages,
         //then do one query only. NB: this will fail when *some* langs share the
         //same table, but not *all* of them do.
@@ -215,6 +223,82 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
                 $lang_col = str_replace('%s', $langID, $this->options['string_text_col']);
                 $query = 'INSERT INTO '. $this->options['strings_tables'][$langID] .' ('
                         .$lang_col .') VALUES ('. $this->db->quote($stringArray[$langID]).')';
+                $res = $this->query($query);
+                if (PEAR::isError($res)) {
+                    return $res;
+                }
+            }
+        }
+
+       return true;
+    }
+
+    // }}}
+    // {{{ update()
+
+    /**
+     * Update an existing entry in the strings table.
+     *
+     * @param string $stringID
+     * @param string $pageID
+     * @param array  $stringArray Associative array with string translations.
+     *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     * @return mixed true on success, PEAR_Error on failure
+     */
+    function update($stringID, $pageID, $stringArray)
+    {
+        $langs = array_keys($stringArray);
+        $numLangs = count($langs);
+        $availableLangs = $this->getLangs('ids');
+        foreach ($langs as $key => $langID) {
+            if (!in_array($langID, $availableLangs)) {
+                unset($langs[$key]);
+            }
+        }
+
+        if (!count($langs)) {
+            //return error: no valid lang provided
+            return true;
+        }
+
+        $oneQuery = true;
+        if ($numLangs > 1) {
+            for ($i=1; $i<$numLangs; $i++) {
+                if ($this->options['strings_tables'][$langs[$i]] !=
+                    $this->options['strings_tables'][$langs[0]]
+                ) {
+                    $oneQuery = false;
+                    break;
+                }
+            }
+        }
+
+        if ($oneQuery) {
+            $what = array();
+            foreach ($langs as $langID) {
+                $lang_col = str_replace('%s', $langID, $this->options['string_text_col']);
+                $what[$lang_col] = $this->db->quote($stringArray[$langID]);
+            }
+            $query = 'UPDATE '. $this->options['strings_tables'][$langs[0]] .' SET ';
+            foreach ($what as $key => $value) {
+                $query .= $key .'='.$value .', ';
+            }
+            $query = rtrim($query, ', ');
+            $query .= ' WHERE '. $this->options['string_id_col'] . '='. $this->db->quote($stringID)
+                     .' AND '. $this->options['string_page_id_col']
+                     . (empty($pageID) ? ' IS NULL' : '='.$this->db->quote($pageID));
+            $res = $this->query($query);
+            if (PEAR::isError($res)) {
+                return $res;
+            }
+        } else {
+            foreach ($langs as $langID) {
+                $lang_col = str_replace('%s', $langID, $this->options['string_text_col']);
+                $query = 'UPDATE '. $this->options['strings_tables'][$langID] .' SET '
+                        .$lang_col .'='. $this->db->quote($stringArray[$langID])
+                        .' WHERE '. $this->options['string_id_col'] . '='. $this->db->quote($stringID)
+                        .' AND '. $this->options['string_page_id_col']
+                        . (empty($pageID) ? ' IS NULL' : '='.$this->db->quote($pageID));
                 $res = $this->query($query);
                 if (PEAR::isError($res)) {
                     return $res;
