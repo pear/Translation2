@@ -281,23 +281,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
         // Serializing
         
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n" .
-               "<!DOCTYPE translation2 [\n" .
-               "  <!ELEMENT translation2 (languages,pages)>\n" .
-               "  <!ELEMENT languages (lang*)>\n" .
-               "  <!ELEMENT lang (name?,meta?,error_text?,encoding?)>\n" .
-               "  <!ATTLIST lang id ID #REQUIRED>\n" .
-               "  <!ELEMENT name (#PCDATA)>\n" .
-               "  <!ELEMENT meta (#PCDATA)>\n" .
-               "  <!ELEMENT error_text (#PCDATA)>\n" .
-               "  <!ELEMENT encoding (#PCDATA)>\n" .
-               "  <!ELEMENT pages (page*)>\n" .
-               "  <!ELEMENT page (string*)>\n" .
-               "  <!ATTLIST page key CDATA #REQUIRED>\n" .
-               "  <!ELEMENT string (tr*)>\n" .
-               "  <!ATTLIST string key CDATA #REQUIRED>\n" .
-               "  <!ELEMENT tr (#PCDATA)>\n" .
-               "  <!ATTLIST tr lang IDREF #REQUIRED>\n" .
-               "]>\n\n" .
+               "<!DOCTYPE translation2 [\n" . TRANSLATION2_DTD . "]>\n\n" .
                "<translation2>\n" .
                "  <languages>\n";
 

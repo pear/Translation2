@@ -31,7 +31,26 @@ require_once 'Translation2/Container.php';
  * require XML_Unserializer class
  */
 require_once 'XML/Unserializer.php';
-
+/**
+ * Document Type Definition
+ */
+define ('TRANSLATION2_DTD',
+    "<!ELEMENT translation2 (languages,pages)>\n" .
+    "<!ELEMENT languages (lang*)>\n" .
+    "<!ELEMENT lang (name?,meta?,error_text?,encoding?)>\n" .
+    "<!ATTLIST lang id ID #REQUIRED>\n" .
+    "<!ELEMENT name (#PCDATA)>\n" .
+    "<!ELEMENT meta (#PCDATA)>\n" .
+    "<!ELEMENT error_text (#PCDATA)>\n" .
+    "<!ELEMENT encoding (#PCDATA)>\n" .
+    "<!ELEMENT pages (page*)>\n" .
+    "<!ELEMENT page (string*)>\n" .
+    "<!ATTLIST page key CDATA #REQUIRED>\n" .
+    "<!ELEMENT string (tr*)>\n" .
+    "<!ATTLIST string key CDATA #REQUIRED>\n" .
+    "<!ELEMENT tr (#PCDATA)>\n" .
+    "<!ATTLIST tr lang IDREF #REQUIRED>\n"
+);
 /**
  * Storage driver for fetching data from an xml file 
  *

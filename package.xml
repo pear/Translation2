@@ -45,7 +45,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta6</version>
-    <date>2005-01-11</date>
+    <date>2005-01-26/date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
@@ -53,6 +53,9 @@ Currently, the following decorators are provided:
 - fixed bug #3068: Translation2_Admin::update() on multiple tables didn't insert
   new records for missing langs, only updated the existing ones.
 - fixed bug #3149: XML container didn't properly handle redundant strings
+- added TRANSLATION2_DTD constant to the xml container (thanks to Olivier Guilyardi) 
+- added t2xmlchk.php script to check if a XML file is Translation2 compliant
+  (thanks to Olivier Guilyardi) 
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -116,6 +119,9 @@ Currently, the following decorators are provided:
             <file name="Translation2_gettext_example.php" />
           </dir>
         </dir>
+        <dir name="scripts" role="script">
+          <file name="t2xmlchk.php" />
+		</dir>
         <dir name="tests" role="test">
           <file name="admin_containers_tests.php" />
           <file name="admin_db_test.php" />
@@ -148,7 +154,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta6</version>
-      <date>2005-01-11</date>
+      <date>2005-01-26/date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
@@ -156,6 +162,9 @@ Currently, the following decorators are provided:
 - fixed bug #3068: Translation2_Admin::update() on multiple tables didn't insert
   new records for missing langs, only updated the existing ones.
 - fixed bug #3149: XML container didn't properly handle redundant strings
+- added TRANSLATION2_DTD constant to the xml container (thanks to Olivier Guilyardi) 
+- added t2xmlchk.php script to check if a XML file is Translation2 compliant
+  (thanks to Olivier Guilyardi) 
       </notes>
     </release>
     <release>
