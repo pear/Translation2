@@ -17,7 +17,10 @@ if (PEAR::isError($tr)) {
 writeTitle('ITALIANO');
 $tr->setLang('it');
 $tr->setPageID();
-$tr =& $tr->getDecorator('CacheMemory');
+//$tr =& $tr->getDecorator('CacheMemory');
+$tr =& $tr->getDecorator('CacheLiteFunction');
+$tr->setOption('cacheDir', 'cache/');
+$tr->setOption('lifeTime', 3600*24);
 //$tr->setOption('prefetch', false);
 $tr =& $tr->getDecorator('Lang');
 $tr->setOption('fallbackLang', 'en');
@@ -40,6 +43,14 @@ $str = <<<EOT
 // add a 'CacheMemory Decorator', i.e. add a memory-cache layer
 // to avoid multiple queries to the db
 \$tr = & \$tr->getDecorator('CacheMemory');
+
+// you can also add a file-based cache layer, which uses
+// the *fast* Cache_Lite_Function class. With this decorator,
+// the number of db queries will drop to zero.
+// Warning: a lot of cache files will be created!
+\$tr =& \$tr->getDecorator('CacheLiteFunction');
+\$tr->setOption('cacheDir', 'cache/');  //default is '/tmp/'
+\$tr->setOption('lifeTime', 3600*24);   //default is 3600 (= 1 minute)
 
 // set an 'English Decorator', i.e. add English as a fallback language
 \$tr = & \$tr->getDecorator('Lang');
@@ -97,6 +108,9 @@ $tr = new Translation2($driver, $dbinfo, $params);
 $tr->setLang('en');
 $tr->setPageID();
 $tr = & $tr->getDecorator('CacheMemory');
+$tr =& $tr->getDecorator('CacheLiteFunction');
+$tr->setOption('cacheDir', 'cache/');
+$tr->setOption('lifeTime', 3600*24);
 //$tr->prefetch = false;
 $tr = & $tr->getDecorator('Lang');
 $tr->setOption('fallbackLang', 'it');
@@ -116,6 +130,14 @@ $str = <<<EOT
 // add a 'CacheMemory Decorator', i.e. add a memory-cache layer
 // to avoid multiple queries to the db
 \$tr = & \$tr->getDecorator('CacheMemory');
+
+// you can also add a file-based cache layer, which uses
+// the *fast* Cache_Lite_Function class. With this decorator,
+// the number of db queries will drop to zero.
+// Warning: a lot of cache files will be created!
+\$tr =& \$tr->getDecorator('CacheLiteFunction');
+\$tr->setOption('cacheDir', 'cache/');  //default is '/tmp/'
+\$tr->setOption('lifeTime', 3600*24);   //default is 3600 (= 1 minute)
 
 // set an 'Italian Decorator', i.e. add Italian as a fallback language
 \$tr = & \$tr->getDecorator('Lang');
