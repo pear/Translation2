@@ -94,6 +94,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      * Istanciate a new Cache_Lite_Function object
      * and get the name for an unused global variable,
      * needed by Cache_Lite_Function
+     * @access private
      */
     function _prepare()
     {
