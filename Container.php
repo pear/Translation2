@@ -96,7 +96,7 @@ class Translation2_Container
         $this->getLangs(); //load available languages, if not loaded yet (ignore return value)
         if (!array_key_exists($langID, $this->langs)) {
             return $this->raiseError('unknown language: "'.$langID.'"',
-                                    TRANSLATION_ERROR_UNKNOWN_LANG,
+                                    TRANSLATION2_ERROR_UNKNOWN_LANG,
                                     PEAR_ERROR_RETURN,
                                     E_USER_WARNING);
         }
