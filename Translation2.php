@@ -460,7 +460,7 @@ class Translation2
     function getStringID($string, $pageID=TRANSLATION2_DEFAULT_PAGEID)
     {
         if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
-            $pageID = $this->translation2->currentPageID;
+            $pageID = $this->currentPageID;
         }
         return $this->storage->getStringID($string, $pageID);
     }
