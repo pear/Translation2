@@ -3,14 +3,11 @@ require_once 'settings.php';
 
 $driver = 'gettext';
 
-$params = array(
-    'prefetch' => false
-);
-
-$dbinfo = array(
+$options = array(
+    'prefetch'          => false,
     'langs_avail_file'  => 'gettext_langs.ini',
     'domains_path_file' => 'gettext_domains.ini',
-    'default_domain'    => 'calendar'
+    'default_domain'    => 'calendar',
+    //'file_type'         => 'po',
 );
-
 ?>

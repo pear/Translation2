@@ -7,9 +7,10 @@ require_once './gettext_settings.php';
 require_once 'Translation2.php';
 
 //require_once 'Translation2/Admin.php';
-//$tr =& Translation2_Admin::factory($driver, $dbinfo, $params);
+//$tr =& Translation2_Admin::factory($driver, $options);
 
-$tr =& Translation2::factory($driver, $dbinfo, $params);
+$this->tr = Translation2::factory($driver, $options);
+$tr =& Translation2::factory($driver, $options);
 
 writeTitle('ITALIANO');
 $err = $tr->setLang('it');
@@ -31,8 +32,8 @@ $tr->setOption('fallbackLang', 'de');
 // =[DEBUG INFO]======================================
 $str = <<<EOT
 // new Translation2 instance
-// (look at settings.php for an example of \$dbinfo and \$params)
-\$tr = & Translation2::factory("\$driver", \$dbinfo, \$params);
+// (look at settings.php for an example of \$options)
+\$tr = & Translation2::factory("\$driver", \$options);
 
 // set Italian as default lang
 \$err = \$tr->setLang('it');
@@ -116,7 +117,7 @@ unset($tr);
 //new example
 
 writeTitle('ENGLISH');
-$tr = & Translation2::factory($driver, $dbinfo, $params);
+$tr = & Translation2::factory($driver, $options);
 $err = $tr->setLang('en');
 if (PEAR::isError($err)) {
     die($err->getMessage());
@@ -134,7 +135,7 @@ $tr->setOption('fallbackLang', 'it');
 // =[DEBUG INFO]======================================
 $str = <<<EOT
 // new Translation2 instance
-\$tr = & Translation2::factory("\$driver", \$dbinfo, \$params);
+\$tr = & Translation2::factory("\$driver", \$options);
 
 // set English as default lang
 \$tr->setLang('en');
