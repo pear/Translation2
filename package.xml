@@ -45,12 +45,14 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta4</version>
-    <date>2004-11-16</date>
+    <date>2004-11-17</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
 - fixed typo in error code (TRANSLATION_ERROR_UNKNOWN_LANG => TRANSLATION2_ERROR_UNKNOWN_LANG)
 - updated gettext docs
+- added testsuite
+- fixed typo in db admin containers ($this->queries => $this->_queries)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -116,11 +118,15 @@ Currently, the following decorators are provided:
         </dir>
         <dir name="tests" role="test">
           <file name="admin_containers_tests.php" />
+          <file name="admin_db_test.php" />
+          <file name="admin_mdb2_test.php" />
+          <file name="admin_mdb_test.php" />
           <file name="all_tests.php" />
           <file name="containers_tests.php" />
           <file name="db_test.php" />
+          <file name="dbms_test.php" />
           <file name="mdb2_test.php" />
-          <file name="mdb_test.php.php" />
+          <file name="mdb_test.php" />
           <file name="readme.txt" />
           <file name="simple_include.php" />
           <file name="tests.sql" />
@@ -133,13 +139,14 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta4</version>
-      <date>2004-11-16</date>
+      <date>2004-11-17</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
 - fixed typo in error code (TRANSLATION_ERROR_UNKNOWN_LANG => TRANSLATION2_ERROR_UNKNOWN_LANG)
 - updated gettext docs
 - added testsuite
+- fixed typo in db admin containers ($this->queries => $this->_queries)
       </notes>
     </release>
     <release>

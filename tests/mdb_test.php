@@ -4,7 +4,6 @@
 require_once 'db_test.php';
 
 class TestOfContainerMDB extends TestOfContainerDB {
-    var $tr;
     function TestOfContainerMDB($name='Test of Container MDB') {
         $this->UnitTestCase($name);
     }

@@ -14,7 +14,7 @@ class AllTests extends GroupTest {
     function AllTests() {
         $this->GroupTest('All PEAR::Translation2 Tests');
         $this->AddTestCase(new ContainersTests());
-        //$this->AddTestCase(new AdminTests());
+        $this->AddTestCase(new AdminContainersTests());
     }
 }
 
