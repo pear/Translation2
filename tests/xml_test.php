@@ -13,7 +13,7 @@ class TestOfContainerXML extends TestOfContainerDB {
             'filename'         => 'i18n.xml',
             'save_on_shutdown' => true,
         );
-        $this->tr =& Translation2_Admin::factory($driver, $options);
+        $this->tr =& Translation2::factory($driver, $options);
     }
 }
 ?>
