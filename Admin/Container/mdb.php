@@ -181,6 +181,50 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
     }
 
     // }}}
+    // {{{
+
+    /**
+     * Remove the lang from the langsAvail table and drop the strings table.
+     * If the strings table holds other langs and $force==false, then
+     * only the lang column is dropped. If $force==true the whole
+     * table is dropped without any check
+     *
+     * @param string  $langID
+     * @param boolean $force
+     * @return mixed true on success, PEAR_Error on failure
+     */
+    function removeLang($langID, $force)
+    {
+        //remove from langsAvail
+        $query = sprintf('DELETE FROM %s WHERE %s = %s',
+            $this->options['langs_avail_table'],
+            $this->options['lang_id_col'],
+            $this->db->getTextValue($langID)
+        );
+        ++$this->queries;
+        $res = $this->db->query($query);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
+
+        $lang_table = $this->_getLangTable($langID);
+        $langs = $this->_getLangsInTable($lang_table);
+        if (count($langs) > 1 && !$force) {
+            //drop only the column for this lang
+            $query = sprintf('ALTER TABLE %s DROP COLUMN %s',
+                $lang_table,
+                $this->_getLangCol($langID)
+            );
+            ++$this->queries;
+            return $this->db->query($query);
+        }
+
+        //remove the whole table
+        ++$this->_queries;
+        return $this->db->query('DROP TABLE ' . $lang_table);
+    }
+
+    // }}}
     // {{{ add()
 
     /**
@@ -407,7 +451,7 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
      * @param   array  $langs  Languages to get mapping for
      * @return  array  Language -> column mapping
      * @access  private
-     * @see     Translation2_Container_DB::_getLangCol()
+     * @see     Translation2_Container_MDB::_getLangCol()
      * @author  Ian Eure
      */
     function &_getLangCols($langs)
@@ -471,6 +515,27 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
             }
         }
         return $strings;
+    }
+
+    // }}}
+    // {{{ _getLangsInTable()
+
+    /**
+     * Get the languages sharing the given table
+     *
+     * @param string $table table name
+     * @return array
+     */
+    function &_getLangsInTable($table)
+    {
+        $this->fetchLangs(); // force cache refresh
+        $langsInTable = array();
+        foreach (array_keys($this->langs) as $lang) {
+            if ($table == $this->_getLangTable($lang)) {
+                $langsInTable[] = $lang;
+            }
+        }
+        return $langsInTable;
     }
 
     // }}}

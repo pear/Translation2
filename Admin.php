@@ -192,7 +192,7 @@ class Translation2_Admin extends Translation2
         if (is_null($langID)) {
             //return error
         }
-        $res = $this->storage->remove($langID, $force);
+        $res = $this->storage->removeLang($langID, $force);
         if (PEAR::isError($res)) {
             return $res;
         }
