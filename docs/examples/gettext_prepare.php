@@ -22,4 +22,8 @@ foreach ($langs as $lang) {
 }
 $g->strings = array('alone' => 'solo soletto');
 $g->save('locale/it/LC_MESSAGES/alone.mo');
+
+bindtextdomain('calendar', 'locale/');
+textdomain('calendar');
+echo implode(', ', array(_('month_01'), _('month_02'), _('month_03'), _('month_04'), _('month_05'), _('month_06'), _('month_07'), _('month_08'), _('month_09'), _('month_10'), _('month_11'), _('month_12')));
 ?>
