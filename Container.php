@@ -63,6 +63,9 @@ class Translation2_Container
      */
     function _parseOptions($array)
     {
+        if (!is_array($array)) {
+            return;
+        }
         foreach ($array as $key => $value) {
             if (isset($this->options[$key])) {
                 $this->options[$key] = $value;
