@@ -75,7 +75,7 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
     function Translation2_Container_dataobjectsimple($table=null)
     {
         $this->_setDefaultOptions();
-        if (!is_null($table)) {
+        if (!empty($table)) {
             $this->options['table'] = $table;
         }
     }
@@ -162,10 +162,10 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
      */
     function getOne($string, $page=null, $lang=null)
     {
-        $lang = $lang ? $lang : $this->currentLang['id'];
+        $lang = $lang ? $lang : (isset($this->currentLang['id']) ? $this->currentLang['id'] : '-');
         // get the string id
         $do = DB_DataObject::factory($this->options['table']);
-        $do->lang = '-';
+	$do->lang = '-';
         $do->page = $page;
         $do->translation = $string;
         // we dont have the base language translation..
