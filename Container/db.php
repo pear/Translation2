@@ -181,8 +181,6 @@ class Translation2_Container_db extends Translation2_Container
                          $this->options['string_id_col'],
                          $lang_col,
                          $table,
-                         $table,
-                         $this->options['string_page_id_col'],
                          $this->options['string_page_id_col']);
 
         if (is_null($pageID)) {
@@ -227,11 +225,12 @@ class Translation2_Container_db extends Translation2_Container
                          $table,
                          $table,
                          $this->options['string_id_col'],
-                         $this->db->quote($stringID)
+                         $this->db->quote($stringID),
+                         $this->options['string_page_id_col']
                          );
 
         if (is_null($pageID)) {
-            $query .= 'IS NULL';
+            $query .= ' IS NULL';
         } else {
             $query .= ' = ' . $this->db->quote($pageID);
         }
@@ -258,10 +257,11 @@ class Translation2_Container_db extends Translation2_Container
                          $this->options['string_id_col'],
                          $table,
                          $lang_col,
-                         $this->db->quote($string)
+                         $this->db->quote($string),
+                         $this->options['string_page_id_col']
                          );
         if (is_null($pageID)) {
-            $query .= 'IS NULL';
+            $query .= ' IS NULL';
         } else {
             $query .= ' = ' . $this->db->quote($pageID);
         }
