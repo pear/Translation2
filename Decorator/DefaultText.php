@@ -95,22 +95,29 @@ class Translation2_Decorator_DefaultText extends Translation2_Decorator
     }
 
     // }}}
-    // {{{ translate
+    // {{{ getStringID
 
     /**
-     * Translate a string with fallback
+     * Get the stringID for the given string. This method is the reverse of get().
+     * If the requested string is unknown to the system,
+     * the requested string will be returned.
      *
-     * If the requested string is unknown to the system, or no suitable
-     * translation exists, the requested string will be returned.
-     *
-     * @see     Translation2::translate()
-     * @author  Ian Eure
-     * @since   2.0.0beta3
+     * @param string $string This is NOT the stringID, this is a real string.
+     *               The method will search for its matching stringID, and then
+     *               it will return the associate string in the selected language.
+     * @param string $pageID
+     * @return string
      */
-    function &translate($string, $langID = null, $pageID=TRANSLATION2_DEFAULT_PAGEID)
+    function &getStringID($string, $pageID=TRANSLATION2_DEFAULT_PAGEID)
     {
+        if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
+            $pageID = $this->translation2->currentPageID;
+        }
         $stringID = $this->storage->getStringID($string, $pageID);
-        return $this->get($stringID, $pageID, $langID, $string);
+        if (empty($stringID)) {
+            $stringID = $string;
+        }
+        return $stringID;
     }
 }
 ?>

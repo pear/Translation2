@@ -445,27 +445,23 @@ class Translation2
     }
 
     // }}}
-    // {{{ translate()
+    // {{{ getStringID()
 
     /**
-     * Get translated string
-     *
-     * Search the translation for the string passed as parameter.
+     * Get the stringID for the given string. This method is the reverse of get().
      *
      * @param string $string This is NOT the stringID, this is a real string.
      *               The method will search for its matching stringID, and then
      *               it will return the associate string in the selected language.
-     * @param string $langID
+     * @param string $pageID
      * @return string
      */
-    function translate($string, $langID = null, $pageID=TRANSLATION2_DEFAULT_PAGEID)
+    function getStringID($string, $pageID=TRANSLATION2_DEFAULT_PAGEID)
     {
-        $pageID = ($pageID == TRANSLATION2_DEFAULT_PAGEID ? $this->currentPageID : $pageID);
-        $stringID = $this->storage->getStringID($string, $pageID);
-        if (PEAR::isError($stringID) || empty($stringID)) {
-            return $this->lang['error_text'];
+        if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
+            $pageID = $this->translation2->currentPageID;
         }
-        return $this->get($stringID, $pageID, $langID);
+        return $this->storage->getStringID($string, $pageID);
     }
 
     // }}}

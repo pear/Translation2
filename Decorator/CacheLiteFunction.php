@@ -226,7 +226,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      * @param string $langID
      * @return string
      */
-    function translate($string, $langID, $pageID=TRANSLATION2_DEFAULT_PAGEID)
+    function getStringID($string, $pageID=TRANSLATION2_DEFAULT_PAGEID)
     {
         if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->translation2->currentPageID;
@@ -235,8 +235,8 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
         global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
         ${$this->tempVarName} = $this->translation2;
 
-        return $this->cacheLiteFunction->call($this->tempVarName.'->translate',
-            $string, $langID, $pageID);
+        return $this->cacheLiteFunction->call($this->tempVarName.'->getStringID',
+            $string, $pageID);
     }
 
     // }}}
