@@ -201,5 +201,19 @@ class Translation2_Container
     }
 
     // }}}
+    // {{{ getStringID()
+
+    /**
+     * Get the stringID for the given string
+     * @param string $stringID
+     * @param string $pageID
+     * @return string
+     */
+    function getStringID($string, $pageID)
+    {
+        return $this->raiseError(TRANSLATION_ERROR_METHOD_NOT_SUPPORTED);
+    }
+
+    // }}}
 }
 ?>
