@@ -127,6 +127,7 @@ Currently, the following decorators are provided:
         <dir name="tests" role="test">
           <file name="admin_containers_tests.php" />
           <file name="admin_db_test.php" />
+          <file name="admin_gettext_po_test.php" />
           <file name="admin_mdb2_test.php" />
           <file name="admin_mdb_test.php" />
           <file name="all_tests.php" />

@@ -10,7 +10,9 @@ class AdminContainersTests extends GroupTest {
         $this->addTestFile('admin_db_test.php');
         $this->addTestFile('admin_mdb_test.php');
         $this->addTestFile('admin_mdb2_test.php');
-        //$this->addTestFile('admin_gettext_test.php');
+        //can't really test .mo files because any change requires an Apache restart
+        //$this->addTestFile('admin_gettext_mo_test.php');
+        $this->addTestFile('admin_gettext_po_test.php');
         //$this->addTestFile('admin_xml_test.php');
     }
 }
