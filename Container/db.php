@@ -118,14 +118,14 @@ class Translation2_Container_db extends Translation2_Container
     function _setDefaultOptions()
     {
         $this->options['langs_avail_table'] = 'langs';
-        $this->options['lang_id_col']       = 'ID';
+        $this->options['lang_id_col']       = 'id';
         $this->options['lang_name_col']     = 'name';
         $this->options['lang_meta_col']     = 'meta';
         $this->options['lang_errmsg_col']   = 'error_text';
 
         $this->options['strings_default_table'] = 'i18n';
         $this->options['strings_tables']        = array(); // 'lang_id' => 'table_name'
-        $this->options['string_id_col']         = 'ID';
+        $this->options['string_id_col']         = 'id';
         $this->options['string_page_id_col']    = 'page_id';
         $this->options['string_text_col']       = '%s'; // col_name if one table per lang is used,
                                                         // or a pattern (i.e. "tr_%s" => "tr_EN_US")
