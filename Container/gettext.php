@@ -83,7 +83,10 @@ class Translation2_Container_gettext extends Translation2_Container
     {
         $this->_setDefaultOptions();
         $this->_parseOptions($options);
-        $this->_extensionLoaded = function_exists('gettext');
+        $this->_extensionLoaded = (
+            function_exists('gettext') &&
+            ($this->options['file_type'] != 'po')
+        );
         
         $this->_domains = @parse_ini_file($this->options['domains_path_file']);
         
