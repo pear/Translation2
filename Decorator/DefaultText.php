@@ -34,6 +34,27 @@ require_once 'Translation2/Decorator.php';
 class Translation2_Decorator_DefaultText extends Translation2_Decorator
 {
 
+    // {{{ class vars
+
+    /**
+     * String appended to the returned string when the string is empty
+     * and it's replaced by its $stringID. It can be used to mark unreplaced
+     * strings.
+     * @var string
+     * @access protected
+     */
+    var $emptyPostfix = '';
+
+    /**
+     * String prepended to the returned string when the string is empty
+     * and it's replaced by its $stringID. It can be used to mark unreplaced
+     * strings.
+     * @var string
+     * @access protected
+     */
+    var $emptyPrefix = '';
+
+    // }}}
     // {{{ get()
 
     /**
@@ -52,7 +73,7 @@ class Translation2_Decorator_DefaultText extends Translation2_Decorator
     {
         $str = $this->translation2->get($stringID, $pageID, $langID);
         if (empty($str)) {
-            $str = (empty($defaultText) ? $stringID : $defaultText);
+            $str = (empty($defaultText) ? $this->emptyPrefix.$stringID.$this->emptyPostfix : $defaultText);
         }
         return $str;
     }

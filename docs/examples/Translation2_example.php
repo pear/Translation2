@@ -290,10 +290,14 @@ writeValue('[EN] (in page) string', $tr->get('prova_conflitto', 'in_page'));
 
 writeTitle('USE A DefaultText DECORATOR TO DEAL WITH EMPTY STRINGS');
 $tr = & $tr->getDecorator('DefaultText');
+$tr->setOption('emptyPrefix', '[');
+$tr->setOption('emptyPostfix', ']');
 
 // =[DEBUG INFO]======================================
 $str = <<<EOT
 \$tr = & \$tr->getDecorator('DefaultText');
+\$tr->setOption('emptyPrefix', '[');  //mark empty strings
+\$tr->setOption('emptyPostfix', ']'); //enclose them within brackets
 EOT;
 // ====================================================
 debug($str);
