@@ -71,26 +71,45 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
                             $langData['table_name'],
                             $lang_col
             );
-        } else {
-            //is this query portable??
-            $query = sprintf('CREATE TABLE %s ( '
-                            .'%s CHAR(16) default NULL, '
-                            .'%s CHAR(32) NOT NULL, '
-                            .'%s TEXT, '
-                            .'UNIQUE KEY tablekey (%s, %s), '
-                            .'KEY page_id (%s), '
-                            .'KEY string_id (%s))',
-                            $langData['table_name'],
-                            $this->options['string_page_id_col'],
-                            $this->options['string_id_col'],
-                            $lang_col,
-                            $this->options['string_page_id_col'],
-                            $this->options['string_id_col'],
-                            $this->options['string_page_id_col'],
-                            $this->options['string_id_col']
-            );
+            return $this->query($query);
         }
-        return $this->query($query);
+        
+        //table does not exist
+        $queries = array();
+        $queries[] = sprintf('CREATE TABLE %s ( '
+                             .'%s VARCHAR(50) default NULL, '
+                             .'%s VARCHAR(50) NOT NULL, '
+                             .'%s TEXT )',
+                             $langData['table_name'],
+                             $this->options['string_page_id_col'],
+                             $this->options['string_id_col'],
+                             $lang_col
+        );
+        $queries[] = sprintf('CREATE UNIQUE INDEX %s_index ON %s (%s)',
+                             $langData['table_name'],
+                             $this->options['string_id_col'],
+                             $langData['table_name'],
+                             $this->options['string_id_col']
+        );
+        $queries[] = sprintf('CREATE INDEX %s_%s_index ON %s (%s)',
+                             $langData['table_name'],
+                             $this->options['string_page_id_col'],
+                             $langData['table_name'],
+                             $this->options['string_page_id_col']
+        );
+        $queries[] = sprintf('CREATE INDEX %s_%s_index ON %s (%s)',
+                             $langData['table_name'],
+                             $this->options['string_id_col'],
+                             $langData['table_name'],
+                             $this->options['string_id_col']
+        );
+        foreach($queries as $query) {
+            $res = $this->query($query);
+            if ($res == false) {
+                return $res;
+            }
+        }
+        return true;
     }
 
     // }}}
@@ -115,23 +134,30 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         }
 
         if (!in_array($this->options['langs_avail_table'], $tables)) {
-            //is this query portable??
-            $query = sprintf('CREATE TABLE %s ('
-                            .'%s CHAR(16), '
-                            .'%s CHAR(200), '
-                            .'%s TEXT, '
-                            .'%s CHAR(250), '
-                            .'UNIQUE KEY (%s))',
-                            $this->options['langs_avail_table'],
-                            $this->options['lang_id_col'],
-                            $this->options['lang_name_col'],
-                            $this->options['lang_meta_col'],
-                            $this->options['lang_errmsg_col'],
-                            $this->options['lang_id_col']
+            $queries = array();
+            $queries[] = sprintf('CREATE TABLE %s ('
+                                .'%s VARCHAR(16), '
+                                .'%s VARCHAR(200), '
+                                .'%s TEXT, '
+                                .'%s VARCHAR(250) )',
+                                $this->options['langs_avail_table'],
+                                $this->options['lang_id_col'],
+                                $this->options['lang_name_col'],
+                                $this->options['lang_meta_col'],
+                                $this->options['lang_errmsg_col']
             );
-            $res = $this->query($query);
-            if (PEAR::isError($res)) {
-                return $res;
+            $queries[] = sprintf('CREATE UNIQUE INDEX %s_%s_index ON %s (%s)',
+                                $this->options['langs_avail_table'],
+                                $this->options['lang_id_col'],
+                                $this->options['langs_avail_table'],
+                                $this->options['lang_id_col']
+            );
+
+            foreach ($queries as $query) {
+                $res = $this->query($query);
+                if (PEAR::isError($res)) {
+                    return $res;
+                }
             }
         }
 
