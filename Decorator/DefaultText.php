@@ -15,7 +15,8 @@
  * @category   Internationalization
  * @package    Translation2
  * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
+ * @author     Rolf 'Red' Ochsenbein <red at raven dot ch>
+ * @copyright  2004-2005 Lorenzo Alberton, Rolf 'Red' Ochsenbein
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Translation2
@@ -29,10 +30,16 @@ require_once 'Translation2/Decorator.php';
 /**
  * Decorator to provide a fallback text for empty strings.
  *
+ * If the string is empty, return the <parameter>defaultText</parameter> parameter.
+ * If the <parameter>defaultText</parameter> parameter is empty too, then return
+ * &quot;$emptyPostfix.$outputString.$emptyPrefix&quot;, the three variables
+ * being class properties you can set to a custom string.
+ *
  * @category   Internationalization
  * @package    Translation2
  * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
+ * @author     Rolf 'Red' Ochsenbein <red at raven dot ch>
+ * @copyright  2004-2005 Lorenzo Alberton, Rolf 'Red' Ochsenbein
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Translation2
@@ -59,6 +66,24 @@ class Translation2_Decorator_DefaultText extends Translation2_Decorator
      */
     var $emptyPrefix = '';
 
+    /**
+     * String to output when there was no translation
+     * %stringID% will be replaced with the stringID
+     * %stringID_url% will replaced with a urlencoded stringID
+     * %url% will be replaced with the targeted url
+     * @var string
+     * @access protected
+     */
+    //var $outputString = '%stringID%<a href="%url%">(T)</a>';
+    var $outputString = '%stringID%';
+
+    /**
+     * Targeted URL of strings without translations
+     * @var string
+     * @access protected
+     */
+    var $url = '#';
+
     // }}}
     // {{{ get()
 
@@ -77,10 +102,30 @@ class Translation2_Decorator_DefaultText extends Translation2_Decorator
     function get($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
     {
         $str = $this->translation2->get($stringID, $pageID, $langID);
-        if (empty($str)) {
-            $str = (empty($defaultText) ? $this->emptyPrefix.$stringID.$this->emptyPostfix : $defaultText);
+        if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
+            $pageID = $this->translation2->currentPageID;
         }
-        return $str;
+        if (!empty($str)) {
+            return $str;
+        }
+        if (!empty($defaultText)) {
+            return $defaultText;
+        }
+
+        $search  = array(
+            '%stringID%',
+            '%stringID_url%',
+            '%pageID_url%',
+            '%url%'
+        );
+        $replace = array(
+            $stringID,
+            urlencode($stringID),
+            urlencode($tmp_pageID),
+            $this->url
+        );
+        return $this->emptyPrefix.str_replace($search, $replace, $this->outputString).$this->emptyPostfix;
+        //$str = (empty($defaultText) ? $this->emptyPrefix.$stringID.$this->emptyPostfix : $defaultText);
     }
 
     // }}}

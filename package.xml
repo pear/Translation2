@@ -45,10 +45,12 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta7</version>
-    <date>2005-03-03</date>
+    <date>2005-03-09</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
+- added some options to the DefaultText decoration, now it is more customizable
+  (thanks to Rolf 'Red' Ochsenbein)
 - added a __clone() method to clone the internal object references
   (bug #3641, patch by Olivier Guilyardi)
 - Some fixes to the XML container, many thanks to Olivier Guilyardi:
@@ -56,7 +58,6 @@ Currently, the following decorators are provided:
   * fixed bug #3420: get a shared file lock instead of an exclusive one;
   * fixed bug #3498: saveData() is not registered multiple times as shutdown
     function anymore; optimized saving when save_on_shutdown is set to false.
-    
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -156,10 +157,12 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta7</version>
-      <date>2005-03-03</date>
+      <date>2005-03-09</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
+- added some options to the DefaultText decoration, now it is more customizable
+  (thanks to Rolf 'Red' Ochsenbein)
 - added a __clone() method to clone the internal object references
   (bug #3641, patch by Olivier Guilyardi)
 - Some fixes to the XML container, many thanks to Olivier Guilyardi:
