@@ -49,6 +49,45 @@ class TestOfAdminContainerDB extends UnitTestCase {
         $this->assertTrue($this->tr->removeLang('fr'));
         $this->assertEqual($pre, $this->tr->getLangs('array'));
     }
+    function testUpdateLang() {
+        $original = array(
+            'id'         => 'en',
+            'name'       => 'english',
+            'meta'       => 'my meta info',
+            'error_text' => 'not available in English',
+            'encoding'   => 'iso-8859-1',
+        );
+        $restore = array(
+            'lang_id'    => 'en',
+            'name'       => 'english',
+            'meta'       => 'my meta info',
+            'error_text' => 'not available in English',
+            'encoding'   => 'iso-8859-1',
+        );
+
+
+        $newLangData = array(
+            'lang_id'    => 'en',
+            'name'       => 'english2',
+            'meta'       => 'my other meta info',
+            'error_text' => 'not available in English2',
+            'encoding'   => 'iso-8859-15',
+        );
+        $expected = array(
+            'id'         => 'en',
+            'name'       => 'english2',
+            'meta'       => 'my other meta info',
+            'error_text' => 'not available in English2',
+            'encoding'   => 'iso-8859-15',
+        );
+
+        $this->assertTrue($this->tr->updateLang($newLangData));
+        $this->tr->setLang('en');
+        $this->assertEqual($expected, $this->tr->getLang('en', 'array'));
+        
+        $this->assertTrue($this->tr->updateLang($restore));
+        $this->assertEqual($original, $this->tr->getLang('en', 'array'));
+    }
     function testAddUpdateRemove() {
         $stringArray = array(
             'en' => 'sample',
