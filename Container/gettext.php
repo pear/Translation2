@@ -133,7 +133,7 @@ class Translation2_Container_gettext extends Translation2_Container
     function _switchLang($langID)
     {
         if (!isset($langID)) {
-            return $this->currentLang['id'];
+            $langID = $this->currentLang['id'];
         }
         $oldLang = $this->currentLang['id'];
         $this->setLang($langID);
@@ -152,7 +152,7 @@ class Translation2_Container_gettext extends Translation2_Container
     {
         $this->langs = @parse_ini_file($this->options['langs_avail_file'], true);
         foreach ((array) $this->langs as $id => $lang) {
-            $this->langs[$id] = $lang + array('id' => $id);
+            $this->langs[$id]['id'] = $id;
         }
     }
 
@@ -187,7 +187,7 @@ class Translation2_Container_gettext extends Translation2_Container
         $oldLang = $this->_switchLang($langID);
         $curLang = $this->currentLang['id'];
         
-        if (!isset($pageID)) {
+        if (empty($pageID) || $pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->options['default_domain'];
         }
         
@@ -248,9 +248,13 @@ class Translation2_Container_gettext extends Translation2_Container
         // native mode
         if ($this->_native) {
             $oldLang = $this->_switchLang($langID);
+            $curLang = $this->currentLang['id'];
 
-            textdomain(isset($pageID) ? $pageID : $this->options['default_domain']);
-            $string = gettext($stringID);
+            if (empty($pageID) || $pageID == TRANSLATION2_DEFAULT_PAGEID) {
+                $pageID = $this->options['default_domain'];
+            }
+            
+            $string = dgettext($pageID, $stringID);
 
             $this->_switchLang($oldLang);
             return $string;
@@ -279,7 +283,7 @@ class Translation2_Container_gettext extends Translation2_Container
      */
     function getStringID($string, $pageID = null)
     {
-        if (empty($pageID)) {
+        if (empty($pageID) || $pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->options['default_domain'];
         }
         
