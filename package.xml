@@ -18,7 +18,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
   </maintainers>
   <release>
     <version>2.0.0-alpha2</version>
-    <date>2004-XX-XX</date>
+    <date>2004-02-05</date>
     <license>PHP License</license>
     <state>alpha</state>
     <notes>
@@ -57,7 +57,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
   <changelog>
     <release>
       <version>2.0.0-alpha2</version>
-      <date>2004-XX-XX</date>
+      <date>2004-02-05</date>
       <license>PHP License</license>
       <state>alpha</state>
       <notes>
