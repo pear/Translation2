@@ -20,7 +20,7 @@
 //
 /**
  * @package Translation2
- * @version $Id $
+ * @version $Id$
  */
 
 /**
@@ -52,10 +52,10 @@ define ('TRANSLATION2_DTD',
     "<!ATTLIST tr lang IDREF #REQUIRED>\n"
 );
 /**
- * Storage driver for fetching data from an xml file 
+ * Storage driver for fetching data from an xml file
  *
  * Example file :
- * 
+ *
  * <?xml version="1.0" encoding="iso-8859-1"?>
  * <translation2>
  *     <languages>
@@ -87,7 +87,7 @@ class Translation2_Container_xml extends Translation2_Container
     // {{{ class vars
 
     /**
-     * Unserialized XML data 
+     * Unserialized XML data
      * @var object
      */
     var $_data = null;
@@ -97,12 +97,12 @@ class Translation2_Container_xml extends Translation2_Container
      * @var string
      */
     var $_filename;
-    
+
     // }}}
     // {{{ init
 
     /**
-     * Initialize the container 
+     * Initialize the container
      *
      * @param  string  $filename Path to the XML file
      * @return boolean|PEAR_Error object if something went wrong
@@ -119,7 +119,7 @@ class Translation2_Container_xml extends Translation2_Container
 
     // }}}
     // {{{ _loadFile()
-    
+
     /**
      * Load an XML file into memory, and eventually decode the strings from UTF-8
      *
@@ -173,40 +173,41 @@ class Translation2_Container_xml extends Translation2_Container
         }
 
         // convert lang metadata from UTF-8
-        if (PEAR::isError($e = $this->_convertLangEncodings('from_xml'))) {
+        if (PEAR::isError($e = $this->_convertLangEncodings('from_xml', $this->_data))) {
             return $e;
         }
 
         // convert encodings of the translated strings from xml (somehow heavy)
-        return $this->_convertEncodings('from_xml');
+        return $this->_convertEncodings('from_xml', $this->_data);
     }
-    
+
     // }}}
     // {{{ _convertEncodings()
 
-    /** 
+    /**
      * Convert strings to/from XML unique charset (UTF-8)
      *
      * @param string ['from_xml' | 'to_xml']
+     * @param array  $data  Data buffer to operate on
      * @return boolean|PEAR_Error
      */
-    function _convertEncodings($direction) 
+    function _convertEncodings($direction, &$data)
     {
         if ($direction == 'from_xml') {
             $source_encoding = 'UTF-8';
         } else {
             $target_encoding = 'UTF-8';
         }
-        
-        foreach ($this->_data['pages'] as $page_id => $page_content) {
+
+        foreach ($data['pages'] as $page_id => $page_content) {
             foreach ($page_content as $str_id => $translations) {
                 foreach ($translations as $lang => $str) {
                     if ($direction == 'from_xml') {
                         $target_encoding =
-                            strtoupper($this->_data['languages'][$lang]['encoding']);
+                            strtoupper($data['languages'][$lang]['encoding']);
                     } else {
                         $source_encoding =
-                            strtoupper($this->_data['languages'][$lang]['encoding']);
+                            strtoupper($data['languages'][$lang]['encoding']);
                     }
                     if ($target_encoding != $source_encoding) {
                         $res = iconv ($source_encoding, $target_encoding, $str);
@@ -220,14 +221,14 @@ class Translation2_Container_xml extends Translation2_Container
                                     PEAR_ERROR_RETURN,
                                     E_USER_WARNING);
                         }
-                        $this->_data['pages'][$page_id][$str_id][$lang] = $res;
+                        $data['pages'][$page_id][$str_id][$lang] = $res;
                     }
                 }
             }
         }
         return true;
     }
-         
+
     // }}}
     // {{{ _convertLangEncodings()
 
@@ -235,9 +236,10 @@ class Translation2_Container_xml extends Translation2_Container
      * Convert lang data to/from XML unique charset (UTF-8)
      *
      * @param string $direction   ['from_xml' | 'to_xml']
+     * @param array  $data        Data buffer to operate on
      * @return boolean|PEAR_Error
      */
-    function _convertLangEncodings($direction)
+    function _convertLangEncodings($direction, &$data)
     {
         static $fields = array('name', 'meta', 'error_text');
 
@@ -246,8 +248,8 @@ class Translation2_Container_xml extends Translation2_Container
         } else {
             $target_encoding = 'UTF-8';
         }
-        
-        foreach ($this->_data['languages'] as $lang_id => $lang) {
+
+        foreach ($data['languages'] as $lang_id => $lang) {
             if ($direction == 'from_xml') {
                 $target_encoding = strtoupper($lang['encoding']);
             } else {
@@ -267,7 +269,7 @@ class Translation2_Container_xml extends Translation2_Container
                                 PEAR_ERROR_RETURN,
                                 E_USER_WARNING);
                     }
-                    $this->_data['languages'][$lang_id][$field] = $res;
+                    $data['languages'][$lang_id][$field] = $res;
                 }
             }
         }
@@ -298,7 +300,7 @@ class Translation2_Container_xml extends Translation2_Container
     /**
      * Turn empty strings returned by XML_Unserializer into empty arrays
      *
-     * Note: this method is public because called statically by the t2xmlchk.php
+     * Note : this method is public because called statically by the t2xmlchk.php
      * script. It is not meant to be called by user-space code.
      *
      * @access public
@@ -392,11 +394,11 @@ class Translation2_Container_xml extends Translation2_Container
 
         $result = array();
         foreach ($this->_data['pages'][$pageID] as $str_id => $translations) {
-            $result[$str_id]  = isset($translations[$langID]) 
-                                ? $translations[$langID] 
+            $result[$str_id]  = isset($translations[$langID])
+                                ? $translations[$langID]
                                 : null;
         }
-        
+
         return $result;
     }
 
@@ -414,7 +416,7 @@ class Translation2_Container_xml extends Translation2_Container
     function getOne($stringID, $pageID = null, $langID = null)
     {
         $langID = $this->_getLangID($langID);
-        $pageID = (is_null($pageID)) ? '#NULL' : $pageID;                         
+        $pageID = (is_null($pageID)) ? '#NULL' : $pageID;
 
         return isset($this->_data['pages'][$pageID][$stringID][$langID])
                ? $this->_data['pages'][$pageID][$stringID][$langID]
@@ -433,8 +435,8 @@ class Translation2_Container_xml extends Translation2_Container
      */
     function getStringID($string, $pageID = null)
     {
-        $pageID = (is_null($pageID)) ? '#NULL' : $pageID;                        
-        
+        $pageID = (is_null($pageID)) ? '#NULL' : $pageID;
+
         foreach ($this->_data['pages'][$pageID] as $str_id => $translations) {
             if (array_search($string,$translations) !== false) {
                 return $str_id;
@@ -443,7 +445,7 @@ class Translation2_Container_xml extends Translation2_Container
 
         return '';
     }
-    
+
     // }}}
 }
 ?>

@@ -45,15 +45,16 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta7</version>
-    <date>2005-02-17</date>
+    <date>2005-02-21</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
-- Some fixes to the XML container, thanks to Olivier Guilyardi:
+- Some fixes to the XML container, many thanks to Olivier Guilyardi:
   * fixed bug #3408: empty data sets were not correctly handled;
   * fixed bug #3420: get a shared file lock instead of an exclusive one;
   * fixed bug #3498: saveData() is not registered multiple times as shutdown
-    function anymore.
+    function anymore; optimized saving when save_on_shutdown is set to false.
+    
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -153,15 +154,15 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta7</version>
-      <date>2005-02-17</date>
+      <date>2005-02-21</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
-- Some fixes to the XML container, thanks to Olivier Guilyardi:
+- Some fixes to the XML container, many thanks to Olivier Guilyardi:
   * fixed bug #3408: empty data sets were not correctly handled;
   * fixed bug #3420: get a shared file lock instead of an exclusive one;
   * fixed bug #3498: saveData() is not registered multiple times as shutdown
-    function anymore.
+    function anymore; optimized saving when save_on_shutdown is set to false.
       </notes>
     </release>
     <release>

@@ -83,11 +83,11 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
             'error_text' => '',
             'encoding'   => 'iso-8859-1',
         );
-        
+
         foreach ($validInput as $key => $val) {
             if (isset($langData[$key])) $validInput[$key] = $langData[$key];
         }
-        
+
         $this->_data['languages'][$langData['lang_id']] = $validInput;
         return $this->_scheduleSaving();
     }
@@ -147,7 +147,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
         foreach ($langs as $lang) {
             $this->_data['pages'][$pageID][$stringID][$lang] = $stringArray[$lang];
         }
-        
+
         return $this->_scheduleSaving();
     }
 
@@ -203,7 +203,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      */
     function removeLang($langID, $force = true)
     {
-        // remove lang metadata 
+        // remove lang metadata
         unset($this->_data['languages'][$langID]);
 
         // remove the entries
@@ -241,14 +241,14 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
 
     // }}}
     // {{{ _scheduleSaving()
-    
+
     /**
      * Prepare data saving
      *
      * This methods registers _saveData() as a PEAR shutdown function. This
-     * is to avoid saving multiple times if the programmer makes several 
+     * is to avoid saving multiple times if the programmer makes several
      * changes.
-     * 
+     *
      * @return true|PEAR_Error
      * @access private
      * @see Translation2_Admin_Container_xml::_saveData()
@@ -263,18 +263,18 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
             }
             return true;
         }
-        
+
         // save the changes now
-        if (PEAR::isError($e = $this->_saveData())) {
-            return $e;
-        }
-        // refresh memory cache
-        return $this->_loadFile();
+        return $this->_saveData();
+
+
+
+
     }
 
     // }}}
     // {{{ _saveData()
-    
+
     /**
      * Serialize and save the updated tranlation data to the XML file
      *
@@ -284,43 +284,49 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      */
     function _saveData()
     {
-        $this->_convertEncodings('to_xml');
-        $this->_convertLangEncodings('to_xml');
-        
+        if ($this->options['save_on_shutdown']) {
+            $data =& $this->_data;
+        } else {
+            $data =  $this->_data;
+        }
+
+        $this->_convertEncodings('to_xml', $data);
+        $this->_convertLangEncodings('to_xml', $data);
+
         // Serializing
-        
+
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n" .
                "<!DOCTYPE translation2 [\n" . TRANSLATION2_DTD . "]>\n\n" .
                "<translation2>\n" .
                "  <languages>\n";
 
-        foreach ($this->_data['languages'] as $lang => $spec) {
+        foreach ($data['languages'] as $lang => $spec) {
             extract ($spec);
             $xml .= "    <lang id=\"$lang\">\n" .
-                    "      <name>" . 
-                    ($name ? ' ' . XML_Util::replaceEntities($name) . ' ' : '') . 
+                    "      <name>" .
+                    ($name ? ' ' . XML_Util::replaceEntities($name) . ' ' : '') .
                     "</name>\n" .
-                    "      <meta>" . 
-                    ($meta ? ' ' . XML_Util::replaceEntities($meta) . ' ' : "") . 
+                    "      <meta>" .
+                    ($meta ? ' ' . XML_Util::replaceEntities($meta) . ' ' : "") .
                     "</meta>\n" .
-                    "      <error_text>" . 
-                    ($error_text 
-                        ? ' ' . XML_Util::replaceEntities($error_text) . ' ' 
-                        : "") . 
+                    "      <error_text>" .
+                    ($error_text
+                        ? ' ' . XML_Util::replaceEntities($error_text) . ' '
+                        : "") .
                     "</error_text>\n" .
-                    "      <encoding>" . ($encoding ? " $encoding " : "") . 
-                    "</encoding>\n" .  
+                    "      <encoding>" . ($encoding ? " $encoding " : "") .
+                    "</encoding>\n" .
                     "    </lang>\n";
         }
 
         $xml .= "  </languages>\n" .
                 "  <pages>\n";
 
-        foreach ($this->_data['pages'] as $page => $strings) {
-            $xml .= "    <page key=\"" . XML_Util::replaceEntities($page) . 
+        foreach ($data['pages'] as $page => $strings) {
+            $xml .= "    <page key=\"" . XML_Util::replaceEntities($page) .
                     "\">\n";
             foreach ($strings as $str_id => $translations) {
-                $xml .= "      <string key=\"" . 
+                $xml .= "      <string key=\"" .
                         XML_Util::replaceEntities($str_id) . "\">\n";
                 foreach ($translations as $lang => $str) {
                     $xml .= "        <tr lang=\"$lang\"> " .
@@ -333,6 +339,8 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
 
         $xml .= "  </pages>\n" .
                 "</translation2>\n";
+
+        unset ($data);
 
         // Saving
 
