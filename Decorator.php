@@ -140,6 +140,27 @@ class Translation2_Decorator
     }
 
     // }}}
+    // {{{ getDecorator()
+
+    /**
+     * Return an instance of a decorator
+     *
+     * @access public
+     * @param  string $decorator  Name of the decorator
+     * @param  object [optional]
+     * @return object Decorator object reference
+     */
+    function & getDecorator($decorator)
+    {
+        if (func_num_args() > 1) {
+            $obj =& func_get_arg(1);
+            return $this->translation2->getDecorator($decorator, &$obj);
+        } else {
+            return $this->translation2->getDecorator($decorator, &$this);
+        }
+    }
+
+    // }}}
     // {{{ setLang()
 
     /**
@@ -206,7 +227,7 @@ class Translation2_Decorator
     // {{{ setDecoratedLang()
 
     /**
-     * Set default lang
+     * Set fallback lang
      * @param string $langID
      */
     function setDecoratedLang($langID)
@@ -236,10 +257,7 @@ class Translation2_Decorator
     /**
      * Get translated string
      *
-     * First check if the string is cached, if not => fetch the page
-     * from the container and cache it for later use.
-     * If the string is empty, check the fallback language; if
-     * the latter is empty too, then return the $defaultText.
+     * All the filters are applied.
      *
      * @param string $stringID
      * @param string $pageID
@@ -300,7 +318,7 @@ class Translation2_Decorator
         return $this->translation2->_replaceParams($strings);
     }
 
-    // }}}
+   // }}}
     // {{{ replaceEmptyStringsWithKeys()
 
     /**

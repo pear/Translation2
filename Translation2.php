@@ -169,6 +169,30 @@ class Translation2
     }
 
     // }}}
+    // {{{ getDecorator()
+
+    /**
+     * Return an instance of a decorator
+     *
+     * @access public
+     * @param  string $decorator  Name of the decorator
+     * @param  object [optional]
+     * @return object Decorator object reference
+     */
+    function & getDecorator($decorator)
+    {
+        $decorator_path = 'Translation2/Decorator/'.$decorator.'.php';
+        $decorator_class = 'Translation2_Decorator_'.$decorator;
+        require_once $decorator_path;
+        if (func_num_args() > 1) {
+            $obj =& func_get_arg(1);
+            return new $decorator_class(&$obj);
+        } else {
+            return new $decorator_class(&$this);
+        }
+    }
+
+    // }}}
     // {{{ setLang()
 
     /**
