@@ -54,17 +54,43 @@ langs.ini file format example
 =============================
 ; lang code can be in "lang_DIALECT" or in "lang" format
 
-[en_UK]
-id = en_UK
+[en]
+use = en_US
+
+[en_US]
+id = en
 name = English
 meta = iso-8859-1
 error_text = not available in English
+windows = enu
+
+[en_GB]
+id = en_GB
+name = English
+meta = iso-8859-1
+windows = eng
+
+[de]
+use = de_DE
+
+[de_DE]
+id = de_DE
+name = Deutsch
+meta = iso-8859-1
+windows = deu
+
+[de_AT]
+id = de_AT
+name = Deutsch
+meta = iso-8859-1
+windows = dea
 
 [it]
 id = it
 name = italiano
 meta = iso-8859-1
 error_text = non disponibile in italiano
+windows = ita
 
 
 ===============================
