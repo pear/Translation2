@@ -292,5 +292,22 @@ class Translation2_Decorator
     }
 
     // }}}
+    // {{{ getStringID()
+
+    /**
+     * Get the stringID for the given string. This method is the reverse of get().
+     *
+     * @param string $string This is NOT the stringID, this is a real string.
+     *               The method will search for its matching stringID, and then
+     *               it will return the associate string in the selected language.
+     * @param string $pageID
+     * @return string
+     */
+    function getStringID($string, $pageID=TRANSLATION2_DEFAULT_PAGEID)
+    {
+        return $this->translation2->getStringID($string, $pageID);
+    }
+
+    // }}}
 }
 ?>
