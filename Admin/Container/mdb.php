@@ -396,6 +396,32 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
     }
 
     // }}}
+    // {{{ getPageNames()
+
+    /**
+     * Get a list of all the pageIDs in any table.
+     *
+     * @return array
+     */
+    function getPageNames()
+    {
+        $pages = array();
+        foreach ($this->_getLangTables() as $table) {
+            $query = sprintf('SELECT DISTINCT %s FROM %s',
+                 $this->options['string_page_id_col'],
+                 $table
+            );
+            ++$this->_queries;
+            $res = $this->db->getCol($query);
+            if (PEAR::isError($res)) {
+                return $res;
+            }
+            $pages = array_merge($pages, $res);
+        }
+        return $pages;
+    }
+
+    // }}}
     // {{{ _tableLangs()
 
     /**
@@ -441,7 +467,7 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
         foreach ($langs as $lang) {
             $tables[] = $this->_getLangTable($lang);
         }
-        return $tables;
+        return array_unique($tables);
     }
 
     // }}}
