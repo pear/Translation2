@@ -100,6 +100,8 @@ class Translation2_Container_gettext extends Translation2_Container
             bindtextdomain($domain, $path);
         }
         
+        $this->setLang($this->options['default_lang']);
+        
         return true;
     }
 
@@ -119,7 +121,7 @@ class Translation2_Container_gettext extends Translation2_Container
         $this->options['default_domain']    = 'messages';
         $this->options['carriage_return']   = "\n";
         $this->options['file_type']         = 'mo';
-        //$this->options['path_to_locale']  = './';
+        $this->options['default_lang']      = 'en';
     }
 
     // }}}
@@ -132,7 +134,7 @@ class Translation2_Container_gettext extends Translation2_Container
      */
     function _switchLang($langID)
     {
-        if (!isset($langID) || ($langID == $this->currentLang['id'])) {
+        if (!isset($langID)) {
             return $this->currentLang['id'];
         }
         $oldLang = $this->currentLang['id'];
