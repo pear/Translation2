@@ -268,7 +268,7 @@ $tr = &new Translation2_Decorator_DefaultText(&$tr);
 
 // =[DEBUG INFO]======================================
 $str = <<<EOT
-\$tr = &new Translation2_Decorator_DefaultText(&$tr);
+\$tr = &new Translation2_Decorator_DefaultText(&\$tr);
 EOT;
 // ====================================================
 
