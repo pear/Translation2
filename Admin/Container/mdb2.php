@@ -153,12 +153,14 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
                                 .'%s VARCHAR(16), '
                                 .'%s VARCHAR(200), '
                                 .'%s TEXT, '
-                                .'%s VARCHAR(250) )',
+                                .'%s VARCHAR(250), '
+                                .'%s VARCHAR(16) )',
                                 $this->options['langs_avail_table'],
                                 $this->options['lang_id_col'],
                                 $this->options['lang_name_col'],
                                 $this->options['lang_meta_col'],
-                                $this->options['lang_errmsg_col']
+                                $this->options['lang_errmsg_col'],
+                                $this->options['lang_encoding_col']
             );
             $queries[] = sprintf('CREATE UNIQUE INDEX %s_%s_index ON %s (%s)',
                                 $this->options['langs_avail_table'],

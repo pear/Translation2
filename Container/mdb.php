@@ -138,11 +138,12 @@ class Translation2_Container_mdb extends Translation2_Container
      */
     function fetchLangs()
     {
-        $query = sprintf('SELECT %s AS id, %s AS name, %s AS meta, %s AS error_text FROM %s',
+        $query = sprintf('SELECT %s AS id, %s AS name, %s AS meta, %s AS error_text, %s AS encoding FROM %s',
                         $this->options['lang_id_col'],
                         $this->options['lang_name_col'],
                         $this->options['lang_meta_col'],
                         $this->options['lang_errmsg_col'],
+                        $this->options['lang_encoding_col'],
                         $this->options['langs_avail_table']);
 
         ++$this->_queries;

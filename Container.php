@@ -137,7 +137,7 @@ class Translation2_Container
 
     /**
      * Gets the available languages
-     * @param string $format ['array' | 'ids' | 'names']
+     * @param string $format ['array' | 'ids' | 'names' | 'encodings']
      */
     function getLangs($format='array')
     {
@@ -156,6 +156,11 @@ class Translation2_Container
             case 'ids':
                 foreach ($this->langs as $aLang) {
                     $tmp[] = $aLang['id'];
+                }
+                break;
+            case 'encodings':
+                foreach ($this->langs as $aLang) {
+                    $tmp[] = $aLang['encoding'];
                 }
                 break;
             case 'names':

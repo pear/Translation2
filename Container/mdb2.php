@@ -121,6 +121,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
         $this->options['lang_name_col']     = 'name';
         $this->options['lang_meta_col']     = 'meta';
         $this->options['lang_errmsg_col']   = 'error_text';
+        $this->options['lang_encoding_col'] = 'encoding';
 
         $this->options['strings_default_table'] = 'i18n';
         $this->options['strings_tables']        = array(); // 'lang_id' => 'table_name'
@@ -138,11 +139,12 @@ class Translation2_Container_mdb2 extends Translation2_Container
      */
     function fetchLangs()
     {
-        $query = sprintf('SELECT %s AS id, %s AS name, %s AS meta, %s AS error_text FROM %s',
+        $query = sprintf('SELECT %s AS id, %s AS name, %s AS meta, %s AS error_text, %s AS encoding FROM %s',
                         $this->options['lang_id_col'],
                         $this->options['lang_name_col'],
                         $this->options['lang_meta_col'],
                         $this->options['lang_errmsg_col'],
+                        $this->options['lang_encoding_col'],
                         $this->options['langs_avail_table']);
 
         ++$this->_queries;
