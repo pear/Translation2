@@ -61,9 +61,9 @@ Currently, the following decorators are provided:
   plus other minor fixes/optimizations.
 - strings_default_table may use %s to represent the language name. You may now have one
   table per language without having to explicitly specify them all. (ieure)
-- Rawfallback decorator added. This returns the string which was requested for
-  translation (in translate()) back to the caller if no translation exists. This
-  behavior mirrors the behavior of gettext in the same circumstances. (ieure)
+- DefaultText decorator has new translate() method, which will return the string which
+  was requested to be translated if no suitable translation exists. This mirrors the
+  gettext() semantics.
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
