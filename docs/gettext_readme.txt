@@ -35,7 +35,7 @@ $gettext_options = array(
     'default_domain' => 'messages'
 );
 
-$tr =& Translation2::factory('gettext', null, $params);
+$tr =& Translation2::factory('gettext', $gettext_options, $params);
 $tr->setLang('en');
 
 echo $tr->get('mystring');
@@ -53,24 +53,16 @@ langs.ini file format example
 =============================
 ; lang code can be in "lang_DIALECT" or in "lang" format
 
-[en]
-use = en_US
-
 [en_US]
-id = en
 name = English
 meta = iso-8859-1
 error_text = not available in English
 windows = enu
 
 [en_GB]
-id = en_GB
 name = English
 meta = iso-8859-1
 windows = eng
-
-[de]
-use = de_DE
 
 [de_DE]
 id = de_DE
