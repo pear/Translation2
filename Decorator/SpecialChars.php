@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Translation2 decorator to replace special chars with the matching html entities
+ * Contains the Translation2_Decorator_SpecialChars class
  *
  * PHP versions 4 and 5
  *

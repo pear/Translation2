@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Storage driver for storing/fetching data to/from a XML file
+ * Contains the Translation2_Admin_Container_xml class
  *
  * PHP versions 4 and 5
  *

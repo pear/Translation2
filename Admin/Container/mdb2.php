@@ -2,10 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Translation2 PEAR::MDB2 admin container
- *
- * This storage driver can use all databases which are supported
- * by the PEAR::MDB2 abstraction layer to fetch data.
+ * Contains the Translation2_Admin_Container_mdb2 class
  *
  * PHP versions 4 and 5
  *
@@ -33,7 +30,7 @@ require_once 'Translation2/Container/mdb2.php';
  * Storage driver for storing/fetching data to/from a database
  *
  * This storage driver can use all databases which are supported
- * by the PEAR MDB2 abstraction layer to fetch data.
+ * by the PEAR::MDB2 abstraction layer to store and fetch data.
  *
  * @category   Internationalization
  * @package    Translation2
@@ -471,6 +468,24 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             }
             $pages = array_merge($pages, $res);
         }
+        /*
+        $has_null  = in_array(null, $pages);
+        $has_empty = in_array('', $pages);
+        $pages = array_unique($pages);
+        echo $has_null  = in_array(null, $pages);
+        echo $has_empty = in_array('', $pages);
+var_dump($pages);
+        //if ($has_null && !in_array(null, $pages)) {
+        if ($has_null && $has_empty) {
+            $pages[] = ''; //empty strings are stripped
+        }
+        if ($has_empty && !in_array('', $pages)) {
+echo 'ADDING VOID';
+            $pages[] = '';
+        }
+echo 'DONE';
+        return $pages;
+        */
         return array_unique($pages);
     }
     

@@ -2,9 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Translation2 gettext admin container
- *
- * This storage driver requires the gettext extension
+ * Contains the Translation2_Container_gettext class
  *
  * PHP versions 4 and 5
  *
@@ -36,6 +34,9 @@ require_once 'I18Nv2.php';
 
 /**
  * Storage driver for fetching data with gettext
+ *
+ * This storage driver requires the gettext extension
+ * and the PEAR::I18Nv2 class for locale handling
  *
  * @category   Internationalization
  * @package    Translation2

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Translation2_Admin base decorator class
+ * Contains the Translation2_Admin_Decorator class
  *
  * PHP versions 4 and 5
  *

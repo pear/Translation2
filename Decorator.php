@@ -2,10 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Translation2_Decorator. Base Decorator class for Translation2
- *
- * Extend this class to provide custom decorators.
- * Some decorators are already bundled with the package.
+ * Contains the Translation2_Decorator base class
  *
  * PHP versions 4 and 5
  *
@@ -25,7 +22,11 @@
  */
 
 /**
- * Translation2_Decorator base class
+ * Translation2_Decorator. Base Decorator class for Translation2
+ *
+ * Extend this class to provide custom decorators.
+ * Some decorators are already bundled with the package.
+ *
  *
  * @category   Internationalization
  * @package    Translation2

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Storage driver for fetching data from a XML file
+ * Contains the Translation2_Container_xml class
  *
  * PHP versions 4 and 5
  *
@@ -55,7 +55,7 @@ define ('TRANSLATION2_DTD',
  * Storage driver for fetching data from a XML file
  *
  * Example file :
- *
+ * <pre>
  * <?xml version="1.0" encoding="iso-8859-1"?>
  * <translation2>
  *     <languages>
@@ -78,6 +78,7 @@ define ('TRANSLATION2_DTD',
  *         <!-- some more <page>...</page> -->
  *     </pages>
  * </translation2>
+ * </pre>
  *
  * @category   Internationalization
  * @package    Translation2

@@ -2,10 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Translation2_Container. Base class for Translation2 drivers/containers
- *
- * Extend this class to provide custom containers.
- * Some containers are already bundled with the package.
+ * Contains the Translation2_Container base class
  *
  * PHP versions 4 and 5
  *
@@ -25,7 +22,10 @@
  */
 
 /**
- * Translation2 base storage class
+ * Base class for Translation2 drivers/containers
+ *
+ * Extend this class to provide custom containers.
+ * Some containers are already bundled with the package.
  *
  * @category   Internationalization
  * @package    Translation2

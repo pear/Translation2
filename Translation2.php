@@ -2,11 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * PEAR::Translation2. Powerful translation manager.
- *
- * This class provides an easy way to retrieve all the strings 
- * for a multilingual site or application from a data source
- * (i.e. a db, an xml file or a gettext file).
+ * Contains the Translation2 base class
  *
  * PHP versions 4 and 5
  *
@@ -54,6 +50,10 @@ define('TRANSLATION2_ERROR_ENCODING_CONVERSION', -10);
 
 /**
  * Translation2 base class
+ *
+ * This class provides an easy way to retrieve all the strings
+ * for a multilingual site or application from a data source
+ * (i.e. a db, an xml file or a gettext file).
  *
  * @category   Internationalization
  * @package    Translation2

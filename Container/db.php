@@ -2,10 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Translation2 PEAR::DB container
- *
- * This storage driver can use all databases which are supported
- * by the PEAR::DB abstraction layer to fetch data.
+ * Contains the Translation2_Container_db class
  *
  * PHP versions 4 and 5
  *
@@ -34,7 +31,7 @@ require_once 'Translation2/Container.php';
  * Storage driver for fetching data from a database
  *
  * This storage driver can use all databases which are supported
- * by the PEAR DB abstraction layer to fetch data.
+ * by the PEAR::DB abstraction layer to fetch data.
  *
  * @category   Internationalization
  * @package    Translation2

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Translation2 decorator to provide a fallback language for empty strings.
+ * Contains the Translation2_Decorator_Lang class
  *
  * PHP versions 4 and 5
  *

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Translation2 decorator to cache fetched data using the Cache_Lite_Function class.
+ * Contains the Translation2_Decorator_CacheLiteFunction class
  *
  * PHP versions 4 and 5
  *

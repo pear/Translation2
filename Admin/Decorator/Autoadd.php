@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Translation2_Admin decorator to automatically add requested strings
+ * Contains the Translation2_Admin_Decorator_Autoadd class
  *
  * PHP versions 4 and 5
  *
@@ -35,13 +35,14 @@ require_once 'Translation2/Admin/Decorator.php';
  * strings will be added as.
  *
  * Example:
- *
+ * <pre>
  * $tr =& Translation2_Admin::factory(...);
  * $tr->setLang('en');
  * $tr =& $tr->getAdminDecorator('Autoadd');
  * $tr->setOption('autoaddlang', 'en');
  * ...
  * $tr->get('Entirely new string', 'samplePage', 'de');
+ * </pre>
  *
  * 'Entirely new string' will be added to the English language table.
  *

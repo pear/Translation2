@@ -2,10 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Administration utilities for translation string management
- *
- * Set of methods to easily add/remove languages and strings,
- * with a common API for all the containers.
+ * Contains the Translation2_Admin base class
  *
  * PHP versions 4 and 5
  *
@@ -30,7 +27,10 @@
 require_once 'Translation2.php';
 
 /**
- * Translation2 Admin class
+ * Administration utilities for translation string management
+ *
+ * Set of methods to easily add/remove languages and strings,
+ * with a common API for all the containers.
  *
  * @category   Internationalization
  * @package    Translation2
@@ -41,6 +41,9 @@ require_once 'Translation2.php';
  */
 class Translation2_Admin extends Translation2
 {
+    // {{{ class vars
+
+    // }}}
     // {{{ factory()
 
     /**

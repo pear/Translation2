@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Translation2 decorator to convert UTF-8 strings to ISO-8859-1
+ * Contains the Translation2_Decorator_UTF8 class
  *
  * PHP versions 4 and 5
  *

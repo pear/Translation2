@@ -2,10 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Translation2 PEAR::DB_DataObject admin container
- *
- * This storage driver can use all databases which are supported
- * by the PEAR::DB abstraction layer to fetch data.
+ * Contains the Translation2_Admin_Container_dataobjectsimple class
  *
  * PHP versions 4 and 5
  *
@@ -32,8 +29,12 @@ require_once 'Translation2/Container/dataobjectsimple.php';
 /**
  * Storage driver for storing/fetching data to/from a database
  *
+ * This storage driver can use all databases which are supported
+ * by PEAR::DB_DataObject to fetch data.
+ *
  * Database Structure:
  *
+ * <pre>
  * // meta data etc. not supported
  *
  * table: translations
@@ -42,10 +43,7 @@ require_once 'Translation2/Container/dataobjectsimple.php';
  *  page        // indexed varchar eg. (mytemplate.html)
  *  lang        // index varchar (eg. en|fr|.....)
  *  translation // the translated value in language lang.
- *
- *
- * This storage driver can use all databases which are supported
- * by the PEAR DB abstraction layer to fetch data.
+ * </pre>
  *
  * @category   Internationalization
  * @package    Translation2
