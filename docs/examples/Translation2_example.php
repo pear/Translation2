@@ -12,7 +12,10 @@ require_once 'Translation2.php';
 $tr =& Translation2::factory($driver, $dbinfo, $params);
 
 writeTitle('ITALIANO');
-$tr->setLang('it');
+$err = $tr->setLang('it');
+if (PEAR::isError($err)) {
+    die($err->getMessage());
+}
 $tr->setPageID();
 //$tr =& $tr->getDecorator('CacheMemory');
 $tr =& $tr->getDecorator('CacheLiteFunction');
@@ -32,7 +35,12 @@ $str = <<<EOT
 \$tr = & Translation2::factory("\$driver", \$dbinfo, \$params);
 
 // set Italian as default lang
-\$tr->setLang('it');
+\$err = \$tr->setLang('it');
+
+// check for problems
+if (PEAR::isError(\$err)) {
+    die(\$err->getMessage());
+}
 
 // get global strings (pageID = NULL)
 \$tr->setPageID();
@@ -109,7 +117,10 @@ unset($tr);
 
 writeTitle('ENGLISH');
 $tr = & Translation2::factory($driver, $dbinfo, $params);
-$tr->setLang('en');
+$err = $tr->setLang('en');
+if (PEAR::isError($err)) {
+    die($err->getMessage());
+}
 $tr->setPageID();
 $tr = & $tr->getDecorator('CacheMemory');
 $tr =& $tr->getDecorator('CacheLiteFunction');
@@ -127,6 +138,11 @@ $str = <<<EOT
 
 // set English as default lang
 \$tr->setLang('en');
+
+// check for problems
+if (PEAR::isError(\$err)) {
+    die(\$err->getMessage());
+}
 
 // get global strings (empty pageID)
 \$tr->setPageID();
