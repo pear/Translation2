@@ -118,6 +118,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
      *
      * This function checks if we have already opened a connection to
      * the database. If that's not the case, a new connection is opened.
+     *
      * @access private
      * @return mixed True or a DB error object.
      */
@@ -135,6 +136,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
      * This function checks if we have already opened a connection to
      * the database. If that's not the case, a new connection is opened.
      * After that the query is passed to the database.
+     *
      * @access private
      * @param  string Query string
      * @param  string query type (query, getOne, getRow, ...)
@@ -181,8 +183,6 @@ class Translation2_Container_mdb2 extends Translation2_Container
 
     /**
      * Fetch the available langs if they're not cached yet.
-     *
-     * NB: table names will be customizable via an option...
      */
     function fetchLangs()
     {
@@ -217,12 +217,6 @@ class Translation2_Container_mdb2 extends Translation2_Container
 
     /**
      * Returns an array of the strings in the selected page
-     *
-     * This implementation can be easily changed to allow
-     * a 2nd parameter, $langID, in case the RFC.3.a option
-     * is the one chosen.
-     *
-     * NB: table names will be customizable via an option...
      *
      * @param string $pageID
      * @param string $langID
@@ -272,6 +266,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
 
     /**
      * Get a single item from the container, without caching the whole page
+     *
      * @param string $stringID
      * @param string $pageID
      * @param string $langID
@@ -321,6 +316,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
 
     /**
      * Get the stringID for the given string
+     *
      * @param string $stringID
      * @param string $pageID
      * @return string

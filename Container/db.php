@@ -225,12 +225,6 @@ class Translation2_Container_db extends Translation2_Container
     /**
      * Returns an array of the strings in the selected page
      *
-     * This implementation can be easily changed to allow
-     * a 2nd parameter, $langID, in case the RFC.3.a option
-     * is the one chosen.
-     *
-     * NB: table names will be customizable via an option...
-     *
      * @param string $pageID
      * @param string $langID
      * @return array
@@ -278,6 +272,7 @@ class Translation2_Container_db extends Translation2_Container
 
     /**
      * Get a single item from the container, without caching the whole page
+     *
      * @param string $stringID
      * @param string $pageID
      * @param string $langID
@@ -326,6 +321,7 @@ class Translation2_Container_db extends Translation2_Container
 
     /**
      * Get the stringID for the given string
+     *
      * @param string $stringID
      * @param string $pageID
      * @return string

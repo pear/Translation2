@@ -192,7 +192,8 @@ class Translation2_Container_gettext extends Translation2_Container
     // {{{ getPage()
 
     /**
-     * Does anyone know how to get all the strings from a domain?
+     * Get all the strings from a domain (parsing the .mo file)
+     *
      * @param string $pageID
      * @return array
      */
@@ -244,6 +245,7 @@ class Translation2_Container_gettext extends Translation2_Container
 
     /**
      * Get a single item from the container, without caching the whole page
+     *
      * @param string $stringID
      * @param string $pageID
      * @param string $langID
@@ -270,6 +272,7 @@ class Translation2_Container_gettext extends Translation2_Container
 
     /**
      * Get the stringID for the given string
+     *
      * @param string $stringID
      * @param string $pageID
      * @return string
