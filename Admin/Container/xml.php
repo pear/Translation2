@@ -105,7 +105,9 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
                 $this->_data['languages'][$langData['lang_id']][$field] = $langData[$field];
             }
         }
-        return $this->_scheduleSaving();
+        $success = $this->_scheduleSaving();
+        $this->fetchLangs();  //update memory cache
+        return $success;
     }
 
     // }}}
