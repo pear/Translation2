@@ -95,5 +95,22 @@ class Translation2_Decorator_DefaultText extends Translation2_Decorator
     }
 
     // }}}
+    // {{{ translate
+
+    /**
+     * Translate a string with fallback
+     *
+     * If the requested string is unknown to the system, or no suitable
+     * translation exists, the requested string will be returned.
+     *
+     * @see     Translation2::translate()
+     * @author  Ian Eure
+     * @since   2.0.0beta3
+     */
+    function &translate($string, $langID = null, $pageID=TRANSLATION2_DEFAULT_PAGEID)
+    {
+        $stringID = $this->storage->getStringID($string, $pageID);
+        return $this->get($stringID, $pageID, $langID, $string);
+    }
 }
 ?>
