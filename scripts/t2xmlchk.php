@@ -66,6 +66,7 @@ if (PEAR::isError($status = $unserializer->unserialize($xml_file, true))) {
 }
 
 $data = $unserializer->getUnserializedData();
+Translation2_Container_xml::fixEmptySets ($data);
 
 // This should be done by XML_DTD :
 echo "Checking lang IDs... ";

@@ -339,7 +339,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
         }
         @flock($f, LOCK_EX);
         fwrite ($f, $xml);
-        @flock($f, LOCK_UN);
+        //@flock($f, LOCK_UN);
         fclose ($f);
         return true;
     }

@@ -134,13 +134,20 @@ class Translation2_Container_xml extends Translation2_Container
             'string' => 'key',
             'tr'     => 'lang'
         );
+        if (!$fp = @fopen($this->_filename, 'r')) {
+            return new PEAR_Error ("Can\'t read from the XML source: {$this->_filename}");
+        }
+        @flock($fp, LOCK_SH);
         $unserializer = &new XML_Unserializer (array('keyAttribute' => $keyAttr));
         if (PEAR::isError($status = $unserializer->unserialize($this->_filename, true))) {
+            fclose($fp);
             return $status;
         }
+        fclose($fp);
 
         // unserialize data
         $this->_data = $unserializer->getUnserializedData();
+        $this->fixEmptySets($this->_data);
         $this->_fixDuplicateEntries();
 
         // Handle default language settings.
@@ -280,6 +287,41 @@ class Translation2_Container_xml extends Translation2_Container
                 if (is_array(array_pop($stringvalues))) {
                     $this->_data['pages'][$pagename][$stringname] =
                         call_user_func_array(array($this, '_merge'), $stringvalues);
+                }
+            }
+        }
+    }
+
+    // }}}
+    // {{{ fixEmptySets()
+
+    /**
+     * Turn empty strings returned by XML_Unserializer into empty arrays
+     *
+     * Note: this method is public because called statically by the t2xmlchk.php
+     * script. It is not meant to be called by user-space code.
+     *
+     * @access public
+     * @static
+     */
+    function fixEmptySets(&$data)
+    {
+        if (is_string($data['languages']) and trim($data['languages']) == '') {
+            $data['languages'] = array();
+        }
+        if (is_string($data['pages']) and trim($data['pages']) == '') {
+            $data['pages'] = array();
+        } else {
+            foreach ($data['pages'] as $pageName => $strings) {
+                //if (is_string($strings) and trim($strings) == '') {
+                if (is_string($strings)) {
+                    $data['pages'][$pageName] = array();
+                } else {
+                    foreach ($strings as $stringName => $translations) {
+                        if (is_string($translations) and trim($translations) == '') {
+                            $data['pages'][$pageName][$stringName] = array();
+                        }
+                    }
                 }
             }
         }

@@ -44,19 +44,15 @@ Currently, the following decorators are provided:
     </maintainer>
   </maintainers>
   <release>
-    <version>2.0.0beta6</version>
-    <date>2005-01-30</date>
+    <version>2.0.0beta7</version>
+    <date>2005-02-10</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
-- added Translation2::getRaw()
-- fixed bug #3068: Translation2_Admin::update() on multiple tables didn't insert
-  new records for missing langs, only updated the existing ones.
-- fixed bug #3149: XML container didn't properly handle redundant strings
-- added TRANSLATION2_DTD constant to the xml container (thanks to Olivier Guilyardi) 
-- added t2xmlchk.php script to check if a XML file is Translation2 compliant
+- fixed bug #3408: empty data sets were not correctly handled in the XML container
   (thanks to Olivier Guilyardi)
-- added ErrorText decorator
+- fixed bug #3420: get a shared file lock instead of an exclusive one in the 
+  XML container (thanks to Olivier Guilyardi)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -154,6 +150,18 @@ Currently, the following decorators are provided:
     </filelist>
   </release>
   <changelog>
+    <release>
+      <version>2.0.0beta7</version>
+      <date>2005-02-10</date>
+      <license>PHP License</license>
+      <state>beta</state>
+      <notes>
+- fixed bug #3408: empty data sets were not correctly handled in the XML container
+  (thanks to Olivier Guilyardi)
+- fixed bug #3420: get a shared file lock instead of an exclusive one in the
+  XML container (thanks to Olivier Guilyardi)
+      </notes>
+    </release>
     <release>
       <version>2.0.0beta6</version>
       <date>2005-01-30</date>
