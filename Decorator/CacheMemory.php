@@ -49,6 +49,30 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
 {
     // {{{ class vars
 
+    /**
+     * Translated strings array
+     * Used for cache purposes.
+     * No parameter substitution or fallback langs here.
+     * @var array
+     * @access protected
+     */
+    var $rawData = array();
+
+    /**
+     * Translated strings array
+     * Used for cache purposes.
+     * @var array
+     * @access protected
+     */
+    var $data = array();
+
+    /**
+     * set prefetch on/off
+     * @var boolean
+     * @access protected
+     */
+    var $prefetch = true;
+
     // }}}
     // {{{ _getPageIDKey()
 

@@ -38,6 +38,15 @@ require_once 'Translation2/Decorator.php';
  */
 class Translation2_Decorator_SpecialChars extends Translation2_Decorator
 {
+    // {{{ class vars
+
+    /**
+     * @var string
+     * @access protected
+     */
+    var $charset = 'ISO-8859-1';
+
+    // }}}
     // {{{ get()
 
     /**

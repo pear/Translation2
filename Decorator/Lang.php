@@ -33,15 +33,18 @@ require_once 'Translation2/Decorator.php';
  */
 class Translation2_Decorator_Lang extends Translation2_Decorator
 {
+    // {{{ class vars
+
+    // }}}
     // {{{ setDecoratedLang()
 
     /**
-     * Set default lang
+     * Set the decorated (i.e. fallback) lang
      * @param string $langID
      */
     function setDecoratedLang($langID)
     {
-        $this->currentLang = $langID;
+        $this->decoratedLang = $langID;
     }
 
     // }}}
@@ -66,7 +69,7 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
     {
         $str = $this->translation2->get($stringID, $pageID, $langID, $defaultText);
         if (empty($str)) {
-            $str = $this->translation2->get($stringID, $pageID, $this->currentLang);
+            $str = $this->translation2->get($stringID, $pageID, $this->decoratedLang);
         }
         return $str;
     }
@@ -104,7 +107,7 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
     function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
     {
         $data1 = $this->translation2->getPage($pageID, $langID);
-        $data2 = $this->translation2->getPage($pageID, $this->currentLang);
+        $data2 = $this->translation2->getPage($pageID, $this->decoratedLang);
         foreach ($data1 as $key => $val) {
             if (empty($val)) {
                 $data1[$key] = $data2[$key];
