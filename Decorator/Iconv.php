@@ -29,12 +29,14 @@
 require_once 'Translation2/Decorator.php';
 
 /**
- * Decorator to transalte encoding of storage to any pointed in options
- * You can set the charset to use (the default being 'ISO-8859-1'):
+ * Decorator to change the encoding of the stored translation to the
+ * one given in the 'encoding' option.
+ *
  * <code>
- * $tr->setOptions(array('charset' => 'UTF-8'));
+ * $tr->setOptions(array('encoding' => 'UTF-8'));
  * </code>
- * @see http://www.php.net/htmlentities for a list of available charsets.
+ *
+ * @see http://www.php.net/htmlentities for a list of available encodings.
  * @package Translation2
  */
 class Translation2_Decorator_Iconv extends Translation2_Decorator
@@ -45,28 +47,34 @@ class Translation2_Decorator_Iconv extends Translation2_Decorator
      * @var string
      * @access private
      */
-    var $charset = 'ISO-8859-1';
+    var $encoding = 'ISO-8859-1';
     
     /**
      * @var array
      * @access private
      */
-    var $lang_charsets;
+    var $lang_encodings;
+
+    // }}}
+    // {{{ _getEncoding()
 
     /**
-     * _prepare
+     * Get the encoding for the given langID
+     *
+     * @param string $langID
+     * @return string encoding
      * @access private
      */
-    function _getCharset($langID = null)
+    function _getEncoding($langID = null)
     {
-        if (!is_array($this->lang_charsets)) {
-            $this->lang_charsets = array();
+        if (!is_array($this->lang_encodings)) {
+            $this->lang_encodings = array();
             foreach ($this->translation2->getLangs('encodings') as $langID => $encoding) {
-                $this->lang_charsets[$langID] = $encoding;
+                $this->lang_encodings[$langID] = $encoding;
             }
         }
         if (!is_null($langID)) {
-            return $this->lang_charsets[$langID];
+            return $this->lang_encodings[$langID];
         }
         return $this->lang['encoding'];
     }
@@ -93,7 +101,7 @@ class Translation2_Decorator_Iconv extends Translation2_Decorator
             return $str;
         }
 
-        return iconv($this->_getCharset($langID), $this->charset, $str);
+        return iconv($this->_getEncoding($langID), $this->encoding, $str);
     }
 
     // }}}
@@ -110,11 +118,11 @@ class Translation2_Decorator_Iconv extends Translation2_Decorator
     {
         $data = $this->translation2->getPage($pageID, $langID);
         
-        $incharset = $this->_getCharset($langID);
+        $input_encoding = $this->_getEncoding($langID);
         
         foreach (array_keys($data) as $k) {
             if (!empty($data[$k])) {
-                $data[$k] = iconv($$incharset, $this->charset, $data[$k]);
+                $data[$k] = iconv($input_encoding, $this->encoding, $data[$k]);
             }
         }
         return $data;
