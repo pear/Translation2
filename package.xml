@@ -59,6 +59,8 @@ Currently, the following decorators are provided:
   (ieure)
 - reflect the changes made to the DB container into the MDB and MDB2 containers too,
   plus other minor fixes/optimizations.
+- strings_default_table may use %s to represent the language name. You may now have one
+  table per language without having to explicitly specify them all.
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
