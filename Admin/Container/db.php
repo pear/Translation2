@@ -41,7 +41,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
 {
 
     // {{{ class vars
-
+    
     // }}}
     // {{{ createNewLang()
 
@@ -205,7 +205,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
             $this->options['lang_id_col'],
             $this->db->quote($langID)
         );
-        ++$this->queries;
+        ++$this->_queries;
         $res = $this->db->query($query);
         if (PEAR::isError($res)) {
             return $res;
@@ -219,7 +219,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
                 $lang_table,
                 $this->_getLangCol($langID)
             );
-            ++$this->queries;
+            ++$this->_queries;
             return $this->db->query($query);
         }
 

@@ -206,7 +206,7 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
             $this->options['lang_id_col'],
             $this->db->getTextValue($langID)
         );
-        ++$this->queries;
+        ++$this->_queries;
         $res = $this->db->query($query);
         if (PEAR::isError($res)) {
             return $res;
@@ -220,7 +220,7 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
                 $lang_table,
                 $this->_getLangCol($langID)
             );
-            ++$this->queries;
+            ++$this->_queries;
             return $this->db->query($query);
         }
 
