@@ -119,6 +119,31 @@ class Translation2_Admin extends Translation2
     }
 
     // }}}
+    // {{{ getAdminDecorator()
+
+    /**
+     * Return an instance of an admin decorator
+     *
+     *
+     * @see    Translation2::getDecorator()
+     * @access public
+     * @param  string $decorator  Name of the decorator
+     * @return object Decorator object reference
+     */
+    function &getAdminDecorator($decorator)
+    {
+        $decorator_path = 'Translation2/Admin/Decorator/'.$decorator.'.php';
+        $decorator_class = 'Translation2_Admin_Decorator_'.$decorator;
+        require_once $decorator_path;
+        if (func_num_args() > 1) {
+            $obj =& func_get_arg(1);
+            return new $decorator_class($obj);
+        } else {
+            return new $decorator_class($this);
+        }
+    }
+
+    // }}}
     // {{{ createNewLang
 
     /**
