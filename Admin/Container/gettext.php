@@ -306,12 +306,22 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
             
             $path = $this->_domains[$pageID] .'/';
             $file = '/LC_MESSAGES/'. $pageID .'.'. $this->options['file_type'];
+            $langs= $this->getLangs('array');
             
             foreach ($languages as $lang => $strings) {
 
                 if (is_file($path . $lang . $file)) {
                     if (PEAR::isError($e = $gtFile->load($path . $lang . $file))) {
                         return $e;
+                    }
+                }
+                
+                if (!isset($gtFile->meta['Content-Type'])) {
+                    $gtFile->meta['Content-Type'] = 'text/plain; charset=';
+                    if (isset($langs[$lang]['encoding'])) {
+                        $gtFile->meta['Content-Type'] .= $langs[$lang]['encoding'];
+                    } else {
+                        $gtFile->meta['Content-Type'] .= $this->options['default_encoding'];
                     }
                 }
     
