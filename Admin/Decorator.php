@@ -50,6 +50,19 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
     }
     
     // }}}
+    // {{{ updateLang()
+
+    /**
+     * Update an existing language
+     *
+     * @see  Translation2_Admin::updateLang()
+     */
+    function updateLang($langData)
+    {
+        return $this->translation2->updateLang($langData);
+    }
+
+    // }}}
     // {{{ removeLang()
 
     /**
