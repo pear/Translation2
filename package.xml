@@ -45,16 +45,22 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta4</version>
-    <date>2004-11-18</date>
+    <date>2004-11-19</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
-- added testsuite
+- added TestSuite
 - updated gettext docs
 - fixed typo in error code (TRANSLATION_ERROR_UNKNOWN_LANG => TRANSLATION2_ERROR_UNKNOWN_LANG)
 - fixed typo in the MDB Admin container [quote() => getTextValue()]
 - fixed typo in db admin containers ($this->queries => $this->_queries)
-- fixed old field in the gettext admin container (remove "windows", add "encoding")
+- in the gettext admin container 
+- fixed many bugs in the gettext admin container:
+  * fixed old field [remove "windows", add "encoding"]
+  * fixed error in remove() [can't pass by reference]
+  * fixed typo in update() [$stingID => $stringID]
+  * in _add(), create the domains on demand
+  * handle stale cache
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -146,16 +152,22 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta4</version>
-      <date>2004-11-18</date>
+      <date>2004-11-19</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
-- added testsuite
+- added TestSuite
 - updated gettext docs
 - fixed typo in error code (TRANSLATION_ERROR_UNKNOWN_LANG => TRANSLATION2_ERROR_UNKNOWN_LANG)
 - fixed typo in the MDB Admin container [quote() => getTextValue()]
 - fixed typo in db admin containers ($this->queries => $this->_queries)
-- fixed old field in the gettext admin container (remove "windows", add "encoding")
+- in the gettext admin container
+- fixed many bugs in the gettext admin container:
+  * fixed old field [remove "windows", add "encoding"]
+  * fixed error in remove() [can't pass by reference]
+  * fixed typo in update() [$stingID => $stringID]
+  * in _add(), create the domains on demand
+  * handle stale cache
       </notes>
     </release>
     <release>
