@@ -168,11 +168,12 @@ class Translation2_Container_mdb2 extends Translation2_Container
         $this->options['lang_meta_col']     = 'meta';
         $this->options['lang_errmsg_col']   = 'error_text';
 
-        $this->options['strings_tables']     = array(); // 'lang_id' => 'table_name'
-        $this->options['string_id_col']      = 'ID';
-        $this->options['string_page_id_col'] = 'page_id';
-        $this->options['string_text_col']    = '%s'; // col_name if one table per lang is used,
-                                                     // or a pattern (i.e. "tr_%s" => "tr_EN_US")
+        $this->options['strings_default_table'] = 'i18n';
+        $this->options['strings_tables']        = array(); // 'lang_id' => 'table_name'
+        $this->options['string_id_col']         = 'ID';
+        $this->options['string_page_id_col']    = 'page_id';
+        $this->options['string_text_col']       = '%s'; // col_name if one table per lang is used,
+                                                        // or a pattern (i.e. "tr_%s" => "tr_EN_US")
     }
 
     // }}}
