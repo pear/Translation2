@@ -25,6 +25,8 @@ An Admin class is provided to easily manage translations (add/remove a language,
 - added an experimental GNU gettext driver
 - translate() now accepts a third parameter ($pageID)
 - PHP5 fix
+- renamed old getPage() to getRawPage()
+- new getPage() resorts to fallback lang and replaces parameters when needed
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">DB</dep>
@@ -62,6 +64,8 @@ An Admin class is provided to easily manage translations (add/remove a language,
 - added an experimental GNU gettext driver
 - translate() now accepts a third parameter ($pageID)
 - PHP5 fix
+- renamed old getPage() to getRawPage()
+- new getPage() resorts to fallback lang and replaces parameters when needed
       </notes>
     </release>
     <release>
