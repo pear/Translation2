@@ -47,7 +47,8 @@ define('TRANSLATION2_ERROR_CANNOT_FIND_FILE',     -4);
 define('TRANSLATION2_ERROR_DOMAIN_NOT_SET',       -5);
 define('TRANSLATION2_ERROR_INVALID_PATH',         -6);
 define('TRANSLATION2_ERROR_CANNOT_CREATE_DIR',    -7);
-define('TRANSLATION_ERROR_UNKNOWN_LANG',          -8);
+define('TRANSLATION2_ERROR_CANNOT_WRITE_FILE',    -8);
+define('TRANSLATION_ERROR_UNKNOWN_LANG',          -9);
 /**
  * Translation2 class
  * @package Translation2
