@@ -25,7 +25,7 @@
 /**
  * Load Translation2 decorator base class
  */
-require_once 'Translation2'.DIRECTORY_SEPARATOR.'Decorator.php';
+require_once 'Translation2/Decorator.php';
 
 /**
  * Decorator to provide a fallback text for empty strings.

@@ -25,7 +25,7 @@
 /**
  * Load Translation2 decorator base class
  */
-require_once 'Translation2'.DIRECTORY_SEPARATOR.'Decorator.php';
+require_once 'Translation2/Decorator.php';
 
 /**
  * Allows redefinition of alternate key for empty pageID
@@ -142,7 +142,7 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
     // {{{ getPage()
 
     /**
-     * Same as getRawPage, but resort to fallback language and
+    * Same as getRawPage, but resort to fallback language and
      * replace parameters when needed
      *
      * @param string $pageID

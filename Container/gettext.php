@@ -26,7 +26,7 @@
 /**
  * require Translation2_Container class
  */
-require_once 'Translation2'.DIRECTORY_SEPARATOR.'Container.php';
+require_once 'Translation2/Container.php';
 
 /**
  * Storage driver for fetching data with gettext
@@ -206,7 +206,7 @@ class Translation2_Container_gettext extends Translation2_Container
             return $this->cachedDomains[$this->currentLang['id']][$pageID];
         }
 
-        require_once 'File'.DIRECTORY_SEPARATOR.'Gettext'.DIRECTORY_SEPARATOR.'MO.php';
+        require_once 'File/Gettext/MO.php';
 
         if (is_null($pageID)) {
             $pageID = $this->options['default_domain'];

@@ -25,7 +25,7 @@
 /**
  * Load Translation2 decorator base class
  */
-require_once 'Translation2'.DIRECTORY_SEPARATOR.'Decorator.php';
+require_once 'Translation2/Decorator.php';
 
 /**
  * Decorator to convert UTF-8 strings to ISO-8859-1

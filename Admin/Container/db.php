@@ -26,7 +26,7 @@
 /**
  * require Translation2_Container_db class
  */
-require_once 'Translation2'.DIRECTORY_SEPARATOR.'Container'.DIRECTORY_SEPARATOR.'db.php';
+require_once 'Translation2/Container/db.php';
 
 /**
  * Storage driver for storing/fetching data to/from a database
@@ -310,7 +310,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
                 if (PEAR::isError($res)) {
                     return $res;
                 }
-            }
+           }
         }
 
        return true;

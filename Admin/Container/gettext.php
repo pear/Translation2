@@ -26,7 +26,7 @@
 /**
  * require Translation2_Container_gettext class
  */
-require_once 'Translation2'.DIRECTORY_SEPARATOR.'Container'.DIRECTORY_SEPARATOR.'gettext.php';
+require_once 'Translation2/Container/gettext.php';
 
 /**
  * Storage driver for storing/fetching data to/from a gettext file
@@ -171,7 +171,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
             return true;
         }
 
-        require_once 'File'.DIRECTORY_SEPARATOR.'Gettext'.DIRECTORY_SEPARATOR.'MO.php';
+        require_once 'File/Gettext/MO.php';
 
         foreach ($langs as $langID) {
             $moFile = new File_Gettext_MO;
@@ -217,7 +217,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
         $langs = $this->getLangs('ids');
         $tables = array();
 
-        require_once 'File'.DIRECTORY_SEPARATOR.'Gettext'.DIRECTORY_SEPARATOR.'MO.php';
+        require_once 'File/Gettext/MO.php';
         $moFile = new File_Gettext_MO;
 
         foreach ($langs as $langID) {
@@ -226,7 +226,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
                     . DIRECTORY_SEPARATOR.'LC_MESSAGES';
             $filename = $domainPath.DIRECTORY_SEPARATOR.$pageID.'.mo';
             if (!file_exists($filename)) {
-                continue;  //nothing to do
+               continue;  //nothing to do
             }
 
             $err = $moFile->load($filename);

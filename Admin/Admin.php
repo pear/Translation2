@@ -26,7 +26,7 @@
 /**
  * require Translation2 base class
  */
-require_once 'Translation2'.DIRECTORY_SEPARATOR.'Translation2.php';
+require_once 'Translation2/Translation2.php';
 
 /**
  * Administration utilities for translation string management
@@ -56,8 +56,7 @@ class Translation2_Admin extends Translation2
      */
     function _factory($driver, $options='')
     {
-        $storage_path = 'Translation2'.DIRECTORY_SEPARATOR.'Admin'.DIRECTORY_SEPARATOR
-                        .'Container'.DIRECTORY_SEPARATOR.strtolower($driver).'.php';
+        $storage_path = 'Translation2/Admin/Container/'.strtolower($driver).'.php';
         $storage_class = 'Translation2_Admin_Container_'.strtolower($driver);
         require_once $storage_path;
         return new $storage_class($options);
@@ -139,7 +138,7 @@ class Translation2_Admin extends Translation2
 
     /**
      * remove a translated string
-     *
+    *
      * @param string $stringID
      * @param string $pageID
      * @return mixed true on success, PEAR_Error on failure

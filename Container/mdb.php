@@ -26,7 +26,7 @@
 /**
  * require Translation2_Container class and PEAR::MDB
  */
-require_once 'Translation2'.DIRECTORY_SEPARATOR.'Container.php';
+require_once 'Translation2/Container.php';
 require_once 'MDB.php';
 
 /**

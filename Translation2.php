@@ -126,8 +126,7 @@ class Translation2
      */
     function _factory($driver, $options='')
     {
-        $storage_path = 'Translation2'.DIRECTORY_SEPARATOR
-                       .'Container'.DIRECTORY_SEPARATOR.strtolower($driver).'.php';
+        $storage_path = 'Translation2/Container/'.strtolower($driver).'.php';
         $storage_class = 'Translation2_Container_'.strtolower($driver);
         require_once $storage_path;
         return new $storage_class($options);
@@ -377,7 +376,7 @@ class Translation2
 
     /**
      * Same as getRawPage, but resort to fallback language and
-     * replace parameters when needed
+    * replace parameters when needed
      *
      * @param string $pageID
      * @param string $langID

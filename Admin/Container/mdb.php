@@ -26,7 +26,7 @@
 /**
  * require Translation2_Container_mdb class
  */
-require_once 'Translation2'.DIRECTORY_SEPARATOR.'Container'.DIRECTORY_SEPARATOR.'mdb.php';
+require_once 'Translation2/Container/mdb.php';
 
 /**
  * Storage driver for storing/fetching data to/from a database
