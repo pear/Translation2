@@ -153,22 +153,22 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
             return true; // really?
         }
         
-        $file = '/LC_MESSAGES/'. $pageID .'.mo';
+        $file = '/LC_MESSAGES/'. $pageID . $this->options['file_type'];
         
         require_once 'File/Gettext.php';
-        $MO = &File_Gettext::factory('MO');
+        $gtFile = &File_Gettext::factory($this->options['file_type']);
         
         foreach ((array) $langs as $id) {
             $path = $this->_domains[$pageID] .'/'. $id;
             
             if (is_file($path . $file)) {
-                if (PEAR::isError($e = $MO->load($path . $file))) {
+                if (PEAR::isError($e = $gtFile->load($path . $file))) {
                     return $e;
                 }
             }
 
             $MO->strings[$stringID] = $strings[$id];
-            if (PEAR::isError($e = $MO->save($path . $file))) {
+            if (PEAR::isError($e = $gtFile->save($path . $file))) {
                 return $e;
             }
         }
@@ -191,17 +191,20 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
             $pageID = $this->options['default_domain'];
         }
         
-        $file = '/LC_MESSAGES/'. $pageID .'.mo';
+        $file = '/LC_MESSAGES/'. $pageID . $this->options['file_type'];
+        
+        require_once 'File/Gettext.php';
+        $gtFile = &File_Gettext::factoryy($this->options['file_type']);
         
         foreach ($this->getLangs('ids') as $lang) {
             $path = $this->_domains[$pageID] .'/'. $lang;
             
             if (is_file($path . $file)) {
-                if (PEAR::isError($e = $MO->load($path . $file))) {
+                if (PEAR::isError($e = $gtFile->load($path . $file))) {
                     return $e;
                 }
-                unset($MO->strings[$stringID]);
-                if (PEAR::isError($e = $MO->save($path . $file))) {
+                unset($gtFile->strings[$stringID]);
+                if (PEAR::isError($e = $gtFile->save($path . $file))) {
                     return $e;
                 }
             }
