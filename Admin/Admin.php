@@ -87,7 +87,6 @@ class Translation2_Admin extends Translation2
         if (PEAR::isError($res)) {
             return $res;
         }
-        $this->options['strings_tables'][$langData['lang_id']] = $langData['table_name'];
         $this->storage->fetchLangs(); //update local cache
         return true;
     }
