@@ -17,12 +17,14 @@ An Admin class is provided to easily manage translations (add/remove a language,
     </maintainer>
   </maintainers>
   <release>
-    <version>0.0.1</version>
-    <date>2004-01-21</date>
+    <version>2.0.0-alpha2</version>
+    <date>2004-XX-XX</date>
     <license>PHP License</license>
     <state>alpha</state>
     <notes>
-    First alpha release
+- added an experimental GNU gettext driver
+- translate() now accepts a third parameter ($pageID)
+- PHP5 fix
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">DB</dep>
@@ -32,12 +34,16 @@ An Admin class is provided to easily manage translations (add/remove a language,
       <dir name="/" baseinstalldir="Translation2">
         <file role="php" name="Translation2.php" />
         <file role="php" name="Container.php" />
-        <file role="php" name="Container/db.php" />
-        <file role="php" name="Container/mdb.php" />
+        <file role="php" name="Util.php" />
         <dir name="Admin" role="php">
           <file role="php" name="Admin.php" />
           <file role="php" name="Container/db.php" />
           <file role="php" name="Container/mdb.php" />
+        </dir>
+        <dir name="Container" role="php">
+          <file name="db.php" />
+          <file name="gettext.php" />
+          <file name="mdb.php" />
         </dir>
         <dir name="examples" role="doc">
           <file role="doc" name="Translation2_example.php" />
@@ -48,12 +54,23 @@ An Admin class is provided to easily manage translations (add/remove a language,
   </release>
   <changelog>
     <release>
+      <version>2.0.0-alpha2</version>
+      <date>2004-XX-XX</date>
+      <license>PHP License</license>
+      <state>alpha</state>
+      <notes>
+- added an experimental GNU gettext driver
+- translate() now accepts a third parameter ($pageID)
+- PHP5 fix
+      </notes>
+    </release>
+    <release>
       <version>0.0.1</version>
       <date>2004-01-21</date>
       <license>PHP License</license>
       <state>alpha</state>
       <notes>
-      First alpha release
+First alpha release
       </notes>
     </release>
   </changelog>
