@@ -29,25 +29,23 @@ foreach ($langs as $lang) {
     }
 }
 
-print_r($months);
-
 $tr->storage->begin();
 foreach ($langs as $lang) {
     foreach (range(0,6) as $day) {
-        $tr->add('day_'. $day, null, $days[$day]);
+        $tr->add('day_'. sprintf('%02d', $day), null, $days[$day]);
     }
     foreach (range(0,11) as $month) {
-        $tr->add('month_'. $month, null, $months[$month]);
+        $tr->add('month_'. sprintf('%02d', $month), null, $months[$month]);
     }
 }
 $tr->storage->commit();
 
 foreach ($langs as $lang) {
     foreach (range(0,6) as $day) {
-        echo "$lang day $day: ", $tr->get('day_'. $day, null, $lang), "\n";
+        echo "$lang day $day: ", $tr->get('day_'. sprintf('%02d', $day), null, $lang), "\n";
     }
     foreach (range(0,11) as $month) {
-        echo "$lang month $month: ", $tr->get('month_'. $month, 'admin', $lang), "\n";
+        echo "$lang month $month: ", $tr->get('month_'. sprintf('%02d', $month), null, $lang), "\n";
     }
     echo "\n";
 }
