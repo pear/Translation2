@@ -35,6 +35,13 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
 {
     // {{{ class vars
 
+    /**
+     * fallback lang
+     * @var string
+     * @access protected
+     */
+    var $fallbackLang;
+
     // }}}
     // {{{ setFallbackLang()
 
@@ -48,6 +55,25 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
     function setFallbackLang($langID)
     {
         $this->fallbackLang = $langID;
+    }
+
+    // }}}
+    // {{{ setOption()
+
+    /**
+     * set Decorator option (intercept 'fallbackLang' option).
+     * I don't know why it's needed, but it doesn't work without.
+     *
+     * @param string option name
+     * @param mixed  option value
+     */
+    function setOption($option, $value=null)
+    {
+        if ($option == 'fallbackLang') {
+            $this->fallbackLang = $value;
+        } else {
+            parent::setOption($option, $value);
+        }
     }
 
     // }}}
