@@ -33,6 +33,12 @@ Currently, the following decorators are provided:
       <email>ieure@php.net</email>
       <role>developer</role>
     </maintainer>
+    <maintainer>
+      <user>mike</user>
+      <name>Michael Wallner</name>
+      <email>mike@php.net</email>
+      <role>developer</role>
+    </maintainer>
   </maintainers>
   <release>
     <version>2.0.0beta3</version>
