@@ -75,10 +75,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             return $tables;
         }
 
-        $lang_col = str_replace('%s', $langData['lang_id'], $this->options['string_text_col']);
-        if (empty($lang_col)) {
-            $lang_col = $this->currentLang['id'];
-        }
+        $lang_col = $this->_getLangCol($langData['lang_id']);
 
         if (in_array($langData['table_name'], $tables)) {
             //table exists
@@ -86,14 +83,15 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
                             $langData['table_name'],
                             $lang_col
             );
-            return $this->query($query);
+            ++$this->_queries;
+            return $this->db->query($query);
         }
 
         //table does not exist
         $queries = array();
         $queries[] = sprintf('CREATE TABLE %s ( '
                              .'%s VARCHAR(50) default NULL, '
-                             .'%s VARCHAR(50) NOT NULL, '
+                             .'%s TEXT NOT NULL, '
                              .'%s TEXT )',
                              $langData['table_name'],
                              $this->options['string_page_id_col'],
@@ -119,7 +117,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
                              $this->options['string_id_col']
         );
         foreach($queries as $query) {
-            $res = $this->query($query);
+            ++$this->_queries;
+            $res = $this->db->query($query);
             if ($res == false) {
                 return $res;
             }
@@ -169,7 +168,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             );
 
             foreach ($queries as $query) {
-                $res = $this->query($query);
+                ++$this->_queries;
+                $res = $this->db->query($query);
                 if (PEAR::isError($res)) {
                     return $res;
                 }
@@ -188,7 +188,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
                     $this->db->quote($langData['error_text'], 'text')
         );
 
-        $success = $this->query($query);
+        ++$this->_queries;
+        $success = $this->db->query($query);
         $this->options['strings_tables'][$langData['lang_id']] = $langData['table_name'];
         return $success;
     }
@@ -207,87 +208,99 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      */
     function add($stringID, $pageID, $stringArray)
     {
-        $langs = array_keys($stringArray);
-        $numLangs = count($langs);
-        $availableLangs = $this->getLangs('ids');
-        foreach ($langs as $key => $langID) {
-            if (!in_array($langID, $availableLangs)) {
-                unset($langs[$key]);
-            }
-        }
+        $langs = array_intersect(
+            array_keys($stringArray),
+            $this->getLangs('ids')
+        );
 
         if (!count($langs)) {
             //return error: no valid lang provided
             return true;
         }
 
-        $oneQuery = true;
-        if ($numLangs > 1) {
-            for ($i=1; $i<$numLangs; $i++) {
-                if ($this->options['strings_tables'][$langs[$i]] !=
-                    $this->options['strings_tables'][$langs[0]]
-                ) {
-                    $oneQuery = false;
-                    break;
-                }
-            }
-        }
+        // Langs may be in different tables - we need to split up queries along
+        // table lines, so we can keep DB traffic to a minimum.
 
-        if ($oneQuery) {
-            $fields = array(
-                $this->options['string_id_col'] => array(
-                    'type'   => 'text',
-                    'value'  => $stringID,
-                    'key'    => true
-                ),
-                $this->options['string_page_id_col'] => array(
-                    'type'   => 'text',
-                    'value'  => $pageID,
-                    'null'   => (is_null($pageID) ? true : false)
-                ),
+        $stringID = $this->db->quote($stringID, 'text');
+        $pageID = is_null($pageID) ? 'NULL' : $this->db->quote($pageID, 'text');
+        // Loop over the tables we need to insert into.
+        foreach ($this->_tableLangs($langs) as $table => $tableLangs) {
+            $tableCols = $this->_getLangCols($tableLangs);
+            $langData = array();
+            foreach ($tableLangs as $lang) {
+                $langData[$lang] =& $this->db->quote($stringArray[$lang], 'text');
+            }
+
+            $query = sprintf('INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s)',
+                             $table,
+                             $this->options['string_id_col'],
+                             $this->options['string_page_id_col'],
+                             implode(', ', $tableCols),
+                             $stringID,
+                             $pageID,
+                             implode(', ', $langData)
             );
-            foreach ($langs as $langID) {
-                $lang_col = str_replace('%s', $langID, $this->options['string_text_col']);
-                $fields[$lang_col] = array(
-                    'type'  => 'text',
-                    'value' => $stringArray[$langID],
-                );
-            }
-
-            $res = $this->db->replace($this->options['strings_tables'][$langs[0]], $fields);
+            ++$this->_queries;
+            $res = $this->db->query($query);
             if (PEAR::isError($res)) {
                 return $res;
             }
-        } else {
-            foreach ($langs as $langID) {
-                $lang_col = str_replace('%s', $langID, $this->options['string_text_col']);
-                if (empty($lang_col)) {
-                    $lang_col = $langID;
-                }
-
-                $fields = array(
-                    $this->options['string_id_col'] => array(
-                        'type'   => 'text',
-                        'value'  => $stringID,
-                        'key'    => true
-                    ),
-                    $this->options['string_page_id_col'] => array(
-                        'type'   => 'text',
-                        'value'  => $pageID,
-                        'null'   => (is_null($pageID) ? true : false)
-                    ),
-                    $lang_col => array(
-                        'type'   => 'text',
-                        'value'  => $stringArray[$langID]
-                    ),
-                );
-                $res = $this->db->replace($this->options['strings_tables'][$langID], $fields);
-                if (PEAR::isError($res)) {
-                    return $res;
-                }
-            }
         }
 
+        return true;
+    }
+
+    // }}}
+    // {{{ update()
+
+    /**
+     * Update an existing entry in the strings table.
+     *
+     * @param string $stringID
+     * @param string $pageID
+     * @param array  $stringArray Associative array with string translations.
+     *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     * @return mixed true on success, PEAR_Error on failure
+     */
+    function update($stringID, $pageID, $stringArray)
+    {
+        $langs = array_intersect(
+            array_keys($stringArray),
+            $this->getLangs('ids')
+        );
+
+        if (!count($langs)) {
+            //return error: no valid lang provided
+            return true;
+        }
+
+        $stringID = $this->db->quote($stringID, 'text');
+        $pageID = is_null($pageID) ? ' IS NULL' : ' = ' . $this->db->quote($pageID, 'text');
+        foreach ($this->_tableLangs($langs) as $table => $tableLangs) {
+            $tableCols = $this->_getLangCols($tableLangs);
+            $langData = array();
+
+            unset($langSet);
+            foreach ($tableLangs as $lang) {
+                $langSet[] = $tableCols[$lang] . ' = ' .
+                             $this->db->quote($stringArray[$lang], 'text');
+            }
+
+            $query = sprintf('UPDATE %s SET %s WHERE %s = %s AND %s %s',
+                             $table,
+                             implode(', ', $langSet),
+                             $this->options['string_id_col'],
+                             $stringID,
+                             $this->options['string_page_id_col'],
+                             $pageID
+            );
+
+            ++$this->_queries;
+            $res = $this->db->query($query);
+            if (PEAR::isError($res)) {
+                return $res;
+            }
+        }
         return true;
     }
 
@@ -303,41 +316,108 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      */
     function remove($stringID, $pageID)
     {
-        $langs = $this->getLangs('ids');
-        $tables = array();
-        foreach ($langs as $langID) {
-            if (isset($this->options['strings_tables'][$langID])) {
-                $tables[] = $this->options['strings_tables'][$langID];
+        $tables = array_unique($this->_getLangTables());
+
+        $stringID = $this->db->quote($stringID, 'text');
+        // get the tables and skip the non existent ones
+        $dbTables = $this->_fetchTableNames();
+        foreach ($tables as $table) {
+            if (!in_array($table, $dbTables)) {
+                continue;
+            }
+            $query = sprintf('DELETE FROM %s WHERE %s = %s AND %s',
+                             $table,
+                             $this->options['string_id_col'],
+                             $stringID,
+                             $this->options['string_page_id_col']
+            );
+            if (is_null($pageID)) {
+                $query .= ' IS NULL';
             } else {
-                $tables[] = $this->options['strings_default_table'];
+                $query .= ' = ' . $this->db->quote($pageID, 'text');
             }
 
-        }
-        $tables = array_unique($tables);
-        //get the tables and remove the non existent ones from the list
-        $dbTables = $this->_fetchTableNames();
-        if (!PEAR::isError($dbTables)) {
-            foreach ($tables as $k => $table) {
-                if (!in_array($table, $dbTables)) {
-                    unset($tables[$k]);
-                }
-            }
-        }
-        
-        foreach ($tables as $table) {
-            $query = 'DELETE FROM '.$table.' WHERE ';
-            $where = array();
-            $where[] = $this->options['string_id_col'] .'='. $this->db->quote($stringID, 'text');
-            $where[] = $this->options['string_page_id_col']
-                       . (empty($pageID) ? ' IS NULL' : '='. $this->db->quote($pageID, 'text'));
-            $query .= implode(' AND ', $where);
-            $res = $this->query($query);
+            ++$this->_queries;
+            $res = $this->db->query($query);
             if (PEAR::isError($res)) {
                 return $res;
             }
         }
 
         return true;
+    }
+
+    // }}}
+    // {{{ _tableLangs()
+
+    /**
+     * Get table -> language mapping
+     *
+     * The key of the array is the table that a language is stored in;
+     * the value is an /array/ of languages stored in that table.
+     *
+     * @param   array  $langs  Languages to get mapping for
+     * @return  array  Table -> language mapping
+     * @access  private
+     * @see     Translation2_Container_DB::_getLangTable()
+     * @author  Ian Eure
+     */
+    function &_tableLangs($langs)
+    {
+        $tables = array();
+        foreach ($langs as $lang) {
+            $table = $this->_getLangTable($lang);
+            $tables[$table][] = $lang;
+        }
+        return $tables;
+    }
+
+    // }}}
+    // {{{ _getLangTables()
+
+    /**
+     * Get tables for languages
+     *
+     * This is like _getLangTable(), but it returns an array of the tables for
+     * multiple languages.
+     *
+     * @param   array    $langs  Languages to get tables for
+     * @return  array
+     * @access  private
+     * @author  Ian Eure
+     */
+    function &_getLangTables($langs = null)
+    {
+        $tables = array();
+        $langs = !is_array($langs) ? $this->getLangs('ids') : $langs;
+        foreach ($langs as $lang) {
+            $tables[] = $this->_getLangTable($lang);
+        }
+        return $tables;
+    }
+
+    // }}}
+    // {{{ _getLangCols()
+
+    /**
+     * Get table columns strings are stored in
+     *
+     * This is like _getLangCol(), except it returns an array which contains
+     * the mapping for multiple languages.
+     *
+     * @param   array  $langs  Languages to get mapping for
+     * @return  array  Language -> column mapping
+     * @access  private
+     * @see     Translation2_Container_DB::_getLangCol()
+     * @author  Ian Eure
+     */
+    function &_getLangCols($langs)
+    {
+        $cols = array();
+        foreach ($langs as $lang) {
+            $cols[$lang] = $this->_getLangCol($lang);
+        }
+        return $cols;
     }
 
     // }}}
