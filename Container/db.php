@@ -281,7 +281,8 @@ class Translation2_Container_db extends Translation2_Container
             if (isset($this->options['strings_tables'][$langID])) {
                 $tables[$langID] = $this->options['strings_tables'][$langID];
             } else {
-                $tables[$langID] = $this->options['strings_default_table'];
+                $tables[$langID] = str_replace('%s', $langID,
+                    $this->options['strings_default_table']);
             }
         }
         return $tables[$langID];
