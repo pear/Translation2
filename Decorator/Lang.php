@@ -36,15 +36,18 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
     // {{{ class vars
 
     // }}}
-    // {{{ setDecoratedLang()
+    // {{{ setFallbackLang()
 
     /**
-     * Set the decorated (i.e. fallback) lang
+     * Set the fallback lang. When the requested string
+     * is not available in the primary lang, this decorator
+     * will try with another lang before returning an empty string.
+     *
      * @param string $langID
      */
-    function setDecoratedLang($langID)
+    function setFallbackLang($langID)
     {
-        $this->decoratedLang = $langID;
+        $this->fallbackLang = $langID;
     }
 
     // }}}
@@ -53,10 +56,7 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
     /**
      * Get translated string
      *
-     * First check if the string is cached, if not => fetch the page
-     * from the container and cache it for later use.
-     * If the string is empty, check the fallback language; if
-     * the latter is empty too, then return the $defaultText.
+     * If the string is empty, check the fallback language
      *
      * @param string $stringID
      * @param string $pageID
@@ -69,35 +69,16 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
     {
         $str = $this->translation2->get($stringID, $pageID, $langID, $defaultText);
         if (empty($str)) {
-            $str = $this->translation2->get($stringID, $pageID, $this->decoratedLang);
+            $str = $this->translation2->get($stringID, $pageID, $this->fallbackLang);
         }
         return $str;
-    }
-
-    // }}}
-    // {{{ getRawPage()
-
-    /**
-     * Get the array of strings in a page
-     *
-     * First check if the strings are cached, if not => fetch the page
-     * from the container and cache it for later use.
-     *
-     * @param string $pageID
-     * @param string $langID
-     * @return array
-     */
-    function getRawPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null)
-    {
-        $data1 = $this->translation2->getRawPage($pageID, $langID);
-        return $data1;
     }
 
     // }}}
     // {{{ getPage()
 
     /**
-    * Same as getRawPage, but resort to fallback language and
+     * Same as getRawPage, but resort to fallback language and
      * replace parameters when needed
      *
      * @param string $pageID
@@ -107,7 +88,7 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
     function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
     {
         $data1 = $this->translation2->getPage($pageID, $langID);
-        $data2 = $this->translation2->getPage($pageID, $this->decoratedLang);
+        $data2 = $this->translation2->getPage($pageID, $this->fallbackLang);
         foreach ($data1 as $key => $val) {
             if (empty($val)) {
                 $data1[$key] = $data2[$key];
