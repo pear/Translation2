@@ -76,7 +76,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         $queries = array();
         $queries[] = sprintf('CREATE TABLE %s ( '
                              .'%s VARCHAR(50) default NULL, '
-                             .'%s VARCHAR(50) NOT NULL, '
+                             .'%s TEXT NOT NULL, '
                              .'%s TEXT )',
                              $langData['table_name'],
                              $this->options['string_page_id_col'],
