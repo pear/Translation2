@@ -91,6 +91,7 @@ Currently, the following decorators are provided:
       <dep type="pkg" rel="has" optional="yes">MDB2</dep>
       <dep type="ext" rel="has" optional="yes">gettext</dep>
       <dep type="pkg" rel="has" optional="yes">File_Gettext</dep>
+      <dep type="pkg" rel="ge" optional="yes" version="0.9.1">I18Nv2</dep>
     </deps>
     <filelist>
       <file role="php" name="Translation2.php" />
