@@ -48,10 +48,10 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     /**
      * Creates a new entry in the langs_avail .ini file.
      *
-     * @param string $langID
+     * @param array $langData
      * @return mixed true on success, PEAR_Error on failure
      */
-    function createNewLang($langID, $path=null)
+    function createNewLang($langData, $path=null)
     {
         if (is_null($path)) {
             //use the path of the first domain
@@ -63,7 +63,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
                 TRANSLATION2_ERROR_INVALID_PATH
             );
         }
-        $path .= DIRECTORY_SEPARATOR.$langID;
+        $path .= DIRECTORY_SEPARATOR.$langData['lang_id'];
         if (!is_dir($path)) {
             if (!mkdir($path)) {
                 return $this->raiseError(
@@ -85,7 +85,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     }
 
     // }}}
-   // {{{ addLangToAvailList()
+    // {{{ addLangToAvailList()
 
     /**
      * Creates a new entry in the langsAvail .ini file.
