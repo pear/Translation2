@@ -129,15 +129,13 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
      * @param string $langID
      * @return array
      */
-    function &getPage($page = null, $lang = null)
+    function &getPage($pageID = null, $langID = null)
     {
-        if (is_null($langID)) {
-            $lang= $this->currentLang['id'];
-        }
+        $langID = $this->_getLangID($langID);
 
         $do = DB_DataObject::factory($this->options['table']);
-        $do->lang = $lang;
-        $do->page = $page;
+        $do->lang = $langID;
+        $do->page = $pageID;
 
         $do->find();
         $strings = array();
@@ -159,13 +157,13 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
      * @param string $langID
      * @return string
      */
-    function getOne($string, $page = null, $lang = null)
+    function getOne($string, $pageID = null, $langID = null)
     {
-        $lang = $lang ? $lang : (isset($this->currentLang['id']) ? $this->currentLang['id'] : '-');
+        $langID = $langID ? $langID : (isset($this->currentLang['id']) ? $this->currentLang['id'] : '-');
         // get the string id
         $do = DB_DataObject::factory($this->options['table']);
         $do->lang = '-';
-        $do->page = $page;
+        $do->page = $pageID;
         $do->translation = $string;
         // we dont have the base language translation..
         if (!$do->find(true)) {
@@ -174,8 +172,8 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
         $stringID = $do->string_id;
 
         $do = DB_DataObject::factory($this->options['table']);
-        $do->lang = $lang;
-        $do->page = $page;
+        $do->lang = $langID;
+        $do->page = $pageID;
         $do->string_id = $stringID;
         //print_r($do);
         $do->selectAdd();
@@ -197,13 +195,13 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
      * @param string $pageID
      * @return string
      */
-    function getStringID($string, $page = null)
+    function getStringID($string, $pageID = null)
     {
         // get the english version...
 
         $do = DB_DataObject::factory($this->options['table']);
         $do->lang = $this->currentLang['id'];
-        $do->page = $page;
+        $do->page = $pageID;
         $do->translation = $string;
         if ($do->find(true)) {
             return '';

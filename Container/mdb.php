@@ -169,9 +169,9 @@ class Translation2_Container_mdb extends Translation2_Container
      */
     function &getPage($pageID = null, $langID = null)
     {
-        $langID = is_null($langID) ? $this->currentLang['id'] : $langID;
+        $langID   = $this->_getLangID($langID);
         $lang_col = $this->_getLangCol($langID);
-        $table = $this->_getLangTable($langID);
+        $table    = $this->_getLangTable($langID);
 
         $query = sprintf('SELECT %s, %s FROM %s WHERE %s ',
                          $this->options['string_id_col'],
@@ -212,9 +212,9 @@ class Translation2_Container_mdb extends Translation2_Container
      */
     function getOne($stringID, $pageID=null, $langID=null)
     {
-        $langID = is_null($langID) ? $this->currentLang['id'] : $langID;
+        $langID   = $this->_getLangID($langID);
         $lang_col = $this->_getLangCol($langID);
-        $table = $this->_getLangTable($langID);
+        $table    = $this->_getLangTable($langID);
 
         $query = sprintf('SELECT %s FROM %s WHERE %s.%s = %s AND %s',
                          $lang_col,

@@ -84,6 +84,27 @@ class Translation2_Container
     }
 
     // }}}
+    // {{{ _getLangID()
+
+    /**
+     * Get a valid langID or raise an error when
+     *
+     * @access private
+     * @param  string $langID
+     */
+    function _getLangID($langID)
+    {
+        if (!empty($langID)) {
+            return $langID;
+        }
+        if (!empty($this->currentLang['id'])) {
+            return $this->currentLang['id'];
+        }
+        $msg = 'No valid language set. Use Translation2::setLang().';
+        return $this->raiseError($msg, TRANSLATION2_ERROR_UNKNOWN_LANG);
+    }
+
+    // }}}
     // {{{ setLang()
 
     /**

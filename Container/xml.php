@@ -290,7 +290,7 @@ class Translation2_Container_xml extends Translation2_Container
      */
     function getPage($pageID = null, $langID = null)
     {
-        $langID = is_null($langID)   ? $this->currentLang['id'] : $langID;
+        $langID = $this->_getLangID($langID);
         $pageID = (is_null($pageID)) ? '#NULL'  : $pageID;
         $pageID = (empty($pageID))   ? '#EMPTY' : $pageID;
 
@@ -317,7 +317,7 @@ class Translation2_Container_xml extends Translation2_Container
      */
     function getOne($stringID, $pageID = null, $langID = null)
     {
-        $langID = is_null($langID) ? $this->currentLang['id'] : $langID;
+        $langID = $this->_getLangID($langID);
         $pageID = (is_null($pageID)) ? '#NULL' : $pageID;                         
 
         return isset($this->_data['pages'][$pageID][$stringID][$langID])
