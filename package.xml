@@ -45,11 +45,13 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta5</version>
-    <date>2004-11-30</date>
+    <date>2004-12-05</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
 - added Translation2_Admin::getPageNames()
+- added Translation2_Admin::updateLang()
+- fixed bug #2890: getLang() raised a NOTICE if setLang() was not called before
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -145,11 +147,13 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta5</version>
-      <date>2004-11-30</date>
+      <date>2004-12-05</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
 - added Translation2_Admin::getPageNames()
+- added Translation2_Admin::updateLang()
+- fixed bug #2890: getLang() raised a NOTICE if setLang() was not called before
       </notes>
     </release>
     <release>
