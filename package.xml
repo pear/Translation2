@@ -45,11 +45,12 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta4</version>
-    <date>2004-11-17</date>
+    <date>2004-11-18</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
 - fixed typo in error code (TRANSLATION_ERROR_UNKNOWN_LANG => TRANSLATION2_ERROR_UNKNOWN_LANG)
+- fixed typo in the MDB Admin container [quote() => getTextValue()]
 - updated gettext docs
 - added testsuite
 - fixed typo in db admin containers ($this->queries => $this->_queries)
@@ -139,11 +140,12 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta4</version>
-      <date>2004-11-17</date>
+      <date>2004-11-18</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
 - fixed typo in error code (TRANSLATION_ERROR_UNKNOWN_LANG => TRANSLATION2_ERROR_UNKNOWN_LANG)
+- fixed typo in the MDB Admin container [quote() => getTextValue()]
 - updated gettext docs
 - added testsuite
 - fixed typo in db admin containers ($this->queries => $this->_queries)
