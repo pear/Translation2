@@ -53,6 +53,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
             <file name="gettext.php" />
             <file name="mdb.php" />
             <file name="mdb2.php" />
+            <file name="dataobjectsimple.php" />
           </dir>
         </dir>
         <dir name="Container" role="php">
@@ -60,6 +61,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
           <file name="gettext.php" />
           <file name="mdb.php" />
           <file name="mdb2.php" />
+            <file name="dataobjectsimple.php" />
         </dir>
         <dir name="Decorator" role="php">
           <file name="CacheMemory.php" />

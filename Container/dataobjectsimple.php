@@ -35,6 +35,7 @@ require_once 'DB/DataObject.php';
  * Database Structure:
  *
  *  // meta data etc. not supported yet...
+ *
  *  create table translations (
  *     id int(11) auto_increment not null primary key,
  *     string_id int(11),
@@ -42,15 +43,11 @@ require_once 'DB/DataObject.php';
  *     lang varchar(10),
  *     translation text
  *     );
+ * alter table translations add index page (page);
+ * alter table translations add index lang (lang);
+ * alter table translations add index string_id (string_id);
  *
- * table : translations
- *  id       // not null primary key autoincrement..
- *  string_id      // translation id
- *  page     // indexed varchar eg. (mytemplate.html)
- *  lang     // index varchar (eg. en|fr|.....)
- *  translation  // the translated value in language lang.
- *
- *
+ * - then just run the dataobjects createtables script.
  *
  *
  * This storage driver can use all databases which are supported
