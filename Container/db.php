@@ -196,6 +196,7 @@ class Translation2_Container_db extends Translation2_Container
         while (list($key, $value) = $res->fetchRow()) {
             $strings[$key] = $value;
         }
+        $res->free();
         return $strings;
     }
 
@@ -203,7 +204,7 @@ class Translation2_Container_db extends Translation2_Container
     // {{{ getOne()
 
     /**
-     * Get a single item from the container, without caching the whole page
+     * Get a single item from the container
      *
      * @param string $stringID
      * @param string $pageID
@@ -216,9 +217,8 @@ class Translation2_Container_db extends Translation2_Container
         $lang_col = $this->_getLangCol($langID);
         $table    = $this->_getLangTable($langID);
 
-        $query = sprintf('SELECT %s FROM %s WHERE %s.%s = %s AND %s',
+        $query = sprintf('SELECT %s FROM %s WHERE %s = %s AND %s',
                          $lang_col,
-                         $table,
                          $table,
                          $this->options['string_id_col'],
                          $this->db->quote($stringID),

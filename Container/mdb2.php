@@ -203,7 +203,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
     // {{{ getOne()
 
     /**
-     * Get a single item from the container, without caching the whole page
+     * Get a single item from the container
      *
      * @param string $stringID
      * @param string $pageID
@@ -216,9 +216,8 @@ class Translation2_Container_mdb2 extends Translation2_Container
         $lang_col = $this->_getLangCol($langID);
         $table    = $this->_getLangTable($langID);
 
-        $query = sprintf('SELECT %s FROM %s WHERE %s.%s = %s AND %s',
+        $query = sprintf('SELECT %s FROM %s WHERE %s = %s AND %s',
                          $lang_col,
-                         $table,
                          $table,
                          $this->options['string_id_col'],
                          $this->db->quote($stringID, 'text'),
@@ -230,7 +229,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
         } else {
             $query .= ' = ' . $this->db->quote($pageID, 'text');
         }
-
+        
         ++$this->_queries;
         return $this->db->queryOne($query);
     }
