@@ -1,36 +1,37 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2004 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Author:  Alan Knowles <alan@akbkhome.com>                            |
-// +----------------------------------------------------------------------+
-//
-// $Id$
-//
-/**
-* @package Translation2
-* @version $Id$
-*/
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
-* require Translation2_Container class and DB_DataObjects
-*/
+ * Translation2 PEAR::DB_DataObject container
+ *
+ * This storage driver can use all databases which are supported
+ * by the PEAR::DB abstraction layer to fetch data.
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   Internationalization
+ * @package    Translation2
+ * @author     Alan Knowles <alan@akbkhome.com>
+ * @copyright  2004-2005 Alan Knowles
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/Translation2
+ */
+
+/**
+ * require Translation2_Container class and DB_DataObjects
+ */
 require_once 'Translation2/Container.php';
 require_once 'DB/DataObject.php';
 
 /**
- * Storage driver for fetching data from a simple dataobject
+ * Simple storage driver for fetching data from a db with DB_DataObject
  *
  * Database Structure:
  *
@@ -53,15 +54,16 @@ require_once 'DB/DataObject.php';
  * This storage driver can use all databases which are supported
  * by the PEAR DB abstraction layer to fetch data.
  *
- * @package  Translation2
- * @version  $Revision$
+ * @category   Internationalization
+ * @package    Translation2
+ * @author     Alan Knowles <alan@akbkhome.com>
+ * @copyright  2004-2005 Alan Knowles
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/Translation2
  */
 class Translation2_Container_dataobjectsimple extends Translation2_Container
 {
-
-    // {{{ class vars
-
-    // }}}
     // {{{ init
 
     /**

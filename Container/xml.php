@@ -1,26 +1,25 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2004 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is available through the world-wide-web at                      |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Olivier Guilyardi <olivier at samalyse dot com>             |
-// |          Lorenzo Alberton <l dot alberton at quipo dot it>           |
-// +----------------------------------------------------------------------+
-//
-// $Id$
-//
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
 /**
- * @package Translation2
- * @version $Id$
+ * Storage driver for fetching data from a XML file
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   Internationalization
+ * @package    Translation2
+ * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
+ * @author     Olivier Guilyardi <olivier at samalyse dot com>
+ * @copyright  2004-2005 Lorenzo Alberton, Olivier Guilyardi
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/Translation2
  */
 
 /**
@@ -51,8 +50,9 @@ define ('TRANSLATION2_DTD',
     "<!ELEMENT tr (#PCDATA)>\n" .
     "<!ATTLIST tr lang IDREF #REQUIRED>\n"
 );
+
 /**
- * Storage driver for fetching data from an xml file
+ * Storage driver for fetching data from a XML file
  *
  * Example file :
  *
@@ -79,15 +79,20 @@ define ('TRANSLATION2_DTD',
  *     </pages>
  * </translation2>
  *
- * @package  Translation2
- * @version  $Revision $
+ * @category   Internationalization
+ * @package    Translation2
+ * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
+ * @author     Olivier Guilyardi <olivier at samalyse dot com>
+ * @copyright  2004-2005 Lorenzo Alberton, Olivier Guilyardi
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @link       http://pear.php.net/package/Translation2
  */
 class Translation2_Container_xml extends Translation2_Container
 {
     // {{{ class vars
 
     /**
-     * Unserialized XML data
+     * Unserialized XML data 
      * @var object
      */
     var $_data = null;
@@ -97,12 +102,12 @@ class Translation2_Container_xml extends Translation2_Container
      * @var string
      */
     var $_filename;
-
+    
     // }}}
     // {{{ init
 
     /**
-     * Initialize the container
+     * Initialize the container 
      *
      * @param  string  $filename Path to the XML file
      * @return boolean|PEAR_Error object if something went wrong
@@ -119,7 +124,7 @@ class Translation2_Container_xml extends Translation2_Container
 
     // }}}
     // {{{ _loadFile()
-
+    
     /**
      * Load an XML file into memory, and eventually decode the strings from UTF-8
      *
@@ -180,11 +185,11 @@ class Translation2_Container_xml extends Translation2_Container
         // convert encodings of the translated strings from xml (somehow heavy)
         return $this->_convertEncodings('from_xml', $this->_data);
     }
-
+    
     // }}}
     // {{{ _convertEncodings()
 
-    /**
+    /** 
      * Convert strings to/from XML unique charset (UTF-8)
      *
      * @param string ['from_xml' | 'to_xml']
@@ -198,7 +203,7 @@ class Translation2_Container_xml extends Translation2_Container
         } else {
             $target_encoding = 'UTF-8';
         }
-
+        
         foreach ($data['pages'] as $page_id => $page_content) {
             foreach ($page_content as $str_id => $translations) {
                 foreach ($translations as $lang => $str) {
@@ -228,7 +233,7 @@ class Translation2_Container_xml extends Translation2_Container
         }
         return true;
     }
-
+         
     // }}}
     // {{{ _convertLangEncodings()
 
@@ -248,7 +253,7 @@ class Translation2_Container_xml extends Translation2_Container
         } else {
             $target_encoding = 'UTF-8';
         }
-
+        
         foreach ($data['languages'] as $lang_id => $lang) {
             if ($direction == 'from_xml') {
                 $target_encoding = strtoupper($lang['encoding']);
@@ -278,7 +283,7 @@ class Translation2_Container_xml extends Translation2_Container
 
     // }}}
     // {{{ _fixDuplicateEntries()
-
+    
     /**
      * Remove duplicate entries from the xml data
      */
@@ -293,7 +298,7 @@ class Translation2_Container_xml extends Translation2_Container
             }
         }
     }
-
+    
     // }}}
     // {{{ fixEmptySets()
 
@@ -344,7 +349,7 @@ class Translation2_Container_xml extends Translation2_Container
         }
         return $return;
     }
-
+    
     // }}}
     // {{{ _setDefaultOptions()
 
@@ -394,11 +399,11 @@ class Translation2_Container_xml extends Translation2_Container
 
         $result = array();
         foreach ($this->_data['pages'][$pageID] as $str_id => $translations) {
-            $result[$str_id]  = isset($translations[$langID])
-                                ? $translations[$langID]
+            $result[$str_id]  = isset($translations[$langID]) 
+                                ? $translations[$langID] 
                                 : null;
         }
-
+        
         return $result;
     }
 
@@ -416,7 +421,7 @@ class Translation2_Container_xml extends Translation2_Container
     function getOne($stringID, $pageID = null, $langID = null)
     {
         $langID = $this->_getLangID($langID);
-        $pageID = (is_null($pageID)) ? '#NULL' : $pageID;
+        $pageID = (is_null($pageID)) ? '#NULL' : $pageID;                         
 
         return isset($this->_data['pages'][$pageID][$stringID][$langID])
                ? $this->_data['pages'][$pageID][$stringID][$langID]
@@ -435,8 +440,8 @@ class Translation2_Container_xml extends Translation2_Container
      */
     function getStringID($string, $pageID = null)
     {
-        $pageID = (is_null($pageID)) ? '#NULL' : $pageID;
-
+        $pageID = (is_null($pageID)) ? '#NULL' : $pageID;                        
+        
         foreach ($this->_data['pages'][$pageID] as $str_id => $translations) {
             if (array_search($string,$translations) !== false) {
                 return $str_id;
@@ -445,7 +450,7 @@ class Translation2_Container_xml extends Translation2_Container
 
         return '';
     }
-
+    
     // }}}
 }
 ?>

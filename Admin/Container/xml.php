@@ -1,26 +1,25 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2004 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is available through the world-wide-web at                      |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Olivier Guilyardi <olivier at samalyse dot com>             |
-// |          Lorenzo Alberton <l dot alberton at quipo dot it>           |
-// +----------------------------------------------------------------------+
-//
-// $Id$
-//
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
 /**
- * @package Translation2
- * @version $Id$
+ * Storage driver for storing/fetching data to/from a XML file
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   Internationalization
+ * @package    Translation2
+ * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
+ * @author     Olivier Guilyardi <olivier at samalyse dot com>
+ * @copyright  2004-2005 Lorenzo Alberton, Olivier Guilyardi
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/Translation2
  */
 
 /**
@@ -31,16 +30,20 @@ require_once 'Translation2/Container/xml.php';
 require_once 'XML/Util.php';
 
 /**
- * Storage driver for storing/fetching data to/from an XML file
+ * Storage driver for storing/fetching data to/from a XML file
  *
- * @package  Translation2
- * @version  $Revision $
+ * @category   Internationalization
+ * @package    Translation2
+ * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
+ * @author     Olivier Guilyardi <olivier at samalyse dot com>
+ * @copyright  2004-2005 Lorenzo Alberton, Olivier Guilyardi
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @link       http://pear.php.net/package/Translation2
  */
 class Translation2_Admin_Container_xml extends Translation2_Container_xml
 {
-
     // {{{ class vars
-
+    
     /**
      * Whether _saveData() is already registered at shutdown or not
      * @var boolean
@@ -83,11 +86,11 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
             'error_text' => '',
             'encoding'   => 'iso-8859-1',
         );
-
+        
         foreach ($validInput as $key => $val) {
             if (isset($langData[$key])) $validInput[$key] = $langData[$key];
         }
-
+        
         $this->_data['languages'][$langData['lang_id']] = $validInput;
         return $this->_scheduleSaving();
     }
@@ -147,7 +150,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
         foreach ($langs as $lang) {
             $this->_data['pages'][$pageID][$stringID][$lang] = $stringArray[$lang];
         }
-
+        
         return $this->_scheduleSaving();
     }
 
@@ -203,7 +206,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      */
     function removeLang($langID, $force = true)
     {
-        // remove lang metadata
+        // remove lang metadata 
         unset($this->_data['languages'][$langID]);
 
         // remove the entries
@@ -241,14 +244,14 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
 
     // }}}
     // {{{ _scheduleSaving()
-
+    
     /**
      * Prepare data saving
      *
      * This methods registers _saveData() as a PEAR shutdown function. This
-     * is to avoid saving multiple times if the programmer makes several
+     * is to avoid saving multiple times if the programmer makes several 
      * changes.
-     *
+     * 
      * @return true|PEAR_Error
      * @access private
      * @see Translation2_Admin_Container_xml::_saveData()
@@ -263,18 +266,14 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
             }
             return true;
         }
-
+        
         // save the changes now
         return $this->_saveData();
-
-
-
-
     }
 
     // }}}
     // {{{ _saveData()
-
+    
     /**
      * Serialize and save the updated tranlation data to the XML file
      *
@@ -289,12 +288,12 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
         } else {
             $data =  $this->_data;
         }
-
+        
         $this->_convertEncodings('to_xml', $data);
         $this->_convertLangEncodings('to_xml', $data);
-
+        
         // Serializing
-
+        
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n" .
                "<!DOCTYPE translation2 [\n" . TRANSLATION2_DTD . "]>\n\n" .
                "<translation2>\n" .
@@ -303,19 +302,19 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
         foreach ($data['languages'] as $lang => $spec) {
             extract ($spec);
             $xml .= "    <lang id=\"$lang\">\n" .
-                    "      <name>" .
-                    ($name ? ' ' . XML_Util::replaceEntities($name) . ' ' : '') .
+                    "      <name>" . 
+                    ($name ? ' ' . XML_Util::replaceEntities($name) . ' ' : '') . 
                     "</name>\n" .
-                    "      <meta>" .
-                    ($meta ? ' ' . XML_Util::replaceEntities($meta) . ' ' : "") .
+                    "      <meta>" . 
+                    ($meta ? ' ' . XML_Util::replaceEntities($meta) . ' ' : "") . 
                     "</meta>\n" .
-                    "      <error_text>" .
-                    ($error_text
-                        ? ' ' . XML_Util::replaceEntities($error_text) . ' '
-                        : "") .
+                    "      <error_text>" . 
+                    ($error_text 
+                        ? ' ' . XML_Util::replaceEntities($error_text) . ' ' 
+                        : "") . 
                     "</error_text>\n" .
-                    "      <encoding>" . ($encoding ? " $encoding " : "") .
-                    "</encoding>\n" .
+                    "      <encoding>" . ($encoding ? " $encoding " : "") . 
+                    "</encoding>\n" .  
                     "    </lang>\n";
         }
 
@@ -323,10 +322,10 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
                 "  <pages>\n";
 
         foreach ($data['pages'] as $page => $strings) {
-            $xml .= "    <page key=\"" . XML_Util::replaceEntities($page) .
+            $xml .= "    <page key=\"" . XML_Util::replaceEntities($page) . 
                     "\">\n";
             foreach ($strings as $str_id => $translations) {
-                $xml .= "      <string key=\"" .
+                $xml .= "      <string key=\"" . 
                         XML_Util::replaceEntities($str_id) . "\">\n";
                 foreach ($translations as $lang => $str) {
                     $xml .= "        <tr lang=\"$lang\"> " .
@@ -341,7 +340,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
                 "</translation2>\n";
 
         unset ($data);
-
+        
         // Saving
 
         if (!$f = fopen ($this->_filename, 'w')) {

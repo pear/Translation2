@@ -1,26 +1,27 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2004 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Author:  Alan Knowles <alan@akbkhome.com>                            |
-// +----------------------------------------------------------------------+
-//
-// $Id$
-//
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
 /**
- * @package Translation2
- * @version $Id$
+ * Translation2 PEAR::DB_DataObject admin container
+ *
+ * This storage driver can use all databases which are supported
+ * by the PEAR::DB abstraction layer to fetch data.
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   Internationalization
+ * @package    Translation2
+ * @author     Alan Knowles <alan@akbkhome.com>
+ * @copyright  2004-2005 Alan Knowles
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/Translation2
  */
 
 /**
@@ -35,7 +36,7 @@ require_once 'Translation2/Container/dataobjectsimple.php';
  *
  * // meta data etc. not supported
  *
- * table : translations
+ * table: translations
  *  id          // not null primary key autoincrement..
  *  string_id   // translation id
  *  page        // indexed varchar eg. (mytemplate.html)
@@ -46,14 +47,15 @@ require_once 'Translation2/Container/dataobjectsimple.php';
  * This storage driver can use all databases which are supported
  * by the PEAR DB abstraction layer to fetch data.
  *
- * @package  Translation2
- * @version  $Revision$
+ * @category   Internationalization
+ * @package    Translation2
+ * @author     Alan Knowles <alan@akbkhome.com>
+ * @copyright  2004-2005 Alan Knowles
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @link       http://pear.php.net/package/Translation2
  */
 class Translation2_Admin_Container_dataobjectsimple extends Translation2_Container_dataobjectsimple
 {
-    // {{{ class vars
-
-    // }}}
     // {{{ addLang()
 
     /**
@@ -67,17 +69,17 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
      *                              'name'       => 'english',
      *                              'meta'       => 'some meta info',
      *                              'error_text' => 'not available');
-     * @return mixed true on success, PEAR_Error on failure
+     * @return true|PEAR_Error
      */
     function addLang($langData)
     {
         $do = DB_DataObject::factory($this->options['table']);
-        $do->lang= $langData['lang_id'];
+        $do->lang = $langData['lang_id'];
         if (!$do->find()) {
             $do->insert();
         }
     }
-
+    
     // }}}
     // {{{ addLangToList()
 
