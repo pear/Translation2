@@ -19,8 +19,8 @@ if (PEAR::isError($err)) {
 $tr->setPageID();
 //$tr =& $tr->getDecorator('CacheMemory');
 $tr =& $tr->getDecorator('CacheLiteFunction');
-$tr->setOption('cacheDir', 'cache/');
-$tr->setOption('lifeTime', 3600*24);
+$tr->setOption('cacheDir', $cache_options['cacheDir']);
+$tr->setOption('lifeTime', $cache_options['lifeTime']);
 //$tr->setOption('prefetch', false);
 $tr =& $tr->getDecorator('Lang');
 $tr->setOption('fallbackLang', 'en');
@@ -54,8 +54,8 @@ if (PEAR::isError(\$err)) {
 // the number of db queries will drop to zero.
 // Warning: a lot of cache files will be created!
 \$tr =& \$tr->getDecorator('CacheLiteFunction');
-\$tr->setOption('cacheDir', 'cache/');  //default is '/tmp/'
-\$tr->setOption('lifeTime', 3600*24);   //default is 3600 (= 1 minute)
+\$tr->setOption('cacheDir', \$cache_options['cacheDir']);  //default is '/tmp/'
+\$tr->setOption('lifeTime', \$cache_options['lifeTime']);   //default is 3600 (= 1 minute)
 
 // set an 'English Decorator', i.e. add English as a fallback language
 \$tr = & \$tr->getDecorator('Lang');
@@ -107,7 +107,7 @@ writeValue('[EN] LANG_META', $tr->getLang('en', 'meta'));
 
 
 writeTitle('DEBUG INFO');
-debug('NUMBER OF DB QUERIES: '.$tr->storage->_queries);
+debug('NUMBER OF DB QUERIES: '.(isset($tr->storage->_queries)?$tr->storage->_queries:'0 (gettext)'));
 unset($tr);
 
 
@@ -124,8 +124,8 @@ if (PEAR::isError($err)) {
 $tr->setPageID();
 $tr = & $tr->getDecorator('CacheMemory');
 $tr =& $tr->getDecorator('CacheLiteFunction');
-$tr->setOption('cacheDir', 'cache/');
-$tr->setOption('lifeTime', 3600*24);
+$tr->setOption('cacheDir', $cache_options['cacheDir']);
+$tr->setOption('lifeTime', $cache_options['lifeTime']);
 //$tr->prefetch = false;
 $tr = & $tr->getDecorator('Lang');
 $tr->setOption('fallbackLang', 'it');
@@ -156,8 +156,8 @@ if (PEAR::isError(\$err)) {
 // the number of db queries will drop to zero.
 // Warning: a lot of cache files will be created!
 \$tr =& \$tr->getDecorator('CacheLiteFunction');
-\$tr->setOption('cacheDir', 'cache/');  //default is '/tmp/'
-\$tr->setOption('lifeTime', 3600*24);   //default is 3600 (= 1 minute)
+\$tr->setOption('cacheDir', \$cache_options['cacheDir']);  //default is '/tmp/'
+\$tr->setOption('lifeTime', \$cache_options['lifeTime']);   //default is 3600 (= 1 minute)
 
 // set an 'Italian Decorator', i.e. add Italian as a fallback language
 \$tr = & \$tr->getDecorator('Lang');
@@ -259,8 +259,9 @@ writeValue('venerdì', $tr->get('day_5', 'calendar', 'it'));
 
 
 writeTitle('TRANSLATION (STRING TO STRING)');
-debug('$tr->translate(\'gennaio\', \'en\', \'calendar\');');
-writeValue('gennaio', $tr->translate('gennaio', 'en', 'calendar'));
+debug('$stringID = $tr->getStringID(\'gennaio\', \'calendar\');');
+$stringID = $tr->getStringID('gennaio', 'calendar');
+writeValue('gennaio', $tr->get($stringID, 'calendar', 'en'));
 
 
 
@@ -351,5 +352,5 @@ if (strtolower(get_class($tr)) == 'translation2_admin') {
 
 
 writeTitle('DEBUG INFO');
-debug('NUMBER OF DB QUERIES: '.$tr->storage->_queries);
+debug('NUMBER OF DB QUERIES: '.(isset($tr->storage->_queries)?$tr->storage->_queries:'0 (gettext)'));
 ?>

@@ -63,10 +63,8 @@ $params = array(
 
 $driver = 'MDB';
 
-/*
 $cache_options = array(
-    'cacheDir' => 'cache/',
-    'lifeTime' => 3600*24 //one day
+    'cacheDir' => 'cache/', //default is /tmp/
+    'lifeTime' => 3600*24,  //default is 3600 (1 minute)
 );
-*/
 ?>
