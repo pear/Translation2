@@ -123,7 +123,7 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
         }
 
         if ($this->prefetch) {
-            $this->getPage($pageID, $langID);
+            $this->getRawPage($pageID, $langID);
         }
         //$str = $defaultText;
         if (array_key_exists($pageID_key, $this->data[$langID_key])) {
