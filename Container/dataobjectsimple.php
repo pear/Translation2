@@ -70,7 +70,7 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
      * @param  string table name
      * @return boolean true
      */
-    function init($table=null)
+    function init($table = null)
     {
         $this->_setDefaultOptions();
         if (!empty($table)) {
@@ -129,7 +129,7 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
      * @param string $langID
      * @return array
      */
-    function getPage($page=null, $lang=null)
+    function &getPage($page = null, $lang = null)
     {
         if (is_null($langID)) {
             $lang= $this->currentLang['id'];
@@ -159,7 +159,7 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
      * @param string $langID
      * @return string
      */
-    function getOne($string, $page=null, $lang=null)
+    function getOne($string, $page = null, $lang = null)
     {
         $lang = $lang ? $lang : (isset($this->currentLang['id']) ? $this->currentLang['id'] : '-');
         // get the string id
@@ -197,9 +197,9 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
      * @param string $pageID
      * @return string
      */
-    function getStringID($string, $page=null)
+    function getStringID($string, $page = null)
     {
-        // get the enlgish version..
+        // get the english version...
 
         $do = DB_DataObject::factory($this->options['table']);
         $do->lang = $this->currentLang['id'];
