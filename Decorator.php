@@ -40,30 +40,6 @@ class Translation2_Decorator
     var $translation2;
 
     /**
-     * set prefetch on/off
-     * @var boolean
-     * @access protected
-     */
-    var $prefetch = true;
-
-    /**
-     * Translated strings array
-     * Used for cache purposes.
-     * No parameter substitution or fallback langs here.
-     * @var array
-     * @access protected
-     */
-    var $rawData = array();
-
-    /**
-     * Translated strings array
-     * Used for cache purposes.
-     * @var array
-     * @access protected
-     */
-    var $data = array();
-
-    /**
      * Used for debug only.
      * @var object
      * @access protected
@@ -81,26 +57,13 @@ class Translation2_Decorator
      * @var string
      * @access protected
      */
-    var $currentLang;
+    var $decoratedLang;
 
     /**
      * @var string
      * @access protected
      */
     var $currentPageID;
-
-    /**
-     * @var string
-     * @access protected
-     */
-    var $charset = 'ISO-8859-1';
-
-    /**
-     * Cache_Lite_Function object
-     * @var object
-     * @access protected
-     */
-    //var $cacheLiteFunction;
 
     // }}}
     // {{{ Constructor
@@ -132,10 +95,26 @@ class Translation2_Decorator
     {
         if (is_array($options)) {
             foreach ($options as $option => $value) {
-                if (isset($this->$option)) {
-                    $this->$option = $value;
-                }
+                $this->setOption($option, $value);
             }
+        }
+    }
+
+    // }}}
+    // {{{ setOption()
+
+    /**
+     * set Decorator option
+     *
+     * @param string option name
+     * @param mixed  option value
+     */
+    function setOption($option, $value=null)
+    {
+        if (isset($this->$option)) {
+            $this->$option = $value;
+        } elseif (is_a($this->translation2, 'Translation2_Decorator')) {
+            $this->translation2->setOption($option, $value);
         }
     }
 
@@ -232,8 +211,8 @@ class Translation2_Decorator
      */
     function setDecoratedLang($langID)
     {
-        if (isset($this->translation2->currentLang)) {
-            $this->translation2->currentLang = $langID;
+        if (isset($this->translation2->decoratedLang)) {
+            $this->translation2->decoratedLang = $langID;
         }
     }
 
