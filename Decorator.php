@@ -196,6 +196,26 @@ class Translation2_Decorator
     }
 
     // }}}
+    // {{{ getRaw()
+
+    /**
+     * Get translated string
+     *
+     * No filter is applied.
+     *
+     * @param string $stringID
+     * @param string $pageID
+     * @param string $langID
+     * @param string $defaultText Text to display when the strings in both
+     *                            the default and the fallback lang are empty
+     * @return string
+     */
+    function getRaw($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
+    {
+        return $this->translation2->getRaw($stringID, $pageID, $langID, $defaultText);
+    }
+
+    // }}}
     // {{{ get()
 
     /**

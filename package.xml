@@ -44,20 +44,12 @@ Currently, the following decorators are provided:
     </maintainer>
   </maintainers>
   <release>
-    <version>2.0.0beta5</version>
-    <date>2004-12-24</date>
+    <version>2.0.0beta6</version>
+    <date>2005-01-03</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
-- renamed createNewLang() to addLang()  [BC break!]
-- renamed addLangToAvailList() to addLangToList()
-- added Translation2_Admin::getPageNames()
-- added Translation2_Admin::updateLang()
-- fixed bug #2890: getLang() raised a NOTICE if setLang() was not called before
-- fixed bug #2972: CacheLiteFunction decorator not handling
-  parameter subtitution as expected
-- updated dataobjectsimple container (alank)
-- some internal minor fixes and tweaks
+- added Translation2::getRaw()
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -151,6 +143,15 @@ Currently, the following decorators are provided:
     </filelist>
   </release>
   <changelog>
+    <release>
+      <version>2.0.0beta6</version>
+      <date>2005-01-03</date>
+      <license>PHP License</license>
+      <state>beta</state>
+      <notes>
+- added Translation2::getRaw()
+      </notes>
+    </release>
     <release>
       <version>2.0.0beta5</version>
       <date>2004-12-24</date>

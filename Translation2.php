@@ -387,6 +387,29 @@ class Translation2
     }
 
     // }}}
+    // {{{ getRaw()
+
+    /**
+     * Get translated string (as-is)
+     *
+     * @param string $stringID
+     * @param string $pageID
+     * @param string $langID
+     * @param string $defaultText Text to display when the strings in both
+     *                            the default and the fallback lang are empty
+     * @return string|PEAR_Error
+     */
+    function getRaw($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
+    {
+        $pageID = ($pageID == TRANSLATION2_DEFAULT_PAGEID ? $this->currentPageID : $pageID);
+        $str = $this->storage->getOne($stringID, $pageID, $langID);
+        if (empty($str)) {
+            $str = $defaultText;
+        }
+        return $str;
+    }
+
+    // }}}
     // {{{ get()
 
     /**
@@ -406,8 +429,7 @@ class Translation2
      */
     function get($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
     {
-        $pageID = ($pageID == TRANSLATION2_DEFAULT_PAGEID ? $this->currentPageID : $pageID);
-        $str = $this->storage->getOne($stringID, $pageID, $langID);
+        $str = $this->getRaw($stringID, $pageID, $langID);
         if (PEAR::isError($str)) {
             return $str;
         }

@@ -124,6 +124,37 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
     }
 
     // }}}
+    // {{{ getRaw()
+
+    /**
+     * Get translated string (as-is)
+     *
+     * First check if the string is cached, if not => fetch the page
+     * from the container and cache it for later use.
+     *
+     * @param string $stringID
+     * @param string $pageID
+     * @param string $langID
+     * @param string $defaultText Text to display when the strings in both
+     *                            the default and the fallback lang are empty
+     * @return string
+     */
+    function getRaw($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
+    {
+        if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
+            $pageID = $this->translation2->currentPageID;
+        }
+        $langID = empty($langID) ? $this->translation2->lang['id'] : $langID;
+
+        $this->_prepare();
+        global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
+        ${$this->tempVarName} = $this->translation2;
+
+        return $this->cacheLiteFunction->call($this->tempVarName.'->getRaw',
+            $stringID, $pageID, $langID, $defaultText);
+    }
+
+    // }}}
     // {{{ get()
 
     /**

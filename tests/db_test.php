@@ -36,6 +36,21 @@ class TestOfContainerDB extends UnitTestCase {  //TestOfTranslation2 {
         $this->assertEqual('sunday', $this->tr->get('day_0'));
         $this->assertEqual('monday', $this->tr->get('day_1'));
     }
+    function testGetRaw() {
+        $this->tr->setLang('it');
+        $this->tr->setParams(array(
+            'user'    => 'Joe',
+            'day'     => '15',
+            'month'   => $this->tr->get('month_01', 'calendar'),
+            'year'    => '2004',
+            'weekday' => $this->tr->get('day_5',    'calendar')
+        ));
+        $expected = 'ciao, &&user&&, oggi è il &&day&& &&month&& &&year&& (&&weekday&&)';
+        $this->assertEqual($expected, $this->tr->getRaw('hello_user'));
+
+        $this->tr =& $this->tr->getDecorator('SpecialChars');
+        $this->assertEqual('venerdì', $this->tr->getRaw('day_5', 'calendar', 'it'));
+    }
     function testGetPage() {
         $this->tr->setLang('en');
         $expected = array(

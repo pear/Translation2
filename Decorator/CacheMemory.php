@@ -98,6 +98,43 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
     }
 
     // }}}
+    // {{{ getRaw()
+
+    /**
+     * Get translated string (as-is)
+     *
+     * First check if the string is cached, if not => fetch the page
+     * from the container and cache it for later use.
+     *
+     * @param string $stringID
+     * @param string $pageID
+     * @param string $langID
+     * @param string $defaultText Text to display when the strings in both
+     *                            the default and the fallback lang are empty
+     * @return string
+     */
+    function getRaw($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText=null)
+    {
+        $pageID_key = $this->_getPageIDKey($pageID);
+        $langID_key = empty($langID) ? $this->translation2->lang['id'] : $langID;
+
+        if (!array_key_exists($langID_key, $this->data)) {
+            $this->data[$langID_key] = array();
+        }
+
+        if ($this->prefetch) {
+            $this->getRawPage($pageID, $langID);
+        }
+        if (array_key_exists($pageID_key, $this->data[$langID_key])) {
+            $str = (isset($this->data[$langID_key][$pageID_key][$stringID]) ?
+                    $this->data[$langID_key][$pageID_key][$stringID] : ''); //empty string or null value?
+        } else {
+            $str = $this->translation2->getRaw($stringID, $pageID, $langID, $defaultText);
+        }
+        return $str;
+    }
+
+    // }}}
     // {{{ get()
 
     /**
@@ -125,7 +162,6 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
         if ($this->prefetch) {
             $this->getRawPage($pageID, $langID);
         }
-        //$str = $defaultText;
         if (array_key_exists($pageID_key, $this->data[$langID_key])) {
             $str = (isset($this->data[$langID_key][$pageID_key][$stringID]) ?
                     $this->data[$langID_key][$pageID_key][$stringID] : ''); //empty string or null value?
