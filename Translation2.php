@@ -130,7 +130,7 @@ class Translation2
     function _factory($driver, $options='')
     {
         $storage_path = 'Translation2'.DIRECTORY_SEPARATOR
-                        .'Container'.DIRECTORY_SEPARATOR.strtolower($driver).'.php';
+                       .'Container'.DIRECTORY_SEPARATOR.strtolower($driver).'.php';
         $storage_class = 'Translation2_Container_'.strtolower($driver);
         require_once $storage_path;
         return new $storage_class($options);
@@ -422,14 +422,14 @@ class Translation2
      * @param string $langID
      * @return string
      */
-    function translate($string, $langID)
+    function translate($string, $langID, $pageID=null)
     {
         //is a search in the cache (before the db query) worth it?
-        $stringID = $this->storage->getStringID($string);
+        $stringID = $this->storage->getStringID($string, $pageID);
         if (PEAR::isError($stringID) || empty($stringID)) {
             return $this->lang['error_text'];
         }
-        return $this->get($stringID, null, $langID); //$pageID IS NOT USED. IS IT OK WITH EVERYONE?
+        return $this->get($stringID, $pageID, $langID); //$pageID IS NOT USED. IS IT OK WITH EVERYONE?
     }
 
     // }}}
