@@ -29,23 +29,18 @@ Currently, the following decorators are provided:
     </maintainer>
   </maintainers>
   <release>
-    <version>2.0.0beta1</version>
-    <date>2004-05-05</date>
+    <version>2.0.0beta2</version>
+    <date>2004-07-31</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
-- BC break! Run the example to see what's new
-- refactoring in progress:
-  added a Decorator class and some subclasses to control
-  the output (now you can set a stack of fallback languages,
-  a filter to deal with empty strings, one or more cache layers...)
-- improved gettext support (thanks to Michael Wallner)
-- added gettext admin class
-- fixes in the db admin classes
-- when adding a new string, if it matches one already in the db,
-  the old one is replaced by the new one.
-- added a MDB2 container
-- added a DB_DataObject container (by Alan Knowles)
+- add emptyPrefix and emptyPostfix options to the DefaultText decorator
+  (can be used to mark empty strings)
+- don't pass objects by ref in the Decorator, as it's deprecated
+- better check for existing connections in the MDB and MDB2 drivers
+- fix assignment of datobjects simple to empty string using default constructor
+  in the dataobjectsimple driver (alan_k)
+- updated the example
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -98,6 +93,21 @@ Currently, the following decorators are provided:
     </filelist>
   </release>
   <changelog>
+    <release>
+      <version>2.0.0beta2</version>
+      <date>2004-07-31</date>
+      <license>PHP License</license>
+      <state>beta</state>
+      <notes>
+- add emptyPrefix and emptyPostfix options to the DefaultText decorator
+  (can be used to mark empty strings)
+- don't pass objects by ref in the Decorator, as it's deprecated
+- better check for existing connections in the MDB and MDB2 drivers
+- fix assignment of datobjects simple to empty string using default constructor
+  in the dataobjectsimple driver (alan_k)
+- updated the example
+      </notes>
+    </release>
     <release>
       <version>2.0.0beta1</version>
       <date>2004-05-05</date>
