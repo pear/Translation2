@@ -42,7 +42,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta3</version>
-    <date>2004-10-31</date>
+    <date>2004-11-01</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
@@ -79,6 +79,9 @@ Currently, the following decorators are provided:
   $translatedString = $tr->get($stringID, 'mypage', $otherLangID);
 - major cleanup of the gettext container and added some examples (mike)
 - removeLang() was missing. Fixed.
+- the gettext container no longer require the gettext extension (thanks to Sergey Korotkov);
+  it is used when loaded, though, since it's faster.
+- both .mo and .po files are valid data sources for the gettext container (Sergey Korotkov)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -137,7 +140,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta3</version>
-      <date>2004-10-31</date>
+      <date>2004-11-01</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
@@ -174,26 +177,9 @@ Currently, the following decorators are provided:
   $translatedString = $tr->get($stringID, 'mypage', $otherLangID);
 - major cleanup of the gettext container and added some examples (mike)
 - removeLang() was missing. Fixed.
-      </notes>
-    </release>
-    <release>
-      <version>2.0.0beta2</version>
-      <date>2004-10-04</date>
-      <license>PHP License</license>
-      <state>beta</state>
-      <notes>
-- constructor is deprecated. Use factory instead.
-- added emptyPrefix and emptyPostfix options to the DefaultText decorator
-  (can be used to mark empty strings)
-- don't pass objects by ref in the Decorator, as it's deprecated
-- better check for existing connections in the MDB and MDB2 drivers
-- fixed assignment of datobjects simple to empty string using default constructor
-  in the dataobjectsimple driver (alan_k)
-- updated the example
-- fixed the db, mdb and mdb2 admin classes (bugs #2153 and #2248
-  and wrong check for non-existent langs_avail_table)
-- added a 'strings_default_table' parameter as a fallback table
-  for translations
+- the gettext container no longer require the gettext extension (thanks to Sergey Korotkov);
+  it is used when loaded, though, since it's faster.
+- both .mo and .po files are valid data sources for the gettext container (Sergey Korotkov)
       </notes>
     </release>
     <release>
