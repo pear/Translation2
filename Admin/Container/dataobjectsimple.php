@@ -62,13 +62,18 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
      * If the table is shared with other langs, it is ALTERed to
      * hold strings in this lang too.
      *
-     * @param string $langID
+     *
+     * @param array $langData array('lang_id'    => 'en',
+     *                              'table_name' => 'i18n',
+     *                              'name'       => 'english',
+     *                              'meta'       => 'some meta info',
+     *                              'error_text' => 'not available');
      * @return mixed true on success, PEAR_Error on failure
      */
-    function addLang($langID)
+    function addLang($langData)
     {
         $do = DB_DataObject::factory($this->options['table']);
-        $do->lang= $langID;
+        $do->lang= $langData['lang_id'];
         if (!$do->find()) {
             $do->insert();
         }
@@ -80,13 +85,7 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
     /**
      * Creates a new entry in the langsAvail table.
      * If the table doesn't exist yet, it is created.
-     *
-     * @param array $langData array('lang_id'    => 'en',
-     *                              'table_name' => 'i18n',
-     *                              'name'       => 'english',
-     *                              'meta'       => 'some meta info',
-     *                              'error_text' => 'not available');
-     * @return mixed true on success, PEAR_Error on failure
+      * @return mixed true on success, PEAR_Error on failure
      */
     function addLangToList($langData)
     {
@@ -182,4 +181,3 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
 
     // }}}
 }
-?>
