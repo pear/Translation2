@@ -225,7 +225,7 @@ $tr = & $tr->getDecorator('SpecialChars');
 // =[DEBUG INFO]======================================
 $str = <<<EOT
 // set a 'SpecialChars Decorator' to replace htmlentities
-\$tr = & Translation2->getDecorator('SpecialChars');
+\$tr = & \$tr->getDecorator('SpecialChars');
 \$tr->setOptions(array('charset' => 'ISO-8859-1'); //default
 EOT;
 // ====================================================
