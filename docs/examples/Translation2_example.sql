@@ -1,17 +1,14 @@
 CREATE TABLE mytable_i18n (
-  ID varchar(50) NOT NULL,
-  pageID varchar(100),
+  id TEXT NOT NULL,
+  page_id varchar(100),
   en text,
   de text,
   es text,
   fr text,
-  it text,
-  UNIQUE KEY ID (ID, pageID)
+  it text
 );
 
-
-
-
+CREATE UNIQUE INDEX mytable_i18n_id_index ON mytable_i18n (id);
 
 INSERT INTO mytable_i18n (ID, pageID, en, de, es, fr, it) VALUES("month_01", "calendar", "january", NULL, NULL, NULL, "gennaio");
 INSERT INTO mytable_i18n (ID, pageID, en, de, es, fr, it) VALUES("month_02", "calendar", "february", NULL, NULL, NULL, "febbraio");
@@ -44,13 +41,16 @@ INSERT INTO mytable_i18n (ID, pageID, en, de, es, fr, it) VALUES("test", NULL, "
 
 
 CREATE TABLE mytable_langs_avail (
-  ID varchar(10) NOT NULL,
+  id varchar(10) NOT NULL,
   name varchar(200),
   meta text,
   error_text varchar(250),
-  UNIQUE KEY ID (ID)
+  encoding varchar(16) NOT NULL DEFAULT 'iso-8859-1'
 );
 
-INSERT INTO mytable_langs_avail (ID, name, meta, error_text) VALUES("en", "english", "my meta info", "not available");
-INSERT INTO mytable_langs_avail (ID, name, meta, error_text) VALUES("de", "deutsch", "iso-8859-1", "kein Text auf Deutsch verfügbar");
-INSERT INTO mytable_langs_avail (ID, name, meta, error_text) VALUES("it", "italiano", "charset=iso-8859-1", "non disponibile");
+CREATE UNIQUE INDEX mytable_langs_avail_id_index ON mytable_langs_avail (id);
+
+
+INSERT INTO mytable_langs_avail (ID, name, meta, error_text, encoding) VALUES("en", "english", "my meta info", "not available", "iso-8859-1");
+INSERT INTO mytable_langs_avail (ID, name, meta, error_text, encoding) VALUES("de", "deutsch", "iso-8859-1", "kein Text auf Deutsch verfügbar", "iso-8859-1");
+INSERT INTO mytable_langs_avail (ID, name, meta, error_text, encoding) VALUES("it", "italiano", "charset=iso-8859-1", "non disponibile", "iso-8859-1");
