@@ -17,8 +17,8 @@ An Admin class is provided to easily manage translations (add/remove a language,
     </maintainer>
   </maintainers>
   <release>
-    <version>2.0.0-alpha2</version>
-    <date>2004-02-20</date>
+    <version>2.0.0alpha2</version>
+    <date>2004-02-22</date>
     <license>PHP License</license>
     <state>alpha</state>
     <notes>
@@ -38,28 +38,31 @@ An Admin class is provided to easily manage translations (add/remove a language,
       <dir name="/" baseinstalldir="Translation2">
         <file role="php" name="Translation2.php" />
         <file role="php" name="Container.php" />
-        <file role="php" name="Util.php" />
+        <file role="php" name="Utils.php" />
         <dir name="Admin" role="php">
-          <file role="php" name="Admin.php" />
-          <file role="php" name="Container/db.php" />
-          <file role="php" name="Container/mdb.php" />
+          <file name="Admin.php" />
+          <file name="Container/db.php" />
+          <file name="Container/mdb.php" />
         </dir>
         <dir name="Container" role="php">
           <file name="db.php" />
           <file name="gettext.php" />
           <file name="mdb.php" />
         </dir>
-        <dir name="examples" role="doc">
-          <file role="doc" name="Translation2_example.php" />
-          <file role="doc" name="Translation2_example.sql" />
+        <dir name="docs" role="doc">
+          <file name="gettext_readme.txt" />
+          <dir name="examples" role="doc">
+            <file name="Translation2_example.php" />
+            <file name="Translation2_example.sql" />
+          </dir>
         </dir>
       </dir>
     </filelist>
   </release>
   <changelog>
     <release>
-      <version>2.0.0-alpha2</version>
-      <date>2004-02-05</date>
+      <version>2.0.0alpha2</version>
+      <date>2004-02-22</date>
       <license>PHP License</license>
       <state>alpha</state>
       <notes>
