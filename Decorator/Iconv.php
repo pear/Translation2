@@ -83,7 +83,9 @@ class Translation2_Decorator_Iconv extends Translation2_Decorator
     // {{{ get()
     
     /**
-     * Get the translated string, in the new encoding
+     * Get translated string
+     *
+     * replace special chars with the matching html entities
      *
      * @param string $stringID
      * @param string $pageID
