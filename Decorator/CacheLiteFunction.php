@@ -43,7 +43,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      * @var object
      * @access protected
      */
-    var $cacheLiteFunction;
+    var $cacheLiteFunction = null;
 
     /**
 	 * @var int (default 1)
@@ -57,29 +57,57 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
 	 */
 	var $tempVarName = null;
 
-    // }}}
-    // {{{
+	/**
+	 * Cache lifetime (in seconds)
+     * @var int $lifeTime
+	 * @access private
+	 */
+	var $lifeTime = 3600;
 
-    /**
-     * Pass a Cache_Lite_Function object to the decorator
-     * @param object Cache_Lite_Function instance
+	/**
+	 * Directory where to put the cache files
+     * (make sure to add a trailing slash)
+     * @var string $cacheDir
+	 * @access private
+	 */
+	var $cacheDir = '/tmp/';
+
+	/**
+	 * Directory where to put the cache files
+     * (make sure to add a trailing slash)
+     * @var string $cacheDir
+	 * @access private
+	 */
+	var $fileLocking = true;
+
+	/**
+     * Enable / disable caching
+     * (can be very useful to debug cached scripts)
+     * @var boolean $caching
      */
-    /*
-    function setCacheLite(& $cacheLiteFunction)
-    {
-        $this->cacheLiteFunction = & $cacheLiteFunction;
-    }
-    */
+    var $caching = true;
 
     // }}}
-    // {{{ getTempVariable()
+    // {{{ _prepare()
 
     /**
-     * get the name for an unused global variable,
+     * Istanciate a new Cache_Lite_Function object
+     * and get the name for an unused global variable,
      * needed by Cache_Lite_Function
      */
-    function generateTempVariable()
+    function _prepare()
     {
+        if (is_null($this->cacheLiteFunction)) {
+            $cache_options = array(
+                'caching'     => $this->caching,
+                'cacheDir'    => $this->cacheDir,
+                'lifeTime'    => $this->lifeTime,
+                'fileLocking' => $this->fileLocking,
+            );
+            $this->cacheLiteFunction = new Cache_Lite_Function($cache_options);
+        }
+
+        //generate temp variable
         if (is_null($this->tempVarName)) {
             $prefix = 'translation2_temp_';
             $var = $this->tempVarNameGenerator++;
@@ -113,7 +141,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
             $pageID = $this->translation2->currentPageID;
         }
 
-        $this->generateTempVariable();
+        $this->_prepare();
         global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
         ${$this->tempVarName} = $this->translation2;
 
@@ -141,7 +169,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
         if (is_null($pageID)) {
             $pageID = $this->translation2->currentPageID;
         }
-        $this->generateTempVariable();
+        $this->_prepare();
         global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
         ${$this->tempVarName} = $this->translation2;
 
@@ -165,7 +193,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
         if (is_null($pageID)) {
             $pageID = $this->translation2->currentPageID;
         }
-        $this->generateTempVariable();
+        $this->_prepare();
         global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
         ${$this->tempVarName} = $this->translation2;
 
@@ -190,7 +218,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
         if (is_null($pageID)) {
             $pageID = $this->translation2->currentPageID;
         }
-        $this->generateTempVariable();
+        $this->_prepare();
         global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
         ${$this->tempVarName} = $this->translation2;
 
