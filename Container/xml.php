@@ -6,17 +6,17 @@
 // | Copyright (c) 1997-2004 The PHP Group                                |
 // +----------------------------------------------------------------------+
 // | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
+// | that is available through the world-wide-web at                      |
 // | http://www.php.net/license/3_0.txt.                                  |
 // | If you did not receive a copy of the PHP license and are unable to   |
 // | obtain it through the world-wide-web, please send a note to          |
 // | license@php.net so we can mail you a copy immediately.               |
 // +----------------------------------------------------------------------+
-// | Author: Olivier Guilyardi <olivier at samalyse dot com>              |
+// | Authors: Olivier Guilyardi <olivier at samalyse dot com>             |
+// |          Lorenzo Alberton <l dot alberton at quipo dot it>           |
 // +----------------------------------------------------------------------+
 //
-// $Id $
+// $Id$
 //
 /**
  * @package Translation2
@@ -65,7 +65,6 @@ require_once 'XML/Unserializer.php';
  */
 class Translation2_Container_xml extends Translation2_Container
 {
-
     // {{{ class vars
 
     /**
@@ -80,14 +79,6 @@ class Translation2_Container_xml extends Translation2_Container
      */
     var $_filename;
     
-    /**
-     * query counter (unused in this driver. Here for compatibility 
-     * with Translation2_example.php)
-     * @var integer
-     * @access private
-     */
-    var $_queries = 0;
-     
     // }}}
     // {{{ init
 
@@ -97,53 +88,80 @@ class Translation2_Container_xml extends Translation2_Container
      * @param  string  $filename Path to the XML file
      * @return boolean|PEAR_Error object if something went wrong
      */
-    function init($filename)
+    function init($options)
     {
+        $this->_filename = $options['filename'];
+        unset($options['filename']);
         $this->_setDefaultOptions();
-        $this->_filename = $filename;
-        $keyAttr = array ('lang' => 'id', 'page' => 'key', 
-                          'string' => 'key', 'tr' => 'lang');
-        $unserializer = &new XML_Unserializer (array('keyAttribute' => $keyAttr));
-        if (PEAR::isError($status = $unserializer->unserialize($filename, true))) {
-            return $status;
-        }
-       
-        // Unserialize data 
-        
-        $this->_data = $unserializer->getUnserializedData();
-        
-        // Handle default language settings. 
-        //
-        // This allows, for example, to rapidly write the meta data as :
-        // 
-        // <lang key="fr"/>
-        // <lang key="en"/>
-        
-        $defaults = array('name' => '', 
-                          'meta' => '', 
-                          'error_text' => '',
-                          'encoding' => 'iso-8859-1');
+        $this->_parseOptions($options);
 
-        foreach ($this->_data['languages'] as $lang_id => $settings) {
-            if ($settings == "") {
-                $this->_data['languages'][$lang_id] = $defaults;
-            } else {
-                $this->_data['languages'][$lang_id] = 
-                    array_merge($defaults,$this->_data['languages'][$lang_id]);
-            }
-        }
-       
-
-        // Convert encodings from xml (somehow heavy)
-        return $this->_convertEncodings('from_xml'); 
+        return $this->_loadFile();
     }
 
+    // }}}
+    // {{{ _loadFile()
+    
+    /**
+     * Load an XML file into memory, and eventually decode the strings from UTF-8
+     *
+     * @access private
+     * @return boolean|PEAR_Error
+     */
+    function _loadFile()
+    {
+        $keyAttr = array (
+            'lang'   => 'id',
+            'page'   => 'key',
+            'string' => 'key',
+            'tr'     => 'lang'
+        );
+        $unserializer = &new XML_Unserializer (array('keyAttribute' => $keyAttr));
+        if (PEAR::isError($status = $unserializer->unserialize($this->_filename, true))) {
+            return $status;
+        }
+
+        // unserialize data
+        $this->_data = $unserializer->getUnserializedData();
+
+        // Handle default language settings.
+        // This allows, for example, to rapidly write the meta data as:
+        //
+        // <lang key="fr"/>
+        // <lang key="en"/>
+
+        $defaults = array(
+            'name'       => '',
+            'meta'       => '',
+            'error_text' => '',
+            'encoding'   => 'iso-8859-1'
+        );
+
+        foreach ($this->_data['languages'] as $lang_id => $settings) {
+            if (empty($settings)) {
+                $this->_data['languages'][$lang_id] = $defaults;
+            } else {
+                $this->_data['languages'][$lang_id] =
+                    array_merge($defaults, $this->_data['languages'][$lang_id]);
+            }
+        }
+
+        // convert lang metadata from UTF-8
+        if (PEAR::isError($e = $this->_convertLangEncodings('from_xml'))) {
+            return $e;
+        }
+
+        // convert encodings of the translated strings from xml (somehow heavy)
+        return $this->_convertEncodings('from_xml');
+    }
+    
     // }}}
     // {{{ _convertEncodings()
 
     /** 
      * Convert strings to/from XML unique charset (UTF-8)
      *
+     * @param string ['from_xml' | 'to_xml']
+     * @return boolean|PEAR_Error
      */
     function _convertEncodings($direction) 
     {
@@ -157,25 +175,25 @@ class Translation2_Container_xml extends Translation2_Container
             foreach ($page_content as $str_id => $translations) {
                 foreach ($translations as $lang => $str) {
                     if ($direction == 'from_xml') {
-                        $target_encoding = 
+                        $target_encoding =
                             strtoupper($this->_data['languages'][$lang]['encoding']);
                     } else {
-                        $source_encoding = 
+                        $source_encoding =
                             strtoupper($this->_data['languages'][$lang]['encoding']);
                     }
                     if ($target_encoding != $source_encoding) {
-                        if (($res = 
-                             iconv ($source_encoding, $target_encoding, $str))
-                            !== FALSE) {
-                                
-                            $this->_data['pages'][$page_id][$str_id][$lang] = $res;
-                        } else {
-                            return 
-                                new PEAR_Error("Encoding conversion error " . 
-                                               "(source encoding : $source_encoding, ". 
-                                               "target encoding : $target_encoding, ".
-                                               "processed string : \"$str\"");
+                        $res = iconv ($source_encoding, $target_encoding, $str);
+                        if ($res === false) {
+                            $msg = 'Encoding conversion error ' .
+                                   "(source encoding: $source_encoding, ".
+                                   "target encoding: $target_encoding, ".
+                                   "processed string: \"$str\"";
+                            return $this->raiseError($msg,
+                                    TRANSLATION2_ERROR_ENCODING_CONVERSION,
+                                    PEAR_ERROR_RETURN,
+                                    E_USER_WARNING);
                         }
+                        $this->_data['pages'][$page_id][$str_id][$lang] = $res;
                     }
                 }
             }
@@ -183,6 +201,52 @@ class Translation2_Container_xml extends Translation2_Container
         return true;
     }
          
+    // }}}
+    // {{{ _convertLangEncodings()
+
+    /**
+     * Convert lang data to/from XML unique charset (UTF-8)
+     *
+     * @param string $direction   ['from_xml' | 'to_xml']
+     * @return boolean|PEAR_Error
+     */
+    function _convertLangEncodings($direction)
+    {
+        static $fields = array('name', 'meta', 'error_text');
+
+        if ($direction == 'from_xml') {
+            $source_encoding = 'UTF-8';
+        } else {
+            $target_encoding = 'UTF-8';
+        }
+        
+        foreach ($this->_data['languages'] as $lang_id => $lang) {
+            if ($direction == 'from_xml') {
+                $target_encoding = strtoupper($lang['encoding']);
+            } else {
+                $source_encoding = strtoupper($lang['encoding']);
+            }
+            //foreach (array_keys($lang) as $field) {
+            foreach ($fields as $field) {
+                if ($target_encoding != $source_encoding && !empty($lang[$field])) {
+                    $res = iconv ($source_encoding, $target_encoding, $lang[$field]);
+                    if ($res === false) {
+                        $msg = 'Encoding conversion error ' .
+                               "(source encoding: $source_encoding, ".
+                               "target encoding: $target_encoding, ".
+                               "processed string: \"$lang[$field]\"";
+                        return $this->raiseError($msg,
+                                TRANSLATION2_ERROR_ENCODING_CONVERSION,
+                                PEAR_ERROR_RETURN,
+                                E_USER_WARNING);
+                    }
+                    $this->_data['languages'][$lang_id][$field] = $res;
+                }
+            }
+        }
+        return true;
+    }
+
     // }}}
     // {{{ _setDefaultOptions()
 
@@ -194,6 +258,8 @@ class Translation2_Container_xml extends Translation2_Container
      */
     function _setDefaultOptions()
     {
+        //save changes on shutdown or in real time?
+        $this->options['save_on_shutdown']  = true;
     }
 
     // }}}
@@ -224,9 +290,9 @@ class Translation2_Container_xml extends Translation2_Container
      */
     function getPage($pageID = null, $langID = null)
     {
-        $langID = is_null($langID) ? $this->currentLang['id'] : $langID;
-        $pageID = (is_null($pageID)) ? '#NULL' : $pageID;                         
-        $pageID = (empty($pageID)) ? '#EMPTY' : $pageID;                         
+        $langID = is_null($langID)   ? $this->currentLang['id'] : $langID;
+        $pageID = (is_null($pageID)) ? '#NULL'  : $pageID;
+        $pageID = (empty($pageID))   ? '#EMPTY' : $pageID;
 
         $result = array();
         foreach ($this->_data['pages'][$pageID] as $str_id => $translations) {
@@ -236,7 +302,6 @@ class Translation2_Container_xml extends Translation2_Container
         }
         
         return $result;
-        
     }
 
     // }}}
@@ -254,11 +319,11 @@ class Translation2_Container_xml extends Translation2_Container
     {
         $langID = is_null($langID) ? $this->currentLang['id'] : $langID;
         $pageID = (is_null($pageID)) ? '#NULL' : $pageID;                         
-       
+
         return isset($this->_data['pages'][$pageID][$stringID][$langID])
                ? $this->_data['pages'][$pageID][$stringID][$langID]
                : null;
-   }
+    }
 
     // }}}
     // {{{ getStringID()
@@ -282,6 +347,7 @@ class Translation2_Container_xml extends Translation2_Container
 
         return '';
     }
+    
     // }}}
 }
 ?>
