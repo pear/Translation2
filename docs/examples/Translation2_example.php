@@ -7,9 +7,9 @@ require_once './settings.php';
 require_once 'Translation2.php';
 
 //require_once 'Translation2/Admin.php';
-//$tr = new Translation2_Admin($driver, $dbinfo, $params);
+//$tr =& Translation2_Admin::factory($driver, $dbinfo, $params);
 
-$tr = new Translation2($driver, $dbinfo, $params);
+$tr =& Translation2::factory($driver, $dbinfo, $params);
 
 writeTitle('ITALIANO');
 $tr->setLang('it');
@@ -29,7 +29,7 @@ $tr->setOption('fallbackLang', 'de');
 $str = <<<EOT
 // new Translation2 instance
 // (look at settings.php for an example of \$dbinfo and \$params)
-\$tr = new Translation2("\$driver", \$dbinfo, \$params);
+\$tr = & Translation2::factory("\$driver", \$dbinfo, \$params);
 
 // set Italian as default lang
 \$tr->setLang('it');
@@ -108,7 +108,7 @@ unset($tr);
 //new example
 
 writeTitle('ENGLISH');
-$tr = new Translation2($driver, $dbinfo, $params);
+$tr = & Translation2::factory($driver, $dbinfo, $params);
 $tr->setLang('en');
 $tr->setPageID();
 $tr = & $tr->getDecorator('CacheMemory');
@@ -123,7 +123,7 @@ $tr->setOption('fallbackLang', 'it');
 // =[DEBUG INFO]======================================
 $str = <<<EOT
 // new Translation2 instance
-\$tr = new Translation2("\$driver", \$dbinfo, \$params);
+\$tr = & Translation2::factory("\$driver", \$dbinfo, \$params);
 
 // set English as default lang
 \$tr->setLang('en');
