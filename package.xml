@@ -30,10 +30,11 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta2</version>
-    <date>2004-09-02</date>
+    <date>2004-09-14</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
+- constructor is deprecated. Use factory instead.
 - added emptyPrefix and emptyPostfix options to the DefaultText decorator
   (can be used to mark empty strings)
 - don't pass objects by ref in the Decorator, as it's deprecated
@@ -41,7 +42,8 @@ Currently, the following decorators are provided:
 - fixed assignment of datobjects simple to empty string using default constructor
   in the dataobjectsimple driver (alan_k)
 - updated the example
-- fixed the db, mdb and mdb2 admin classes (bugs #2153 and #2248)
+- fixed the db, mdb and mdb2 admin classes (bugs #2153 and #2248
+  and wrong check for non-existent langs_avail_table)
 - added a 'strings_default_table' parameter as a fallback table
   for translations
     </notes>
@@ -98,10 +100,11 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta2</version>
-      <date>2004-09-02</date>
+      <date>2004-09-14</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
+- constructor is deprecated. Use factory instead.
 - added emptyPrefix and emptyPostfix options to the DefaultText decorator
   (can be used to mark empty strings)
 - don't pass objects by ref in the Decorator, as it's deprecated
@@ -109,7 +112,8 @@ Currently, the following decorators are provided:
 - fixed assignment of datobjects simple to empty string using default constructor
   in the dataobjectsimple driver (alan_k)
 - updated the example
-- fixed the db, mdb and mdb2 admin classes (bugs #2153 and #2248)
+- fixed the db, mdb and mdb2 admin classes (bugs #2153 and #2248
+  and wrong check for non-existent langs_avail_table)
 - added a 'strings_default_table' parameter as a fallback table
   for translations
       </notes>
