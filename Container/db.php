@@ -24,7 +24,7 @@
  */
 
 /**
- * require Translation2_Container class and PEAR::DB
+ * require Translation2_Container class
  */
 require_once 'Translation2/Container.php';
 
@@ -139,25 +139,20 @@ class Translation2_Container_db extends Translation2_Container
      */
     function fetchLangs()
     {
-        if (!isset($this->langs) || count($this->langs) === 0) {
-            $query = sprintf('SELECT %s, %s, %s, %s FROM %s',
-                            $this->options['lang_id_col'],
-                            $this->options['lang_name_col'],
-                            $this->options['lang_meta_col'],
-                            $this->options['lang_errmsg_col'],
-                            $this->options['langs_avail_table']);
+        $query = sprintf('SELECT %s AS id, %s AS name, %s AS meta, %s AS error_text FROM %s',
+                        $this->options['lang_id_col'],
+                        $this->options['lang_name_col'],
+                        $this->options['lang_meta_col'],
+                        $this->options['lang_errmsg_col'],
+                        $this->options['langs_avail_table']);
 
-            ++$this->_queries;
-            $res = $this->db->getAll($query, DB_FETCHMODE_ASSOC);
-            if (PEAR::isError($res)) {
-                return $res;
-            }
-
-            $idcol = strtolower($this->options['lang_id_col']);
-            foreach ($res as $row) {
-                $lang = $row[$idcol];
-                $this->langs[$lang] = $row;
-            }
+        ++$this->_queries;
+        $res = $this->db->getAll($query, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
+        foreach ($res as $row) {
+            $this->langs[$row['id']] = $row;
         }
     }
 
