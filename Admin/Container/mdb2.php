@@ -139,7 +139,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             return $tables;
         }
 
-        if (!in_array($langData['table_name'], $tables)) {
+        if (!in_array($this->options['langs_avail_table'], $tables)) {
             //is this query portable??
             $query = sprintf('CREATE TABLE %s ('
                             .'%s CHAR(16), '
