@@ -119,13 +119,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
         $this->_cleanCache();
         //generate temp variable
         if (is_null($this->tempVarName)) {
-            $prefix = 'translation2_temp_';
-            $var = $this->tempVarNameGenerator++;
-            if ($var > 26) {
-                $this->tempVarName = $prefix. chr(64 + $var % 26) . chr(64 + $var / 26);
-            } else {
-                $this->tempVarName = $prefix. chr(64 + $var);
-            }
+            $this->tempVarName = 'translation2_temp_' . $this->tempVarNameGenerator++;
         }
     }
 
@@ -154,10 +148,14 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
 
         $this->_prepare();
         global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
-        ${$this->tempVarName} = $this->translation2;
+        ${$this->tempVarName} = $this->translation2->storage;
 
-        return $this->cacheLiteFunction->call($this->tempVarName.'->get',
-            $stringID, $pageID, $langID, $defaultText);
+        $string = $this->cacheLiteFunction->call($this->tempVarName.'->getOne',
+            $stringID, $pageID, $langID);
+        if (empty($string)) {
+            return $defaultText;
+        }
+        return $this->translation2->_replaceParams($string);
     }
 
     // }}}
