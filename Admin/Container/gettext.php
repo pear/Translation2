@@ -301,12 +301,12 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     {
         require_once 'File/Gettext.php';
         $gtFile = &File_Gettext::factory($this->options['file_type']);
+        $langs  = $this->getLangs('array');
         
         foreach ((array) $bulk as $pageID => $languages) {
             
             $path = $this->_domains[$pageID] .'/';
             $file = '/LC_MESSAGES/'. $pageID .'.'. $this->options['file_type'];
-            $langs= $this->getLangs('array');
             
             foreach ($languages as $lang => $strings) {
 
