@@ -4,7 +4,7 @@
   <summary>Class for multilingual applications management.</summary>
   <description>
 This class provides an easy way to retrieve all the strings for a multilingual site from a data source (i.e. db).
-A PEAR::DB, a PEAR::MDB and an experimental gettext container are provided, more containers will follow.
+A PEAR::DB, a PEAR::MDB, a PEAR::MDB2 and an experimental gettext container are provided, more containers will follow.
 It is designed to reduce the number of queries to the db, caching the results when possible.
 An Admin class is provided to easily manage translations (add/remove a language, add/remove a string).
 </description>
@@ -27,6 +27,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
   added a Decorator class and some subclasses to control
   the output (now you can set a stack of fallback languages,
   a filter to deal with empty strings, one or more cache layers...)
+- added a MDB2 container and the admin class as well
 - improved gettext support (thanks to Michael Wallner)
 - added gettext admin class
 - fixes in the db admin classes
@@ -36,6 +37,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
     <deps>
       <dep type="pkg" rel="has" optional="yes">DB</dep>
       <dep type="pkg" rel="has" optional="yes">MDB</dep>
+      <dep type="pkg" rel="has" optional="yes">MDB2</dep>
       <dep type="ext" rel="has" optional="yes">gettext</dep>
       <dep type="pkg" rel="has" optional="yes">File_Gettext</dep>
     </deps>
@@ -50,12 +52,14 @@ An Admin class is provided to easily manage translations (add/remove a language,
             <file name="db.php" />
             <file name="gettext.php" />
             <file name="mdb.php" />
+            <file name="mdb2.php" />
           </dir>
         </dir>
         <dir name="Container" role="php">
           <file name="db.php" />
           <file name="gettext.php" />
           <file name="mdb.php" />
+          <file name="mdb2.php" />
         </dir>
         <dir name="Decorator" role="php">
           <file name="CacheMemory.php" />
@@ -86,6 +90,7 @@ An Admin class is provided to easily manage translations (add/remove a language,
   added a Decorator class and some subclasses to control
   the output (now you can set a stack of fallback languages,
   a filter to deal with empty strings, one or more cache layers...)
+- added a MDB2 container and the admin class as well
 - improved gettext support (thanks to Michael Wallner)
 - added gettext admin class
 - fixes in the db admin classes
