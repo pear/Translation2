@@ -180,9 +180,6 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
             return true;
         }
 
-        //naive algorithm: if the strings table is the same for all languages,
-        //then do one query only. NB: this will fail when *some* langs share the
-        //same table, but not *all* of them do.
         $oneQuery = true;
         if ($numLangs > 1) {
             for ($i=1; $i<$numLangs; $i++) {
@@ -196,26 +193,54 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
         }
 
         if ($oneQuery) {
-            $what = array();
-            $what[$this->options['string_id_col']] = $this->db->getTextValue($stringID);
-            $what[$this->options['string_page_id_col']] = $this->db->getTextValue($pageID);
+            $fields = array(
+                $this->options['string_id_col'] => array(
+                    'Type'   => 'text',
+                    'Value'  => $stringID,
+                    'Key'    => true
+                ),
+                $this->options['string_page_id_col'] => array(
+                    'Type'   => 'text',
+                    'Value'  => $pageID,
+                    'Null'   => (is_null($pageID) ? true : false)
+                ),
+            );
             foreach ($langs as $langID) {
                 $lang_col = str_replace('%s', $langID, $this->options['string_text_col']);
-                $what[$lang_col] = $this->db->getTextValue($stringArray[$langID]);
+                $fields[$lang_col] = array(
+                    'Type'  => 'text',
+                    'Value' => $stringArray[$langID],
+                );
             }
-            $query = 'INSERT INTO '. $this->options['strings_tables'][$langs[0]] .' ('
-                    .implode(', ', array_keys($what)) .') VALUES ('
-                    .implode(', ', $what) .')';
-            $res = $this->query($query);
+
+            $res = $this->db->replace($this->options['strings_tables'][$langs[0]], $fields);
             if (PEAR::isError($res)) {
                 return $res;
             }
         } else {
             foreach ($langs as $langID) {
                 $lang_col = str_replace('%s', $langID, $this->options['string_text_col']);
-                $query = 'INSERT INTO '. $this->options['strings_tables'][$langID] .' ('
-                        .$lang_col .') VALUES ('. $this->db->getTextValue($stringArray[$langID]).')';
-                $res = $this->query($query);
+                if (empty($lang_col)) {
+                    $lang_col = $langID;
+                }
+
+                $fields = array(
+                    $this->options['string_id_col'] => array(
+                        'Type'   => 'text',
+                        'Value'  => $stringID,
+                        'Key'    => true
+                    ),
+                    $this->options['string_page_id_col'] => array(
+                        'Type'   => 'text',
+                        'Value'  => $pageID,
+                        'Null'   => (is_null($pageID) ? true : false)
+                    ),
+                    $lang_col => array(
+                        'Type'   => 'text',
+                        'Value'  => $stringArray[$langID]
+                    ),
+                );
+                $res = $this->db->replace($this->options['strings_tables'][$langID], $fields);
                 if (PEAR::isError($res)) {
                     return $res;
                 }
