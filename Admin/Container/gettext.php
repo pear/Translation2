@@ -41,6 +41,8 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
 
     // {{{ class vars
 
+    var $_bulk = false;
+    var $_queue = array();
 
     // }}}
     // {{{ createNewLang()
@@ -153,26 +155,22 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
             return true; // really?
         }
         
-        $file = '/LC_MESSAGES/'. $pageID .'.'. $this->options['file_type'];
-        
-        require_once 'File/Gettext.php';
-        $gtFile = &File_Gettext::factory($this->options['file_type']);
-        
-        foreach ((array) $langs as $id) {
-            $path = $this->_domains[$pageID] .'/'. $id;
-            
-            if (is_file($path . $file)) {
-                if (PEAR::isError($e = $gtFile->load($path . $file))) {
-                    return $e;
+        if ($this->_bulk) {
+            foreach ($strings as $lang => $string) {
+                if (in_array($lang, $langs)) {
+                    $this->_queue['add'][$pageID][$lang][$stringID] = $string;
                 }
             }
-
-            $gtFile->strings[$stringID] = $strings[$id];
-            if (PEAR::isError($e = $gtFile->save($path . $file))) {
-                return $e;
+            return true;
+        } else {
+            $add = array();
+            foreach ($strings as $lang => $string) {
+                if (in_array($lang, $langs)) {
+                    $add[$pageID][$lang][$stringID] = $string;
+                }
             }
+            return $this->_add($add);
         }
-        return true;
     }
 
     // }}}
@@ -194,7 +192,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
         $file = '/LC_MESSAGES/'. $pageID .'.'. $this->options['file_type'];
         
         require_once 'File/Gettext.php';
-        $gtFile = &File_Gettext::factoryy($this->options['file_type']);
+        $gtFile = &File_Gettext::factory($this->options['file_type']);
         
         foreach ($this->getLangs('ids') as $lang) {
             $path = $this->_domains[$pageID] .'/'. $lang;
@@ -260,6 +258,79 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
                 }
             }
         }
+        return true;
+    }
+    
+    // }}}
+    // {{{ begin()
+    
+    /**
+     * Begin
+     * 
+     * @access  public
+     * @return  void
+     */
+    function begin()
+    {
+        $this->_bulk = true;
+    }
+    
+    // }}}
+    // {{{ commit()
+    
+    /**
+     * Commit
+     * 
+     * @access  public
+     * @return  true|PEAR_Error
+     */
+    function commit()
+    {
+        $this->_bulk = false;
+        if (isset($this->_queue['add'])) {
+            return $this->_add($this->_queue['add']);
+        }
+        return true;
+    }
+    
+    // }}}
+    // {{{ _add()
+    
+    /**
+     * Add
+     * 
+     * @access  private
+     * @return  true|PEAR_Error
+     */
+    function _add(&$bulk)
+    {
+        require_once 'File/Gettext.php';
+        $gtFile = &File_Gettext::factory($this->options['file_type']);
+        
+        foreach ((array) $bulk as $pageID => $languages) {
+            
+            $file = '/LC_MESSAGES/'. $pageID .'.'. $this->options['file_type'];
+            
+            foreach ($languages as $lang => $strings) {
+
+                $path = $this->_domains[$pageID] .'/'. $lang;
+
+                if (is_file($path . $file)) {
+                    if (PEAR::isError($e = $gtFile->load($path . $file))) {
+                        return $e;
+                    }
+                }
+    
+                foreach ($strings as $stringID => $string) {
+                    $gtFile->strings[$stringID] = $string;
+                }
+
+                if (PEAR::isError($e = $gtFile->save($path . $file))) {
+                    return $e;
+                }
+            }
+        }
+        $bulk = null;
         return true;
     }
     
