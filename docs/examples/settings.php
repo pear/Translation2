@@ -47,16 +47,17 @@ $params = array(
     'lang_name_col'   => 'name',
     'lang_meta_col'   => 'meta',
     'lang_errmsg_col' => 'error_text',
+    /*
     'strings_tables'  => array(
                             'en' => TABLE_PREFIX.'i18n',
                             'it' => TABLE_PREFIX.'i18n',
                             'de' => TABLE_PREFIX.'i18n',
-                            //'es' => TABLE_PREFIX.'i18n',
-                            //'fr' => TABLE_PREFIX.'i18n'
                          ),
-    'string_id_col'        => 'id',
-    'string_page_id_col'   => 'page_id',
-    'string_text_col'      => '%s',
+    */
+    'strings_default_table' => 'i18n',  //if you only use one table for all langs, set it here
+    'string_id_col'         => 'id',
+    'string_page_id_col'    => 'page_id',
+    'string_text_col'       => '%s',
     //'prefetch' => false  //more queries, smaller result sets
                            //(use when db load is cheaper than network load)
 );
