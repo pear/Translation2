@@ -45,7 +45,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta5</version>
-    <date>2004-12-07</date>
+    <date>2004-12-16</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
@@ -54,6 +54,9 @@ Currently, the following decorators are provided:
 - added Translation2_Admin::getPageNames()
 - added Translation2_Admin::updateLang()
 - fixed bug #2890: getLang() raised a NOTICE if setLang() was not called before
+- fixed bug #2972: CacheLiteFunction decorator not handling
+  parameter subtitution as expected
+- some internal minor fixes and tweaks
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -149,7 +152,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta5</version>
-      <date>2004-12-07</date>
+      <date>2004-12-16</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
@@ -158,6 +161,9 @@ Currently, the following decorators are provided:
 - added Translation2_Admin::getPageNames()
 - added Translation2_Admin::updateLang()
 - fixed bug #2890: getLang() raised a NOTICE if setLang() was not called before
+- fixed bug #2972: CacheLiteFunction decorator not handling
+  parameter subtitution as expected
+- some internal minor fixes and tweaks
       </notes>
     </release>
     <release>
