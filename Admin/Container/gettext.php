@@ -210,5 +210,36 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     }
 
     // }}}
+    // {{{ removeLang()
+    
+    /**
+     * Remove Language
+     * 
+     * @access  public
+     * @return  true|PEAR_Error
+     * @param   string  $langID
+     * @param   bool    $force  (unused)
+     */
+    function removeLang($langID, $force = false)
+    {
+        require_once 'System.php';
+        foreach ((array) $this->_domains as $domain => $path) {
+            if (is_dir($fp = $path .'/'. $langID)) {
+                if (PEAR::isError($e = System::rm(array('-rf', $fp))) || !$e) {
+                    return $e ? $e : PEAR::raiseError(sprintf(
+                            'Could not remove language "%s" from domain "%s" '.
+                            'in path "%s" (probably insufficient permissions)',
+                            $langID, $domain, $path
+                        ),
+                        TRANSLATION2_ERROR
+                    );
+                }
+            }
+        }
+        return true;
+    }
+    
+    // }}}
+    
 }
 ?>
