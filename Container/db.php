@@ -191,8 +191,7 @@ class Translation2_Container_db extends Translation2_Container
         }
 
         $strings = array();
-        while ($row = $res->fetchRow()) {
-            list($key, $value) = $row;
+        while (list($key, $value) = $res->fetchRow()) {
             $strings[$key] = $value;
         }
         return $strings;
