@@ -349,6 +349,8 @@ if (strtolower(get_class($tr)) == 'translation2_admin') {
     writeValue('remove(smallTest)', $res);
 }
 
+writeTitle('NASTY AMPERSAND');
+writeValue('ist there an ampersand?', $tr->get('nasty ampersand', 'calendar'));
 
 writeTitle('DEBUG INFO');
 debug('NUMBER OF DB QUERIES: '.(isset($tr->storage->_queries)?$tr->storage->_queries:'0 (gettext)'));

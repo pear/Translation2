@@ -19,6 +19,7 @@ foreach ($langs as $lang) {
     foreach (range(0, 11) as $month) {
         $g->strings[sprintf('month_%02d', $month + 1)] = $l->monthName($month);
     }
+    $g->strings['nasty ampersand'] = 'lean & mean';
     System::mkdir(array('-p', $dir = 'locale/'. $lang .'/LC_MESSAGES/'));
     $g->save($dir . 'calendar.mo');
 }
