@@ -121,7 +121,7 @@ Currently, the following decorators are provided:
         </dir>
         <dir name="scripts" role="script">
           <file name="t2xmlchk.php" />
-		</dir>
+        </dir>
         <dir name="tests" role="test">
           <file name="admin_containers_tests.php" />
           <file name="admin_db_test.php" />
