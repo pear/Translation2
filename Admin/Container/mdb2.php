@@ -225,19 +225,19 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
 
         $lang_table = $this->_getLangTable($langID);
         $langs = $this->_getLangsInTable($lang_table);
-        if (count($langs) > 1 && !$force) {
-            //drop only the column for this lang
-            $query = sprintf('ALTER TABLE %s DROP COLUMN %s',
-                $lang_table,
-                $this->_getLangCol($langID)
-            );
+        if ($force || count($langs) == 1) {
+            //remove the whole table
             ++$this->_queries;
-            return $this->db->query($query);
+            return $this->db->query('DROP TABLE ' . $lang_table);
         }
 
-        //remove the whole table
+        //drop only the column for this lang
+        $query = sprintf('ALTER TABLE %s DROP COLUMN %s',
+            $lang_table,
+            $this->_getLangCol($langID)
+        );
         ++$this->_queries;
-        return $this->db->query('DROP TABLE ' . $lang_table);
+        return $this->db->query($query);
     }
 
     // }}}
