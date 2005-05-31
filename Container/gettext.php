@@ -101,10 +101,11 @@ class Translation2_Container_gettext extends Translation2_Container
             );
         }
 
-        foreach ((array) $this->_domains as $domain => $path) {
-            bindtextdomain($domain, $path);
+        if ($this->_native) {
+            foreach ((array) $this->_domains as $domain => $path) {
+                bindtextdomain($domain, $path);
+            }
         }
-        
         $this->setLang($this->options['default_lang']);
         
         return true;
