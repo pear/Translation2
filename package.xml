@@ -45,7 +45,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta7</version>
-    <date>2005-03-30</date>
+    <date>2005-05-31</date>
     <license>PHP License</license>
     <state>beta</state>
     <notes>
@@ -61,6 +61,8 @@ Currently, the following decorators are provided:
 - added blank_on_missing option to the gettext container, which makes it
   behave like the other containers and automatically disables native mode;
   * see bug #4002
+- fixed bug #4476: gettext container not working without the gettext extension
+  (thanks to sergey at pushok dot com)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -160,7 +162,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta7</version>
-      <date>2005-03-30</date>
+      <date>2005-05-31</date>
       <license>PHP License</license>
       <state>beta</state>
       <notes>
@@ -176,6 +178,8 @@ Currently, the following decorators are provided:
 - added blank_on_missing option to the gettext container, which makes it
   behave like the other containers and automatically disables native mode;
   * see bug #4002
+- fixed bug #4476: gettext container not working without the gettext extension
+  (thanks to sergey at pushok dot com)
       </notes>
     </release>
     <release>
