@@ -74,7 +74,7 @@ class Translation2_Container
     /**
      * Parse options passed to the container class
      *
-     * @access private
+     * @access protected
      * @param  array
      */
     function _parseOptions($array)
@@ -116,7 +116,7 @@ class Translation2_Container
     /**
      * Sets the current lang
      *
-     * @param  string $langID
+     * @param string $langID
      */
     function setLang($langID)
     {

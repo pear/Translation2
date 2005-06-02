@@ -69,6 +69,7 @@ class Translation2
     /**
      * Storage object
      * @var object
+     * @access protected
      */
     var $storage = '';
 
@@ -81,18 +82,21 @@ class Translation2
     /**
      * Default lang
      * @var array
+     * @access protected
      */
     var $lang = array();
 
     /**
      * Current pageID
      * @var string
+     * @access protected
      */
     var $currentPageID = null;
 
     /**
      * Array parameters
      * @var array
+     * @access protected
      */
     var $params = array();
 
@@ -117,8 +121,6 @@ class Translation2
     /**
      * Return a Translation2 instance already initialized
      *
-     * @access public
-     * @static
      * @param string $storageDriver Type of the storage driver
      * @param mixed  $options Additional options for the storage driver
      *                        (example: if you are using DB as the storage
@@ -127,6 +129,7 @@ class Translation2
      *                      (i.e. you can set here the mappings between your
      *                      table/field names and the ones used by this class)
      * @return object Translation2 instance or PEAR_Error on failure
+     * @static
      */
     function & factory($driver, $options='', $params=array())
     {
@@ -147,11 +150,11 @@ class Translation2
     /**
      * Return a storage driver based on $driver and $options
      *
-     * @access private
-     * @static
      * @param  string $driver  Type of storage class to return
      * @param  string $options Optional parameters for the storage class
      * @return object Object   Storage object
+     * @static
+     * @access private
      */
     function & _storageFactory($driver, $options='')
     {
@@ -168,13 +171,28 @@ class Translation2
     }
 
     // }}}
+    // {{{ setContainerOptions()
+
+    /**
+     * Set some storage driver options
+     *
+     * @param array $options
+     * @return void
+     * @access protected
+     */
+    function setContainerOptions($options)
+    {
+        $this->storage->_parseOptions($options);
+    }
+
+    // }}}
     // {{{ _setDefaultOptions()
 
     /**
      * Set some default options
      *
-     * @access private
      * @return void
+     * @access private
      */
     function _setDefaultOptions()
     {
@@ -190,8 +208,8 @@ class Translation2
     /**
      * Parse options passed to the base class
      *
-     * @access private
      * @param  array
+     * @access private
      */
     function _parseOptions($array)
     {
@@ -212,7 +230,6 @@ class Translation2
      * A decorator can be seen as a filter, i.e. something that can change
      * or handle the values of the objects/vars that pass through.
      *
-     * @access public
      * @param  string $decorator  Name of the decorator
      * @return object Decorator object reference
      */
@@ -379,7 +396,6 @@ class Translation2
      * Replace empty strings with their stringID
      * @param mixed $params
      * @static
-     * @access public
      */
     function replaceEmptyStringsWithKeys($strings)
     {

@@ -280,16 +280,10 @@ class Translation2_Container_mdb extends Translation2_Container
      */
     function _getLangTable($langID)
     {
-        static $tables;
-        if (!isset($tables[$langID])) {
-            if (isset($this->options['strings_tables'][$langID])) {
-                $tables[$langID] = $this->options['strings_tables'][$langID];
-            } else {
-                $tables[$langID] = str_replace('%s', $langID,
-                    $this->options['strings_default_table']);
-            }
+        if (isset($this->options['strings_tables'][$langID])) {
+            return $this->options['strings_tables'][$langID];
         }
-        return $tables[$langID];
+        return str_replace('%s', $langID, $this->options['strings_default_table']);
     }
 
     // }}}

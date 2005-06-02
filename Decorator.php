@@ -48,7 +48,6 @@ class Translation2_Decorator
     var $translation2;
 
     /**
-     * Used for debug only.
      * @var object
      * @access protected
      */
@@ -117,6 +116,21 @@ class Translation2_Decorator
         } elseif (is_a($this->translation2, 'Translation2_Decorator')) {
             $this->translation2->setOption($option, $value);
         }
+    }
+
+    // }}}
+    // {{{ setContainerOptions()
+
+    /**
+     * Set some storage driver options
+     *
+     * @param array $options
+     * @return void
+     * @access protected
+     */
+    function setContainerOptions($options)
+    {
+        $this->storage->_parseOptions($options);
     }
 
     // }}}
