@@ -148,10 +148,11 @@ class Translation2_Decorator
     {
         if (func_num_args() > 1) {
             $obj =& func_get_arg(1);
-            return $this->translation2->getDecorator($decorator, $obj);
+            $new_decorator =& $this->translation2->getDecorator($decorator, $obj);
         } else {
-            return $this->translation2->getDecorator($decorator, $this);
+            $new_decorator =& $this->translation2->getDecorator($decorator, $this);
         }
+        return $new_decorator;
     }
 
     // }}}
