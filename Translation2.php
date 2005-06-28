@@ -239,7 +239,7 @@ class Translation2
         $decorator_class = 'Translation2_Decorator_'.$decorator;
         require_once $decorator_path;
         if (func_num_args() > 1) {
-            $obj =& func_get_arg(1);
+            $obj = func_get_arg(1);
             $new_decorator =& new $decorator_class($obj);
         } else {
             $new_decorator =& new $decorator_class($this);
