@@ -44,28 +44,14 @@ Currently, the following decorators are provided:
     </maintainer>
   </maintainers>
   <release>
-    <version>2.0.0beta7</version>
-    <date>2005-06-28</date>
-    <license>PHP License</license>
+    <version>2.0.0beta8</version>
+    <date>2005-09-07</date>
+    <license>BSD License</license>
     <state>beta</state>
     <notes>
-- added some options to the DefaultText decoration, now it is more customizable
-  (thanks to Rolf 'Red' Ochsenbein)
-- added a __clone() method to clone the internal object references
-  (bug #3641, patch by Olivier Guilyardi)
-- Some fixes to the XML container, many thanks to Olivier Guilyardi:
-  * fixed bug #3408: empty data sets were not correctly handled;
-  * fixed bug #3420: get a shared file lock instead of an exclusive one;
-  * fixed bug #3498: saveData() is not registered multiple times as shutdown
-    function anymore; optimized saving when save_on_shutdown is set to false.
-- added blank_on_missing option to the gettext container, which makes it
-  behave like the other containers and automatically disables native mode;
-  * see bug #4002
-- fixed bug #4476: gettext container not working without the gettext extension
-  (thanks to sergey at pushok dot com)
-- added setContainerOptions() method to alter some container options after 
-  the object instantiation (bug #2508)
-- some minor fixes
+- changed license to BSD
+- removeLang() used to drop the entire table if there weren't any languages left.
+  Now it does so only if the $force parameter is set (request #4218 and #5142)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -163,6 +149,17 @@ Currently, the following decorators are provided:
     </filelist>
   </release>
   <changelog>
+    <release>
+      <version>2.0.0beta8</version>
+      <date>2005-09-07</date>
+      <license>BSD License</license>
+      <state>beta</state>
+      <notes>
+- changed license to BSD
+- removeLang() used to drop the entire table if there weren't any languages left.
+  Now it does so only if the $force parameter is set (request #4218 and #5142)
+      </notes>
+    </release>
     <release>
       <version>2.0.0beta7</version>
       <date>2005-06-28</date>
