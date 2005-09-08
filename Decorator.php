@@ -51,7 +51,7 @@
  * @link       http://pear.php.net/package/Translation2
  * @abstract
  */
-class Translation2_Decorator
+class Translation2_Decorator extends Translation2
 {
     // {{{ class vars
 
