@@ -219,8 +219,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         }
 
         $lang_table = $this->_getLangTable($langID);
-        $langs = $this->_getLangsInTable($lang_table);
-        if ($force || count($langs) == 1) {
+        if ($force) {
             //remove the whole table
             ++$this->_queries;
             return $this->db->query('DROP TABLE ' . $lang_table);
@@ -355,7 +354,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         $tableCols = $this->_getLangCols($tableLangs);
         $langData = array();
         foreach ($tableLangs as $lang) {
-            $langData[$lang] =& $this->db->quote($stringArray[$lang]);
+            $langData[$lang] = $this->db->quote($stringArray[$lang]);
         }
 
         return sprintf('INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s)',
@@ -512,7 +511,8 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         foreach ($langs as $lang) {
             $tables[] = $this->_getLangTable($lang);
         }
-        return array_unique($tables);
+        $tables = array_unique($tables);
+        return $tables;
     }
 
     // }}}
