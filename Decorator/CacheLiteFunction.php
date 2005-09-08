@@ -137,10 +137,6 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
         }
 
         $this->_cleanCache();
-        //generate temp variable
-        if (is_null($this->tempVarName)) {
-            $this->tempVarName = 'translation2_temp_' . $this->tempVarNameGenerator++;
-        }
     }
 
     // }}}
@@ -161,16 +157,19 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      */
     function getRaw($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
     {
+        // WITHOUT THIS, IT DOESN'T WORK
+        global $translation2_cachelitefunction_temp;
+        //generate temp variable
+        $translation2_cachelitefunction_temp = $this->translation2;
+        
         if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->translation2->currentPageID;
         }
         $langID = empty($langID) ? $this->translation2->lang['id'] : $langID;
 
         $this->_prepare();
-        global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
-        ${$this->tempVarName} = $this->translation2;
 
-        return $this->cacheLiteFunction->call($this->tempVarName.'->getRaw',
+        return $this->cacheLiteFunction->call('translation2_cachelitefunction_temp->getRaw',
             $stringID, $pageID, $langID, $defaultText);
     }
 
@@ -192,16 +191,19 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      */
     function get($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
     {
+        // WITHOUT THIS, IT DOESN'T WORK
+        global $translation2_cachelitefunction_temp;
+        //generate temp variable
+        $translation2_cachelitefunction_temp = $this->translation2->storage;
+        
         if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->translation2->currentPageID;
         }
         $langID = empty($langID) ? $this->translation2->lang['id'] : $langID;
 
         $this->_prepare();
-        global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
-        ${$this->tempVarName} = $this->translation2->storage;
 
-        $string = $this->cacheLiteFunction->call($this->tempVarName.'->getOne',
+        $string = $this->cacheLiteFunction->call('translation2_cachelitefunction_temp->getOne',
             $stringID, $pageID, $langID);
         if (empty($string)) {
             return $defaultText;
@@ -224,16 +226,19 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      */
     function getRawPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null)
     {
+        // WITHOUT THIS, IT DOESN'T WORK
+        global $translation2_cachelitefunction_temp;
+        //generate temp variable
+        $translation2_cachelitefunction_temp = $this->translation2;
+
         if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->translation2->currentPageID;
         }
         $langID = empty($langID) ? $this->translation2->lang['id'] : $langID;
 
         $this->_prepare();
-        global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
-        ${$this->tempVarName} = $this->translation2;
 
-        return $this->cacheLiteFunction->call($this->tempVarName.'->getRawPage',
+        return $this->cacheLiteFunction->call('translation2_cachelitefunction_temp->getRawPage',
             $pageID, $langID);
     }
 
@@ -250,16 +255,19 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      */
     function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
     {
+        // WITHOUT THIS, IT DOESN'T WORK
+        global $translation2_cachelitefunction_temp;
+        //generate temp variable
+        $translation2_cachelitefunction_temp = $this->translation2;
+
         if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->translation2->currentPageID;
         }
         $langID = empty($langID) ? $this->translation2->lang['id'] : $langID;
 
         $this->_prepare();
-        global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
-        ${$this->tempVarName} = $this->translation2;
 
-        return $this->cacheLiteFunction->call($this->tempVarName.'->getPage',
+        return $this->cacheLiteFunction->call('translation2_cachelitefunction_temp->getPage',
             $pageID, $langID);
     }
 
@@ -277,14 +285,17 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      */
     function getStringID($string, $pageID=TRANSLATION2_DEFAULT_PAGEID)
     {
+        // WITHOUT THIS, IT DOESN'T WORK
+        global $translation2_cachelitefunction_temp;
+        //generate temp variable
+        $translation2_cachelitefunction_temp = $this->translation2;
+
         if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->translation2->currentPageID;
         }
         $this->_prepare();
-        global ${$this->tempVarName}; // WITHOUT THIS, IT DOESN'T WORK
-        ${$this->tempVarName} = $this->translation2;
 
-        return $this->cacheLiteFunction->call($this->tempVarName.'->getStringID',
+        return $this->cacheLiteFunction->call('translation2_cachelitefunction_temp->getStringID',
             $string, $pageID);
     }
 
