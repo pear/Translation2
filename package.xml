@@ -45,7 +45,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta8</version>
-    <date>2005-09-08</date>
+    <date>2005-09-09</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
@@ -53,6 +53,7 @@ Currently, the following decorators are provided:
 - removeLang() used to drop the entire table if there weren't any languages left.
   Now it does so only if the $force parameter is set (request #4218 and #5142)
 - Translation2_Decorator now extends Translation2
+- fixed warning with the CacheLiteFunction decorator and PHP 5.1
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -152,7 +153,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta8</version>
-      <date>2005-09-08</date>
+      <date>2005-09-09</date>
       <license>BSD License</license>
       <state>beta</state>
       <notes>
@@ -160,6 +161,7 @@ Currently, the following decorators are provided:
 - removeLang() used to drop the entire table if there weren't any languages left.
   Now it does so only if the $force parameter is set (request #4218 and #5142)
 - Translation2_Decorator now extends Translation2
+- fixed warning with the CacheLiteFunction decorator and PHP 5.1
       </notes>
     </release>
     <release>
