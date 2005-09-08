@@ -45,13 +45,14 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta8</version>
-    <date>2005-09-07</date>
+    <date>2005-09-08</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
 - changed license to BSD
 - removeLang() used to drop the entire table if there weren't any languages left.
   Now it does so only if the $force parameter is set (request #4218 and #5142)
+- Translation2_Decorator now extends Translation2
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -151,13 +152,14 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta8</version>
-      <date>2005-09-07</date>
+      <date>2005-09-08</date>
       <license>BSD License</license>
       <state>beta</state>
       <notes>
 - changed license to BSD
 - removeLang() used to drop the entire table if there weren't any languages left.
   Now it does so only if the $force parameter is set (request #4218 and #5142)
+- Translation2_Decorator now extends Translation2
       </notes>
     </release>
     <release>
