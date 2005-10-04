@@ -277,6 +277,18 @@ class TestOfContainerDB extends UnitTestCase {  //TestOfTranslation2 {
             $this->assertEqual($v, $this->tr->get('hello_user'));
         }
     }
+    function testMultipleDecorators() {
+        $this->tr->setLang('en');
+        $this->assertEqual(null, $this->tr->get('only_italian'));
+        $this->tr =& $this->tr->getDecorator('Lang');
+        $this->tr->setOption('fallbackLang', 'de');
+        $this->assertEqual(null, $this->tr->get('only_italian'));
+        //in-between decorator
+        $this->tr =& $this->tr->getDecorator('Iconv');
+        //set option of the Lang decorator, passing through the Iconv decorator
+        $this->tr->setOption('fallbackLang', 'it');
+        $this->assertEqual('testo solo in italiano', $this->tr->get('only_italian'));
+    }
 }
 
 if (!defined('TEST_RUNNING')) {
