@@ -154,11 +154,10 @@ class Translation2_Admin extends Translation2
         if (func_num_args() > 1) {
             $obj =& func_get_arg(1);
             $ret = new $decorator_class($obj);
-            return $ret;
         } else {
             $ret = new $decorator_class($this);
-            return $ret;
         }
+        return $ret;
     }
 
     // }}}
