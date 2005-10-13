@@ -153,9 +153,11 @@ class Translation2_Admin extends Translation2
         require_once $decorator_path;
         if (func_num_args() > 1) {
             $obj =& func_get_arg(1);
-            return new $decorator_class($obj);
+            $ret = new $decorator_class($obj);
+            return $ret;
         } else {
-            return new $decorator_class($this);
+            $ret = new $decorator_class($this);
+            return $ret;
         }
     }
 
