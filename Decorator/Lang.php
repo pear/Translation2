@@ -121,6 +121,7 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
     {
         $data1 = $this->translation2->getPage($pageID, $langID);
         $data2 = $this->translation2->getPage($pageID, $this->fallbackLang);
+        $data1 = array_merge($data2, $data1);
         foreach ($data1 as $key => $val) {
             if (empty($val)) {
                 $data1[$key] = $data2[$key];
