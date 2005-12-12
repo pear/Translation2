@@ -65,7 +65,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      */
     function _fetchTableNames()
     {
-        $this->db->loadModule('manager');
+        $this->db->loadModule('Manager');
         return $this->db->manager->listTables();
     }
 
