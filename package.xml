@@ -51,6 +51,8 @@ Currently, the following decorators are provided:
     <notes>
 - Translation2_Decorator_Lang: append keys when fallback lang 
   contains more than current (request #5773)
+- Removed leftover code from the MDB admin container that caused
+  inserting the same record twice (bug #6233)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -156,6 +158,8 @@ Currently, the following decorators are provided:
       <notes>
 - Translation2_Decorator_Lang: append keys when fallback lang 
   contains more than current (request #5773)
+- Removed leftover code from the MDB admin container that caused
+  inserting the same record twice (bug #6233)
       </notes>
     </release>
     <release>
