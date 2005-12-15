@@ -326,46 +326,6 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
             }
         }
 
-
-        $unquoted_stringID = $stringID;
-        $unquoted_pageID = $pageID;
-        $stringID = $this->db->getTextValue($stringID);
-        $pageID = is_null($pageID) ? 'NULL' : $this->db->getTextValue($pageID);
-        // Loop over the tables we need to insert into.
-        foreach ($this->_tableLangs($langs) as $table => $tableLangs) {
-            //before INSERTing a new record, check if it exists already.
-            $exists = $this->_recordExists($unquoted_stringID, $unquoted_pageID, $table);
-            if (PEAR::isError($exists)) {
-                return $exists;
-            }
-            if ($exists) {
-                $this->update($unquoted_stringID, $unquoted_pageID,
-                    $this->_filterStringsByTable($stringArray, $table));
-                continue;
-            }
-
-            $tableCols = $this->_getLangCols($tableLangs);
-            $langData = array();
-            foreach ($tableLangs as $lang) {
-                $langData[$lang] = $this->db->getTextValue($stringArray[$lang]);
-            }
-
-            $query = sprintf('INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s)',
-                             $table,
-                             $this->options['string_id_col'],
-                             $this->options['string_page_id_col'],
-                             implode(', ', $tableCols),
-                             $stringID,
-                             $pageID,
-                             implode(', ', $langData)
-            );
-            ++$this->_queries;
-            $res = $this->db->query($query);
-            if (PEAR::isError($res)) {
-                return $res;
-            }
-        }
-
         return true;
     }
 
