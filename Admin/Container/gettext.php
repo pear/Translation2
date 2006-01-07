@@ -408,10 +408,10 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
                     if (PEAR::isError($e = $gtFile->save($file))) {
                         return $e;
                     }
+
+                    //refresh cache
+                    $this->cachedDomains[$lang][$pageID] = $gtFile->strings;
                 }
-                
-                //refresh cache
-                $this->cachedDomains[$lang][$pageID] = $gtFile->strings;
             }
         }
         

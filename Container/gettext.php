@@ -242,7 +242,7 @@ class Translation2_Container_gettext extends Translation2_Container
                 return $this->raiseError(sprintf(
                         '%s [%s on line %d]', $e->getMessage(), __FILE__, __LINE__
                     ),
-                    TRANSLATION2_ERROR
+                    TRANSLATION2_ERROR, PEAR_ERROR_RETURN
                 );
             }
             $this->_switchLang($oldLang);
@@ -250,7 +250,7 @@ class Translation2_Container_gettext extends Translation2_Container
                     'Cannot find file "%s" [%s on line %d]',
                     $file, __FILE__, __LINE__
                 ),
-                TRANSLATION2_ERROR_CANNOT_FIND_FILE
+                TRANSLATION2_ERROR_CANNOT_FIND_FILE, PEAR_ERROR_RETURN
             );
         }
         
@@ -289,6 +289,13 @@ class Translation2_Container_gettext extends Translation2_Container
         
         // use File_Gettext
         $page = $this->getPage($pageID, $langID);
+        if (PEAR::isError($page = $this->getPage($pageID, $langID))) {
+            if ($page->getCode() == TRANSLATION2_ERROR_CANNOT_FIND_FILE) {
+                $page = array();
+            } else {
+                return $this->raiseError($page->getMessage(), $page->getCode());
+            }
+        }
         
         // return original string if there's no translation available
         if (isset($page[$stringID]) && strlen($page[$stringID])) {
