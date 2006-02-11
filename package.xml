@@ -45,7 +45,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta9</version>
-    <date>2006-01-07</date>
+    <date>2006-02-11</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
@@ -53,8 +53,11 @@ Currently, the following decorators are provided:
   contains more than current (request #5773)
 - Removed leftover code from the MDB admin container that caused
   inserting the same record twice (bug #6233)
-- better error handling and cache refreshing in the gettext driver
+- Better error handling and cache refreshing in the gettext driver
   (bug #6410) [thanks to Alan Knowles and ivanwyc@gmail.com]
+- Honor global PEAR error settings in Translation2_Container::raiseError()
+  (bug #6574)
+- Added missing updateLang() proxy in Translation2_Admin_Decorator (bug #6753)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -154,7 +157,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta9</version>
-      <date>2006-01-07</date>
+      <date>2006-02-11</date>
       <license>BSD License</license>
       <state>beta</state>
       <notes>
@@ -162,8 +165,11 @@ Currently, the following decorators are provided:
   contains more than current (request #5773)
 - Removed leftover code from the MDB admin container that caused
   inserting the same record twice (bug #6233)
-- better error handling and cache refreshing in the gettext driver
+- Better error handling and cache refreshing in the gettext driver
   (bug #6410) [thanks to Alan Knowles and ivanwyc@gmail.com]
+- Honor global PEAR error settings in Translation2_Container::raiseError()
+  (bug #6574)
+- Added missing updateLang() proxy in Translation2_Admin_Decorator (bug #6753)
       </notes>
     </release>
     <release>
