@@ -282,7 +282,12 @@ class Translation2_Container
      */
     function raiseError($msg, $code, $mode=PEAR_ERROR_TRIGGER, $option=E_USER_WARNING)
     {
-        //PEAR::raiseError($msg, $code, $this->_pearErrorMode);
+        if (isset($GLOBALS['_PEAR_default_error_mode'])) {
+            $mode = $GLOBALS['_PEAR_default_error_mode'];
+        }
+        if (isset($GLOBALS['_PEAR_default_error_options'])) {
+            $option = $GLOBALS['_PEAR_default_error_options'];
+        }
         if ($mode == PEAR_ERROR_RETURN) {
             return PEAR::raiseError($msg, $code, $mode, $option);
         } else {
