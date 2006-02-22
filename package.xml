@@ -45,7 +45,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta9</version>
-    <date>2006-02-11</date>
+    <date>2006-02-22</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
@@ -58,6 +58,10 @@ Currently, the following decorators are provided:
 - Honor global PEAR error settings in Translation2_Container::raiseError()
   (bug #6574)
 - Added missing updateLang() proxy in Translation2_Admin_Decorator (bug #6753)
+- Added length to INDEX on TEXT column in Translation2_Admin::addLang() 
+  when the dbms is MySQL (thanks to AJ Tarachanowicz)
+- Fixed UNIQUE INDEX in Translation2_Admin::addLang(), one of the two columns
+  got lost in a previous revision
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -157,7 +161,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta9</version>
-      <date>2006-02-11</date>
+      <date>2006-02-22</date>
       <license>BSD License</license>
       <state>beta</state>
       <notes>
@@ -170,6 +174,10 @@ Currently, the following decorators are provided:
 - Honor global PEAR error settings in Translation2_Container::raiseError()
   (bug #6574)
 - Added missing updateLang() proxy in Translation2_Admin_Decorator (bug #6753)
+- Added length to INDEX on TEXT column in Translation2_Admin::addLang()
+  when the dbms is MySQL (thanks to AJ Tarachanowicz)
+- Fixed UNIQUE INDEX in Translation2_Admin::addLang(), one of the two columns
+  got lost in a previous revision
       </notes>
     </release>
     <release>
