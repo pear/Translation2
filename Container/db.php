@@ -119,8 +119,8 @@ class Translation2_Container_db extends Translation2_Container
                                     PEAR_ERROR_RETURN);
         }
 
-        if (DB::isError($this->db) || PEAR::isError($this->db)) {
-            return PEAR::raiseError($this->db->getMessage(), $this->db->getCode());
+        if (PEAR::isError($this->db)) {
+            return $this->db;
         }
         return true;
     }
