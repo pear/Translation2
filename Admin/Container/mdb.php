@@ -96,11 +96,15 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
                              $this->options['string_id_col'],
                              $lang_col
         );
-        $queries[] = sprintf('CREATE UNIQUE INDEX %s_%s_index ON %s (%s)',
+        $mysqlClause = ($this->db->phptype == 'mysql') ? '(255)' : '';
+        $queries[] = sprintf('CREATE UNIQUE INDEX %s_%s_%s_index ON %s (%s, %s%s)',
                              $langData['table_name'],
+                             $this->options['string_page_id_col'],
                              $this->options['string_id_col'],
                              $langData['table_name'],
-                             $this->options['string_id_col']
+                             $this->options['string_page_id_col'],
+                             $this->options['string_id_col'],
+                             $mysqlClause
         );
         $queries[] = sprintf('CREATE INDEX %s_%s_index ON %s (%s)',
                              $langData['table_name'],
@@ -108,16 +112,17 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
                              $langData['table_name'],
                              $this->options['string_page_id_col']
         );
-        $queries[] = sprintf('CREATE INDEX %s_%s_index ON %s (%s)',
+        $queries[] = sprintf('CREATE INDEX %s_%s_index ON %s (%s%s)',
                              $langData['table_name'],
                              $this->options['string_id_col'],
                              $langData['table_name'],
-                             $this->options['string_id_col']
+                             $this->options['string_id_col'],
+                             $mysqlClause
         );
         foreach($queries as $query) {
             ++$this->_queries;
             $res = $this->db->query($query);
-            if ($res == false) {
+            if (PEAR::isError($res)) {
                 return $res;
             }
         }
@@ -483,7 +488,7 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
      * @param   array  $langs  Languages to get mapping for
      * @return  array  Table -> language mapping
      * @access  private
-     * @see     Translation2_Container_DB::_getLangTable()
+     * @see     Translation2_Container_MDB::_getLangTable()
      * @author  Ian Eure
      */
     function &_tableLangs($langs)
