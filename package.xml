@@ -44,24 +44,12 @@ Currently, the following decorators are provided:
     </maintainer>
   </maintainers>
   <release>
-    <version>2.0.0beta9</version>
-    <date>2006-02-22</date>
+    <version>2.0.0beta10</version>
+    <date>2006-03-08</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
-- Translation2_Decorator_Lang: append keys when fallback lang 
-  contains more than current (request #5773)
-- Removed leftover code from the MDB admin container that caused
-  inserting the same record twice (bug #6233)
-- Better error handling and cache refreshing in the gettext driver
-  (bug #6410) [thanks to Alan Knowles and ivanwyc@gmail.com]
-- Honor global PEAR error settings in Translation2_Container::raiseError()
-  (bug #6574)
-- Added missing updateLang() proxy in Translation2_Admin_Decorator (bug #6753)
-- Added length to INDEX on TEXT column in Translation2_Admin::addLang() 
-  when the dbms is MySQL (thanks to AJ Tarachanowicz)
-- Fixed UNIQUE INDEX in Translation2_Admin::addLang(), one of the two columns
-  got lost in a previous revision
+- fixed bug #7058, issue with array_merge not respecting existing array keys
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -159,6 +147,15 @@ Currently, the following decorators are provided:
     </filelist>
   </release>
   <changelog>
+    <release>
+      <version>2.0.0beta10</version>
+      <date>2006-03-08</date>
+      <license>BSD License</license>
+      <state>beta</state>
+      <notes>
+- fixed bug #7058, issue with array_merge not respecting existing array keys
+      </notes>
+    </release>
     <release>
       <version>2.0.0beta9</version>
       <date>2006-02-22</date>
