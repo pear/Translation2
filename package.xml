@@ -45,13 +45,14 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta10</version>
-    <date>2006-05-28</date>
+    <date>2006-06-02</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
 - fixed bug #7058, issue with array_merge not respecting existing array keys
 - request #7736: ability to specify CacheLite group for CacheLite Decorator
   (thanks to ajt at localhype dot net)
+- if an empty xml file is given, don't return an error (bug #7793)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -151,13 +152,14 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta10</version>
-      <date>2006-05-28</date>
+      <date>2006-06-02</date>
       <license>BSD License</license>
       <state>beta</state>
       <notes>
 - fixed bug #7058, issue with array_merge not respecting existing array keys
 - request #7736: ability to specify CacheLite group for CacheLite Decorator
   (thanks to ajt at localhype dot net)
+- if an empty xml file is given, don't return an error (bug #7793)
       </notes>
     </release>
     <release>
