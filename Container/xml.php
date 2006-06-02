@@ -329,6 +329,13 @@ class Translation2_Container_xml extends Translation2_Container
      */
     function fixEmptySets(&$data)
     {
+        if (PEAR::isError($this->_data) && ($this->_data->code == XML_UNSERIALIZER_ERROR_NO_UNSERIALIZATION)) {
+            //empty file... create skeleton
+            $this->_data = array(
+                'languages' => array(),
+                'pages'     => array(),
+            );
+        }
         if (is_string($data['languages']) and trim($data['languages']) == '') {
             $data['languages'] = array();
         }
