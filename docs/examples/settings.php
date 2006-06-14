@@ -54,7 +54,7 @@ $params = array(
                             'de' => TABLE_PREFIX.'i18n',
                          ),
     */
-    'strings_default_table' => 'i18n',  //if you only use one table for all langs, set it here
+    'strings_default_table' => TABLE_PREFIX.'i18n',  //if you only use one table for all langs, set it here
     'string_id_col'         => 'id',
     'string_page_id_col'    => 'page_id',
     'string_text_col'       => '%s',
