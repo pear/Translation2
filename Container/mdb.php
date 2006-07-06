@@ -207,17 +207,8 @@ class Translation2_Container_mdb extends Translation2_Container
         }
 
         ++$this->_queries;
-        $res = $this->db->query($query);
-        if (PEAR::isError($res)) {
-            return $res;
-        }
-
-        $strings = array();
-        while (list($key, $value) = $this->db->fetchInto($res)) {
-            $strings[$key] = $value;
-        }
-        $this->db->freeResult($res);
-        return $strings;
+        $res = $this->db->getAssoc($query);
+        return $res;
     }
 
     // }}}
