@@ -190,6 +190,9 @@ class Translation2_Container_db extends Translation2_Container
     function &getPage($pageID = null, $langID = null)
     {
         $langID   = $this->_getLangID($langID);
+        if (PEAR::isError($langID)) {
+            return $langID;
+        }
         $lang_col = $this->_getLangCol($langID);
         $table    = $this->_getLangTable($langID);
 
@@ -233,6 +236,9 @@ class Translation2_Container_db extends Translation2_Container
     function getOne($stringID, $pageID = null, $langID = null)
     {
         $langID   = $this->_getLangID($langID);
+        if (PEAR::isError($langID)) {
+            return $langID;
+        }
         $lang_col = $this->_getLangCol($langID);
         $table    = $this->_getLangTable($langID);
 

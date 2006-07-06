@@ -45,7 +45,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta10</version>
-    <date>2006-06-02</date>
+    <date>2006-07-06</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
@@ -53,6 +53,7 @@ Currently, the following decorators are provided:
 - request #7736: ability to specify CacheLite group for CacheLite Decorator
   (thanks to ajt at localhype dot net)
 - if an empty xml file is given, don't return an error (bug #7793)
+- propagate errors in getPage() and getOne() (bug #8127)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -152,7 +153,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta10</version>
-      <date>2006-06-02</date>
+      <date>2006-07-06</date>
       <license>BSD License</license>
       <state>beta</state>
       <notes>
@@ -160,6 +161,7 @@ Currently, the following decorators are provided:
 - request #7736: ability to specify CacheLite group for CacheLite Decorator
   (thanks to ajt at localhype dot net)
 - if an empty xml file is given, don't return an error (bug #7793)
+- propagate errors in getPage() and getOne() (bug #8127)
       </notes>
     </release>
     <release>

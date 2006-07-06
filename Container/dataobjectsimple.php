@@ -146,7 +146,9 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
     function &getPage($pageID = null, $langID = null)
     {
         $langID = $this->_getLangID($langID);
-
+        if (PEAR::isError($langID)) {
+            return $langID;
+        }
         $do = DB_DataObject::factory($this->options['table']);
         $do->lang = $langID;
         $do->page = $pageID;
