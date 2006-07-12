@@ -91,10 +91,15 @@ class Translation2_Admin_Decorator_Autoadd extends Translation2_Admin_Decorator
             || empty($string)
             && !empty($this->autoaddlang)
         ) {
+            // Make sure we add a stub for all languages we know about.
+            $langs = array();
+            foreach ($this->translation2->getLangs('ids') as $lang) {
+                $langs[$lang] = '';
+            }
+            $langs[$this->autoaddlang] = $stringID;
+
             // Add the string
-            $this->translation2->add($stringID, $pageID, array(
-                $this->autoaddlang => $stringID
-            ));
+            $this->translation2->add($stringID, $pageID, $langs);
         }
         return $string;
     }
