@@ -54,6 +54,7 @@ Currently, the following decorators are provided:
   (thanks to ajt at localhype dot net)
 - if an empty xml file is given, don't return an error (bug #7793)
 - propagate errors in getPage() and getOne() (bug #8127)
+- Fix Autoadd decorator, which was not adding entries for new string IDs for all languages, which made update() on fail on those strings.
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
