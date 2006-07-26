@@ -88,9 +88,9 @@ class Translation2_Admin_Decorator_Autoadd extends Translation2_Admin_Decorator
         $pageID = ($pageID == TRANSLATION2_DEFAULT_PAGEID ? $this->translation2->currentPageID : $pageID);
         $string = $this->translation2->get($stringID, $pageID, $langID);
         if (PEAR::isError($string)
-            || empty($string)
+            || !strlen($string)
             && !empty($this->autoaddlang)
-        ) {
+            && $langID != $this->autoaddlang) {
             // Make sure we add a stub for all languages we know about.
             $langs = array();
             foreach ($this->translation2->getLangs('ids') as $lang) {
