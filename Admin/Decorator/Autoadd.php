@@ -90,7 +90,7 @@ class Translation2_Admin_Decorator_Autoadd extends Translation2_Admin_Decorator
         if (PEAR::isError($string)
             || !strlen($string)
             && !empty($this->autoaddlang)
-            && $langID != $this->autoaddlang) {
+            && $langID == $this->autoaddlang) {
             // Make sure we add a stub for all languages we know about.
             $langs = array();
             foreach ($this->translation2->getLangs('ids') as $lang) {
