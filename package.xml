@@ -44,18 +44,14 @@ Currently, the following decorators are provided:
     </maintainer>
   </maintainers>
   <release>
-    <version>2.0.0beta10</version>
-    <date>2006-07-12</date>
+    <version>2.0.0beta11</version>
+    <date>2006-08-09</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
-- fixed bug #7058, issue with array_merge not respecting existing array keys
-- request #7736: ability to specify CacheLite group for CacheLite Decorator
-  (thanks to ajt at localhype dot net)
-- if an empty xml file is given, don't return an error (bug #7793)
-- propagate errors in getPage() and getOne() (bug #8127)
-- Fix Autoadd decorator, which was not adding entries for new string IDs for all languages,
-  which made update() to fail on those strings.
+- fixed an error that would result in losing strings when getting a specific
+  language's string in Translation2_Admin_Decorator_Autoadd.
+- fixed bug #8287: addLang() SQL not compatible with MSSQL
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -153,6 +149,17 @@ Currently, the following decorators are provided:
     </filelist>
   </release>
   <changelog>
+    <release>
+      <version>2.0.0beta11</version>
+      <date>2006-08-09</date>
+      <license>BSD License</license>
+      <state>beta</state>
+      <notes>
+- fixed an error that would result in losing strings when getting a specific
+  language's string in Translation2_Admin_Decorator_Autoadd.
+- fixed bug #8287: addLang() SQL not compatible with MSSQL
+      </notes>
+    </release>
     <release>
       <version>2.0.0beta10</version>
       <date>2006-07-12</date>

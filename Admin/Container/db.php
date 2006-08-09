@@ -86,8 +86,9 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      
         if (in_array($langData['table_name'], $tables)) {
             // table exists
-            $query = sprintf('ALTER TABLE %s ADD COLUMN %s TEXT',
+            $query = sprintf('ALTER TABLE %s ADD %s%s TEXT',
                             $langData['table_name'],
+                            $this->db->phptype == 'mssql' ? '' : 'COLUMN ',
                             $lang_col
             );
             ++$this->_queries;
