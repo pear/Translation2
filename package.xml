@@ -45,13 +45,14 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta11</version>
-    <date>2006-08-09</date>
+    <date>2006-08-29</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
 - fixed an error that would result in losing strings when getting a specific
   language's string in Translation2_Admin_Decorator_Autoadd.
 - fixed bug #8287: addLang() SQL not compatible with MSSQL
+- fixed MDB/MDB2 test runner
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -151,13 +152,14 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta11</version>
-      <date>2006-08-09</date>
+      <date>2006-08-29</date>
       <license>BSD License</license>
       <state>beta</state>
       <notes>
 - fixed an error that would result in losing strings when getting a specific
   language's string in Translation2_Admin_Decorator_Autoadd.
 - fixed bug #8287: addLang() SQL not compatible with MSSQL
+- fixed MDB/MDB2 test runner
       </notes>
     </release>
     <release>
