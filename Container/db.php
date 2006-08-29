@@ -160,12 +160,13 @@ class Translation2_Container_db extends Translation2_Container
     function fetchLangs()
     {
         $query = sprintf('SELECT %s AS id, %s AS name, %s AS meta, %s AS error_text, %s AS encoding FROM %s',
-                        $this->options['lang_id_col'],
-                        $this->options['lang_name_col'],
-                        $this->options['lang_meta_col'],
-                        $this->options['lang_errmsg_col'],
-                        $this->options['lang_encoding_col'],
-                        $this->options['langs_avail_table']);
+            $this->db->quoteIdentifier($this->options['lang_id_col']),
+            $this->db->quoteIdentifier($this->options['lang_name_col']),
+            $this->db->quoteIdentifier($this->options['lang_meta_col']),
+            $this->db->quoteIdentifier($this->options['lang_errmsg_col']),
+            $this->db->quoteIdentifier($this->options['lang_encoding_col']),
+            $this->db->quoteIdentifier($this->options['langs_avail_table'])
+        );
 
         ++$this->_queries;
         $res = $this->db->getAll($query, DB_FETCHMODE_ASSOC);
@@ -197,10 +198,11 @@ class Translation2_Container_db extends Translation2_Container
         $table    = $this->_getLangTable($langID);
 
         $query = sprintf('SELECT %s, %s FROM %s WHERE %s ',
-                         $this->options['string_id_col'],
-                         $lang_col,
-                         $table,
-                         $this->options['string_page_id_col']);
+             $this->db->quoteIdentifier($this->options['string_id_col']),
+             $this->db->quoteIdentifier($lang_col),
+             $this->db->quoteIdentifier($table),
+             $this->db->quoteIdentifier($this->options['string_page_id_col'])
+        );
 
         if (is_null($pageID)) {
             $query .= 'IS NULL';
@@ -234,12 +236,12 @@ class Translation2_Container_db extends Translation2_Container
         $table    = $this->_getLangTable($langID);
 
         $query = sprintf('SELECT %s FROM %s WHERE %s = %s AND %s',
-                         $lang_col,
-                         $table,
-                         $this->options['string_id_col'],
-                         $this->db->quote($stringID),
-                         $this->options['string_page_id_col']
-                         );
+             $this->db->quoteIdentifier($lang_col),
+             $this->db->quoteIdentifier($table),
+             $this->db->quoteIdentifier($this->options['string_id_col']),
+             $this->db->quote($stringID),
+             $this->db->quoteIdentifier($this->options['string_page_id_col'])
+        );
 
         if (is_null($pageID)) {
             $query .= ' IS NULL';
@@ -266,12 +268,12 @@ class Translation2_Container_db extends Translation2_Container
         $lang_col = $this->_getLangCol($this->currentLang['id']);
         $table = $this->_getLangTable($this->currentLang['id']);
         $query = sprintf('SELECT %s FROM %s WHERE %s = %s AND %s',
-                         $this->options['string_id_col'],
-                         $table,
-                         $lang_col,
-                         $this->db->quote($string),
-                         $this->options['string_page_id_col']
-                         );
+             $this->db->quoteIdentifier($this->options['string_id_col']),
+             $this->db->quoteIdentifier($table),
+             $this->db->quoteIdentifier($lang_col),
+             $this->db->quote($string),
+             $this->db->quoteIdentifier($this->options['string_page_id_col'])
+        );
         if (is_null($pageID)) {
             $query .= ' IS NULL';
         } else {

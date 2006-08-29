@@ -53,6 +53,7 @@ Currently, the following decorators are provided:
   language's string in Translation2_Admin_Decorator_Autoadd.
 - fixed bug #8287: addLang() SQL not compatible with MSSQL
 - fixed MDB/MDB2 test runner
+- fixed bug #8546: column/table names are not escaped in SQL queries
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -160,6 +161,7 @@ Currently, the following decorators are provided:
   language's string in Translation2_Admin_Decorator_Autoadd.
 - fixed bug #8287: addLang() SQL not compatible with MSSQL
 - fixed MDB/MDB2 test runner
+- fixed bug #8546: column/table names are not escaped in SQL queries
       </notes>
     </release>
     <release>
