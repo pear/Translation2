@@ -106,8 +106,8 @@ class TestOfAdminContainerDB extends UnitTestCase {
         $newStringArray = array('en' => 'example');
         $this->assertTrue($this->tr->update('sample', 'new page', $newStringArray));
         $this->assertEqual($newStringArray['en'], $this->tr->get('sample', 'new page', 'en'));
-        $this->assertEqual($stringArray['it'], $this->tr->get('sample', 'new page', 'it'));
-        $this->assertEqual($stringArray['de'], $this->tr->get('sample', 'new page', 'de'));
+        $this->assertEqual($stringArray['it'],    $this->tr->get('sample', 'new page', 'it'));
+        $this->assertEqual($stringArray['de'],    $this->tr->get('sample', 'new page', 'de'));
         
         //remove
         $this->assertTrue($this->tr->remove('sample', 'new page'));
