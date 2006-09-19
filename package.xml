@@ -44,16 +44,14 @@ Currently, the following decorators are provided:
     </maintainer>
   </maintainers>
   <release>
-    <version>2.0.0beta11</version>
-    <date>2006-09-07</date>
+    <version>2.0.0beta12</version>
+    <date>2006-09-19</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
-- fixed an error that would result in losing strings when getting a specific
-  language's string in Translation2_Admin_Decorator_Autoadd.
-- fixed bug #8287: addLang() SQL not compatible with MSSQL
-- fixed MDB/MDB2 test runner
-- fixed bug #8546: column/table names are not escaped in SQL queries
+- force MDB2_FETCHMODE_ORDERED in Translation2_Container_mdb2::getPage() to
+  avoid error when using an existing db connection with fetchmode set to
+  MDB2_FETCHMODE_ASSOC (bug #8734)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -151,6 +149,17 @@ Currently, the following decorators are provided:
     </filelist>
   </release>
   <changelog>
+    <release>
+      <version>2.0.0beta12</version>
+      <date>2006-09-19</date>
+      <license>BSD License</license>
+      <state>beta</state>
+      <notes>
+- force MDB2_FETCHMODE_ORDERED in Translation2_Container_mdb2::getPage() to
+  avoid error when using an existing db connection with fetchmode set to
+  MDB2_FETCHMODE_ASSOC (bug #8734)
+      </notes>
+    </release>
     <release>
       <version>2.0.0beta11</version>
       <date>2006-09-07</date>

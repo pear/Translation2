@@ -214,7 +214,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
         }
 
         $strings = array();
-        while (list($key, $value) = $res->fetchRow()) {
+        while (list($key, $value) = $res->fetchRow(MDB2_FETCHMODE_ORDERED)) {
             $strings[$key] = $value;
         }
         $res->free();
