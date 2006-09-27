@@ -96,6 +96,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         $lang_col = $this->_getLangCol($langData['lang_id']);
         $charset   = empty($options['charset'])   ? null : $options['charset'];
         $collation = empty($options['collation']) ? null : $options['collation'];
+        $this->db->loadModule('Manager');
 
         if (in_array($langData['table_name'], $tables)) {
             //table exists
@@ -116,7 +117,6 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         }
 
         //table does not exist
-        $this->db->loadModule('Manager');
         $table_definition = array(
             $this->options['string_page_id_col'] => array(
                 'type'      => 'text',
@@ -281,20 +281,20 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             return $res;
         }
 
+        $this->db->loadModule('Manager');
         $lang_table = $this->_getLangTable($langID);
         if ($force) {
             //remove the whole table
             ++$this->_queries;
-            return $this->db->query('DROP TABLE ' . $this->db->quoteIdentifier($lang_table, true));
+            return $this->db->manager->dropTable($lang_table);
         }
 
         //drop only the column for this lang
-        $query = sprintf('ALTER TABLE %s DROP COLUMN %s',
-            $this->db->quoteIdentifier($lang_table,                 true),
-            $this->db->quoteIdentifier($this->_getLangCol($langID), true)
+        $table_changes = array(
+            'remove' => array($this->_getLangCol($langID) => array())
         );
         ++$this->_queries;
-        return $this->db->query($query);
+        return $this->db->manager->alterTable($lang_table, $table_changes, false);
     }
 
     // }}}
