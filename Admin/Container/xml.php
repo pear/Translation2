@@ -72,9 +72,10 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      * Does nothing (here for compatibility with the container interface)
      *
      * @param array $langData
+     * @param array $options
      * @return true|PEAR_Error
      */
-    function addLang($langData)
+    function addLang($langData, $options = array())
     {
         return true;
     }

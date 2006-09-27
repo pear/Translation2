@@ -71,6 +71,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      * Creates a new entry in the langs_avail .ini file.
      *
      * @param   array   $langData
+     * @param   string  $path
      * @return  mixed   Returns true on success or PEAR_Error on failure.
      */
     function addLang($langData, $path = null)

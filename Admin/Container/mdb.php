@@ -64,9 +64,10 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
      * hold strings in this lang too.
      *
      * @param array $langData
+     * @param array $options
      * @return true|PEAR_Error
      */
-    function addLang($langData)
+    function addLang($langData, $options = array())
     {
         $tables = $this->db->listTables();
         if (PEAR::isError($tables)) {

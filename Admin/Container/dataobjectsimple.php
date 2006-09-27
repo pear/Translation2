@@ -82,9 +82,10 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
      *                              'name'       => 'english',
      *                              'meta'       => 'some meta info',
      *                              'error_text' => 'not available');
+     * @param array $options
      * @return true|PEAR_Error
      */
-    function addLang($langData)
+    function addLang($langData, $options = array())
     {
         $do = DB_DataObject::factory($this->options['table']);
         $do->lang = $langData['lang_id'];
