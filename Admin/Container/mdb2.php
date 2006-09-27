@@ -77,10 +77,16 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      * If the table is shared with other langs, it is ALTERed to
      * hold strings in this lang too.
      *
-     * @param array $langData
+     * @param array $langData array('lang_id'    => 'en',
+     *                              'table_name' => 'i18n',
+     *                              'name'       => 'english',
+     *                              'meta'       => 'some meta info',
+     *                              'error_text' => 'not available');
+     * @param array $options array('charset'   => 'utf8',
+     *                             'collation' => 'utf8_general_ci');
      * @return true|PEAR_Error
      */
-    function addLang($langData)
+    function addLang($langData, $options = array())
     {
         $tables = $this->_fetchTableNames();
         if (PEAR::isError($tables)) {
@@ -88,59 +94,90 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         }
 
         $lang_col = $this->_getLangCol($langData['lang_id']);
+        $charset   = empty($options['charset'])   ? null : $options['charset'];
+        $collation = empty($options['collation']) ? null : $options['collation'];
 
         if (in_array($langData['table_name'], $tables)) {
             //table exists
-            $query = sprintf('ALTER TABLE %s ADD %s%s TEXT',
-                $this->db->quoteIdentifier($langData['table_name'], true),
-                $this->db->phptype == 'mssql' ? '' : 'COLUMN ',
-                $this->db->quoteIdentifier($lang_col,               true)
+            $table_changes = array(
+                'add' => array(
+                    $lang_col => array(
+                        'type' => 'text',
+                        'charset'   => $charset,
+                        'collation' => $collation,
+                    )
+                )
             );
             ++$this->_queries;
-            return $this->db->query($query);
-        }
-
-        //table does not exist
-        $queries = array();
-        $queries[] = sprintf('CREATE TABLE %s ( '
-                             .'%s VARCHAR(50) default NULL, '
-                             .'%s TEXT NOT NULL, '
-                             .'%s TEXT )',
-             $this->db->quoteIdentifier($langData['table_name'],              true),
-             $this->db->quoteIdentifier($this->options['string_page_id_col'], true),
-             $this->db->quoteIdentifier($this->options['string_id_col'],      true),
-             $this->db->quoteIdentifier($lang_col,                            true)
-        );
-        $mysqlClause = ($this->db->phptype == 'mysql') ? '(255)' : '';
-        $queries[] = sprintf('CREATE UNIQUE INDEX %s_%s_%s_index ON %s (%s, %s%s)',
-             $this->db->quoteIdentifier($langData['table_name'],              true),
-             $this->db->quoteIdentifier($this->options['string_page_id_col'], true),
-             $this->db->quoteIdentifier($this->options['string_id_col'],      true),
-             $this->db->quoteIdentifier($langData['table_name'],              true),
-             $this->db->quoteIdentifier($this->options['string_page_id_col'], true),
-             $this->db->quoteIdentifier($this->options['string_id_col'],      true),
-             $mysqlClause
-        );
-        $queries[] = sprintf('CREATE INDEX %s_%s_index ON %s (%s)',
-             $langData['table_name'],
-             $this->options['string_page_id_col'],
-             $this->db->quoteIdentifier($langData['table_name'],              true),
-             $this->db->quoteIdentifier($this->options['string_page_id_col'], true)
-        );
-        $queries[] = sprintf('CREATE INDEX %s_%s_index ON %s (%s%s)',
-             $this->db->quoteIdentifier($langData['table_name'],         true),
-             $this->db->quoteIdentifier($this->options['string_id_col'], true),
-             $this->db->quoteIdentifier($langData['table_name'],         true),
-             $this->db->quoteIdentifier($this->options['string_id_col'], true),
-             $mysqlClause
-        );
-        foreach($queries as $query) {
-            ++$this->_queries;
-            $res = $this->db->query($query);
+            $res = $this->db->manager->alterTable($langData['table_name'], $table_changes, false);
             if (PEAR::isError($res)) {
                 return $res;
             }
         }
+
+        //table does not exist
+        $this->db->loadModule('Manager');
+        $table_definition = array(
+            $this->options['string_page_id_col'] => array(
+                'type'      => 'text',
+                'length'    => 50,
+                'default'   => null,
+                'charset'   => $charset,
+                'collation' => $collation,
+            ),
+            $this->options['string_id_col'] => array(
+                'type'      => 'text',
+                'notnull'   => 1,
+                'charset'   => $charset,
+                'collation' => $collation,
+            ),
+            $lang_col => array(
+                'type'      => 'text',
+                'charset'   => $charset,
+                'collation' => $collation,
+            ),
+        );
+        ++$this->_queries;
+        $res = $this->db->manager->createTable($langData['table_name'], $table_definition);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
+        
+        $constraint_name = $langData['table_name']
+            .'_'. $this->options['string_page_id_col']
+            .'_'. $this->options['string_id_col'];
+        $constraint_definition = array(
+            'fields' => array(
+                $this->options['string_page_id_col'] => array(),
+                $this->options['string_id_col']      => array(),
+            )
+        );
+        ++$this->_queries;
+        $res = $this->db->manager->createConstraint($langData['table_name'], $constraint_name, $constraint_definition);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
+
+        $index_name = $langData['table_name'] .'_'. $this->options['string_page_id_col'];
+        $index_definition = array(
+            'fields' => array($this->options['string_page_id_col'] => array())
+        );
+        ++$this->_queries;
+        $res = $this->db->manager->createIndex($langData['table_name'], $index_name, $index_definition);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
+        
+        $index_name = $langData['table_name'] .'_'. $this->options['string_id_col'];
+        $index_definition = array(
+            'fields' => array($this->options['string_id_col'] => array('length' => 255))
+        );
+        ++$this->_queries;
+        $res = $this->db->manager->createIndex($langData['table_name'], $index_name, $index_definition);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
+        
         return true;
     }
 
