@@ -44,11 +44,15 @@ Currently, the following decorators are provided:
     </maintainer>
   </maintainers>
   <release>
-    <version>2.0.0beta13</version>
-    <date>2006-09-27</date>
+    <version>2.0.0beta12</version>
+    <date>2006-10-09</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
+- force MDB2_FETCHMODE_ORDERED in Translation2_Container_mdb2::getPage() to
+  avoid error when using an existing db connection with fetchmode set to
+  MDB2_FETCHMODE_ASSOC (bug #8734)
+- force lowercase keys in fetchLang() for Oracle compatibility (bug #8915)
 - added defaultGroup to cache_lite options
 - added new $options optional parameter to addLang() to set charset/collate info
   (MDB2 driver only)
@@ -150,25 +154,18 @@ Currently, the following decorators are provided:
   </release>
   <changelog>
     <release>
-      <version>2.0.0beta13</version>
-      <date>2006-09-27</date>
-      <license>BSD License</license>
-      <state>beta</state>
-      <notes>
-- added defaultGroup to cache_lite options
-- added new $options optional parameter to addLang() to set charset/collate info
-  (MDB2 driver only)
-      </notes>
-    </release>
-    <release>
       <version>2.0.0beta12</version>
-      <date>2006-09-19</date>
+      <date>2006-10-09</date>
       <license>BSD License</license>
       <state>beta</state>
       <notes>
 - force MDB2_FETCHMODE_ORDERED in Translation2_Container_mdb2::getPage() to
   avoid error when using an existing db connection with fetchmode set to
   MDB2_FETCHMODE_ASSOC (bug #8734)
+- force lowercase keys in fetchLang() for Oracle compatibility (bug #8915)
+- added defaultGroup to cache_lite options
+- added new $options optional parameter to addLang() to set charset/collate info
+  (MDB2 driver only)
       </notes>
     </release>
     <release>

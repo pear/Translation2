@@ -174,6 +174,7 @@ class Translation2_Container_db extends Translation2_Container
             return $res;
         }
         foreach ($res as $row) {
+            $row = array_change_key_case($row, CASE_LOWER);
             $this->langs[$row['id']] = $row;
         }
     }
