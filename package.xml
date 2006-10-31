@@ -45,7 +45,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta12</version>
-    <date>2006-10-09</date>
+    <date>2006-10-31</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
@@ -56,6 +56,8 @@ Currently, the following decorators are provided:
 - added defaultGroup to cache_lite options
 - added new $options optional parameter to addLang() to set charset/collate info
   (MDB2 driver only)
+- fixed bug #8546: index names are not escaped in SQL queries (DB and MDB admin
+  containers)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -155,7 +157,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta12</version>
-      <date>2006-10-09</date>
+      <date>2006-10-31</date>
       <license>BSD License</license>
       <state>beta</state>
       <notes>
@@ -166,6 +168,8 @@ Currently, the following decorators are provided:
 - added defaultGroup to cache_lite options
 - added new $options optional parameter to addLang() to set charset/collate info
   (MDB2 driver only)
+- fixed bug #8546: index names are not escaped in SQL queries (DB and MDB admin
+  containers)
       </notes>
     </release>
     <release>

@@ -63,7 +63,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
 {
 
     // {{{ class vars
-    
+
     // }}}
     // {{{ addLang()
 
@@ -84,7 +84,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         }
 
         $lang_col = $this->_getLangCol($langData['lang_id']);
-     
+
         if (in_array($langData['table_name'], $tables)) {
             // table exists
             $query = sprintf('ALTER TABLE %s ADD %s%s TEXT',
@@ -95,7 +95,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
             ++$this->_queries;
             return $this->db->query($query);
         }
-        
+
         //table does not exist
         $queries = array();
         $queries[] = sprintf('CREATE TABLE %s ( '
@@ -108,28 +108,41 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
              $this->db->quoteIdentifier($lang_col)
         );
         $mysqlClause = ($this->db->phptype == 'mysql') ? '(255)' : '';
-        $queries[] = sprintf('CREATE UNIQUE INDEX %s_%s_%s_index ON %s (%s, %s%s)',
-             $langData['table_name'],
-             $this->options['string_page_id_col'],
-             $this->options['string_id_col'],
+
+        $index_name = sprintf('%s_%s_%s_index',
+            $langData['table_name'],
+            $this->options['string_page_id_col'],
+            $this->options['string_id_col']
+        );
+        $queries[] = sprintf('CREATE UNIQUE INDEX %s ON %s (%s, %s%s)',
+             $this->db->quoteIdentifier($index_name),
              $this->db->quoteIdentifier($langData['table_name']),
              $this->db->quoteIdentifier($this->options['string_page_id_col']),
              $this->db->quoteIdentifier($this->options['string_id_col']),
              $mysqlClause
         );
-        $queries[] = sprintf('CREATE INDEX %s_%s_index ON %s (%s)',
-             $langData['table_name'],
-             $this->options['string_page_id_col'],
+
+        $index_name = sprintf('%s_%s_index',
+            $langData['table_name'],
+            $this->options['string_page_id_col']
+        );
+        $queries[] = sprintf('CREATE INDEX %s ON %s (%s)',
+             $this->db->quoteIdentifier($index_name),
              $this->db->quoteIdentifier($langData['table_name']),
              $this->db->quoteIdentifier($this->options['string_page_id_col'])
         );
-        $queries[] = sprintf('CREATE INDEX %s_%s_index ON %s (%s%s)',
-             $langData['table_name'],
-             $this->options['string_id_col'],
+
+        $index_name = sprintf('%s_%s_index',
+            $langData['table_name'],
+            $this->options['string_id_col']
+        );
+        $queries[] = sprintf('CREATE INDEX %s ON %s (%s%s)',
+             $this->db->quoteIdentifier($index_name),
              $this->db->quoteIdentifier($langData['table_name']),
              $this->db->quoteIdentifier($this->options['string_id_col']),
              $mysqlClause
         );
+
         foreach($queries as $query) {
             ++$this->_queries;
             $res = $this->db->query($query);
@@ -496,7 +509,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
     /**
      * Get table -> language mapping
      *
-     * The key of the array is the table that a language is stored in; 
+     * The key of the array is the table that a language is stored in;
      * the value is an /array/ of languages stored in that table.
      *
      * @param   array  $langs  Languages to get mapping for
@@ -563,10 +576,10 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         }
         return $cols;
     }
-    
+
     // }}}
     // {{{ _recordExists()
-    
+
     /**
      * Check if there's already a record in the table with the
      * given (pageID, stringID) pair.
@@ -595,10 +608,10 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         }
         return ($res > 0);
     }
-    
+
     // }}}
     // {{{ _filterStringsByTable()
-    
+
     /**
      * Get only the strings for the langs in the given table
      *
@@ -617,7 +630,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         }
         return $strings;
     }
-    
+
     // }}}
     // {{{ _getLangsInTable()
 
