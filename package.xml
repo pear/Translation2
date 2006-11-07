@@ -58,6 +58,8 @@ Currently, the following decorators are provided:
   (MDB2 driver only)
 - fixed bug #8546: index names are not escaped in SQL queries (DB and MDB admin
   containers)
+- fixed dataobjectsimple container, get[Raw]Page() was returning integers as
+  keys instead of strings (thanks to Michael Henry)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -170,6 +172,8 @@ Currently, the following decorators are provided:
   (MDB2 driver only)
 - fixed bug #8546: index names are not escaped in SQL queries (DB and MDB admin
   containers)
+- fixed dataobjectsimple container, get[Raw]Page() was returning integers as
+  keys instead of strings (thanks to Michael Henry)
       </notes>
     </release>
     <release>

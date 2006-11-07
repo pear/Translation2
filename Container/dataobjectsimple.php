@@ -149,14 +149,33 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
         if (PEAR::isError($langID)) {
             return $langID;
         }
+        
+        // First get the array of string IDs
         $do = DB_DataObject::factory($this->options['table']);
-        $do->lang = $langID;
+        $do->lang = '-';
         $do->page = $pageID;
+        $do->find();
+        
+        $stringIDs = array();
+        while ($do->fetch()) {
+            $stringIDs[$do->string_id] = $do->translation;
+        }
+
+        // Now get the array of strings
+        $do = DB_DataObject::factory($this->options['table']);
+        $do->page = $pageID;
+        $do->lang = $langID;
 
         $do->find();
-        $strings = array();
+        $translations = array();
         while ($do->fetch()) {
-            $strings[$do->string_id] = $do->translation;
+            $translations[$do->string_id] = $do->translation;
+        }
+        
+        // Construct an associative array of stringIDs and translations
+        $strings = array();
+        foreach ($translations as $key => $value) {
+            $strings[$stringIDs[$key]] = $value;
         }
 
         return $strings;
