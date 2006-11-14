@@ -30,7 +30,7 @@
  * @category   Internationalization
  * @package    Translation2
  * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
+ * @copyright  2004-2006 Lorenzo Alberton
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Translation2
@@ -62,6 +62,7 @@ define('TRANSLATION2_ERROR_CANNOT_CREATE_DIR',    -7);
 define('TRANSLATION2_ERROR_CANNOT_WRITE_FILE',    -8);
 define('TRANSLATION2_ERROR_UNKNOWN_LANG',         -9);
 define('TRANSLATION2_ERROR_ENCODING_CONVERSION', -10);
+define('TRANSLATION2_ERROR_UNSUPPORTED',         -11);
 
 /**
  * Translation2 base class
@@ -73,7 +74,7 @@ define('TRANSLATION2_ERROR_ENCODING_CONVERSION', -10);
  * @category   Internationalization
  * @package    Translation2
  * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
+ * @copyright  2004-2006 Lorenzo Alberton
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @link       http://pear.php.net/package/Translation2
  */
@@ -109,7 +110,7 @@ class Translation2
     var $currentPageID = null;
 
     /**
-     * Array parameters
+     * Array of parameters for the adapter class
      * @var array
      * @access protected
      */
@@ -140,7 +141,7 @@ class Translation2
      * @param mixed  $options Additional options for the storage driver
      *                        (example: if you are using DB as the storage
      *                        driver, you have to pass the dsn string here)
-     * @param array $params Array of parameters for the adapter class
+     * @param array  $params Array of parameters for the adapter class
      *                      (i.e. you can set here the mappings between your
      *                      table/field names and the ones used by this class)
      * @return object Translation2 instance or PEAR_Error on failure
@@ -182,7 +183,6 @@ class Translation2
             return $err;
         }
         return $storage;
-        
     }
 
     // }}}
@@ -260,6 +260,22 @@ class Translation2
             $new_decorator =& new $decorator_class($this);
         }
         return $new_decorator;
+    }
+
+    // }}}
+    // {{{ setCharset()
+
+    /**
+     * Set charset used to read/store the translations
+     *
+     * @param string $charset
+     */
+    function setCharset($charset)
+    {
+        $res = $this->storage->setCharset($charset);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
     }
 
     // }}}

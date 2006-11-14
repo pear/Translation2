@@ -149,6 +149,19 @@ class Translation2_Container_mdb2 extends Translation2_Container
     }
 
     // }}}
+    // {{{ setCharset()
+
+    /**
+     * Set charset used to read/store the translations
+     *
+     * @param string $charset
+     */
+    function setCharset($charset)
+    {
+        return $this->db->setCharset($charset);
+    }
+
+    // }}}
     // {{{ fetchLangs()
 
     /**

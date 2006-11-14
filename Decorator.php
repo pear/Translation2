@@ -171,6 +171,18 @@ class Translation2_Decorator extends Translation2
     }
 
     // }}}
+    // {{{ setCharset()
+
+    /**
+     * Set charset used to read/store the translations
+     * @param string $charset
+     */
+    function setCharset($charset)
+    {
+        return $this->translation2->setCharset($format);
+    }
+
+    // }}}
     // {{{ setLang()
 
     /**

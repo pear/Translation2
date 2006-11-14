@@ -126,6 +126,23 @@ class Translation2_Container
     }
 
     // }}}
+    // {{{ setCharset()
+
+    /**
+     * Set charset used to read/store the translations
+     *
+     * @param string $charset
+     */
+    function setCharset($charset)
+    {
+        if (method_exists($this->storage, 'setCharset')) {
+            return $this->storage->setCharset($charset);
+        }
+        return $this->raiseError(TRANSLATION2_ERROR_UNSUPPORTED, null, null,
+            'method not implemented', __FUNCTION__);
+    }
+
+    // }}}
     // {{{ setLang()
 
     /**
