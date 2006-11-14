@@ -62,6 +62,7 @@ Currently, the following decorators are provided:
   keys instead of strings (thanks to Michael Henry)
 - added setCharset() method (currently only implemented in the MDB2 driver)
 - added setLang() and setCacheOption() in CacheLiteFunction decorator (request #9301)
+  (thanks to Sascha Grossenbacher)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -178,6 +179,7 @@ Currently, the following decorators are provided:
   keys instead of strings (thanks to Michael Henry)
 - added setCharset() method (currently only implemented in the MDB2 driver)
 - added setLang() and setCacheOption() in CacheLiteFunction decorator (request #9301)
+  (thanks to Sascha Grossenbacher)
       </notes>
     </release>
     <release>
