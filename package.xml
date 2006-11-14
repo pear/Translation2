@@ -61,6 +61,7 @@ Currently, the following decorators are provided:
 - fixed dataobjectsimple container, get[Raw]Page() was returning integers as
   keys instead of strings (thanks to Michael Henry)
 - added setCharset() method (currently only implemented in the MDB2 driver)
+- added setLang() and setCacheOption() in CacheLiteFunction decorator (request #9301)
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -176,6 +177,7 @@ Currently, the following decorators are provided:
 - fixed dataobjectsimple container, get[Raw]Page() was returning integers as
   keys instead of strings (thanks to Michael Henry)
 - added setCharset() method (currently only implemented in the MDB2 driver)
+- added setLang() and setCacheOption() in CacheLiteFunction decorator (request #9301)
       </notes>
     </release>
     <release>
