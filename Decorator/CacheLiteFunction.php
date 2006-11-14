@@ -30,7 +30,7 @@
  * @category   Internationalization
  * @package    Translation2
  * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
+ * @copyright  2004-2006 Lorenzo Alberton
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Translation2
@@ -49,7 +49,7 @@ require_once 'Cache/Lite/Function.php';
  * @category   Internationalization
  * @package    Translation2
  * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
+ * @copyright  2004-2006 Lorenzo Alberton
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Translation2
@@ -61,7 +61,6 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
     /**
      * Cache_Lite_Function object
      * @var object
-     * @access protected
      */
     var $cacheLiteFunction = null;
 
@@ -108,13 +107,13 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
     var $caching = true;
 
     /**
-     * Frequency of cache cleaning. 
+     * Frequency of cache cleaning.
      * Higher values mean lower cleaning probability.
      * Set 0 to disable. Set 1 to clean at every request.
      * @var boolean $caching
      */
     var $cleaningFrequency = 0;
-    
+
     /**
      * Name of default cache group.
      * @var	string	$defaultGroup
@@ -148,6 +147,51 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
     }
 
     // }}}
+    // {{{ setLang()
+
+    /**
+     * Set default lang
+     *
+     * Set the language that shall be used when retrieving strings.
+     *
+     * @param string $langID language code (for instance, 'en' or 'it')
+     */
+    function setLang($langID)
+    {
+        // WITHOUT THIS, IT DOESN'T WORK
+        global $translation2_storage_cachelitefunction_temp;
+        //generate temp variable
+        $translation2_storage_cachelitefunction_temp = $this->translation2->storage;
+
+        $res = $this->cacheLiteFunction->call(
+            'translation2_storage_cachelitefunction_temp->setLang', $langID);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
+        $this->translation2->lang = $res;
+
+    }
+
+    // }}}
+    // {{{ setCacheOption()
+
+    /**
+     * Set a Cache_Lite option
+     *
+     * passes a Cache_Lite option forward to the Cache_Lite object
+     * @see Cache_Lite constructor for available options
+     *
+     * @param string $name name of the option
+     * @param string $value new value of the option
+     * @access public
+     */
+    function setCacheOption($name, $value)
+    {
+        $this->_prepare();
+        $this->cacheLiteFunction->setOption($name, $value);
+    }
+
+    // }}}
     // {{{ getRaw()
 
     /**
@@ -169,7 +213,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
         global $translation2_cachelitefunction_temp;
         //generate temp variable
         $translation2_cachelitefunction_temp = $this->translation2;
-        
+
         if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->translation2->currentPageID;
         }
@@ -203,7 +247,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
         global $translation2_cachelitefunction_temp;
         //generate temp variable
         $translation2_cachelitefunction_temp = $this->translation2->storage;
-        
+
         if ($pageID == TRANSLATION2_DEFAULT_PAGEID) {
             $pageID = $this->translation2->currentPageID;
         }
