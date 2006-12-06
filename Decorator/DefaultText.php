@@ -31,7 +31,7 @@
  * @package    Translation2
  * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
  * @author     Rolf 'Red' Ochsenbein <red at raven dot ch>
- * @copyright  2004-2005 Lorenzo Alberton, Rolf 'Red' Ochsenbein
+ * @copyright  2004-2006 Lorenzo Alberton, Rolf 'Red' Ochsenbein
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Translation2
@@ -54,7 +54,7 @@ require_once 'Translation2/Decorator.php';
  * @package    Translation2
  * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
  * @author     Rolf 'Red' Ochsenbein <red at raven dot ch>
- * @copyright  2004-2005 Lorenzo Alberton, Rolf 'Red' Ochsenbein
+ * @copyright  2004-2006 Lorenzo Alberton, Rolf 'Red' Ochsenbein
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Translation2
@@ -125,7 +125,7 @@ class Translation2_Decorator_DefaultText extends Translation2_Decorator
             return $str;
         }
         if (!empty($defaultText)) {
-            return $defaultText;
+            return $this->_replaceParams($defaultText);
         }
 
         $search  = array(
@@ -140,7 +140,11 @@ class Translation2_Decorator_DefaultText extends Translation2_Decorator
             urlencode($pageID),
             $this->url
         );
-        return $this->emptyPrefix.str_replace($search, $replace, $this->outputString).$this->emptyPostfix;
+        return $this->_replaceParams(
+            $this->emptyPrefix
+            .str_replace($search, $replace, $this->outputString)
+            .$this->emptyPostfix
+        );
         //$str = (empty($defaultText) ? $this->emptyPrefix.$stringID.$this->emptyPostfix : $defaultText);
     }
 

@@ -45,7 +45,7 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta12</version>
-    <date>2006-11-14</date>
+    <date>2006-12-06</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
@@ -63,6 +63,7 @@ Currently, the following decorators are provided:
 - added setCharset() method (currently only implemented in the MDB2 driver)
 - added setLang() and setCacheOption() in CacheLiteFunction decorator (request #9301)
   (thanks to Sascha Grossenbacher)
+- fixed bug #5539: DefaultText decorator does not call _replaceParams()
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -162,7 +163,7 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta12</version>
-      <date>2006-11-14</date>
+      <date>2006-12-06</date>
       <license>BSD License</license>
       <state>beta</state>
       <notes>
@@ -180,6 +181,7 @@ Currently, the following decorators are provided:
 - added setCharset() method (currently only implemented in the MDB2 driver)
 - added setLang() and setCacheOption() in CacheLiteFunction decorator (request #9301)
   (thanks to Sascha Grossenbacher)
+- fixed bug #5539: DefaultText decorator does not call _replaceParams()
       </notes>
     </release>
     <release>
