@@ -195,6 +195,12 @@ class TestOfContainerDB extends UnitTestCase {  //TestOfTranslation2 {
             'Entirely new string' => 'Entirely new string',
         );
         $this->assertEqual($expected, $this->tr->getPage());
+
+        //parameter replacement
+        $this->tr->setParams(array('foo' => 'bar'));
+        $this->assertEqual('String bar not in DB', $this->tr->get('String &&foo&& not in DB'));
+        $this->tr->setParams(array('foo' => 'bar'));
+        $this->assertEqual('String bar not in DB', $this->tr->get('String not in DB', null, 'it', 'String &&foo&& not in DB'));
     }
     function testErrorTextDecorator() {
         $lang = 'it';
