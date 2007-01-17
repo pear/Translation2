@@ -163,6 +163,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
         //generate temp variable
         $translation2_storage_cachelitefunction_temp = $this->translation2->storage;
 
+        $this->_prepare();
         $res = $this->cacheLiteFunction->call(
             'translation2_storage_cachelitefunction_temp->setLang', $langID);
         if (PEAR::isError($res)) {
