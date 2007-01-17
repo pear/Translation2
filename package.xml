@@ -44,26 +44,12 @@ Currently, the following decorators are provided:
     </maintainer>
   </maintainers>
   <release>
-    <version>2.0.0beta12</version>
-    <date>2006-12-15</date>
+    <version>2.0.0beta13</version>
+    <date>2007-01-17</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
-- force MDB2_FETCHMODE_ORDERED in Translation2_Container_mdb2::getPage() to
-  avoid error when using an existing db connection with fetchmode set to
-  MDB2_FETCHMODE_ASSOC (bug #8734)
-- force lowercase keys in fetchLang() for Oracle compatibility (bug #8915)
-- added defaultGroup to cache_lite options
-- added new $options optional parameter to addLang() to set charset/collate info
-  (MDB2 driver only)
-- fixed bug #8546: index names are not escaped in SQL queries (DB and MDB admin
-  containers)
-- fixed dataobjectsimple container, get[Raw]Page() was returning integers as
-  keys instead of strings (thanks to Michael Henry)
-- added setCharset() method (currently only implemented in the MDB2 driver)
-- added setLang() and setCacheOption() in CacheLiteFunction decorator (request #9301)
-  (thanks to Sascha Grossenbacher)
-- fixed bug #5539: DefaultText decorator does not call _replaceParams()
+- fixed bug #9855: missing call to _prepare() in setLang()
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -161,6 +147,15 @@ Currently, the following decorators are provided:
     </filelist>
   </release>
   <changelog>
+    <release>
+      <version>2.0.0beta13</version>
+      <date>2007-01-17</date>
+      <license>BSD License</license>
+      <state>beta</state>
+      <notes>
+- fixed bug #9855: missing call to _prepare() in setLang()
+      </notes>
+    </release>
     <release>
       <version>2.0.0beta12</version>
       <date>2006-12-15</date>
