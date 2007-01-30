@@ -117,11 +117,9 @@ class Translation2_Decorator_Iconv extends Translation2_Decorator
     function get($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText=null)
     {
         $str = $this->translation2->get($stringID, $pageID, $langID, $defaultText);
-        
         if (PEAR::isError($str) || empty($str)) {
             return $str;
         }
-
         return iconv($this->_getEncoding($langID), $this->encoding, $str);
     }
 
@@ -138,9 +136,10 @@ class Translation2_Decorator_Iconv extends Translation2_Decorator
     function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null)
     {
         $data = $this->translation2->getPage($pageID, $langID);
-        
+        if (PEAR::isError($data)) {
+            return $data;
+        }
         $input_encoding = $this->_getEncoding($langID);
-        
         foreach (array_keys($data) as $k) {
             if (!empty($data[$k])) {
                 $data[$k] = iconv($input_encoding, $this->encoding, $data[$k]);

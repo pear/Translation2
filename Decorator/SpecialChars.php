@@ -85,6 +85,9 @@ class Translation2_Decorator_SpecialChars extends Translation2_Decorator
     function get($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText=null)
     {
         $str = $this->translation2->get($stringID, $pageID, $langID, $defaultText);
+        if (PEAR::isError($str)) {
+            return $str;
+        }
         if (!empty($str)) {
             $str = htmlentities($str, ENT_QUOTES, $this->charset);
         }
@@ -104,6 +107,9 @@ class Translation2_Decorator_SpecialChars extends Translation2_Decorator
     function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null)
     {
         $data = $this->translation2->getPage($pageID, $langID);
+        if (PEAR::isError($data)) {
+            return $data;
+        }
         foreach ($data as $key => $val) {
             if (!empty($val)) {
                 $data[$key] = htmlentities($val, ENT_QUOTES, $this->charset);

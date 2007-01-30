@@ -50,6 +50,7 @@ Currently, the following decorators are provided:
     <state>beta</state>
     <notes>
 - fixed bug #9855: missing call to _prepare() in setLang()
+- propagate errors in the decorators
 - fixed testsuite: added missing db_test_base.php file and
   fixed problem with class redeclaration.
     </notes>
@@ -157,6 +158,7 @@ Currently, the following decorators are provided:
       <state>beta</state>
       <notes>
 - fixed bug #9855: missing call to _prepare() in setLang()
+- propagate errors in the decorators
 - fixed testsuite: added missing db_test_base.php file and
   fixed problem with class redeclaration.
       </notes>

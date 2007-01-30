@@ -120,7 +120,13 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
     function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
     {
         $data1 = $this->translation2->getPage($pageID, $langID);
+        if (PEAR::isError($data1)) {
+            return $data1;
+        }
         $data2 = $this->translation2->getPage($pageID, $this->fallbackLang);
+        if (PEAR::isError($data2)) {
+            return $data2;
+        }
         foreach ($data1 as $key => $val) {
             if (empty($val)) {
                 $data1[$key] = $data2[$key];

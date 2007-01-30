@@ -90,6 +90,9 @@ class Translation2_Decorator_ErrorText extends Translation2_Decorator
     function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null)
     {
         $data = $this->translation2->getPage($pageID, $langID);
+        if (PEAR::isError($data)) {
+            return $data;
+        }
         $error_text = str_replace('"', '\"', $this->translation2->getLang(null, 'error_text'));
         array_walk(
             $data,
