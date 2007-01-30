@@ -1,7 +1,7 @@
 <?php
 // $Id$
 
-require_once 'db_test.php';
+require_once 'db_test_base.php';
 
 class TestOfGettextPO extends TestOfContainerDB {
     function TestOfGettextPO($name='Test of Container gettext PO') {
@@ -76,5 +76,11 @@ class TestOfGettextPO extends TestOfContainerDB {
         );
         $this->assertEqual($expected, $this->tr->getPage());
     }
+}
+
+if (!defined('TEST_RUNNING')) {
+    define('TEST_RUNNING', true);
+    $test = &new TestOfGettextPO();
+    $test->run(new HtmlReporter());
 }
 ?>
