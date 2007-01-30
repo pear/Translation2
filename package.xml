@@ -45,11 +45,12 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta13</version>
-    <date>2007-01-17</date>
+    <date>2007-01-30</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
 - fixed bug #9855: missing call to _prepare() in setLang()
+- added missing db_test_base.php file in the testsuite
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -127,6 +128,7 @@ Currently, the following decorators are provided:
           <file name="all_tests.php" />
           <file name="containers_tests.php" />
           <file name="db_test.php" />
+          <file name="db_test_base.php" />
           <file name="dbms.php" />
           <file name="gettext_domains.ini" />
           <file name="gettext_langs.ini" />
@@ -149,11 +151,12 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta13</version>
-      <date>2007-01-17</date>
+      <date>2007-01-30</date>
       <license>BSD License</license>
       <state>beta</state>
       <notes>
 - fixed bug #9855: missing call to _prepare() in setLang()
+- added missing db_test_base.php file in the testsuite
       </notes>
     </release>
     <release>
