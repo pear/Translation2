@@ -45,14 +45,15 @@ Currently, the following decorators are provided:
   </maintainers>
   <release>
     <version>2.0.0beta13</version>
-    <date>2007-01-30</date>
+    <date>2007-02-13</date>
     <license>BSD License</license>
     <state>beta</state>
     <notes>
 - fixed bug #9855: missing call to _prepare() in setLang()
 - propagate errors in the decorators
 - fixed testsuite: added missing db_test_base.php file and
-  fixed problem with class redeclaration.
+  fixed problem with class redeclaration
+- fixed constraint creation in addLang() in the MDB2 Admin driver
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
@@ -153,14 +154,15 @@ Currently, the following decorators are provided:
   <changelog>
     <release>
       <version>2.0.0beta13</version>
-      <date>2007-01-30</date>
+      <date>2007-02-13</date>
       <license>BSD License</license>
       <state>beta</state>
       <notes>
 - fixed bug #9855: missing call to _prepare() in setLang()
 - propagate errors in the decorators
 - fixed testsuite: added missing db_test_base.php file and
-  fixed problem with class redeclaration.
+  fixed problem with class redeclaration
+- fixed constraint creation in addLang() in the MDB2 Admin driver
       </notes>
     </release>
     <release>

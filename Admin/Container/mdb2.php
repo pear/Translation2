@@ -142,6 +142,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         if (PEAR::isError($res)) {
             return $res;
         }
+        $mysqlClause = ($this->db->phptype == 'mysql') ? '(255)' : '';
         
         $constraint_name = $langData['table_name']
             .'_'. $this->options['string_page_id_col']
@@ -149,8 +150,9 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         $constraint_definition = array(
             'fields' => array(
                 $this->options['string_page_id_col'] => array(),
-                $this->options['string_id_col']      => array(),
-            )
+                $this->options['string_id_col'].$mysqlClause => array(),
+            ),
+            'unique' => true,
         );
         ++$this->_queries;
         $res = $this->db->manager->createConstraint($langData['table_name'], $constraint_name, $constraint_definition);
