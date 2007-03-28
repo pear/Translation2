@@ -54,6 +54,7 @@ Currently, the following decorators are provided:
 - fixed testsuite: added missing db_test_base.php file and
   fixed problem with class redeclaration
 - fixed constraint creation in addLang() in the MDB2 Admin driver
+- fixed setCharset() proxy in the Decorator
     </notes>
     <deps>
       <dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>

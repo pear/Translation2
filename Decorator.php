@@ -179,7 +179,7 @@ class Translation2_Decorator extends Translation2
      */
     function setCharset($charset)
     {
-        return $this->translation2->setCharset($format);
+        return $this->translation2->setCharset($charset);
     }
 
     // }}}
