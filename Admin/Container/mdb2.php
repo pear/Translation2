@@ -110,10 +110,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
                 )
             );
             ++$this->_queries;
-            $res = $this->db->manager->alterTable($langData['table_name'], $table_changes, false);
-            if (PEAR::isError($res)) {
-                return $res;
-            }
+            return $this->db->manager->alterTable($langData['table_name'], $table_changes, false);
         }
 
         //table does not exist
