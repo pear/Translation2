@@ -108,7 +108,7 @@ class Translation2_Container
     // {{{ _getLangID()
 
     /**
-     * Get a valid langID or raise an error when
+     * Get a valid langID or raise an error when no valid language is set
      *
      * @access private
      * @param  string $langID
