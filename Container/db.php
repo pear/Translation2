@@ -152,6 +152,22 @@ class Translation2_Container_db extends Translation2_Container
     }
 
     // }}}
+    // {{{ setCharset()
+
+    /**
+     * Set charset used to read/store the translations
+     *
+     * @param string $charset
+     */
+    function setCharset($charset)
+    {
+        if (in_array('setcharset', array_map('strtolower', get_class_methods($this->db)))) {
+            return $this->db->setCharset($charset);
+        }
+        return $this->db->query('SET NAMES ' .$this->db->quoteSmart($charset));
+    }
+
+    // }}}
     // {{{ fetchLangs()
 
     /**

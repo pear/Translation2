@@ -45,25 +45,18 @@ Currently, the following decorators are provided:
   <email>mike@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-07-29</date>
- <time>17:45:30</time>
+ <date>2007-08-13</date>
+ <time>11:40:30</time>
  <version>
-  <release>2.0.0RC1</release>
-  <api>2.0.0RC1</api>
+  <release>2.0.0RC2</release>
+  <api>2.0.0RC2</api>
  </version>
  <stability>
   <release>beta</release>
   <api>beta</api>
  </stability>
  <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
- <notes>- fixed bug #9855: missing call to _prepare() in setLang()
-- propagate errors in the decorators
-- fixed testsuite: added missing db_test_base.php file and
-  fixed problem with class redeclaration
-- fixed constraint creation in addLang() in the MDB2 Admin driver
-- fixed setCharset() proxy in the Decorator
-- fixed bug #11482: missing return in Translation2_Admin_Container_mdb2::addLang()
-  when the table already exists
+ <notes>- request #11711: added setCharset() method in the DB container
     
  </notes>
  <contents>
@@ -201,6 +194,21 @@ Currently, the following decorators are provided:
  </dependencies>
  <phprelease />
  <changelog>
+  <release>
+   <version>
+    <release>2.0.0RC2</release>
+    <api>2.0.0RC2</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2007-08-13</date>
+   <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
+   <notes>- request #11711: added setCharset() method in the DB container
+
+   </notes>
+  </release>
   <release>
    <version>
     <release>2.0.0RC1</release>
