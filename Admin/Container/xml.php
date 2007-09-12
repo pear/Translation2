@@ -229,7 +229,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
         foreach (array_keys($this->_data['pages']) as $pageID) {
             foreach (array_keys($this->_data['pages'][$pageID]) as $stringID) {
                 if (array_key_exists($langID, $this->_data['pages'][$pageID][$stringID])) {
-                    unset($this->_data['pages'][$pageID][$stringID]);
+                    unset($this->_data['pages'][$pageID][$stringID][$langID]);
                 }
             }
         }
