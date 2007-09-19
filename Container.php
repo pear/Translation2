@@ -209,6 +209,7 @@ class Translation2_Container
         switch ($format) {
             case 'array':
                 foreach ($this->langs as $aLang) {
+                    $aLang['lang_id'] = $aLang['id'];
                     $tmp[$aLang['id']] = $aLang;
                 }
                 break;

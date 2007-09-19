@@ -41,6 +41,7 @@ class TestOfAdminContainerDB extends UnitTestCase {
         $post = $this->tr->getLangs('array');
         $expected = array(
             'id'         => 'fr',
+            'lang_id'    => 'fr',
             'name'       => 'français',
             'meta'       => '123 abc',
             'error_text' => 'non disponible',
@@ -54,6 +55,7 @@ class TestOfAdminContainerDB extends UnitTestCase {
     function testUpdateLang() {
         $original = array(
             'id'         => 'en',
+            'lang_id'    => 'en',
             'name'       => 'english',
             'meta'       => 'my meta info',
             'error_text' => 'not available in English',
@@ -77,6 +79,7 @@ class TestOfAdminContainerDB extends UnitTestCase {
         );
         $expected = array(
             'id'         => 'en',
+            'lang_id'    => 'en',
             'name'       => 'english2',
             'meta'       => 'my other meta info',
             'error_text' => 'not available in English2',

@@ -45,8 +45,8 @@ Currently, the following decorators are provided:
   <email>mike@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-09-12</date>
- <time>22:59:30</time>
+ <date>2007-09-19</date>
+ <time>23:58:30</time>
  <version>
   <release>2.0.0RC2</release>
   <api>2.0.0RC2</api>
@@ -58,6 +58,8 @@ Currently, the following decorators are provided:
  <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
  <notes>- request #11711: added setCharset() method in the DB container
 - bug #11880: [XML driver] removing one language removes all strings for all languages 
+- request #11881: getLang(...,'array') now returns a 'lang_id' alias to 'id'
+
  </notes>
  <contents>
   <dir name="/">
@@ -203,10 +205,11 @@ Currently, the following decorators are provided:
     <release>beta</release>
     <api>beta</api>
    </stability>
-   <date>2007-09-12</date>
+   <date>2007-09-19</date>
    <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
    <notes>- request #11711: added setCharset() method in the DB container
 - bug #11880: [XML driver] removing one language removes all strings for all languages 
+- request #11881: getLang(...,'array') now returns a 'lang_id' alias to 'id'
    </notes>
   </release>
   <release>

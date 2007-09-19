@@ -123,6 +123,7 @@ class TestOfContainerDB extends UnitTestCase {  //TestOfTranslation2 {
         $this->assertEqual('my meta info', $this->tr->getLang('en', 'meta'));
         $expected = array(
             'id'         => 'it',
+            'lang_id'    => 'it',
             'name'       => 'italiano',
             'meta'       => 'charset: iso-8859-1',
             'error_text' => 'non disponibile in Italiano',
@@ -146,6 +147,7 @@ class TestOfContainerDB extends UnitTestCase {  //TestOfTranslation2 {
         $expected = array(
             'it' => array(
                 'id'         => 'it',
+                'lang_id'    => 'it',
                 'name'       => 'italiano',
                 'meta'       => 'charset: iso-8859-1',
                 'error_text' => 'non disponibile in Italiano',
@@ -153,6 +155,7 @@ class TestOfContainerDB extends UnitTestCase {  //TestOfTranslation2 {
             ),
             'en' => array(
                 'id'         => 'en',
+                'lang_id'    => 'en',
                 'name'       => 'english',
                 'meta'       => 'my meta info',
                 'error_text' => 'not available in English',
@@ -160,6 +163,7 @@ class TestOfContainerDB extends UnitTestCase {  //TestOfTranslation2 {
             ),
             'de' => array(
                 'id'         => 'de',
+                'lang_id'    => 'de',
                 'name'       => 'deutsch',
                 'meta'       => 'charset: iso-8859-1',
                 'error_text' => 'kein Text auf Deutsch verfügbar',
@@ -195,7 +199,7 @@ class TestOfContainerDB extends UnitTestCase {  //TestOfTranslation2 {
             'Entirely new string' => 'Entirely new string',
         );
         $this->assertEqual($expected, $this->tr->getPage());
-
+        
         //parameter replacement
         $this->tr->setParams(array('foo' => 'bar'));
         $this->assertEqual('String bar not in DB', $this->tr->get('String &&foo&& not in DB'));
