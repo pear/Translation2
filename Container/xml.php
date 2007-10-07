@@ -420,8 +420,8 @@ class Translation2_Container_xml extends Translation2_Container
         if (PEAR::isError($langID)) {
             return $langID;
         }
-        $pageID = (is_null($pageID)) ? '#NULL'  : $pageID;
-        $pageID = (empty($pageID))   ? '#EMPTY' : $pageID;
+        $pageID = (is_null($pageID)) ? '#NULL' : $pageID;
+        $pageID = (empty($pageID) && (0 !== $pageID)) ? '#EMPTY' : $pageID;
 
         $result = array();
         foreach ($this->_data['pages'][$pageID] as $str_id => $translations) {
