@@ -345,23 +345,6 @@ class Translation2_Decorator extends Translation2
     }
 
     // }}}
-    // {{{ translate()
-
-    /**
-     * Get translated string
-     *
-     * @param string $string This is NOT the stringID, this is a real string.
-     *               The method will search for its matching stringID, and then
-     *               it will return the associate string in the selected language.
-     * @param string $langID
-     * @return string
-     */
-    function translate($string, $langID, $pageID=TRANSLATION2_DEFAULT_PAGEID)
-    {
-        return $this->translation2->translate($string, $langID, $pageID);
-    }
-
-    // }}}
     // {{{ getStringID()
 
     /**
