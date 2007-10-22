@@ -27,13 +27,13 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @copyright 2004-2005 Lorenzo Alberton
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/Translation2
  */
 
 /**
@@ -43,12 +43,12 @@
  * Some decorators are already bundled with the package.
  *
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @copyright 2004-2005 Lorenzo Alberton
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @link      http://pear.php.net/package/Translation2
  * @abstract
  */
 class Translation2_Decorator extends Translation2
@@ -85,17 +85,17 @@ class Translation2_Decorator extends Translation2
 
     /**
      * Constructor
-     *
      * Constructs the Translation2_Decorator
-     * @param object Translation2 object to decorate
+     *
+     * @param object &$translation2 Translation2 object to decorate
      */
     function Translation2_Decorator(& $translation2)
     {
         $this->translation2 = & $translation2;
         //used for debug only
-        $this->storage = & $translation2->storage;
+        $this->storage       = & $translation2->storage;
         $this->currentPageID = & $translation2->currentPageID;
-        $this->lang = & $translation2->lang;
+        $this->lang          = & $translation2->lang;
     }
 
     // }}}
@@ -104,7 +104,8 @@ class Translation2_Decorator extends Translation2
     /**
      * set Decorator options
      *
-     * @param array options
+     * @param array $options decorator options
+     * @return void
      */
     function setOptions($options=array())
     {
@@ -121,8 +122,9 @@ class Translation2_Decorator extends Translation2
     /**
      * set Decorator option
      *
-     * @param string option name
-     * @param mixed  option value
+     * @param string $option option name
+     * @param mixed  $value  option value
+     * @return void
      */
     function setOption($option, $value=null)
     {
@@ -139,7 +141,7 @@ class Translation2_Decorator extends Translation2
     /**
      * Set some storage driver options
      *
-     * @param array $options
+     * @param array $options storage driver options
      * @return void
      * @access protected
      */
@@ -154,10 +156,10 @@ class Translation2_Decorator extends Translation2
     /**
      * Return an instance of a decorator
      *
-     * @access public
-     * @param  string $decorator  Name of the decorator
-     * @param  object [optional]
+     * @param string $decorator  Name of the decorator
+     * @param object $object instance [optional]
      * @return object Decorator object reference
+     * @access public
      */
     function & getDecorator($decorator)
     {
@@ -175,7 +177,9 @@ class Translation2_Decorator extends Translation2
 
     /**
      * Set charset used to read/store the translations
-     * @param string $charset
+     *
+     * @param string $charset character set (encoding)
+     * @return PEAR_Error on failure
      */
     function setCharset($charset)
     {
@@ -186,8 +190,10 @@ class Translation2_Decorator extends Translation2
     // {{{ setLang()
 
     /**
-     * Set default lang
-     * @param string $langID
+     * Set default language
+     *
+     * @param string $langID language ID
+     * @return void
      */
     function setLang($langID)
     {
@@ -199,9 +205,11 @@ class Translation2_Decorator extends Translation2
 
     /**
      * Set default page
-     * @param string $langID
+     *
+     * @param string $pageID page/group ID
+     * @return void
      */
-    function setPageID($pageID=null)
+    function setPageID($pageID = null)
     {
         $this->translation2->setPageID($pageID);
     }
@@ -210,8 +218,9 @@ class Translation2_Decorator extends Translation2
     // {{{ getLang()
 
     /**
-     * get lang info
-     * @param string $langID
+     * Get language info
+     *
+     * @param string $langID language ID
      * @param string $format ['name', 'meta', 'error_text', 'array']
      * @return mixed [string | array], depending on $format
      */
@@ -224,7 +233,8 @@ class Translation2_Decorator extends Translation2
     // {{{ getLangs()
 
     /**
-     * get langs
+     * Get languages
+     *
      * @param string $format ['ids', 'names', 'array']
      * @return array
      */
@@ -238,9 +248,11 @@ class Translation2_Decorator extends Translation2
 
     /**
      * Set parameters for next string
-     * @param array $params
+     *
+     * @param array $params array of replacement parameters
+     * @return void
      */
-    function setParams($params=null)
+    function setParams($params = null)
     {
         $this->translation2->setParams($params);
     }
@@ -253,14 +265,14 @@ class Translation2_Decorator extends Translation2
      *
      * No filter is applied.
      *
-     * @param string $stringID
-     * @param string $pageID
-     * @param string $langID
+     * @param string $stringID    string ID
+     * @param string $pageID      page/group ID
+     * @param string $langID      language ID
      * @param string $defaultText Text to display when the strings in both
      *                            the default and the fallback lang are empty
      * @return string
      */
-    function getRaw($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
+    function getRaw($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = '')
     {
         return $this->translation2->getRaw($stringID, $pageID, $langID, $defaultText);
     }
@@ -273,14 +285,14 @@ class Translation2_Decorator extends Translation2
      *
      * All the filters are applied.
      *
-     * @param string $stringID
-     * @param string $pageID
-     * @param string $langID
+     * @param string $stringID    string ID
+     * @param string $pageID      page/group ID
+     * @param string $langID      language ID
      * @param string $defaultText Text to display when the string is empty
      *               NB: This parameter is only used in the DefaultText decorator
      * @return string
      */
-    function get($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText='')
+    function get($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = '')
     {
         return $this->translation2->get($stringID, $pageID, $langID, $defaultText);
     }
@@ -293,11 +305,11 @@ class Translation2_Decorator extends Translation2
      *
      * Fetch the strings from the container, without any replacing
      *
-     * @param string $pageID
-     * @param string $langID
+     * @param string $pageID page/group ID
+     * @param string $langID language ID
      * @return array
      */
-    function getRawPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null)
+    function getRawPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)
     {
         return $this->translation2->getRawPage($pageID, $langID);
     }
@@ -309,11 +321,11 @@ class Translation2_Decorator extends Translation2
      * Same as getRawPage, but resort to fallback language and
      * replace parameters when needed
      *
-     * @param string $pageID
-     * @param string $langID
+     * @param string $pageID page/group ID
+     * @param string $langID language ID
      * @return array
      */
-    function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null)
+    function getPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)
     {
         $this->translation2->getPage($pageID, $langID);
     }
@@ -323,7 +335,9 @@ class Translation2_Decorator extends Translation2
 
     /**
      * Replace parameters in strings
-     * @param mixed $params
+     *
+     * @param mixed $strings strings where the replacements must occur
+     * @return mixed
      * @access protected
      */
     function _replaceParams($strings)
@@ -331,12 +345,14 @@ class Translation2_Decorator extends Translation2
         return $this->translation2->_replaceParams($strings);
     }
 
-   // }}}
+    // }}}
     // {{{ replaceEmptyStringsWithKeys()
 
     /**
      * Replace empty strings with their stringID
-     * @param mixed $params
+     *
+     * @param array $strings array of strings to be replaced if empty
+     * @return array
      * @access public
      */
     function replaceEmptyStringsWithKeys($strings)
@@ -353,10 +369,10 @@ class Translation2_Decorator extends Translation2
      * @param string $string This is NOT the stringID, this is a real string.
      *               The method will search for its matching stringID, and then
      *               it will return the associate string in the selected language.
-     * @param string $pageID
+     * @param string $pageID page/group ID
      * @return string
      */
-    function getStringID($string, $pageID=TRANSLATION2_DEFAULT_PAGEID)
+    function getStringID($string, $pageID = TRANSLATION2_DEFAULT_PAGEID)
     {
         return $this->translation2->getStringID($string, $pageID);
     }

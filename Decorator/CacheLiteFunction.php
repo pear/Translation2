@@ -325,7 +325,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
     }
 
     // }}}
-    // {{{ translate()
+    // {{{ getStringID()
 
     /**
      * Get translated string

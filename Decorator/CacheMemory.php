@@ -27,13 +27,13 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @copyright 2004-2007 Lorenzo Alberton
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/Translation2
  */
 
 /**
@@ -57,13 +57,13 @@ if (!defined('TRANSLATION2_NULL_PAGEID_KEY')) {
 /**
  * Decorator to cache fetched data in memory
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @copyright 2004-2007 Lorenzo Alberton
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/Translation2
  */
 class Translation2_Decorator_CacheMemory extends Translation2_Decorator
 {
@@ -126,14 +126,14 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
      * First check if the string is cached, if not => fetch the page
      * from the container and cache it for later use.
      *
-     * @param string $stringID
-     * @param string $pageID
-     * @param string $langID
+     * @param string $stringID    string ID
+     * @param string $pageID      page/group ID
+     * @param string $langID      language ID
      * @param string $defaultText Text to display when the strings in both
      *                            the default and the fallback lang are empty
      * @return string
      */
-    function getRaw($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText=null)
+    function getRaw($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = null)
     {
         $pageID_key = $this->_getPageIDKey($pageID);
         $langID_key = empty($langID) ? $this->translation2->lang['id'] : $langID;
@@ -163,14 +163,14 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
      * First check if the string is cached, if not => fetch the page
      * from the container and cache it for later use.
      *
-     * @param string $stringID
-     * @param string $pageID
-     * @param string $langID
+     * @param string $stringID    string ID
+     * @param string $pageID      page/group ID
+     * @param string $langID      language ID
      * @param string $defaultText Text to display when the strings in both
      *                            the default and the fallback lang are empty
      * @return string
      */
-    function get($stringID, $pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText=null)
+    function get($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = null)
     {
         $pageID_key = $this->_getPageIDKey($pageID);
         $langID_key = empty($langID) ? $this->translation2->lang['id'] : $langID;
@@ -200,11 +200,11 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
      * First check if the strings are cached, if not => fetch the page
      * from the container and cache it for later use.
      *
-     * @param string $pageID
-     * @param string $langID
+     * @param string $pageID page/group ID
+     * @param string $langID language ID
      * @return array
      */
-    function getRawPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null)
+    function getRawPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)
     {
         $pageID_key = $this->_getPageIDKey($pageID);
         $langID_key = empty($langID) ? $this->translation2->lang['id'] : $langID;
@@ -226,11 +226,11 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
      * Same as getRawPage, but resort to fallback language and
      * replace parameters when needed
      *
-     * @param string $pageID
-     * @param string $langID
+     * @param string $pageID page/group ID
+     * @param string $langID language ID
      * @return array
      */
-    function getPage($pageID=TRANSLATION2_DEFAULT_PAGEID, $langID=null, $defaultText=null)
+    function getPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = null)
     {
         $pageID_key = $this->_getPageIDKey($pageID);
         $langID_key = empty($langID) ? $this->translation2->lang['id'] : $langID;

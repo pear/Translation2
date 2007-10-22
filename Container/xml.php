@@ -27,14 +27,14 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @author     Olivier Guilyardi <olivier at samalyse dot com>
- * @copyright  2004-2005 Lorenzo Alberton, Olivier Guilyardi
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @author    Olivier Guilyardi <olivier@samalyse.com>
+ * @copyright 2004-2007 Lorenzo Alberton, Olivier Guilyardi
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/Translation2
  */
 
 /**
@@ -95,13 +95,13 @@ define ('TRANSLATION2_DTD',
  * </translation2>
  * </pre>
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @author     Olivier Guilyardi <olivier at samalyse dot com>
- * @copyright  2004-2005 Lorenzo Alberton, Olivier Guilyardi
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @author    Olivier Guilyardi <olivier@samalyse.com>
+ * @copyright 2004-2007 Lorenzo Alberton, Olivier Guilyardi
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @link      http://pear.php.net/package/Translation2
  */
 class Translation2_Container_xml extends Translation2_Container
 {
@@ -144,8 +144,8 @@ class Translation2_Container_xml extends Translation2_Container
     /**
      * Load an XML file into memory, and eventually decode the strings from UTF-8
      *
-     * @access private
      * @return boolean|PEAR_Error
+     * @access private
      */
     function _loadFile()
     {
@@ -208,8 +208,8 @@ class Translation2_Container_xml extends Translation2_Container
     /** 
      * Convert strings to/from XML unique charset (UTF-8)
      *
-     * @param string ['from_xml' | 'to_xml']
-     * @param array  $data  Data buffer to operate on
+     * @param string $direction ['from_xml' | 'to_xml']
+     * @param array  &$data     Data buffer to operate on
      * @return boolean|PEAR_Error
      */
     function _convertEncodings($direction, &$data)
@@ -256,8 +256,8 @@ class Translation2_Container_xml extends Translation2_Container
     /**
      * Convert lang data to/from XML unique charset (UTF-8)
      *
-     * @param string $direction   ['from_xml' | 'to_xml']
-     * @param array  $data        Data buffer to operate on
+     * @param string $direction ['from_xml' | 'to_xml']
+     * @param array  &$data     Data buffer to operate on
      * @return boolean|PEAR_Error
      */
     function _convertLangEncodings($direction, &$data)
@@ -302,6 +302,8 @@ class Translation2_Container_xml extends Translation2_Container
     
     /**
      * Remove duplicate entries from the xml data
+     *
+     * @return void
      */
     function _fixDuplicateEntries()
     {
@@ -321,9 +323,11 @@ class Translation2_Container_xml extends Translation2_Container
     /**
      * Turn empty strings returned by XML_Unserializer into empty arrays
      *
-     * Note : this method is public because called statically by the t2xmlchk.php
+     * Note: this method is public because called statically by the t2xmlchk.php
      * script. It is not meant to be called by user-space code.
      *
+     * @param array $data array of languages/pages
+     * @return void
      * @access public
      * @static
      */
@@ -362,7 +366,9 @@ class Translation2_Container_xml extends Translation2_Container
 
     /**
      * Wrapper for array_merge()
-     * @param array reference
+     *
+     * @param array $arr1 reference
+     * return array
      */
     function _merge()
     {
@@ -379,8 +385,8 @@ class Translation2_Container_xml extends Translation2_Container
     /**
      * Set some default options
      *
-     * @access private
      * @return void
+     * @access private
      */
     function _setDefaultOptions()
     {
@@ -393,6 +399,8 @@ class Translation2_Container_xml extends Translation2_Container
 
     /**
      * Fetch the available langs
+     *
+     * @return void
      */
     function fetchLangs()
     {
@@ -410,8 +418,8 @@ class Translation2_Container_xml extends Translation2_Container
     /**
      * Returns an array of the strings in the selected page
      *
-     * @param string $pageID
-     * @param string $langID
+     * @param string $pageID page/group ID
+     * @param string $langID language ID
      * @return array
      */
     function getPage($pageID = null, $langID = null)
@@ -439,9 +447,9 @@ class Translation2_Container_xml extends Translation2_Container
     /**
      * Get a single item from the container
      *
-     * @param string $stringID
-     * @param string $pageID
-     * @param string $langID
+     * @param string $stringID string ID
+     * @param string $pageID   page/group ID
+     * @param string $langID   language ID
      * @return string
      */
     function getOne($stringID, $pageID = null, $langID = null)
@@ -462,11 +470,11 @@ class Translation2_Container_xml extends Translation2_Container
     /**
      * Get the stringID for the given string
      *
-     * @param string $stringID
-     * @param string $pageID
+     * @param string $stringID string ID
+     * @param string $pageID   page/group ID
      * @return string
      */
-    function getStringID($string, $pageID = null)
+    function getStringID($stringID, $pageID = null)
     {
         $pageID = (is_null($pageID)) ? '#NULL' : $pageID;                        
         

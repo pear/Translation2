@@ -27,14 +27,14 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @author     Olivier Guilyardi <olivier at samalyse dot com>
- * @copyright  2004-2005 Lorenzo Alberton, Olivier Guilyardi
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @author    Olivier Guilyardi <olivier@samalyse.com>
+ * @copyright 2004-2007 Lorenzo Alberton, Olivier Guilyardi
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/Translation2
  */
 
 /**
@@ -47,13 +47,13 @@ require_once 'XML/Util.php';
 /**
  * Storage driver for storing/fetching data to/from a XML file
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @author     Olivier Guilyardi <olivier at samalyse dot com>
- * @copyright  2004-2005 Lorenzo Alberton, Olivier Guilyardi
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @author    Olivier Guilyardi <olivier at samalyse dot com>
+ * @copyright 2004-2007 Lorenzo Alberton, Olivier Guilyardi
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @link      http://pear.php.net/package/Translation2
  */
 class Translation2_Admin_Container_xml extends Translation2_Container_xml
 {
@@ -117,7 +117,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
     /**
      * Update the lang info in the langsAvail table
      *
-     * @param array  $langData
+     * @param array $langData array [@see addLangToList()]
      * @return true|PEAR_Error
      */
     function updateLang($langData)
@@ -141,10 +141,10 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
     /**
      * Add a new entry in the strings table.
      *
-     * @param string $stringID
-     * @param string $pageID
+     * @param string $stringID    string ID
+     * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
-     *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     *               Sample format: array('en' => 'sample', 'it' => 'esempio')
      * @return true|PEAR_Error
      */
     function add($stringID, $pageID, $stringArray)
@@ -176,10 +176,10 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
     /**
      * Update an existing entry in the strings table.
      *
-     * @param string $stringID
-     * @param string $pageID
+     * @param string $stringID    string ID
+     * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
-     *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     *               Sample format: array('en' => 'sample', 'it' => 'esempio')
      * @return true|PEAR_Error
      */
     function update($stringID, $pageID, $stringArray)
@@ -193,8 +193,8 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
     /**
      * Remove an entry from the strings table.
      *
-     * @param string $stringID
-     * @param string $pageID
+     * @param string $stringID string ID
+     * @param string $pageID   page/group ID
      * @return true|PEAR_Error
      */
     function remove($stringID, $pageID)
@@ -216,8 +216,8 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
     /**
      * Remove all the entries for the given lang from the strings table.
      *
-     * @param string  $langID
-     * @param boolean $force (ignored)
+     * @param string  $langID language ID
+     * @param boolean $force  (ignored)
      * @return true|PEAR_Error
      */
     function removeLang($langID, $force = true)

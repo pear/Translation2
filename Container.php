@@ -27,13 +27,13 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @copyright 2004-2005 Lorenzo Alberton
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/Translation2
  */
 
 /**
@@ -42,12 +42,12 @@
  * Extend this class to provide custom containers.
  * Some containers are already bundled with the package.
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @copyright 2004-2005 Lorenzo Alberton
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @link      http://pear.php.net/package/Translation2
  */
 class Translation2_Container
 {
@@ -89,8 +89,9 @@ class Translation2_Container
     /**
      * Parse options passed to the container class
      *
+     * @param array $array options
+     * @return void
      * @access protected
-     * @param  array
      */
     function _parseOptions($array)
     {
@@ -110,8 +111,9 @@ class Translation2_Container
     /**
      * Get a valid langID or raise an error when no valid language is set
      *
+     * @param string $langID language ID
+     * @return string language ID or PEAR_Error on error
      * @access private
-     * @param  string $langID
      */
     function _getLangID($langID)
     {
@@ -131,7 +133,8 @@ class Translation2_Container
     /**
      * Set charset used to read/store the translations
      *
-     * @param string $charset
+     * @param string $charset character set (encoding)
+     * @return PEAR_Error on error
      */
     function setCharset($charset)
     {
@@ -146,9 +149,10 @@ class Translation2_Container
     // {{{ setLang()
 
     /**
-     * Sets the current lang
+     * Sets the current language
      *
-     * @param string $langID
+     * @param string $langID language ID
+     * @return array language information
      */
     function setLang($langID)
     {
@@ -168,10 +172,11 @@ class Translation2_Container
 
     /**
      * Gets the current lang
-     * @param string $format
+     *
+     * @param string $format what must be returned
      * @return mixed array with current lang data or null if not set yet
      */
-    function getLang($format='id')
+    function getLang($format = 'id')
     {
         return isset($this->currentLang['id']) ? $this->currentLang : null;
     }
@@ -181,11 +186,12 @@ class Translation2_Container
 
     /**
      * Gets the array data for the lang
-     * @param  string $langID
-     * @param string $format
+     *
+     * @param string $langID language ID
+     * @param string $format what must be returned
      * @return mixed array with lang data or null if not available
      */
-    function getLangData($langID, $format='id')
+    function getLangData($langID, $format = 'id')
     {
         $langs = $this->getLangs('array');
         return isset($langs[$langID]) ? $langs[$langID] : null;
@@ -196,9 +202,11 @@ class Translation2_Container
 
     /**
      * Gets the available languages
+     *
      * @param string $format ['array' | 'ids' | 'names' | 'encodings']
+     * @return array
      */
-    function getLangs($format='array')
+    function getLangs($format = 'array')
     {
         //if not cached yet, fetch langs data from the container
         if (empty($this->langs) || !count($this->langs)) {
@@ -209,7 +217,7 @@ class Translation2_Container
         switch ($format) {
             case 'array':
                 foreach ($this->langs as $aLang) {
-                    $aLang['lang_id'] = $aLang['id'];
+                    $aLang['lang_id']  = $aLang['id'];
                     $tmp[$aLang['id']] = $aLang;
                 }
                 break;
@@ -238,6 +246,8 @@ class Translation2_Container
     /**
      * Fetch the available langs if they're not cached yet.
      * Containers should implement this method.
+     *
+     * @return PEAR_Error on error
      */
     function fetchLangs()
     {
@@ -251,7 +261,8 @@ class Translation2_Container
     /**
      * Returns an array of the strings in the selected page
      * Containers should implement this method.
-     * @param string $pageID
+     * @param string $pageID page/group ID
+     * @param string $langID language ID
      * @return array
      */
     function getPage($pageID, $langID)
@@ -266,8 +277,13 @@ class Translation2_Container
     /**
      * Get a single item from the container, without caching the whole page
      * Containers should implement this method.
+     *
+     * @param string $stringID string ID
+     * @param string $pageID   page/group ID
+     * @param string $langID   language ID
+     * @return string
      */
-    function getOne($stringID, $pageID=null, $langID=null)
+    function getOne($stringID, $pageID = null, $langID = null)
     {
         return $this->raiseError('method "getOne" not supported',
                                  TRANSLATION_ERROR_METHOD_NOT_SUPPORTED);
@@ -278,8 +294,9 @@ class Translation2_Container
 
     /**
      * Get the stringID for the given string
-     * @param string $stringID
-     * @param string $pageID
+     *
+     * @param string $stringID string ID
+     * @param string $pageID   page/group ID
      * @return string
      */
     function getStringID($string, $pageID)
@@ -294,11 +311,14 @@ class Translation2_Container
     /**
      * Trigger a PEAR error
      *
-     * @param string $msg error message
-     * @param int $code error code
+     * @param string $msg    error message
+     * @param int    $code   error code
+     * @param int    $mode   PEAR error mode
+     * @param int    $option error severity
+     * @return void|PEAR_Error
      * @access public
      */
-    function raiseError($msg, $code, $mode=PEAR_ERROR_TRIGGER, $option=E_USER_WARNING)
+    function raiseError($msg, $code, $mode = PEAR_ERROR_TRIGGER, $option = E_USER_WARNING)
     {
         if (isset($GLOBALS['_PEAR_default_error_mode'])) {
             $mode = $GLOBALS['_PEAR_default_error_mode'];

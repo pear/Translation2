@@ -27,13 +27,13 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @copyright 2004-2007 Lorenzo Alberton
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/Translation2
  */
 
 /**
@@ -47,12 +47,12 @@ require_once 'Translation2/Container/mdb2.php';
  * This storage driver can use all databases which are supported
  * by the PEAR::MDB2 abstraction layer to store and fetch data.
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @copyright 2004-2007 Lorenzo Alberton
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @link      http://pear.php.net/package/Translation2
  */
 class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
 {
@@ -82,8 +82,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      *                              'name'       => 'english',
      *                              'meta'       => 'some meta info',
      *                              'error_text' => 'not available');
-     * @param array $options array('charset'   => 'utf8',
-     *                             'collation' => 'utf8_general_ci');
+     * @param array $options  array('charset'   => 'utf8',
+     *                              'collation' => 'utf8_general_ci');
      * @return true|PEAR_Error
      */
     function addLang($langData, $options = array())
@@ -262,8 +262,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      * only the lang column is dropped. If $force==true the whole
      * table is dropped without any check
      *
-     * @param string  $langID
-     * @param boolean $force
+     * @param string  $langID language ID
+     * @param boolean $force  if true, the whole table is dropped without checks
      * @return true|PEAR_Error
      */
     function removeLang($langID, $force)
@@ -302,7 +302,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
     /**
      * Update the lang info in the langsAvail table
      *
-     * @param array  $langData
+     * @param array $langData language data
      * @return true|PEAR_Error
      */
     function updateLang($langData)
@@ -341,10 +341,10 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
     /**
      * Add a new entry in the strings table.
      *
-     * @param string $stringID
-     * @param string $pageID
+     * @param string $stringID    string ID
+     * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
-     *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     *               Sample format: array('en' => 'sample', 'it' => 'esempio')
      * @return true|PEAR_Error
      */
     function add($stringID, $pageID, $stringArray)
@@ -391,10 +391,10 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
     /**
      * Update an existing entry in the strings table.
      *
-     * @param string $stringID
-     * @param string $pageID
+     * @param string $stringID    string ID
+     * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
-     *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     *               Sample format: array('en' => 'sample', 'it' => 'esempio')
      * @return true|PEAR_Error
      */
     function update($stringID, $pageID, $stringArray)
@@ -408,8 +408,13 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
     /**
      * Build a SQL query to INSERT a record
      *
+     * @param string $table        table name
+     * @param array  &$tableLangs  tables containing the languages
+     * @param string $stringID     string ID
+     * @param string $pageID       page/group ID
+     * @param array  &$stringArray array of strings
+     * @return string INSERT query
      * @access private
-     * @return string
      */
     function _getInsertQuery($table, &$tableLangs, $stringID, $pageID, &$stringArray)
     {
@@ -439,8 +444,13 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
     /**
      * Build a SQL query to UPDATE a record
      *
+     * @param string $table        table name
+     * @param array  &$tableLangs  tables containing the languages
+     * @param string $stringID     string ID
+     * @param string $pageID       page/group ID
+     * @param array  &$stringArray array of strings
+     * @return string UPDATE query
      * @access private
-     * @return string
      */
     function _getUpdateQuery($table, &$tableLangs, $stringID, $pageID, &$stringArray)
     {
@@ -467,8 +477,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
     /**
      * Remove an entry from the strings table.
      *
-     * @param string $stringID
-     * @param string $pageID
+     * @param string $stringID string ID
+     * @param string $pageID   page/group ID
      * @return mixed true on success, PEAR_Error on failure
      */
     function remove($stringID, $pageID)
@@ -557,11 +567,10 @@ echo 'DONE';
      * The key of the array is the table that a language is stored in;
      * the value is an /array/ of languages stored in that table.
      *
-     * @param   array  $langs  Languages to get mapping for
-     * @return  array  Table -> language mapping
-     * @access  private
-     * @see     Translation2_Container_MDB2::_getLangTable()
-     * @author  Ian Eure
+     * @param array $langs Languages to get mapping for
+     * @return array Table -> language mapping
+     * @access private
+     * @see    Translation2_Container_MDB2::_getLangTable()
      */
     function &_tableLangs($langs)
     {
@@ -582,10 +591,9 @@ echo 'DONE';
      * This is like _getLangTable(), but it returns an array of the tables for
      * multiple languages.
      *
-     * @param   array    $langs  Languages to get tables for
-     * @return  array
-     * @access  private
-     * @author  Ian Eure
+     * @param array $langs Languages to get tables for
+     * @return array
+     * @access private
      */
     function &_getLangTables($langs = null)
     {
@@ -607,11 +615,10 @@ echo 'DONE';
      * This is like _getLangCol(), except it returns an array which contains
      * the mapping for multiple languages.
      *
-     * @param   array  $langs  Languages to get mapping for
-     * @return  array  Language -> column mapping
-     * @access  private
-     * @see     Translation2_Container_DB::_getLangCol()
-     * @author  Ian Eure
+     * @param array $langs Languages to get mapping for
+     * @return array  Language -> column mapping
+     * @access private
+     * @see    Translation2_Container_DB::_getLangCol()
      */
     function &_getLangCols($langs)
     {
@@ -629,10 +636,10 @@ echo 'DONE';
      * Check if there's already a record in the table with the
      * given (pageID, stringID) pair.
      *
-     * @param string $stringID
-     * @param string $pageID
-     * @param string $table
-     * @return boolean
+     * @param string $stringID string ID
+     * @param string $pageID   page/group ID
+     * @param string $table    table name
+     * @return boolean|PEAR_Error
      * @access private
      */
     function _recordExists($stringID, $pageID, $table)
@@ -660,9 +667,9 @@ echo 'DONE';
     /**
      * Get only the strings for the langs in the given table
      *
-     * @param string $pageID
      * @param array  $stringArray Associative array with string translations.
-     *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     *               Sample format: array('en' => 'sample', 'it' => 'esempio')
+     * @param string $table       table name
      * @access private
      */
     function &_filterStringsByTable($stringArray, $table)

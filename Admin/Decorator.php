@@ -27,13 +27,13 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @copyright 2004-2007 Lorenzo Alberton
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/Translation2
  */
 
 /**
@@ -46,15 +46,15 @@ require_once 'Translation2/Decorator.php';
  *
  * Create a subclass of this class for your own "decoration".
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
- * @copyright  2004-2005 Lorenzo Alberton
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @copyright 2004-2007 Lorenzo Alberton
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @link      http://pear.php.net/package/Translation2
  * @abstract
- * @todo       Don't allow stacking on top of regular Decorators, 
- *             since that will break things.
+ * @todo      Don't allow stacking on top of regular Decorators,
+ *            since that will break things.
  */
 class Translation2_Admin_Decorator extends Translation2_Decorator
 {
@@ -63,7 +63,7 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
     /**
      * Create a new language
      *
-     * @see  Translation2_Admin::addLang()
+     * @see Translation2_Admin::addLang()
      */
     function addLang($langData)
     {
@@ -76,7 +76,7 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
     /**
      * Remove a language
      *
-     * @see  Translation2_Admin::removeLang()
+     * @see Translation2_Admin::removeLang()
      */
     function removeLang($langID = null, $force = false)
     {
@@ -89,7 +89,7 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
     /**
      * Update the lang info in the langsAvail table
      *
-     * @see  Translation2_Admin::updateLang()
+     * @see Translation2_Admin::updateLang()
      */
     function updateLang($langData)
     {
@@ -102,7 +102,7 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
     /**
      * Add a translation
      *
-     * @see  Translation2_Admin::add()
+     * @see Translation2_Admin::add()
      */
     function add($stringID, $pageID = null, $stringArray)
     {
@@ -115,7 +115,7 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
     /**
      * Update a translation
      *
-     * @see  Translation2_Admin::update()
+     * @see Translation2_Admin::update()
      */
     function update($stringID, $pageID = null, $stringArray)
     {
@@ -128,7 +128,7 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
     /**
      * Remove a translation
      *
-     * @see  Translation2_Admin::remove()
+     * @see Translation2_Admin::remove()
      */
     function remove($stringID, $pageID = null)
     {
@@ -141,7 +141,7 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
     /**
      * Get a list of all the pageIDs in any table.
      *
-     * @see  Translation2_Admin::getPageNames()
+     * @see Translation2_Admin::getPageNames()
      */
     function getPageNames()
     {
@@ -154,7 +154,7 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
     /**
      * Clean the cache
      *
-     * @see  Translation2_Admin::cleanCache()
+     * @see Translation2_Admin::cleanCache()
      */
     function cleanCache()
     {

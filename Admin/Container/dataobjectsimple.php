@@ -27,13 +27,13 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Alan Knowles <alan@akbkhome.com>
- * @copyright  2004-2005 Alan Knowles
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Alan Knowles <alan@akbkhome.com>
+ * @copyright 2004-2007 Alan Knowles
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/Translation2
  */
 
 /**
@@ -60,12 +60,12 @@ require_once 'Translation2/Container/dataobjectsimple.php';
  *  translation // the translated value in language lang.
  * </pre>
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Alan Knowles <alan@akbkhome.com>
- * @copyright  2004-2005 Alan Knowles
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Alan Knowles <alan@akbkhome.com>
+ * @copyright 2004-2007 Alan Knowles
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @link      http://pear.php.net/package/Translation2
  */
 class Translation2_Admin_Container_dataobjectsimple extends Translation2_Container_dataobjectsimple
 {
@@ -119,8 +119,8 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
     /**
      * Add a new entry in the strings table.
      *
-     * @param string $stringID
-     * @param string $pageID
+     * @param string $stringID    string ID
+     * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
      * @return true|PEAR_Error
@@ -164,10 +164,10 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
     /**
      * Update an existing entry in the strings table.
      *
-     * @param string $stringID
-     * @param string $pageID
+     * @param string $stringID    string ID
+     * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
-     *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     *               Sample format: array('en' => 'sample', 'it' => 'esempio')
      * @return true|PEAR_Error
      */
     function update($stringID, $pageID, $stringArray)
@@ -182,8 +182,8 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
     /**
      * Remove an entry from the strings table.
      *
-     * @param string $stringID
-     * @param string $pageID
+     * @param string $stringID string ID
+     * @param string $pageID   page/group ID
      * @return true|PEAR_Error
      */
     function remove($stringID, $pageID)
