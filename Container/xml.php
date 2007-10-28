@@ -48,7 +48,7 @@ require_once 'XML/Unserializer.php';
 /**
  * Document Type Definition
  */
-define ('TRANSLATION2_DTD',
+define('TRANSLATION2_DTD',
     "<!ELEMENT translation2 (languages,pages)>\n" .
     "<!ELEMENT languages (lang*)>\n" .
     "<!ELEMENT lang (name?,meta?,error_text?,encoding?)>\n" .
@@ -125,7 +125,8 @@ class Translation2_Container_xml extends Translation2_Container
     /**
      * Initialize the container 
      *
-     * @param  string  $filename Path to the XML file
+     * @param array $options - 'filename': Path to the XML file
+     *
      * @return boolean|PEAR_Error object if something went wrong
      */
     function init($options)
@@ -210,6 +211,7 @@ class Translation2_Container_xml extends Translation2_Container
      *
      * @param string $direction ['from_xml' | 'to_xml']
      * @param array  &$data     Data buffer to operate on
+     *
      * @return boolean|PEAR_Error
      */
     function _convertEncodings($direction, &$data)
@@ -231,7 +233,7 @@ class Translation2_Container_xml extends Translation2_Container
                             strtoupper($data['languages'][$lang]['encoding']);
                     }
                     if ($target_encoding != $source_encoding) {
-                        $res = iconv ($source_encoding, $target_encoding, $str);
+                        $res = iconv($source_encoding, $target_encoding, $str);
                         if ($res === false) {
                             $msg = 'Encoding conversion error ' .
                                    "(source encoding: $source_encoding, ".
@@ -258,6 +260,7 @@ class Translation2_Container_xml extends Translation2_Container
      *
      * @param string $direction ['from_xml' | 'to_xml']
      * @param array  &$data     Data buffer to operate on
+     *
      * @return boolean|PEAR_Error
      */
     function _convertLangEncodings($direction, &$data)
@@ -279,7 +282,7 @@ class Translation2_Container_xml extends Translation2_Container
             //foreach (array_keys($lang) as $field) {
             foreach ($fields as $field) {
                 if ($target_encoding != $source_encoding && !empty($lang[$field])) {
-                    $res = iconv ($source_encoding, $target_encoding, $lang[$field]);
+                    $res = iconv($source_encoding, $target_encoding, $lang[$field]);
                     if ($res === false) {
                         $msg = 'Encoding conversion error ' .
                                "(source encoding: $source_encoding, ".
@@ -307,8 +310,8 @@ class Translation2_Container_xml extends Translation2_Container
      */
     function _fixDuplicateEntries()
     {
-        foreach($this->_data['pages'] as $pagename => $pagedata) {
-            foreach($pagedata as $stringname => $stringvalues) {
+        foreach ($this->_data['pages'] as $pagename => $pagedata) {
+            foreach ($pagedata as $stringname => $stringvalues) {
                 if (is_array(array_pop($stringvalues))) {
                     $this->_data['pages'][$pagename][$stringname] =
                         call_user_func_array(array($this, '_merge'), $stringvalues);
@@ -327,6 +330,7 @@ class Translation2_Container_xml extends Translation2_Container
      * script. It is not meant to be called by user-space code.
      *
      * @param array $data array of languages/pages
+     *
      * @return void
      * @access public
      * @static
@@ -368,7 +372,8 @@ class Translation2_Container_xml extends Translation2_Container
      * Wrapper for array_merge()
      *
      * @param array $arr1 reference
-     * return array
+     *
+     * @return array
      */
     function _merge()
     {
@@ -420,6 +425,7 @@ class Translation2_Container_xml extends Translation2_Container
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
     function getPage($pageID = null, $langID = null)
@@ -450,6 +456,7 @@ class Translation2_Container_xml extends Translation2_Container
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
      * @param string $langID   language ID
+     *
      * @return string
      */
     function getOne($stringID, $pageID = null, $langID = null)
@@ -472,6 +479,7 @@ class Translation2_Container_xml extends Translation2_Container
      *
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
+     *
      * @return string
      */
     function getStringID($stringID, $pageID = null)
@@ -479,7 +487,7 @@ class Translation2_Container_xml extends Translation2_Container
         $pageID = (is_null($pageID)) ? '#NULL' : $pageID;                        
         
         foreach ($this->_data['pages'][$pageID] as $str_id => $translations) {
-            if (array_search($string,$translations) !== false) {
+            if (array_search($string, $translations) !== false) {
                 return $str_id;
             }
         }

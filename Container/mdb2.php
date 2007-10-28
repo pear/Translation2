@@ -79,6 +79,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
      * Initialize the container
      *
      * @param string &$db Connection data or MDB2 object
+     *
      * @return boolean|PEAR_Error object if something went wrong
      */
     function init(&$db)
@@ -97,6 +98,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
      * Connect to database by using the given DSN string
      *
      * @param mixed &$db DSN string | array | MDB2 object
+     *
      * @return boolean|PEAR_Error on error
      * @access private
      */
@@ -155,6 +157,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
      * Set charset used to read/store the translations
      *
      * @param string $charset character set (encoding)
+     *
      * @return PEAR_Error on error
      */
     function setCharset($charset)
@@ -173,10 +176,10 @@ class Translation2_Container_mdb2 extends Translation2_Container
     function fetchLangs()
     {
         $query = sprintf('SELECT %s AS id, %s AS name, %s AS meta, %s AS error_text, %s AS encoding FROM %s',
-            $this->db->quoteIdentifier($this->options['lang_id_col'],       true),
-            $this->db->quoteIdentifier($this->options['lang_name_col'],     true),
-            $this->db->quoteIdentifier($this->options['lang_meta_col'],     true),
-            $this->db->quoteIdentifier($this->options['lang_errmsg_col'],   true),
+            $this->db->quoteIdentifier($this->options['lang_id_col'], true),
+            $this->db->quoteIdentifier($this->options['lang_name_col'], true),
+            $this->db->quoteIdentifier($this->options['lang_meta_col'], true),
+            $this->db->quoteIdentifier($this->options['lang_errmsg_col'], true),
             $this->db->quoteIdentifier($this->options['lang_encoding_col'], true),
             $this->db->quoteIdentifier($this->options['langs_avail_table'], true)
         );
@@ -200,6 +203,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
     function &getPage($pageID = null, $langID = null)
@@ -212,9 +216,9 @@ class Translation2_Container_mdb2 extends Translation2_Container
         $table    = $this->_getLangTable($langID);
         
         $query = sprintf('SELECT %s, %s FROM %s WHERE %s ',
-             $this->db->quoteIdentifier($this->options['string_id_col'],      true),
-             $this->db->quoteIdentifier($lang_col,                            true),
-             $this->db->quoteIdentifier($table,                               true),
+             $this->db->quoteIdentifier($this->options['string_id_col'], true),
+             $this->db->quoteIdentifier($lang_col, true),
+             $this->db->quoteIdentifier($table, true),
              $this->db->quoteIdentifier($this->options['string_page_id_col'], true)
         );
 
@@ -247,6 +251,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
      * @param string $langID   language ID
+     *
      * @return string
      */
     function getOne($stringID, $pageID = null, $langID = null)
@@ -259,9 +264,9 @@ class Translation2_Container_mdb2 extends Translation2_Container
         $table    = $this->_getLangTable($langID);
 
         $query = sprintf('SELECT %s FROM %s WHERE %s = %s AND %s',
-             $this->db->quoteIdentifier($lang_col,                            true),
-             $this->db->quoteIdentifier($table,                               true),
-             $this->db->quoteIdentifier($this->options['string_id_col'],      true),
+             $this->db->quoteIdentifier($lang_col, true),
+             $this->db->quoteIdentifier($table, true),
+             $this->db->quoteIdentifier($this->options['string_id_col'], true),
              $this->db->quote($stringID, 'text'),
              $this->db->quoteIdentifier($this->options['string_page_id_col'], true)
         );
@@ -284,6 +289,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
      *
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
+     *
      * @return string
      */
     function getStringID($stringID, $pageID = null)
@@ -291,9 +297,9 @@ class Translation2_Container_mdb2 extends Translation2_Container
         $lang_col = $this->_getLangCol($this->currentLang['id']);
         $table = $this->_getLangTable($this->currentLang['id']);
         $query = sprintf('SELECT %s FROM %s WHERE %s = %s AND %s',
-             $this->db->quoteIdentifier($this->options['string_id_col'],      true),
-             $this->db->quoteIdentifier($table,                               true),
-             $this->db->quoteIdentifier($lang_col,                            true),
+             $this->db->quoteIdentifier($this->options['string_id_col'], true),
+             $this->db->quoteIdentifier($table, true),
+             $this->db->quoteIdentifier($lang_col, true),
              $this->db->quote($string, 'text'),
              $this->db->quoteIdentifier($this->options['string_page_id_col'], true)
         );
@@ -313,6 +319,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
      * Get the table a language is stored in
      *
      * @param string $langID language ID
+     *
      * @return string table $langID is stored in
      * @access private
      */
@@ -331,6 +338,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
      * Get the column a language's string is stored in
      *
      * @param string $langID language ID
+     *
      * @return string column $langID is stored in
      * @access private
      */

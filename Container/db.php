@@ -81,6 +81,7 @@ class Translation2_Container_db extends Translation2_Container
      * Initialize the container 
      *
      * @param mixed &$db string DSN or object DB instance
+     *
      * @return boolean|PEAR_Error object if something went wrong
      */
     function init(&$db)
@@ -99,6 +100,7 @@ class Translation2_Container_db extends Translation2_Container
      * Connect to database by using the given DSN string
      *
      * @param  mixed &$db string DSN or object DB instance
+     *
      * @return boolean|PEAR_Error object if something went wrong
      * @access private
      */
@@ -158,6 +160,7 @@ class Translation2_Container_db extends Translation2_Container
      * Set charset used to read/store the translations
      *
      * @param string $charset character set (encoding)
+     *
      * @return PEAR_Error on failure
      */
     function setCharset($charset)
@@ -206,6 +209,7 @@ class Translation2_Container_db extends Translation2_Container
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
     function &getPage($pageID = null, $langID = null)
@@ -244,6 +248,7 @@ class Translation2_Container_db extends Translation2_Container
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
      * @param string $langID   language ID
+     *
      * @return string
      */
     function getOne($stringID, $pageID = null, $langID = null)
@@ -279,8 +284,9 @@ class Translation2_Container_db extends Translation2_Container
     /**
      * Get the stringID for the given string
      *
-     * @param string $stringID string ID
-     * @param string $pageID   page/group ID
+     * @param string $string string
+     * @param string $pageID page/group ID
+     *
      * @return string
      */
     function getStringID($string, $pageID = null)
@@ -310,6 +316,7 @@ class Translation2_Container_db extends Translation2_Container
      * Get the table a language is stored in
      *
      * @param string $langID language ID
+     *
      * @return string table $langID is stored in
      * @access private
      */
@@ -328,6 +335,7 @@ class Translation2_Container_db extends Translation2_Container
      * Get the column a language's string is stored in
      *
      * @param string $langID Language
+     *
      * @return string column $langID is stored in
      * @access private
      */

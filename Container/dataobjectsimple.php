@@ -82,6 +82,7 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
      * Initialize the container
      *
      * @param string $table table name
+     *
      * @return boolean true
      */
     function init($table = null)
@@ -143,6 +144,7 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
     function &getPage($pageID = null, $langID = null)
@@ -192,6 +194,7 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
      * @param string $langID   language ID
+     *
      * @return string
      */
     function getOne($stringID, $pageID = null, $langID = null)
@@ -228,8 +231,9 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
     /**
      * Get the stringID for the given string
      *
-     * @param string $stringID string ID
-     * @param string $pageID   page/group ID
+     * @param string $string string
+     * @param string $pageID page/group ID
+     *
      * @return string
      */
     function getStringID($string, $pageID = null)
