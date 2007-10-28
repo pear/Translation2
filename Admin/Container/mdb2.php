@@ -60,6 +60,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
 
     /**
      * Fetch the table names from the db
+     *
      * @access private
      * @return array|PEAR_Error
      */
@@ -84,6 +85,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      *                              'error_text' => 'not available');
      * @param array $options  array('charset'   => 'utf8',
      *                              'collation' => 'utf8_general_ci');
+     *
      * @return true|PEAR_Error
      */
     function addLang($langData, $options = array())
@@ -193,6 +195,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      *                              'meta'       => 'some meta info',
      *                              'error_text' => 'not available',
      *                              'encoding'   => 'iso-8859-1');
+     *
      * @return true|PEAR_Error
      */
     function addLangToList($langData)
@@ -235,10 +238,10 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
 
         $query = sprintf('INSERT INTO %s (%s, %s, %s, %s, %s) VALUES (%s, %s, %s, %s, %s)',
                 $this->db->quoteIdentifier($this->options['langs_avail_table'], true),
-                $this->db->quoteIdentifier($this->options['lang_id_col'],       true),
-                $this->db->quoteIdentifier($this->options['lang_name_col'],     true),
-                $this->db->quoteIdentifier($this->options['lang_meta_col'],     true),
-                $this->db->quoteIdentifier($this->options['lang_errmsg_col'],   true),
+                $this->db->quoteIdentifier($this->options['lang_id_col'], true),
+                $this->db->quoteIdentifier($this->options['lang_name_col'], true),
+                $this->db->quoteIdentifier($this->options['lang_meta_col'], true),
+                $this->db->quoteIdentifier($this->options['lang_errmsg_col'], true),
                 $this->db->quoteIdentifier($this->options['lang_encoding_col'], true),
                 $this->db->quote($langData['lang_id']),
                 $this->db->quote($langData['name']),
@@ -264,6 +267,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      *
      * @param string  $langID language ID
      * @param boolean $force  if true, the whole table is dropped without checks
+     *
      * @return true|PEAR_Error
      */
     function removeLang($langID, $force)
@@ -271,7 +275,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         //remove from langsAvail
         $query = sprintf('DELETE FROM %s WHERE %s = %s',
             $this->db->quoteIdentifier($this->options['langs_avail_table'], true),
-            $this->db->quoteIdentifier($this->options['lang_id_col'],       true),
+            $this->db->quoteIdentifier($this->options['lang_id_col'], true),
             $this->db->quote($langID, 'text')
         );
         ++$this->_queries;
@@ -303,6 +307,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      * Update the lang info in the langsAvail table
      *
      * @param array $langData language data
+     *
      * @return true|PEAR_Error
      */
     function updateLang($langData)
@@ -325,7 +330,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         $query = sprintf('UPDATE %s SET %s WHERE %s=%s',
             $this->db->quoteIdentifier($this->options['langs_avail_table'], true),
             implode(', ', $langSet),
-            $this->db->quoteIdentifier($this->options['lang_id_col'],       true),
+            $this->db->quoteIdentifier($this->options['lang_id_col'], true),
             $this->db->quote($langData['lang_id'])
         );
 
@@ -345,6 +350,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format: array('en' => 'sample', 'it' => 'esempio')
+     *
      * @return true|PEAR_Error
      */
     function add($stringID, $pageID, $stringArray)
@@ -395,6 +401,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format: array('en' => 'sample', 'it' => 'esempio')
+     *
      * @return true|PEAR_Error
      */
     function update($stringID, $pageID, $stringArray)
@@ -413,6 +420,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      * @param string $stringID     string ID
      * @param string $pageID       page/group ID
      * @param array  &$stringArray array of strings
+     *
      * @return string INSERT query
      * @access private
      */
@@ -428,8 +436,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         }
 
         return sprintf('INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s)',
-            $this->db->quoteIdentifier($table,                               true),
-            $this->db->quoteIdentifier($this->options['string_id_col'],      true),
+            $this->db->quoteIdentifier($table, true),
+            $this->db->quoteIdentifier($this->options['string_id_col'], true),
             $this->db->quoteIdentifier($this->options['string_page_id_col'], true),
             implode(', ', $tableCols),
             $stringID,
@@ -449,6 +457,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      * @param string $stringID     string ID
      * @param string $pageID       page/group ID
      * @param array  &$stringArray array of strings
+     *
      * @return string UPDATE query
      * @access private
      */
@@ -462,9 +471,9 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         }
 
         return sprintf('UPDATE %s SET %s WHERE %s = %s AND %s = %s',
-            $this->db->quoteIdentifier($table,                               true),
+            $this->db->quoteIdentifier($table, true),
             implode(', ', $langSet),
-            $this->db->quoteIdentifier($this->options['string_id_col'],      true),
+            $this->db->quoteIdentifier($this->options['string_id_col'], true),
             $stringID,
             $this->db->quoteIdentifier($this->options['string_page_id_col'], true),
             $pageID
@@ -479,6 +488,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
      *
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
+     *
      * @return mixed true on success, PEAR_Error on failure
      */
     function remove($stringID, $pageID)
@@ -493,8 +503,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
                 continue;
             }
             $query = sprintf('DELETE FROM %s WHERE %s = %s AND %s',
-                             $this->db->quoteIdentifier($table,                               true),
-                             $this->db->quoteIdentifier($this->options['string_id_col'],      true),
+                             $this->db->quoteIdentifier($table, true),
+                             $this->db->quoteIdentifier($this->options['string_id_col'], true),
                              $stringID,
                              $this->db->quoteIdentifier($this->options['string_page_id_col'], true)
             );
@@ -528,7 +538,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         foreach ($this->_getLangTables() as $table) {
             $query = sprintf('SELECT DISTINCT %s FROM %s',
                  $this->db->quoteIdentifier($this->options['string_page_id_col'], true),
-                 $this->db->quoteIdentifier($table,                               true)
+                 $this->db->quoteIdentifier($table, true)
             );
             ++$this->_queries;
             $res = $this->db->queryCol($query);
@@ -537,24 +547,6 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             }
             $pages = array_merge($pages, $res);
         }
-        /*
-        $has_null  = in_array(null, $pages);
-        $has_empty = in_array('', $pages);
-        $pages = array_unique($pages);
-        echo $has_null  = in_array(null, $pages);
-        echo $has_empty = in_array('', $pages);
-var_dump($pages);
-        //if ($has_null && !in_array(null, $pages)) {
-        if ($has_null && $has_empty) {
-            $pages[] = ''; //empty strings are stripped
-        }
-        if ($has_empty && !in_array('', $pages)) {
-echo 'ADDING VOID';
-            $pages[] = '';
-        }
-echo 'DONE';
-        return $pages;
-        */
         return array_unique($pages);
     }
     
@@ -568,6 +560,7 @@ echo 'DONE';
      * the value is an /array/ of languages stored in that table.
      *
      * @param array $langs Languages to get mapping for
+     *
      * @return array Table -> language mapping
      * @access private
      * @see    Translation2_Container_MDB2::_getLangTable()
@@ -592,6 +585,7 @@ echo 'DONE';
      * multiple languages.
      *
      * @param array $langs Languages to get tables for
+     *
      * @return array
      * @access private
      */
@@ -616,6 +610,7 @@ echo 'DONE';
      * the mapping for multiple languages.
      *
      * @param array $langs Languages to get mapping for
+     *
      * @return array  Language -> column mapping
      * @access private
      * @see    Translation2_Container_DB::_getLangCol()
@@ -639,6 +634,7 @@ echo 'DONE';
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
      * @param string $table    table name
+     *
      * @return boolean|PEAR_Error
      * @access private
      */
@@ -670,6 +666,8 @@ echo 'DONE';
      * @param array  $stringArray Associative array with string translations.
      *               Sample format: array('en' => 'sample', 'it' => 'esempio')
      * @param string $table       table name
+     *
+     * @return array strings
      * @access private
      */
     function &_filterStringsByTable($stringArray, $table)
@@ -690,6 +688,7 @@ echo 'DONE';
      * Get the languages sharing the given table
      *
      * @param string $table table name
+     *
      * @return array
      */
     function &_getLangsInTable($table)

@@ -72,6 +72,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      *
      * @param array  $langData language data
      * @param string $path     path to gettext data dir
+     *
      * @return  mixed   Returns true on success or PEAR_Error on failure.
      */
     function addLang($langData, $path = null)
@@ -83,7 +84,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
         $path .= '/'. $langData['lang_id'] . '/LC_MESSAGES';
 
         if (!is_dir($path)) {
-            require_once 'System.php';
+            include_once 'System.php';
             if (!System::mkdir(array('-p', $path))) {
                 return $this->raiseError(sprintf(
                         'Cannot create new language in path "%s"', $path
@@ -109,6 +110,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      *                              'error_text' => 'not available'
      *                              'encoding'   => 'iso-8859-1',
      * );
+     *
      * @return true|PEAR_Error on failure
      */
     function addLangToList($langData)
@@ -129,6 +131,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      * @param string $pageID   page/group ID
      * @param array  $strings  Associative array with string translations.
      *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     *
      * @return true|PEAR_Error on failure
      */
     function add($stringID, $pageID, $strings)
@@ -169,6 +172,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      *
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
+     *
      * @return true|PEAR_Error on failure
      */
     function remove($stringID, $pageID)
@@ -195,13 +199,14 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      *
      * Alias for Translation2_Admin_Container_gettext::add()
      *
-     * @see add()
      *
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
      * @param array  $strings  strings
+     *
      * @return  mixed
      * @access  public
+     * @see add()
      */
     function update($stringID, $pageID, $strings)
     {
@@ -216,12 +221,13 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      *
      * @param string $langID language ID
      * @param bool   $force  (unused)
+     *
      * @return true|PEAR_Error
      * @access public
      */
     function removeLang($langID, $force = false)
     {
-        require_once 'System.php';
+        include_once 'System.php';
         foreach ((array) $this->_domains as $domain => $path) {
             if (is_dir($fp = $path .'/'. $langID)) {
                 if (PEAR::isError($e = System::rm(array('-rf', $fp))) || !$e) {
@@ -245,6 +251,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      * Update the lang info in the langs_avail file
      *
      * @param array $langData language data
+     *
      * @return mixed Returns true on success or PEAR_Error on failure.
      * @access public
      */
@@ -315,12 +322,14 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     /**
      * Add
      *
+     * @param array &$bulk array('pageID' => array([languages]))
+     *
      * @return true|PEAR_Error on failure.
      * @access private
      */
     function _add(&$bulk)
     {
-        require_once 'File/Gettext.php';
+        include_once 'File/Gettext.php';
         $gtFile = &File_Gettext::factory($this->options['file_type']);
         $langs  = $this->getLangs('array');
 
@@ -377,18 +386,18 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     /**
      * Remove
      *
+     * @param array &$bulk array('pageID' => array([languages]))
+     *
      * @return true|PEAR_Error on failure.
      * @access private
      */
     function _remove(&$bulk)
     {
-        require_once 'File/Gettext.php';
+        include_once 'File/Gettext.php';
         $gtFile = &File_Gettext::factory($this->options['file_type']);
 
         foreach ($this->getLangs('ids') as $lang) {
-
             foreach ((array) $bulk as $pageID => $stringIDs) {
-
                 $file = sprintf(
                     '%s/%s/LC_MESSAGES/%s.%s',
                     $this->_domains[$pageID],
@@ -426,7 +435,8 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
     /**
      * Add the path-to-the-new-domain to the domains-path-INI-file
      *
-     * @param $pageID string domain name
+     * @param string $pageID domain name
+     *
      * @return true|PEAR_Error on failure
      * @access private
      */
@@ -504,6 +514,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      * Update Lang Data
      *
      * @param array $langData language data
+     *
      * @return true|PEAR_Error on failure.
      * @access private
      */
@@ -513,8 +524,8 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
             return $langs;
         }
 
-        $lang     = &$langs[$langData['lang_id']];
-        $changed  = false;
+        $lang    = &$langs[$langData['lang_id']];
+        $changed = false;
         foreach ($this->_fields as $k) {
             if (    isset($langData[$k]) &&
                     (!isset($lang[$k]) || $langData[$k] != $lang[$k])) {

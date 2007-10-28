@@ -74,6 +74,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      *
      * @param array $langData language data
      * @param array $options  options
+     *
      * @return true|PEAR_Error
      */
     function addLang($langData, $options = array())
@@ -143,7 +144,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
              $mysqlClause
         );
 
-        foreach($queries as $query) {
+        foreach ($queries as $query) {
             ++$this->_queries;
             $res = $this->db->query($query);
             if (PEAR::isError($res)) {
@@ -237,6 +238,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      *
      * @param string  $langID language ID
      * @param boolean $force  if true, the whole table is dropped without checks
+     *
      * @return true|PEAR_Error
      */
     function removeLang($langID, $force)
@@ -276,6 +278,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      * Update the lang info in the langsAvail table
      *
      * @param array $langData language data
+     *
      * @return true|PEAR_Error
      */
     function updateLang($langData)
@@ -318,6 +321,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     *
      * @return true|PEAR_Error
      */
     function add($stringID, $pageID, $stringArray)
@@ -368,6 +372,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     *
      * @return true|PEAR_Error
      */
     function update($stringID, $pageID, $stringArray)
@@ -386,6 +391,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      * @param string $stringID     string ID
      * @param string $pageID       page/group ID
      * @param array  &$stringArray array of strings
+     *
      * @return string INSERT query
      * @access private
      */
@@ -422,6 +428,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      * @param string $stringID     string ID
      * @param string $pageID       page/group ID
      * @param array  &$stringArray array of strings
+     *
      * @return string UPDATE query
      * @access private
      */
@@ -452,6 +459,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      *
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
+     *
      * @return true|PEAR_Error
      */
     function remove($stringID, $pageID)
@@ -523,7 +531,8 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      * the value is an /array/ of languages stored in that table.
      *
      * @param array $langs Languages to get mapping for
-     * @return array  Table -> language mapping
+     *
+     * @return array Table -> language mapping
      * @access private
      * @see    Translation2_Container_DB::_getLangTable()
      */
@@ -547,6 +556,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      * multiple languages.
      *
      * @param array $langs Languages to get tables for
+     *
      * @return array
      * @access private
      */
@@ -571,6 +581,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      * the mapping for multiple languages.
      *
      * @param array $langs Languages to get mapping for
+     *
      * @return array Language -> column mapping
      * @access private
      * @see    Translation2_Container_DB::_getLangCol()
@@ -594,6 +605,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
      * @param string $table    table name
+     *
      * @return boolean
      * @access private
      */
@@ -625,6 +637,8 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      * @param array  $stringArray Associative array with string translations.
      *               Sample format: array('en' => 'sample', 'it' => 'esempio')
      * @param string $table       table name
+     *
+     * @return array
      * @access private
      */
     function &_filterStringsByTable($stringArray, $table)
@@ -645,6 +659,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      * Get the languages sharing the given table
      *
      * @param string $table table name
+     *
      * @return array
      */
     function &_getLangsInTable($table)

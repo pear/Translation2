@@ -50,7 +50,7 @@ require_once 'XML/Util.php';
  * @category  Internationalization
  * @package   Translation2
  * @author    Lorenzo Alberton <l.alberton@quipo.it>
- * @author    Olivier Guilyardi <olivier at samalyse dot com>
+ * @author    Olivier Guilyardi <olivier@samalyse.com>
  * @copyright 2004-2007 Lorenzo Alberton, Olivier Guilyardi
  * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @link      http://pear.php.net/package/Translation2
@@ -71,8 +71,9 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
     /**
      * Does nothing (here for compatibility with the container interface)
      *
-     * @param array $langData
-     * @param array $options
+     * @param array $langData language data
+     * @param array $options  language options
+     *
      * @return true|PEAR_Error
      */
     function addLang($langData, $options = array())
@@ -92,6 +93,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      *                              'error_text' => 'not available',
      *                              'encoding'   => 'iso-8859-1',
      *              );
+     *
      * @return true|PEAR_Error
      */
     function addLangToList($langData)
@@ -118,6 +120,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      * Update the lang info in the langsAvail table
      *
      * @param array $langData array [@see addLangToList()]
+     *
      * @return true|PEAR_Error
      */
     function updateLang($langData)
@@ -145,6 +148,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format: array('en' => 'sample', 'it' => 'esempio')
+     *
      * @return true|PEAR_Error
      */
     function add($stringID, $pageID, $stringArray)
@@ -180,6 +184,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format: array('en' => 'sample', 'it' => 'esempio')
+     *
      * @return true|PEAR_Error
      */
     function update($stringID, $pageID, $stringArray)
@@ -195,6 +200,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      *
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
+     *
      * @return true|PEAR_Error
      */
     function remove($stringID, $pageID)
@@ -218,6 +224,7 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
      *
      * @param string  $langID language ID
      * @param boolean $force  (ignored)
+     *
      * @return true|PEAR_Error
      */
     function removeLang($langID, $force = true)
