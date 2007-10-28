@@ -6,8 +6,8 @@
  */
 //error_reporting (E_ALL);
 
-if (substr(phpversion(),0,1) != '4') {
-    exit ("Sorry, this script will only run under PHP4 (that is: not PHP5)\n");
+if (substr(phpversion(), 0, 1) != '4') {
+    exit("Sorry, this script will only run under PHP4 (that is: not PHP5)\n");
 }
 
 function print_usage()
@@ -36,18 +36,18 @@ if (!is_readable ($xml_file)) {
 
 $validator =& new XML_DTD_XmlValidator();
 
-$dtd_file = tempnam('/tmp','t2');
-$fp = fopen($dtd_file,'w');
-fwrite ($fp, TRANSLATION2_DTD);
+$dtd_file = tempnam('/tmp', 't2');
+$fp = fopen($dtd_file, 'w');
+fwrite($fp, TRANSLATION2_DTD);
 fclose($fp);
 
 echo "Performing DTD validation... ";
 $test = $validator->isValid($dtd_file, $xml_file);
-unlink ($dtd_file);
+unlink($dtd_file);
 if ($test) {
     echo "OK\n";
 } else {
-    exit ("FAILED : " . $validator->getMessage() . "\n");
+    exit("FAILED : " . $validator->getMessage() . "\n");
 }
 
 echo "Unserializing... ";
@@ -60,7 +60,7 @@ $keyAttr = array (
 );
 $unserializer = &new XML_Unserializer (array('keyAttribute' => $keyAttr));
 if (PEAR::isError($status = $unserializer->unserialize($xml_file, true))) {
-    exit ("FAILED : " .  $status->getMessage() . "\n");
+    exit("FAILED : " .  $status->getMessage() . "\n");
 } else {
     echo "OK\n";
 }
@@ -77,7 +77,7 @@ foreach ($data['languages'] as $lang => $spec) {
     echo "$lang ";
     $known_langs[] = $lang;
     if (isset($spec[0])) {
-        exit ("FAILED : Found lang duplicate for \"$lang\"\n");
+        exit("FAILED : Found lang duplicate for \"$lang\"\n");
     }
 }
 
@@ -85,8 +85,8 @@ echo "OK\n";
 
 echo "Checking string duplicates... ";
 
-foreach($data['pages'] as $pagename => $pagedata) {
-    foreach($pagedata as $stringname => $stringvalues) {
+foreach ($data['pages'] as $pagename => $pagedata) {
+    foreach ($pagedata as $stringname => $stringvalues) {
         if (is_array(array_pop($stringvalues))) {
             exit("FAILED : found duplicate in page \"$pagename\" for string \"stringname\"\n");
         }
@@ -102,7 +102,7 @@ foreach ($data['pages'] as $pagename => $pagedata) {
     foreach ($pagedata as $stringname => $stringvalues) {
         foreach ($stringvalues as $lang => $translation) {
             if (!in_array ($lang, $known_langs)) {
-                exit ("FAILED : Unknow lang \"$lang\" in page \"$pagename\" at string \"$stringname\"\n");
+                exit("FAILED : Unknow lang \"$lang\" in page \"$pagename\" at string \"$stringname\"\n");
             }
         }
     }
