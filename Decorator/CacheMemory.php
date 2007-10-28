@@ -100,6 +100,7 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
      * return a valid array key based on pageID value
      *
      * @param mixed $pageID (string or null)
+     *
      * @return string
      * @access private
      */
@@ -131,6 +132,7 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
      * @param string $langID      language ID
      * @param string $defaultText Text to display when the strings in both
      *                            the default and the fallback lang are empty
+     *
      * @return string
      */
     function getRaw($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = null)
@@ -168,6 +170,7 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
      * @param string $langID      language ID
      * @param string $defaultText Text to display when the strings in both
      *                            the default and the fallback lang are empty
+     *
      * @return string
      */
     function get($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = null)
@@ -202,6 +205,7 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
     function getRawPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)
@@ -228,9 +232,10 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
-    function getPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = null)
+    function getPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)
     {
         $pageID_key = $this->_getPageIDKey($pageID);
         $langID_key = empty($langID) ? $this->translation2->lang['id'] : $langID;

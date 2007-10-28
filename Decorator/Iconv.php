@@ -60,7 +60,7 @@ require_once 'Translation2/Decorator.php';
  * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/Translation2
- * @see http://www.php.net/htmlentities for a list of available encodings.
+ * @see       http://www.php.net/htmlentities for a list of available encodings.
  */
 class Translation2_Decorator_Iconv extends Translation2_Decorator
 {
@@ -85,6 +85,7 @@ class Translation2_Decorator_Iconv extends Translation2_Decorator
      * Get the encoding for the given langID
      *
      * @param string $langID language ID
+     *
      * @return string encoding
      * @access private
      */
@@ -112,6 +113,7 @@ class Translation2_Decorator_Iconv extends Translation2_Decorator
      * @param string $pageID      page/group ID
      * @param string $langID      language ID
      * @param string $defaultText Text to display when the string is empty
+     *
      * @return string
      */
     function get($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = null)
@@ -131,6 +133,7 @@ class Translation2_Decorator_Iconv extends Translation2_Decorator
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
     function getPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)

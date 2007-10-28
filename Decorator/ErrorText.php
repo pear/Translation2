@@ -44,13 +44,13 @@ require_once 'Translation2/Decorator.php';
 /**
  * Decorator to provide a fallback text for empty strings.
  *
- * @category   Internationalization
- * @package    Translation2
- * @author     Lorenzo Alberton <l.alberton@quipo.it>
- * @copyright  2004-2007 Lorenzo Alberton
- * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/Translation2
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Lorenzo Alberton <l.alberton@quipo.it>
+ * @copyright 2004-2007 Lorenzo Alberton
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/Translation2
  */
 class Translation2_Decorator_ErrorText extends Translation2_Decorator
 {
@@ -65,6 +65,7 @@ class Translation2_Decorator_ErrorText extends Translation2_Decorator
      * @param string $pageID      page/group ID
      * @param string $langID      language ID
      * @param string $defaultText Text to display when the string is empty
+     *
      * @return string
      */
     function get($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = '')
@@ -85,6 +86,7 @@ class Translation2_Decorator_ErrorText extends Translation2_Decorator
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
     function getPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)

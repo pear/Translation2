@@ -112,6 +112,7 @@ class Translation2_Decorator_DefaultText extends Translation2_Decorator
      * @param string $pageID      page/group ID
      * @param string $langID      language ID
      * @param string $defaultText Text to display when the string is empty
+     *
      * @return string
      */
     function get($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = '')
@@ -155,6 +156,7 @@ class Translation2_Decorator_DefaultText extends Translation2_Decorator
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
     function getPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)
@@ -172,9 +174,11 @@ class Translation2_Decorator_DefaultText extends Translation2_Decorator
      * the requested string will be returned.
      *
      * @param string $string This is NOT the stringID, this is a real string.
-     *               The method will search for its matching stringID, and then
-     *               it will return the associate string in the selected language.
+     *                       The method will search for its matching stringID, 
+     *                       and then it will return the associate string in the
+     *                       selected language.
      * @param string $pageID page/group ID
+     *
      * @return string
      */
     function &getStringID($string, $pageID = TRANSLATION2_DEFAULT_PAGEID)

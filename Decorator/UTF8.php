@@ -66,6 +66,7 @@ class Translation2_Decorator_UTF8 extends Translation2_Decorator
      * @param string $langID      language ID
      * @param string $defaultText Text to display when the strings in both
      *                            the default and the fallback lang are empty
+     *
      * @return string
      */
     function get($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = null)
@@ -91,6 +92,7 @@ class Translation2_Decorator_UTF8 extends Translation2_Decorator
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
     function getPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)

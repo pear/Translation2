@@ -71,7 +71,8 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
      * I don't know why it's needed, but it doesn't work without.
      *
      * @param string $option option name
-     * @param mixed  $value option value
+     * @param mixed  $value  option value
+     *
      * @return void
      */
     function setOption($option, $value=null)
@@ -96,6 +97,7 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
      * @param string $langID      language ID
      * @param string $defaultText Text to display when the strings in both
      *                            the default and the fallback lang are empty
+     *
      * @return string
      */
     function get($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = '')
@@ -116,9 +118,10 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
-    function getPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = '')
+    function getPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)
     {
         $data1 = $this->translation2->getPage($pageID, $langID);
         if (PEAR::isError($data1)) {
@@ -136,7 +139,7 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
         // append keys when fallback lang contains more than current
         $diff = array_diff(array_keys($data2), array_keys($data1));
         foreach ($diff as $key) {
-        	$data1[$key] = $data2[$key];
+            $data1[$key] = $data2[$key];
         }
         return $data1;
     }
