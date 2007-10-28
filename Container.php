@@ -77,6 +77,7 @@ class Translation2_Container
     /**
      * Constructor
      * Has to be overwritten by each storage class
+     *
      * @access public
      */
     function Translation2_Container()
@@ -90,6 +91,7 @@ class Translation2_Container
      * Parse options passed to the container class
      *
      * @param array $array options
+     *
      * @return void
      * @access protected
      */
@@ -112,6 +114,7 @@ class Translation2_Container
      * Get a valid langID or raise an error when no valid language is set
      *
      * @param string $langID language ID
+     *
      * @return string language ID or PEAR_Error on error
      * @access private
      */
@@ -134,6 +137,7 @@ class Translation2_Container
      * Set charset used to read/store the translations
      *
      * @param string $charset character set (encoding)
+     *
      * @return PEAR_Error on error
      */
     function setCharset($charset)
@@ -152,6 +156,7 @@ class Translation2_Container
      * Sets the current language
      *
      * @param string $langID language ID
+     *
      * @return array language information
      */
     function setLang($langID)
@@ -174,6 +179,7 @@ class Translation2_Container
      * Gets the current lang
      *
      * @param string $format what must be returned
+     *
      * @return mixed array with current lang data or null if not set yet
      */
     function getLang($format = 'id')
@@ -189,6 +195,7 @@ class Translation2_Container
      *
      * @param string $langID language ID
      * @param string $format what must be returned
+     *
      * @return mixed array with lang data or null if not available
      */
     function getLangData($langID, $format = 'id')
@@ -215,27 +222,27 @@ class Translation2_Container
 
         $tmp = array();
         switch ($format) {
-            case 'array':
-                foreach ($this->langs as $aLang) {
-                    $aLang['lang_id']  = $aLang['id'];
-                    $tmp[$aLang['id']] = $aLang;
-                }
-                break;
-            case 'ids':
-                foreach ($this->langs as $aLang) {
-                    $tmp[] = $aLang['id'];
-                }
-                break;
-            case 'encodings':
-                foreach ($this->langs as $aLang) {
-                    $tmp[] = $aLang['encoding'];
-                }
-                break;
-            case 'names':
-            default:
-                foreach ($this->langs as $aLang) {
-                    $tmp[$aLang['id']] = $aLang['name'];
-                }
+        case 'array':
+            foreach ($this->langs as $aLang) {
+                $aLang['lang_id']  = $aLang['id'];
+                $tmp[$aLang['id']] = $aLang;
+            }
+            break;
+        case 'ids':
+            foreach ($this->langs as $aLang) {
+                $tmp[] = $aLang['id'];
+            }
+            break;
+        case 'encodings':
+            foreach ($this->langs as $aLang) {
+                $tmp[] = $aLang['encoding'];
+            }
+            break;
+        case 'names':
+        default:
+            foreach ($this->langs as $aLang) {
+                $tmp[$aLang['id']] = $aLang['name'];
+            }
         }
         return $tmp;
     }
@@ -261,8 +268,10 @@ class Translation2_Container
     /**
      * Returns an array of the strings in the selected page
      * Containers should implement this method.
+     *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
     function getPage($pageID, $langID)
@@ -281,6 +290,7 @@ class Translation2_Container
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
      * @param string $langID   language ID
+     *
      * @return string
      */
     function getOne($stringID, $pageID = null, $langID = null)
@@ -295,8 +305,9 @@ class Translation2_Container
     /**
      * Get the stringID for the given string
      *
-     * @param string $stringID string ID
-     * @param string $pageID   page/group ID
+     * @param string $string string
+     * @param string $pageID page/group ID
+     *
      * @return string
      */
     function getStringID($string, $pageID)
@@ -315,6 +326,7 @@ class Translation2_Container
      * @param int    $code   error code
      * @param int    $mode   PEAR error mode
      * @param int    $option error severity
+     *
      * @return void|PEAR_Error
      * @access public
      */

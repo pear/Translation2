@@ -81,7 +81,12 @@ class Translation2_Admin_Decorator_Autoadd extends Translation2_Admin_Decorator
     /**
      * Get a translated string
      *
-     * @see   Translation2::get()
+     * @param string $stringID string ID
+     * @param string $pageID   page/group ID
+     * @param string $langID   language ID
+     *
+     * @return string
+     * @see Translation2::get()
      */
     function get($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)
     {

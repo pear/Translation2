@@ -144,6 +144,7 @@ class Translation2
      * @param array  $params  Array of parameters for the adapter class
      *                        (i.e. you can set here the mappings between your
      *                        table/field names and the ones used by this class)
+     *
      * @return object Translation2 instance or PEAR_Error on failure
      * @static
      */
@@ -168,6 +169,7 @@ class Translation2
      *
      * @param string $driver  Type of storage class to return
      * @param string $options Optional parameters for the storage class
+     *
      * @return object Object   Storage object
      * @static
      * @access private
@@ -192,6 +194,7 @@ class Translation2
      * Set some storage driver options
      *
      * @param array $options array of options
+     *
      * @return void
      * @access protected
      */
@@ -224,6 +227,7 @@ class Translation2
      * Parse options passed to the base class
      *
      * @param array $array options
+     *
      * @return void
      * @access private
      */
@@ -247,6 +251,7 @@ class Translation2
      * or handle the values of the objects/vars that pass through.
      *
      * @param string $decorator Name of the decorator
+     *
      * @return object Decorator object reference
      */
     function & getDecorator($decorator)
@@ -270,6 +275,7 @@ class Translation2
      * Set charset used to read/store the translations
      *
      * @param string $charset character set (encoding)
+     *
      * @return void|PEAR_Error
      */
     function setCharset($charset)
@@ -289,6 +295,7 @@ class Translation2
      * Set the language that shall be used when retrieving strings.
      *
      * @param string $langID language code (for instance, 'en' or 'it')
+     *
      * @return void|PEAR_Error
      */
     function setLang($langID)
@@ -309,7 +316,8 @@ class Translation2
      * Set the page (aka "group of strings") that shall be used when retrieving strings.
      * If you set it, you don't have to state it in each get() call.
      *
-     * @param string $langID ID of the language of the default page
+     * @param string $pageID ID of the default page
+     *
      * @return void
      */
     function setPageID($pageID = null)
@@ -328,6 +336,7 @@ class Translation2
      *
      * @param string $langID language ID
      * @param string $format ['name', 'meta', 'error_text', 'array']
+     *
      * @return mixed [string | array], depending on $format
      */
     function getLang($langID = null, $format = 'name')
@@ -363,6 +372,7 @@ class Translation2
      * the localized error text, their codes, ...)
      *
      * @param string $format ['ids', 'names', 'array']
+     *
      * @return array
      */
     function getLangs($format = 'name')
@@ -380,6 +390,7 @@ class Translation2
      * Parameter delimiters are customizable.
      *
      * @param array $params array of replacement parameters
+     *
      * @return void
      */
     function setParams($params = null)
@@ -400,6 +411,7 @@ class Translation2
      * Replace parameters in strings
      *
      * @param mixed $strings strings where the replacements must occur
+     *
      * @return mixed
      * @access protected
      */
@@ -435,6 +447,7 @@ class Translation2
      * Replace empty strings with their stringID
      *
      * @param array $strings array of strings to be replaced if empty
+     *
      * @return array
      * @static
      */
@@ -461,6 +474,7 @@ class Translation2
      * @param string $pageID      ID of the page/group containing the string
      * @param string $langID      ID of the language
      * @param string $defaultText Text to display when the string is empty
+     *
      * @return string|PEAR_Error
      */
     function getRaw($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = '')
@@ -489,6 +503,7 @@ class Translation2
      * @param string $langID      ID of the language
      * @param string $defaultText Text to display when the string is empty
      *               NB: This parameter is only used in the DefaultText decorator
+     *
      * @return string
      */
     function get($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = '')
@@ -511,6 +526,7 @@ class Translation2
      *
      * @param string $pageID ID of the page/group containing the string
      * @param string $langID ID of the language
+     *
      * @return array
      */
     function getRawPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)
@@ -530,6 +546,7 @@ class Translation2
      *
      * @param string $pageID ID of the page/group containing the string
      * @param string $langID ID of the language
+     *
      * @return array
      */
     function getPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)
@@ -548,6 +565,7 @@ class Translation2
      *               The method will search for its matching stringID, and then
      *               it will return the associate string in the selected language.
      * @param string $pageID ID of the page/group containing the string
+     *
      * @return string
      */
     function getStringID($string, $pageID = TRANSLATION2_DEFAULT_PAGEID)
@@ -564,6 +582,7 @@ class Translation2
      *
      * This method is called automatically by PHP5
      *
+     * @return void
      * @access protected
      */
     function __clone()

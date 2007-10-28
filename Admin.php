@@ -64,14 +64,14 @@ class Translation2_Admin extends Translation2
     /**
      * Return a Translation2_Admin instance already initialized
      *
-     * @param string $storageDriver Type of the storage driver
-     * @param mixed  $options       Additional options for the storage driver
-     *                              (example: if you are using DB as the storage
-     *                              driver, you have to pass the DSN string here)
-     * @param array $params         Array of parameters for the adapter class
-     *                              (i.e. you can set here the mappings between 
-     *                              your table/field names and the ones used by
-     *                              this class)
+     * @param string $driver  Type of the storage driver
+     * @param mixed  $options Additional options for the storage driver
+     *                        (example: if you are using DB as the storage
+     *                        driver, you have to pass the DSN string here)
+     * @param array  $params  Array of parameters for the adapter class
+     *                        (i.e. you can set here the mappings between your
+     *                        table/field names and the ones used by this class)
+     *
      * @return object Translation2 instance or PEAR_Error on failure
      * @access public
      * @static
@@ -99,7 +99,8 @@ class Translation2_Admin extends Translation2
      *
      * @param string $driver  Type of storage class to return
      * @param string $options Optional parameters for the storage class
-     * @return object Object   Storage object
+     *
+     * @return object Object Storage object
      * @access private
      * @static
      */
@@ -142,6 +143,7 @@ class Translation2_Admin extends Translation2
      * Return an instance of an admin decorator
      *
      * @param string $decorator Name of the decorator
+     *
      * @return object Decorator object reference
      * @see    Translation2::getDecorator()
      * @access public
@@ -174,6 +176,7 @@ class Translation2_Admin extends Translation2
      *                              'error_text' => 'not available');
      * @param array $options  array('charset'   => 'utf8',
      *                              'collation' => 'utf8_general_ci');
+     *
      * @return mixed true on success, PEAR_Error on failure
      */
     function addLang($langData, $options = array())
@@ -204,6 +207,7 @@ class Translation2_Admin extends Translation2
      *
      * @param string  $langID language ID
      * @param boolean $force  remove the language info without further checks
+     *
      * @return mixed true on success, PEAR_Error on failure
      */
     function removeLang($langID = null, $force = false)
@@ -229,6 +233,7 @@ class Translation2_Admin extends Translation2
      * Update the lang info in the langsAvail table
      *
      * @param array $langData array containing language info
+     *
      * @return mixed true on success, PEAR_Error on failure
      */
     function updateLang($langData)
@@ -250,6 +255,7 @@ class Translation2_Admin extends Translation2
      * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     *
      * @return mixed true on success, PEAR_Error on failure
      */
     function add($stringID, $pageID, $stringArray)
@@ -271,6 +277,7 @@ class Translation2_Admin extends Translation2
      * @param string $pageID      page/group ID
      * @param array  $stringArray Associative array with string translations.
      *               Sample format:  array('en' => 'sample', 'it' => 'esempio')
+     *
      * @return mixed true on success, PEAR_Error on failure
      */
     function update($stringID, $pageID, $stringArray)
@@ -290,6 +297,7 @@ class Translation2_Admin extends Translation2
      *
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
+     *
      * @return mixed true on success, PEAR_Error on failure
      * @todo add a third $langs option, to conditionally remove only the langs specified
      */

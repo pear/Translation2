@@ -42,7 +42,6 @@
  * Extend this class to provide custom decorators.
  * Some decorators are already bundled with the package.
  *
- *
  * @category  Internationalization
  * @package   Translation2
  * @author    Lorenzo Alberton <l.alberton@quipo.it>
@@ -105,6 +104,7 @@ class Translation2_Decorator extends Translation2
      * set Decorator options
      *
      * @param array $options decorator options
+     *
      * @return void
      */
     function setOptions($options=array())
@@ -124,6 +124,7 @@ class Translation2_Decorator extends Translation2
      *
      * @param string $option option name
      * @param mixed  $value  option value
+     *
      * @return void
      */
     function setOption($option, $value=null)
@@ -142,6 +143,7 @@ class Translation2_Decorator extends Translation2
      * Set some storage driver options
      *
      * @param array $options storage driver options
+     *
      * @return void
      * @access protected
      */
@@ -156,8 +158,9 @@ class Translation2_Decorator extends Translation2
     /**
      * Return an instance of a decorator
      *
-     * @param string $decorator  Name of the decorator
-     * @param object $object instance [optional]
+     * @param string $decorator Name of the decorator
+     * @param object $object    instance [optional]
+     *
      * @return object Decorator object reference
      * @access public
      */
@@ -179,6 +182,7 @@ class Translation2_Decorator extends Translation2
      * Set charset used to read/store the translations
      *
      * @param string $charset character set (encoding)
+     *
      * @return PEAR_Error on failure
      */
     function setCharset($charset)
@@ -193,6 +197,7 @@ class Translation2_Decorator extends Translation2
      * Set default language
      *
      * @param string $langID language ID
+     *
      * @return void
      */
     function setLang($langID)
@@ -207,6 +212,7 @@ class Translation2_Decorator extends Translation2
      * Set default page
      *
      * @param string $pageID page/group ID
+     *
      * @return void
      */
     function setPageID($pageID = null)
@@ -222,6 +228,7 @@ class Translation2_Decorator extends Translation2
      *
      * @param string $langID language ID
      * @param string $format ['name', 'meta', 'error_text', 'array']
+     *
      * @return mixed [string | array], depending on $format
      */
     function getLang($langID=null, $format='name')
@@ -236,6 +243,7 @@ class Translation2_Decorator extends Translation2
      * Get languages
      *
      * @param string $format ['ids', 'names', 'array']
+     *
      * @return array
      */
     function getLangs($format='name')
@@ -250,6 +258,7 @@ class Translation2_Decorator extends Translation2
      * Set parameters for next string
      *
      * @param array $params array of replacement parameters
+     *
      * @return void
      */
     function setParams($params = null)
@@ -270,6 +279,7 @@ class Translation2_Decorator extends Translation2
      * @param string $langID      language ID
      * @param string $defaultText Text to display when the strings in both
      *                            the default and the fallback lang are empty
+     *
      * @return string
      */
     function getRaw($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = '')
@@ -290,6 +300,7 @@ class Translation2_Decorator extends Translation2
      * @param string $langID      language ID
      * @param string $defaultText Text to display when the string is empty
      *               NB: This parameter is only used in the DefaultText decorator
+     *
      * @return string
      */
     function get($stringID, $pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null, $defaultText = '')
@@ -307,6 +318,7 @@ class Translation2_Decorator extends Translation2
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
     function getRawPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)
@@ -323,6 +335,7 @@ class Translation2_Decorator extends Translation2
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
     function getPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)
@@ -337,6 +350,7 @@ class Translation2_Decorator extends Translation2
      * Replace parameters in strings
      *
      * @param mixed $strings strings where the replacements must occur
+     *
      * @return mixed
      * @access protected
      */
@@ -352,6 +366,7 @@ class Translation2_Decorator extends Translation2
      * Replace empty strings with their stringID
      *
      * @param array $strings array of strings to be replaced if empty
+     *
      * @return array
      * @access public
      */
@@ -370,6 +385,7 @@ class Translation2_Decorator extends Translation2
      *               The method will search for its matching stringID, and then
      *               it will return the associate string in the selected language.
      * @param string $pageID page/group ID
+     *
      * @return string
      */
     function getStringID($string, $pageID = TRANSLATION2_DEFAULT_PAGEID)
@@ -385,6 +401,7 @@ class Translation2_Decorator extends Translation2
      *
      * This method is called automatically by PHP5
      *
+     * @return void
      * @access protected
      */
     function __clone()
