@@ -211,6 +211,7 @@ class Translation2_Container
      * Gets the available languages
      *
      * @param string $format ['array' | 'ids' | 'names' | 'encodings']
+     *
      * @return array
      */
     function getLangs($format = 'array')

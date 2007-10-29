@@ -152,6 +152,7 @@ class Translation2_Container_gettext extends Translation2_Container
     // {{{ _switchLang()
 
     /**
+     * Set the given langID
      *
      * @param string $langID new langID
      *

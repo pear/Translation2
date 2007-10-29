@@ -329,7 +329,7 @@ class Translation2_Container_xml extends Translation2_Container
      * Note: this method is public because called statically by the t2xmlchk.php
      * script. It is not meant to be called by user-space code.
      *
-     * @param array $data array of languages/pages
+     * @param array &$data array of languages/pages
      *
      * @return void
      * @access public

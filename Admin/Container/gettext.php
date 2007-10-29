@@ -199,7 +199,6 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      *
      * Alias for Translation2_Admin_Container_gettext::add()
      *
-     *
      * @param string $stringID string ID
      * @param string $pageID   page/group ID
      * @param array  $strings  strings

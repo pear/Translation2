@@ -217,7 +217,7 @@ class Translation2_Decorator_CacheMemory extends Translation2_Decorator
             $this->rawData[$langID_key] = array();
         }
         if (!array_key_exists($pageID_key, $this->rawData[$langID_key])) {
-           $this->rawData[$langID_key][$pageID_key] =
+            $this->rawData[$langID_key][$pageID_key] =
                 $this->translation2->getRawPage($pageID, $langID);
         }
         return $this->rawData[$langID_key][$pageID_key];

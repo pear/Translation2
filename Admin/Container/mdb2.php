@@ -95,7 +95,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             return $tables;
         }
 
-        $lang_col = $this->_getLangCol($langData['lang_id']);
+        $lang_col  = $this->_getLangCol($langData['lang_id']);
         $charset   = empty($options['charset'])   ? null : $options['charset'];
         $collation = empty($options['collation']) ? null : $options['collation'];
         $this->db->loadModule('Manager');
@@ -214,17 +214,17 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
                                 .'%s VARCHAR(250), '
                                 .'%s VARCHAR(16) )',
                 $this->db->quoteIdentifier($this->options['langs_avail_table'], true),
-                $this->db->quoteIdentifier($this->options['lang_id_col'],       true),
-                $this->db->quoteIdentifier($this->options['lang_name_col'],     true),
-                $this->db->quoteIdentifier($this->options['lang_meta_col'],     true),
-                $this->db->quoteIdentifier($this->options['lang_errmsg_col'],   true),
+                $this->db->quoteIdentifier($this->options['lang_id_col'], true),
+                $this->db->quoteIdentifier($this->options['lang_name_col'], true),
+                $this->db->quoteIdentifier($this->options['lang_meta_col'], true),
+                $this->db->quoteIdentifier($this->options['lang_errmsg_col'], true),
                 $this->db->quoteIdentifier($this->options['lang_encoding_col'], true)
             );
             $queries[] = sprintf('CREATE UNIQUE INDEX %s_%s_index ON %s (%s)',
                 $this->db->quoteIdentifier($this->options['langs_avail_table'], true),
-                $this->db->quoteIdentifier($this->options['lang_id_col'],       true),
+                $this->db->quoteIdentifier($this->options['lang_id_col'], true),
                 $this->db->quoteIdentifier($this->options['langs_avail_table'], true),
-                $this->db->quoteIdentifier($this->options['lang_id_col'],       true)
+                $this->db->quoteIdentifier($this->options['lang_id_col'], true)
             );
 
             foreach ($queries as $query) {
@@ -643,8 +643,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         $stringID = $this->db->quote($stringID, 'text');
         $pageID = is_null($pageID) ? ' IS NULL' : ' = ' . $this->db->quote($pageID, 'text');
         $query = sprintf('SELECT COUNT(*) FROM %s WHERE %s=%s AND %s%s',
-            $this->db->quoteIdentifier($table,                               true),
-            $this->db->quoteIdentifier($this->options['string_id_col'],      true),
+            $this->db->quoteIdentifier($table, true),
+            $this->db->quoteIdentifier($this->options['string_id_col'], true),
             $stringID,
             $this->db->quoteIdentifier($this->options['string_page_id_col'], true),
             $pageID

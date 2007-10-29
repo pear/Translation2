@@ -249,7 +249,7 @@ class Translation2_Admin extends Translation2
     // {{{ add
 
     /**
-     * add a new translation
+     * Add a new translation
      *
      * @param string $stringID    string ID
      * @param string $pageID      page/group ID
@@ -293,7 +293,7 @@ class Translation2_Admin extends Translation2
     // {{{ remove
 
     /**
-     * remove a translated string
+     * Remove a translated string
      *
      * @param string $stringID string ID
      * @param string $pageID   page/group ID

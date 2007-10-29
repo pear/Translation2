@@ -284,6 +284,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      *
      * @param string $pageID page/group ID
      * @param string $langID language ID
+     *
      * @return array
      */
     function getRawPage($pageID = TRANSLATION2_DEFAULT_PAGEID, $langID = null)

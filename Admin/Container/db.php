@@ -167,6 +167,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
      *                              'meta'       => 'some meta info',
      *                              'error_text' => 'not available',
      *                              'encoding'   => 'iso-8859-1');
+     *
      * @return true|PEAR_Error
      */
     function addLangToList($langData)
@@ -359,7 +360,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
             }
         }
 
-       return true;
+        return true;
     }
 
     // }}}
