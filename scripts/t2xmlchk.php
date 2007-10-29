@@ -10,7 +10,6 @@
  * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/Translation2
- *
  */
 //error_reporting (E_ALL);
 
@@ -25,9 +24,7 @@ function print_usage()
          "Usage: t2xmlchk <xml filename>\n";
 }
 
-
 require_once 'Translation2/Container/xml.php';
-
 require_once 'XML/DTD/XmlValidator.php';
 
 if (!$xml_file = $argv[1]) {
