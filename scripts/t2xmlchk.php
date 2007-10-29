@@ -2,7 +2,15 @@
 <?php
 /**
  * Check XML files intended to be used with Translation2
- * @author Olivier Guilyardi <ylf@xung.org>
+ *
+ * @category  Internationalization
+ * @package   Translation2
+ * @author    Olivier Guilyardi <ylf@xung.org>
+ * @copyright 2004-2007 Olivier Guilyardi
+ * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/Translation2
+ *
  */
 //error_reporting (E_ALL);
 
@@ -23,13 +31,13 @@ require_once 'Translation2/Container/xml.php';
 require_once 'XML/DTD/XmlValidator.php';
 
 if (!$xml_file = $argv[1]) {
-    echo ("ERROR : No xml filename provided\n\n");
+    echo "ERROR : No xml filename provided\n\n";
     print_usage();
     exit("\n");
 }
 
-if (!is_readable ($xml_file)) {
-    echo ("ERROR : No such file : \"$xml_file\"\n\n");
+if (!is_readable($xml_file)) {
+    echo "ERROR : No such file : \"$xml_file\"\n\n";
     print_usage();
     exit("\n");
 }
@@ -52,13 +60,13 @@ if ($test) {
 
 echo "Unserializing... ";
 
-$keyAttr = array (
+$keyAttr = array(
     'lang'   => 'id',
     'page'   => 'key',
     'string' => 'key',
     'tr'     => 'lang'
 );
-$unserializer = &new XML_Unserializer (array('keyAttribute' => $keyAttr));
+$unserializer = &new XML_Unserializer(array('keyAttribute' => $keyAttr));
 if (PEAR::isError($status = $unserializer->unserialize($xml_file, true))) {
     exit("FAILED : " .  $status->getMessage() . "\n");
 } else {
@@ -66,7 +74,7 @@ if (PEAR::isError($status = $unserializer->unserialize($xml_file, true))) {
 }
 
 $data = $unserializer->getUnserializedData();
-Translation2_Container_xml::fixEmptySets ($data);
+Translation2_Container_xml::fixEmptySets($data);
 
 // This should be done by XML_DTD :
 echo "Checking lang IDs... ";
@@ -101,7 +109,7 @@ echo "Checking lang IDREFs... ";
 foreach ($data['pages'] as $pagename => $pagedata) {
     foreach ($pagedata as $stringname => $stringvalues) {
         foreach ($stringvalues as $lang => $translation) {
-            if (!in_array ($lang, $known_langs)) {
+            if (!in_array($lang, $known_langs)) {
                 exit("FAILED : Unknow lang \"$lang\" in page \"$pagename\" at string \"$stringname\"\n");
             }
         }
@@ -114,7 +122,7 @@ echo "Checking translation duplicates... ";
 foreach ($data['pages'] as $pagename => $pagedata) {
     foreach ($pagedata as $stringname => $stringvalues) {
         foreach ($stringvalues as $lang => $translation) {
-            if (is_array ($translation)) {
+            if (is_array($translation)) {
                 exit("FAILED : found duplicate in page \"$pagename\" for string \"stringname\" with lang \"$lang\"\n");
             }
         }
