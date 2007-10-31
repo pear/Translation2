@@ -99,7 +99,7 @@ class Translation2_Container_db extends Translation2_Container
     /**
      * Connect to database by using the given DSN string
      *
-     * @param  mixed &$db string DSN or object DB instance
+     * @param mixed &$db string DSN or object DB instance
      *
      * @return boolean|PEAR_Error object if something went wrong
      * @access private
