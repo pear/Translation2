@@ -60,6 +60,8 @@ Currently, the following decorators are provided:
 - bug #11880: [XML driver] removing one language removes all strings for all languages 
 - request #11881: getLang(...,'array') now returns a 'lang_id' alias to 'id'
 - bug #12183: language ID '0' considered invalid
+- bug #12398: fixed return value of addLangToList() and updateLang() in the MDB2
+  admin container
 - fixed Coding Standards
  </notes>
  <contents>

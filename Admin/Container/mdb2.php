@@ -229,7 +229,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
 
             foreach ($queries as $query) {
                 ++$this->_queries;
-                $res = $this->db->query($query);
+                $res = $this->db->exec($query);
                 if (PEAR::isError($res)) {
                     return $res;
                 }
@@ -251,9 +251,12 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         );
 
         ++$this->_queries;
-        $success = $this->db->query($query);
+        $res = $this->db->exec($query);
         $this->options['strings_tables'][$langData['lang_id']] = $langData['table_name'];
-        return $success;
+        if (PEAR::isError($res)) {
+            return $res;
+		}
+        return true;
     }
 
     // }}}
@@ -279,7 +282,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             $this->db->quote($langID, 'text')
         );
         ++$this->_queries;
-        $res = $this->db->query($query);
+        $res = $this->db->exec($query);
         if (PEAR::isError($res)) {
             return $res;
         }
@@ -335,9 +338,12 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         );
 
         ++$this->_queries;
-        $success = $this->db->query($query);
+        $res = $this->db->exec($query);
         $this->fetchLangs();  //update memory cache
-        return $success;
+        if (PEAR::isError($res)) {
+            return $res;
+		}
+        return true;
     }
 
     // }}}
@@ -382,7 +388,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             $query = $this->$func($table, $tableLangs, $stringID, $pageID, $stringArray);
             
             ++$this->_queries;
-            $res = $this->db->query($query);
+            $res = $this->db->exec($query);
             if (PEAR::isError($res)) {
                 return $res;
             }
@@ -515,7 +521,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             }
 
             ++$this->_queries;
-            $res = $this->db->query($query);
+            $res = $this->db->exec($query);
             if (PEAR::isError($res)) {
                 return $res;
             }
