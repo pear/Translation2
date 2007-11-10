@@ -94,27 +94,29 @@ class TestOfAdminContainerDB extends UnitTestCase {
         $this->assertEqual($original, $this->tr->getLang('en', 'array'));
     }
     function testAddUpdateRemove() {
+        $stringID = 'sample';
+        $pageID   = 'new page';
         $stringArray = array(
             'en' => 'sample',
             'it' => 'esempio',
             'de' => 'Beispiel',
         );
         //add
-        $this->assertTrue($this->tr->add('sample', 'new page', $stringArray));
-        $this->assertEqual($stringArray['en'], $this->tr->get('sample', 'new page', 'en'));
-        $this->assertEqual($stringArray['it'], $this->tr->get('sample', 'new page', 'it'));
-        $this->assertEqual($stringArray['de'], $this->tr->get('sample', 'new page', 'de'));
+        $this->assertTrue($this->tr->add($stringID, $pageID, $stringArray));
+        $this->assertEqual($stringArray['en'], $this->tr->get($stringID, $pageID, 'en'));
+        $this->assertEqual($stringArray['it'], $this->tr->get($stringID, $pageID, 'it'));
+        $this->assertEqual($stringArray['de'], $this->tr->get($stringID, $pageID, 'de'));
         
         //update
         $newStringArray = array('en' => 'example');
-        $this->assertTrue($this->tr->update('sample', 'new page', $newStringArray));
-        $this->assertEqual($newStringArray['en'], $this->tr->get('sample', 'new page', 'en'));
-        $this->assertEqual($stringArray['it'],    $this->tr->get('sample', 'new page', 'it'));
-        $this->assertEqual($stringArray['de'],    $this->tr->get('sample', 'new page', 'de'));
+        $this->assertTrue($this->tr->update($stringID, $pageID, $newStringArray));
+        $this->assertEqual($newStringArray['en'], $this->tr->get($stringID, $pageID, 'en'));
+        $this->assertEqual($stringArray['it'],    $this->tr->get($stringID, $pageID, 'it'));
+        $this->assertEqual($stringArray['de'],    $this->tr->get($stringID, $pageID, 'de'));
         
         //remove
-        $this->assertTrue($this->tr->remove('sample', 'new page'));
-        $this->assertEqual('', $this->tr->get('sample', 'new page', 'en'));
+        $this->assertTrue($this->tr->remove($stringID, $pageID));
+        $this->assertEqual('', $this->tr->get($stringID, $pageID, 'en'));
     }
     function testGetPageNames() {
         $expected = array(
@@ -132,6 +134,35 @@ class TestOfAdminContainerDB extends UnitTestCase {
         $actual = $this->tr->getPageNames();
         sort($actual);
         $this->assertEqual($expected, $actual);
+    }
+
+    function testRemovePage() {
+        $stringID = 'sample';
+        $pageID   = 'new page';
+
+        $this->assertFalse(in_array($pageID, $this->tr->getPageNames()));
+
+        $stringArray = array(
+            'en' => 'sample',
+            'it' => 'esempio',
+            'de' => 'Beispiel',
+        );
+        //add new page
+        $this->assertTrue($this->tr->add($stringID, $pageID, $stringArray));
+        
+        $this->assertEqual($stringArray['en'], $this->tr->get($stringID, $pageID, 'en'));
+        $this->assertEqual($stringArray['it'],    $this->tr->get($stringID, $pageID, 'it'));
+        $this->assertEqual($stringArray['de'],    $this->tr->get($stringID, $pageID, 'de'));
+
+        $actual = $this->tr->getPageNames();
+        $this->assertTrue(in_array($pageID, $this->tr->getPageNames()));
+
+        //delete the page
+        $this->assertTrue($this->tr->removePage($pageID));
+        
+        $this->assertEqual('', $this->tr->get($stringID, $pageID, 'en'));
+
+        $this->assertFalse(in_array($pageID, $this->tr->getPageNames()));
     }
 }
 ?>

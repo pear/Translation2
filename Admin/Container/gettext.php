@@ -77,7 +77,7 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
      */
     function addLang($langData, $path = null)
     {
-        if (!isset($path)) {
+        if (!isset($path) || !is_string($path)) {
             $path = $this->_domains[$this->options['default_domain']];
         }
 
@@ -189,6 +189,48 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
             return $this->_remove($tmp);
         }
 
+    }
+
+    // }}}
+    // {{{ removePage
+
+    /**
+     * Remove all the strings in the given page/group (domain)
+     *
+     * @param string $pageID page/group ID
+     * @param string $path   path to gettext data dir
+     *
+     * @return mixed true on success, PEAR_Error on failure
+     */
+    function removePage($pageID = null, $path = null)
+    {
+        if (!isset($pageID)) {
+            $pageID = $this->options['default_domain'];
+        }
+
+        if (!isset($path)) {
+            if (!empty($this->_domains[$pageID])) {
+                $path = $this->_domains[$pageID];
+            } else {
+                $path = $this->_domains[$this->options['default_domain']];
+            }
+        }
+
+        if (PEAR::isError($e = $this->_removeDomain($pageID))) {
+            return $e;
+        }
+        
+        $this->fetchLangs();
+        foreach ($this->langs as $langID => $lang) {
+            $domain_file = $path .'/'. $langID .'/LC_MESSAGES/'. $pageID .'.';
+            if (!@unlink($domain_file.'mo') || !@unlink($domain_file.'po')) {
+                return $this->raiseError('Cannot delete page ' . $pageID. ' (file '.$domain_file.'.*)',
+                    TRANSLATION2_ERROR
+                );
+            }
+        }
+
+        return true;
     }
 
     // }}}
@@ -454,12 +496,65 @@ class Translation2_Admin_Container_gettext extends Translation2_Container_gettex
 
         $CRLF = $this->options['carriage_return'];
 
-        @flock($f, LOCK_EX);
-        fwrite($f, $CRLF . $pageID . ' = ' . $domain_path . $CRLF);
-        @flock($f, LOCK_UN);
-        fclose($f);
+        while (true) {
+            if (@flock($f, LOCK_EX)) {
+                fwrite($f, $CRLF . $pageID . ' = ' . $domain_path . $CRLF);
+                @flock($f, LOCK_UN);
+                fclose($f);
+                break;
+            }
+        }
 
         $this->_domains[$pageID] = $domain_path;
+
+        return true;
+    }
+
+    // }}}
+    // {{{ _removeDomain()
+
+    /**
+     * Remove the path-to-the-domain from the domains-path-INI-file
+     *
+     * @param string $pageID domain name
+     *
+     * @return true|PEAR_Error on failure
+     * @access private
+     */
+    function _removeDomain($pageID)
+    {
+        $domain_path = count($this->_domains) ? reset($this->_domains) : 'locale/';
+
+        if (!is_resource($f = fopen($this->options['domains_path_file'], 'r+'))) {
+            return $this->raiseError(sprintf(
+                    'Cannot write to domains path INI file "%s"',
+                    $this->options['domains_path_file']
+                ),
+                TRANSLATION2_ERROR_CANNOT_WRITE_FILE
+            );
+        }
+
+        $CRLF = $this->options['carriage_return'];
+
+        while (true) {
+            if (@flock($f, LOCK_EX)) {
+                $pages = file($this->options['domains_path_file']);
+                foreach ($pages as $page) {
+                    if (preg_match('/^'.$pageID.'\s*=/', $page)) {
+                        //skip
+                        continue;
+                    }
+                    fwrite($f, $page . $CRLF);
+                }
+                fflush($f);
+                ftruncate($f, ftell($f));
+                @flock($f, LOCK_UN);
+                fclose($f);
+                break;
+            }
+        }
+
+        unset($this->_domains[$pageID]);
 
         return true;
     }

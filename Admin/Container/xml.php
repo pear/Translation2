@@ -244,6 +244,26 @@ class Translation2_Admin_Container_xml extends Translation2_Container_xml
     }
 
     // }}}
+    // {{{ removePage()
+
+    /**
+     * Remove all the strings in the given page/group
+     *
+     * @param string $pageID page/group ID
+     *
+     * @return true|PEAR_Error
+     */
+    function removePage($pageID = null)
+    {
+        $pageID = is_null($pageID) ? '#NULL' : $pageID;
+        $pageID = empty($pageID) ? '#EMPTY' : $pageID;
+
+        unset ($this->_data['pages'][$pageID]);
+
+        return $this->_scheduleSaving();
+    }
+
+    // }}}
     // {{{ getPageNames()
 
     /**

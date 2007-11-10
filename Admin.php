@@ -311,6 +311,25 @@ class Translation2_Admin extends Translation2
     }
 
     // }}}
+    // {{{ removePage
+
+    /**
+     * Remove all the strings in the given page/group
+     *
+     * @param string $pageID page/group ID
+     *
+     * @return mixed true on success, PEAR_Error on failure
+     */
+    function removePage($pageID = null)
+    {
+        $result = $this->storage->removePage($pageID);
+        if ($this->options['autoCleanCache']) {
+            $this->cleanCache();
+        }
+        return $result;
+    }
+
+    // }}}
     // {{{ getPageNames()
 
     /**

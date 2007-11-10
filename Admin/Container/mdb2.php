@@ -531,6 +531,46 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
     }
 
     // }}}
+    // {{{ removePage
+
+    /**
+     * Remove all the strings in the given page/group
+     *
+     * @param string $pageID page/group ID
+     *
+     * @return mixed true on success, PEAR_Error on failure
+     */
+    function removePage($pageID = null)
+    {
+        $tables = array_unique($this->_getLangTables());
+
+        // get the tables and skip the non existent ones
+        $dbTables = $this->_fetchTableNames();
+        foreach ($tables as $table) {
+            if (!in_array($table, $dbTables)) {
+                continue;
+            }
+            $query = sprintf('DELETE FROM %s WHERE %s',
+                 $this->db->quoteIdentifier($table, true),
+                 $this->db->quoteIdentifier($this->options['string_page_id_col'], true)
+            );
+            if (is_null($pageID)) {
+                $query .= ' IS NULL';
+            } else {
+                $query .= ' = ' . $this->db->quote($pageID, 'text');
+            }
+
+            ++$this->_queries;
+            $res = $this->db->exec($query);
+            if (PEAR::isError($res)) {
+                return $res;
+            }
+        }
+
+        return true;
+    }
+
+    // }}}
     // {{{ getPageNames()
     
     /**

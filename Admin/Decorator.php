@@ -172,6 +172,22 @@ class Translation2_Admin_Decorator extends Translation2_Decorator
     }
 
     // }}}
+    // {{{ removePage
+
+    /**
+     * Remove all the strings in the given page/group
+     *
+     * @param string $pageID page/group ID
+     *
+     * @return mixed true on success, PEAR_Error on failure
+     * @see Translation2_Admin::removePage()
+     */
+    function removePage($pageID = null)
+    {
+        return $this->translation2->removePager($pageID);
+    }
+
+    // }}}
     // {{{ getPageNames()
 
     /**

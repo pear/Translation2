@@ -196,7 +196,34 @@ class Translation2_Admin_Container_dataobjectsimple extends Translation2_Contain
         $do = DB_DataObject::factory($this->options['table']);
         $do->page = $pageID;
         $do->translation = $stringID;
-        // we dont have the base language translation..
+        // we don't have the base language translation..
+        if (!$do->find()) {
+            return '';
+        }
+
+        while ($do->fetch()) {
+            $do2 = DB_DataObject::factory($this->options['table']);
+            $do2->get($do->id);
+            $do2->delete();
+        }
+        return true;
+    }
+
+    // }}}
+    // {{{ removePage()
+
+    /**
+     * Remove all the strings in the given page/group
+     *
+     * @param string $pageID page/group ID
+     *
+     * @return mixed true on success, PEAR_Error on failure
+     */
+    function removePage($pageID = null)
+    {
+        $do = DB_DataObject::factory($this->options['table']);
+        $do->page = $pageID;
+        // we don't have the base language translation..
         if (!$do->find()) {
             return '';
         }
