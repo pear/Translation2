@@ -102,7 +102,7 @@ class Translation2_Container_gettext extends Translation2_Container
         $this->_parseOptions($options);
         $this->_native = (
             function_exists('gettext') &&
-            ($this->options['file_type'] != 'po') &&
+            (strtolower($this->options['file_type']) == 'mo') &&
             !$this->options['blank_on_missing']
         );
         
@@ -121,6 +121,7 @@ class Translation2_Container_gettext extends Translation2_Container
             foreach ((array) $this->_domains as $domain => $path) {
                 bindtextdomain($domain, $path);
             }
+            textdomain($this->options['default_domain']);
         }
         $this->setLang($this->options['default_lang']);
         
@@ -288,7 +289,7 @@ class Translation2_Container_gettext extends Translation2_Container
             if (empty($pageID) || $pageID == TRANSLATION2_DEFAULT_PAGEID) {
                 $pageID = $this->options['default_domain'];
             }
-            
+
             $string = dgettext($pageID, $stringID);
 
             $this->_switchLang($oldLang);
