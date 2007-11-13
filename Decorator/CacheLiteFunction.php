@@ -200,6 +200,31 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
     }
 
     // }}}
+    // {{{ getLangs()
+
+    /**
+     * get langs
+     *
+     * Get some extra information about the languages (their full names,
+     * the localized error text, their codes, ...)
+     *
+     * @param string $format ['ids', 'names', 'array']
+     *
+     * @return array
+     */
+    function getLangs($format = 'name')
+    {
+        // WITHOUT THIS, IT DOESN'T WORK
+        global $translation2_cachelitefunction_temp;
+        //generate temp variable
+        $translation2_cachelitefunction_temp = $this->translation2;
+
+        $this->_prepare();
+        return $this->cacheLiteFunction->call('translation2_cachelitefunction_temp->getLangs',
+            $format);
+    }
+
+    // }}}
     // {{{ getRaw()
 
     /**
