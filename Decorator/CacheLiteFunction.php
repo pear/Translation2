@@ -200,6 +200,45 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
     }
 
     // }}}
+    // {{{ getLang()
+
+    /**
+     * get lang info
+     *
+     * Get some extra information about the language (its full name,
+     * the localized error text, ...)
+     *
+     * @param string $langID language ID
+     * @param string $format ['name', 'meta', 'error_text', 'array']
+     *
+     * @return mixed [string | array], depending on $format
+     */
+    function getLang($langID = null, $format = 'name')
+    {
+        $langs = $this->getLangs();
+
+        if (is_null($langID)) {
+            if (!isset($this->lang['id']) || !array_key_exists($this->lang['id'], $langs)) {
+                $msg = 'Translation2::getLang(): unknown language "'.$langID.'".'
+                      .' Use Translation2::setLang() to set a default language.';
+                return $this->storage->raiseError($msg, TRANSLATION2_ERROR_UNKNOWN_LANG);
+            }
+            $langID = $this->lang['id'];
+        }
+
+        if ($format == 'array') {
+            return $langs[$langID];
+        } elseif (isset($langs[$langID][$format])) {
+            return $langs[$langID][$format];
+        } elseif (isset($langs[$langID]['name'])) {
+            return $langs[$langID]['name'];
+        }
+        $msg = 'Translation2::getLang(): unknown language "'.$langID.'".'
+              .' Use Translation2::setLang() to set a default language.';
+        return $this->storage->raiseError($msg, TRANSLATION2_ERROR_UNKNOWN_LANG);
+    }
+
+    // }}}
     // {{{ getLangs()
 
     /**
