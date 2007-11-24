@@ -98,7 +98,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         }
 
         //table does not exist
-        $queries = array();
+        $queries   = array();
         $queries[] = sprintf('CREATE TABLE %s ( '
                              .'%s VARCHAR(50) default NULL, '
                              .'%s TEXT NOT NULL, '
@@ -115,7 +115,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
             $this->options['string_page_id_col'],
             $this->options['string_id_col']
         );
-        $queries[] = sprintf('CREATE UNIQUE INDEX %s ON %s (%s, %s%s)',
+        $queries[]  = sprintf('CREATE UNIQUE INDEX %s ON %s (%s, %s%s)',
              $this->db->quoteIdentifier($index_name),
              $this->db->quoteIdentifier($langData['table_name']),
              $this->db->quoteIdentifier($this->options['string_page_id_col']),
@@ -127,7 +127,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
             $langData['table_name'],
             $this->options['string_page_id_col']
         );
-        $queries[] = sprintf('CREATE INDEX %s ON %s (%s)',
+        $queries[]  = sprintf('CREATE INDEX %s ON %s (%s)',
              $this->db->quoteIdentifier($index_name),
              $this->db->quoteIdentifier($langData['table_name']),
              $this->db->quoteIdentifier($this->options['string_page_id_col'])
@@ -137,7 +137,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
             $langData['table_name'],
             $this->options['string_id_col']
         );
-        $queries[] = sprintf('CREATE INDEX %s ON %s (%s%s)',
+        $queries[]  = sprintf('CREATE INDEX %s ON %s (%s%s)',
              $this->db->quoteIdentifier($index_name),
              $this->db->quoteIdentifier($langData['table_name']),
              $this->db->quoteIdentifier($this->options['string_id_col']),
@@ -178,7 +178,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
         }
 
         if (!in_array($this->options['langs_avail_table'], $tables)) {
-            $queries = array();
+            $queries   = array();
             $queries[] = sprintf('CREATE TABLE %s ('
                                 .'%s VARCHAR(16), '
                                 .'%s VARCHAR(200), '
@@ -399,7 +399,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
     function _getInsertQuery($table, &$tableLangs, $stringID, $pageID, &$stringArray)
     {
         $tableCols = $this->_getLangCols($tableLangs);
-        $langData = array();
+        $langData  = array();
         foreach ($tableLangs as $lang) {
             $langData[$lang] = $this->db->quote($stringArray[$lang]);
         }
@@ -436,7 +436,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
     function _getUpdateQuery($table, &$tableLangs, $stringID, $pageID, &$stringArray)
     {
         $tableCols = $this->_getLangCols($tableLangs);
-        $langSet = array();
+        $langSet   = array();
         foreach ($tableLangs as $lang) {
             $langSet[] = $this->db->quoteIdentifier($tableCols[$lang]) . ' = ' .
                          $this->db->quote($stringArray[$lang]);
@@ -604,7 +604,7 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
     function &_getLangTables($langs = null)
     {
         $tables = array();
-        $langs = !is_array($langs) ? $this->getLangs('ids') : $langs;
+        $langs  = !is_array($langs) ? $this->getLangs('ids') : $langs;
         foreach ($langs as $lang) {
             $tables[] = $this->_getLangTable($lang);
         }
@@ -653,8 +653,8 @@ class Translation2_Admin_Container_db extends Translation2_Container_db
     function _recordExists($stringID, $pageID, $table)
     {
         $stringID = $this->db->quote($stringID, 'text');
-        $pageID = is_null($pageID) ? ' IS NULL' : ' = ' . $this->db->quote($pageID);
-        $query = sprintf('SELECT COUNT(*) FROM %s WHERE %s=%s AND %s%s',
+        $pageID   = is_null($pageID) ? ' IS NULL' : ' = ' . $this->db->quote($pageID);
+        $query    = sprintf('SELECT COUNT(*) FROM %s WHERE %s=%s AND %s%s',
             $this->db->quoteIdentifier($table),
             $this->db->quoteIdentifier($this->options['string_id_col']),
             $stringID,

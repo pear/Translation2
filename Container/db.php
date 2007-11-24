@@ -276,7 +276,7 @@ class Translation2_Container_db extends Translation2_Container
 
         ++$this->_queries;
         return $this->db->getOne($query);
-   }
+    }
 
     // }}}
     // {{{ getStringID()

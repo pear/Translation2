@@ -206,7 +206,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         }
 
         if (!in_array($this->options['langs_avail_table'], $tables)) {
-            $queries = array();
+            $queries   = array();
             $queries[] = sprintf('CREATE TABLE %s ('
                                 .'%s VARCHAR(16), '
                                 .'%s VARCHAR(200), '
@@ -237,17 +237,17 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         }
 
         $query = sprintf('INSERT INTO %s (%s, %s, %s, %s, %s) VALUES (%s, %s, %s, %s, %s)',
-                $this->db->quoteIdentifier($this->options['langs_avail_table'], true),
-                $this->db->quoteIdentifier($this->options['lang_id_col'], true),
-                $this->db->quoteIdentifier($this->options['lang_name_col'], true),
-                $this->db->quoteIdentifier($this->options['lang_meta_col'], true),
-                $this->db->quoteIdentifier($this->options['lang_errmsg_col'], true),
-                $this->db->quoteIdentifier($this->options['lang_encoding_col'], true),
-                $this->db->quote($langData['lang_id']),
-                $this->db->quote($langData['name']),
-                $this->db->quote($langData['meta']),
-                $this->db->quote($langData['error_text']),
-                $this->db->quote($langData['encoding'])
+            $this->db->quoteIdentifier($this->options['langs_avail_table'], true),
+            $this->db->quoteIdentifier($this->options['lang_id_col'], true),
+            $this->db->quoteIdentifier($this->options['lang_name_col'], true),
+            $this->db->quoteIdentifier($this->options['lang_meta_col'], true),
+            $this->db->quoteIdentifier($this->options['lang_errmsg_col'], true),
+            $this->db->quoteIdentifier($this->options['lang_encoding_col'], true),
+            $this->db->quote($langData['lang_id']),
+            $this->db->quote($langData['name']),
+            $this->db->quote($langData['meta']),
+            $this->db->quote($langData['error_text']),
+            $this->db->quote($langData['encoding'])
         );
 
         ++$this->_queries;
@@ -323,7 +323,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             'encoding'   => 'lang_encoding_col',
         );
         $updateFields = array_keys($langData);
-        $langSet = array();
+        $langSet  = array();
         foreach ($allFields as $field => $col) {
             if (in_array($field, $updateFields)) {
                 $langSet[] = $this->db->quoteIdentifier($this->options[$col], true) . ' = ' .
@@ -342,7 +342,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         $this->fetchLangs();  //update memory cache
         if (PEAR::isError($res)) {
             return $res;
-		}
+        }
         return true;
     }
 
@@ -376,8 +376,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
 
         $unquoted_stringID = $stringID;
         $unquoted_pageID   = $pageID;
-        $stringID = $this->db->quote($stringID, 'text');
-        $pageID   = is_null($pageID) ? 'NULL' : $this->db->quote($pageID, 'text');
+        $stringID          = $this->db->quote($stringID, 'text');
+        $pageID            = is_null($pageID) ? 'NULL' : $this->db->quote($pageID, 'text');
         // Loop over the tables we need to insert into.
         foreach ($this->_tableLangs($langs) as $table => $tableLangs) {
             $exists = $this->_recordExists($unquoted_stringID, $unquoted_pageID, $table);
@@ -509,10 +509,10 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
                 continue;
             }
             $query = sprintf('DELETE FROM %s WHERE %s = %s AND %s',
-                             $this->db->quoteIdentifier($table, true),
-                             $this->db->quoteIdentifier($this->options['string_id_col'], true),
-                             $stringID,
-                             $this->db->quoteIdentifier($this->options['string_page_id_col'], true)
+                 $this->db->quoteIdentifier($table, true),
+                 $this->db->quoteIdentifier($this->options['string_id_col'], true),
+                 $stringID,
+                 $this->db->quoteIdentifier($this->options['string_page_id_col'], true)
             );
             if (is_null($pageID)) {
                 $query .= ' IS NULL';
@@ -638,7 +638,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
     function &_getLangTables($langs = null)
     {
         $tables = array();
-        $langs = !is_array($langs) ? $this->getLangs('ids') : $langs;
+        $langs  = !is_array($langs) ? $this->getLangs('ids') : $langs;
         foreach ($langs as $lang) {
             $tables[] = $this->_getLangTable($lang);
         }
@@ -687,8 +687,8 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
     function _recordExists($stringID, $pageID, $table)
     {
         $stringID = $this->db->quote($stringID, 'text');
-        $pageID = is_null($pageID) ? ' IS NULL' : ' = ' . $this->db->quote($pageID, 'text');
-        $query = sprintf('SELECT COUNT(*) FROM %s WHERE %s=%s AND %s%s',
+        $pageID   = is_null($pageID) ? ' IS NULL' : ' = ' . $this->db->quote($pageID, 'text');
+        $query    = sprintf('SELECT COUNT(*) FROM %s WHERE %s=%s AND %s%s',
             $this->db->quoteIdentifier($table, true),
             $this->db->quoteIdentifier($this->options['string_id_col'], true),
             $stringID,
