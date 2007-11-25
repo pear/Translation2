@@ -45,8 +45,8 @@ Currently, the following decorators are provided:
   <email>mike@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-11-19</date>
- <time>21:31:30</time>
+ <date>2007-11-25</date>
+ <time>14:10:30</time>
  <version>
   <release>2.0.0RC2</release>
   <api>2.0.0RC2</api>
@@ -58,7 +58,7 @@ Currently, the following decorators are provided:
  <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
  <notes>- request #11711: added setCharset() method in the DB container
 - bug #11880: [XML driver] removing one language removes all strings for all languages 
-- request #11881: getLang(...,'array') now returns a 'lang_id' alias to 'id'
+- request #11881: getLang(..., 'array') now returns a 'lang_id' alias to 'id'
 - bug #12183: language ID '0' considered invalid
 - bug #12398: fixed return value of addLangToList() and updateLang() in the MDB2
   admin container
@@ -211,11 +211,11 @@ Currently, the following decorators are provided:
     <release>beta</release>
     <api>beta</api>
    </stability>
-   <date>2007-11-19</date>
+   <date>2007-11-25</date>
    <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
    <notes>- request #11711: added setCharset() method in the DB container
 - bug #11880: [XML driver] removing one language removes all strings for all languages 
-- request #11881: getLang(...,'array') now returns a 'lang_id' alias to 'id'
+- request #11881: getLang(..., 'array') now returns a 'lang_id' alias to 'id'
 - bug #12183: language ID '0' considered invalid
 - bug #12398: fixed return value of addLangToList() and updateLang() in the MDB2
   admin container
