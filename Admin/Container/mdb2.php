@@ -255,7 +255,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         $this->options['strings_tables'][$langData['lang_id']] = $langData['table_name'];
         if (PEAR::isError($res)) {
             return $res;
-		}
+        }
         return true;
     }
 
