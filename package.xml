@@ -106,9 +106,6 @@ Currently, the following decorators are provided:
     </dir> <!-- /docs/examples -->
     <file baseinstalldir="Translation2" name="gettext_readme.txt" role="doc" />
    </dir> <!-- /docs -->
-   <dir name="scripts">
-    <file baseinstalldir="/" name="t2xmlchk.php" role="script" />
-   </dir> <!-- /scripts -->
    <dir name="tests">
     <file baseinstalldir="Translation2" name="admin_containers_tests.php" role="test" />
     <file baseinstalldir="Translation2" name="admin_db_test.php" role="test" />
@@ -140,6 +137,7 @@ Currently, the following decorators are provided:
    <file baseinstalldir="Translation2" name="Container.php" role="php" />
    <file baseinstalldir="Translation2" name="Decorator.php" role="php" />
    <file name="Translation2.php" role="php" />
+   <file name="scripts/t2xmlchk.php" install-as="t2xmlchk.php" role="script" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
