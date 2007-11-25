@@ -46,26 +46,17 @@ Currently, the following decorators are provided:
   <active>yes</active>
  </developer>
  <date>2007-11-25</date>
- <time>14:10:30</time>
+ <time>21:10:30</time>
  <version>
-  <release>2.0.0RC2</release>
-  <api>2.0.0RC2</api>
+  <release>2.0.0RC3</release>
+  <api>2.0.0RC3</api>
  </version>
  <stability>
   <release>beta</release>
   <api>beta</api>
  </stability>
  <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
- <notes>- request #11711: added setCharset() method in the DB container
-- bug #11880: [XML driver] removing one language removes all strings for all languages 
-- request #11881: getLang(..., 'array') now returns a 'lang_id' alias to 'id'
-- bug #12183: language ID '0' considered invalid
-- bug #12398: fixed return value of addLangToList() and updateLang() in the MDB2
-  admin container
-- request #12405: added removePage() method in the Admin module
-- added getLang() and getLangs() to the CacheLiteFunction Decorator
-- fixed the test suite
-- fixed Coding Standards
+ <notes>- bug #12525: moved t2xmlchk.php script to / baseinstalldir
  </notes>
  <contents>
   <dir name="/">
@@ -116,7 +107,7 @@ Currently, the following decorators are provided:
     <file baseinstalldir="Translation2" name="gettext_readme.txt" role="doc" />
    </dir> <!-- /docs -->
    <dir name="scripts">
-    <file baseinstalldir="Translation2" name="t2xmlchk.php" role="script" />
+    <file baseinstalldir="/" name="t2xmlchk.php" role="script" />
    </dir> <!-- /scripts -->
    <dir name="tests">
     <file baseinstalldir="Translation2" name="admin_containers_tests.php" role="test" />
@@ -202,6 +193,20 @@ Currently, the following decorators are provided:
  </dependencies>
  <phprelease />
  <changelog>
+  <release>
+   <version>
+    <release>2.0.0RC3</release>
+    <api>2.0.0RC3</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2007-11-25</date>
+   <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
+   <notes>- bug #12525: moved t2xmlchk.php script to / baseinstalldir
+   </notes>
+  </release>
   <release>
    <version>
     <release>2.0.0RC2</release>
