@@ -215,7 +215,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      */
     function getLang($langID = null, $format = 'name')
     {
-        $langs = $this->getLangs();
+        $langs = $this->getLangs('array');
 
         if (is_null($langID)) {
             if (!isset($this->lang['id']) || !array_key_exists($this->lang['id'], $langs)) {

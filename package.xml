@@ -45,19 +45,18 @@ Currently, the following decorators are provided:
   <email>mike@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-12-05</date>
- <time>22:11:30</time>
+ <date>2007-12-16</date>
+ <time>21:26:30</time>
  <version>
-  <release>2.0.0RC3</release>
-  <api>2.0.0RC3</api>
+  <release>2.0.0RC4</release>
+  <api>2.0.0RC4</api>
  </version>
  <stability>
   <release>beta</release>
   <api>beta</api>
  </stability>
  <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
- <notes>- fixed bug #12525: moved t2xmlchk.php script to / baseinstalldir
-- fixed bug #12527: rewritten CacheMemory Decorator to properly prefetch pages
+ <notes>- fixed bug #12703: CacheLiteFunction decorator and getLang() issue
  </notes>
  <contents>
   <dir name="/">
@@ -192,6 +191,20 @@ Currently, the following decorators are provided:
  </dependencies>
  <phprelease />
  <changelog>
+  <release>
+   <version>
+    <release>2.0.0RC4</release>
+    <api>2.0.0RC4</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2007-12-16</date>
+   <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
+   <notes>- fixed bug #12703: CacheLiteFunction decorator and getLang() issue
+   </notes>
+  </release>
   <release>
    <version>
     <release>2.0.0RC3</release>
