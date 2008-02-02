@@ -31,7 +31,7 @@
  * @package   Translation2
  * @author    Lorenzo Alberton <l.alberton@quipo.it>
  * @author    Olivier Guilyardi <olivier@samalyse.com>
- * @copyright 2004-2007 Lorenzo Alberton, Olivier Guilyardi
+ * @copyright 2004-2008 Lorenzo Alberton, Olivier Guilyardi
  * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/Translation2
@@ -99,7 +99,7 @@ define('TRANSLATION2_DTD',
  * @package   Translation2
  * @author    Lorenzo Alberton <l.alberton@quipo.it>
  * @author    Olivier Guilyardi <olivier@samalyse.com>
- * @copyright 2004-2007 Lorenzo Alberton, Olivier Guilyardi
+ * @copyright 2004-2008 Lorenzo Alberton, Olivier Guilyardi
  * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @link      http://pear.php.net/package/Translation2
  */
@@ -477,18 +477,18 @@ class Translation2_Container_xml extends Translation2_Container
     /**
      * Get the stringID for the given string
      *
-     * @param string $stringID string ID
-     * @param string $pageID   page/group ID
+     * @param string $string string
+     * @param string $pageID page/group ID
      *
      * @return string
      */
-    function getStringID($stringID, $pageID = null)
+    function getStringID($string, $pageID = null)
     {
         $pageID = (is_null($pageID)) ? '#NULL' : $pageID;                        
         
-        foreach ($this->_data['pages'][$pageID] as $str_id => $translations) {
+        foreach ($this->_data['pages'][$pageID] as $stringID => $translations) {
             if (array_search($string, $translations) !== false) {
-                return $str_id;
+                return $stringID;
             }
         }
 

@@ -30,7 +30,7 @@
  * @category  Internationalization
  * @package   Translation2
  * @author    Lorenzo Alberton <l.alberton@quipo.it>
- * @copyright 2004-2007 Lorenzo Alberton
+ * @copyright 2004-2008 Lorenzo Alberton
  * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/Translation2
@@ -50,7 +50,7 @@ require_once 'Translation2/Container.php';
  * @category  Internationalization
  * @package   Translation2
  * @author    Lorenzo Alberton <l.alberton@quipo.it>
- * @copyright 2004-2007 Lorenzo Alberton
+ * @copyright 2004-2008 Lorenzo Alberton
  * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/Translation2
@@ -206,7 +206,7 @@ class Translation2_Container_mdb2 extends Translation2_Container
      *
      * @return array
      */
-    function &getPage($pageID = null, $langID = null)
+    function getPage($pageID = null, $langID = null)
     {
         $langID   = $this->_getLangID($langID);
         if (PEAR::isError($langID)) {
@@ -287,12 +287,12 @@ class Translation2_Container_mdb2 extends Translation2_Container
     /**
      * Get the stringID for the given string
      *
-     * @param string $stringID string ID
-     * @param string $pageID   page/group ID
+     * @param string $string string
+     * @param string $pageID page/group ID
      *
      * @return string
      */
-    function getStringID($stringID, $pageID = null)
+    function getStringID($string, $pageID = null)
     {
         $lang_col = $this->_getLangCol($this->currentLang['id']);
         $table = $this->_getLangTable($this->currentLang['id']);

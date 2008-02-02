@@ -31,7 +31,7 @@
  * @package   Translation2
  * @author    Lorenzo Alberton <l.alberton@quipo.it>
  * @author    Ian Eure <ieure@php.net>
- * @copyright 2004-2007 Lorenzo Alberton, Ian Eure
+ * @copyright 2004-2008 Lorenzo Alberton, Ian Eure
  * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/Translation2
@@ -52,7 +52,7 @@ require_once 'Translation2/Container.php';
  * @package   Translation2
  * @author    Lorenzo Alberton <l.alberton@quipo.it>
  * @author    Ian Eure <ieure@php.net>
- * @copyright 2004-2007 Lorenzo Alberton, Ian Eure
+ * @copyright 2004-2008 Lorenzo Alberton, Ian Eure
  * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/Translation2
@@ -212,7 +212,7 @@ class Translation2_Container_db extends Translation2_Container
      *
      * @return array
      */
-    function &getPage($pageID = null, $langID = null)
+    function getPage($pageID = null, $langID = null)
     {
         $langID = $this->_getLangID($langID);
         if (PEAR::isError($langID)) {
