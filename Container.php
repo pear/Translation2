@@ -275,7 +275,7 @@ class Translation2_Container
      *
      * @return array
      */
-    function getPage($pageID, $langID)
+    function getPage($pageID = null, $langID = null)
     {
         return $this->raiseError('method "getPage" not supported',
                                  TRANSLATION_ERROR_METHOD_NOT_SUPPORTED);
@@ -311,7 +311,7 @@ class Translation2_Container
      *
      * @return string
      */
-    function getStringID($string, $pageID)
+    function getStringID($string, $pageID = null)
     {
         return $this->raiseError('method "getStringID" not supported',
                                  TRANSLATION_ERROR_METHOD_NOT_SUPPORTED);
