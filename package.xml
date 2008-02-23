@@ -45,8 +45,8 @@ Currently, the following decorators are provided:
   <email>mike@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-02-02</date>
- <time>19:20:30</time>
+ <date>2008-02-23</date>
+ <time>14:38:30</time>
  <version>
   <release>2.0.0RC4</release>
   <api>2.0.0RC4</api>
@@ -202,7 +202,7 @@ Currently, the following decorators are provided:
     <release>beta</release>
     <api>beta</api>
    </stability>
-   <date>2008-02-02</date>
+   <date>2008-02-23</date>
    <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
    <notes>- fixed bug #12703: CacheLiteFunction decorator and getLang() issue
 - fixed some E_STRICT warnings
