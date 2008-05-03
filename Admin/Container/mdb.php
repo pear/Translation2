@@ -93,11 +93,12 @@ class Translation2_Admin_Container_mdb extends Translation2_Container_mdb
         //table does not exist
         $queries = array();
         $queries[] = sprintf('CREATE TABLE %s ( '
-                             .'%s VARCHAR(50) default NULL, '
+                             .'%s VARCHAR(%d) default NULL, '
                              .'%s TEXT NOT NULL, '
                              .'%s TEXT )',
             $this->db->quoteIdentifier($langData['table_name']),
             $this->db->quoteIdentifier($this->options['string_page_id_col']),
+            (int)$this->options['string_page_id_col_length'],
             $this->db->quoteIdentifier($this->options['string_id_col']),
             $this->db->quoteIdentifier($lang_col)
         );

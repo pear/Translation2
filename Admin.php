@@ -78,7 +78,7 @@ class Translation2_Admin extends Translation2
      */
     function & factory($driver, $options = '', $params = array())
     {
-        $tr =& new Translation2_Admin;
+        $tr = new Translation2_Admin;
         $tr->storage = Translation2_Admin::_storageFactory($driver, $options);
         if (PEAR::isError($tr->storage)) {
             return $tr->storage;
@@ -112,7 +112,7 @@ class Translation2_Admin extends Translation2
         $storage_path  = 'Translation2/Admin/Container/'.strtolower($driver).'.php';
         $storage_class = 'Translation2_Admin_Container_'.strtolower($driver);
         include_once $storage_path;
-        $storage =& new $storage_class;
+        $storage = new $storage_class;
         $err = $storage->init($options);
         if (PEAR::isError($err)) {
             return $err;

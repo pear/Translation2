@@ -119,7 +119,7 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
         $table_definition = array(
             $this->options['string_page_id_col'] => array(
                 'type'      => 'text',
-                'length'    => 50,
+                'length'    => $this->options['string_page_id_col_length'],
                 'default'   => null,
                 'charset'   => $charset,
                 'collation' => $collation,
