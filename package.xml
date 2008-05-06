@@ -45,8 +45,8 @@ Currently, the following decorators are provided:
   <email>mike@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-05-03</date>
- <time>11:20:00</time>
+ <date>2008-05-06</date>
+ <time>11:48:00</time>
  <version>
   <release>2.0.0</release>
   <api>2.0.0</api>
@@ -202,7 +202,7 @@ Currently, the following decorators are provided:
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2008-05-03</date>
+   <date>2008-05-06</date>
    <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
    <notes>- fixed a few PHP5 NOTICEs
 - request #13734: added 'string_page_id_col_length' option to set the size of the
