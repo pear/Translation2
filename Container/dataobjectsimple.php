@@ -197,7 +197,7 @@ class Translation2_Container_dataobjectsimple extends Translation2_Container
      *
      * @return string
      */
-    function getOne($stringID, $pageID = null, $langID = null)
+    function getOne($string, $pageID = null, $langID = null)
     {
         $langID = $langID ? $langID : (isset($this->currentLang['id']) ? $this->currentLang['id'] : '-');
         // get the string id

@@ -45,20 +45,18 @@ Currently, the following decorators are provided:
   <email>mike@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-05-06</date>
- <time>11:48:00</time>
+ <date>2008-05-18</date>
+ <time>19:56:00</time>
  <version>
-  <release>2.0.0</release>
-  <api>2.0.0</api>
+  <release>2.0.1</release>
+  <api>2.0.1</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
- <notes>- fixed a few PHP5 NOTICEs
-- request #13734: added 'string_page_id_col_length' option to set the size of the
-  pageID field in the translations table
+ <notes>- fixed bug #13933: undefined variable in the dataobjectsimple driver
  </notes>
  <contents>
   <dir name="/">
@@ -193,6 +191,20 @@ Currently, the following decorators are provided:
  </dependencies>
  <phprelease />
  <changelog>
+  <release>
+   <version>
+    <release>2.0.1</release>
+    <api>2.0.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-05-18</date>
+   <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
+   <notes>- fixed bug #13933: undefined variable in the dataobjectsimple driver
+   </notes>
+  </release>
   <release>
    <version>
     <release>2.0.0</release>
