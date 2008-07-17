@@ -296,7 +296,7 @@ class Translation2
      *
      * @param string $langID language code (for instance, 'en' or 'it')
      *
-     * @return void|PEAR_Error
+     * @return true|PEAR_Error
      */
     function setLang($langID)
     {
@@ -305,6 +305,7 @@ class Translation2
             return $res;
         }
         $this->lang = $res;
+        return true;
     }
 
     // }}}
@@ -373,7 +374,7 @@ class Translation2
      *
      * @param string $format ['ids', 'names', 'array']
      *
-     * @return array
+     * @return array|PEAR_Error
      */
     function getLangs($format = 'name')
     {

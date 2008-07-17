@@ -198,11 +198,11 @@ class Translation2_Decorator extends Translation2
      *
      * @param string $langID language ID
      *
-     * @return void
+     * @return true|PEAR_Error
      */
     function setLang($langID)
     {
-        $this->translation2->setLang($langID);
+        return $this->translation2->setLang($langID);
     }
 
     // }}}

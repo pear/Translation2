@@ -157,11 +157,14 @@ class Translation2_Container
      *
      * @param string $langID language ID
      *
-     * @return array language information
+     * @return array|PEAR_Error language information
      */
     function setLang($langID)
     {
-        $this->getLangs(); //load available languages, if not loaded yet (ignore return value)
+        $res = $this->getLangs(); //load available languages, if not loaded yet
+        if (PEAR::isError($res)) {
+            return $res;
+        }
         if (!array_key_exists($langID, $this->langs)) {
             return $this->raiseError('unknown language: "'.$langID.'"',
                                     TRANSLATION2_ERROR_UNKNOWN_LANG,
@@ -212,13 +215,16 @@ class Translation2_Container
      *
      * @param string $format ['array' | 'ids' | 'names' | 'encodings']
      *
-     * @return array
+     * @return array|PEAR_Error
      */
     function getLangs($format = 'array')
     {
         //if not cached yet, fetch langs data from the container
         if (empty($this->langs) || !count($this->langs)) {
-            $this->fetchLangs(); //container-specific method
+            $res = $this->fetchLangs(); //container-specific method
+            if (PEAR::isError($res)) {
+                return $res;
+            }
         }
 
         $tmp = array();

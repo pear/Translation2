@@ -45,8 +45,8 @@ Currently, the following decorators are provided:
   <email>mike@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-05-18</date>
- <time>19:56:00</time>
+ <date>2008-07-17</date>
+ <time>12:20:00</time>
  <version>
   <release>2.0.1</release>
   <api>2.0.1</api>
@@ -57,6 +57,7 @@ Currently, the following decorators are provided:
  </stability>
  <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
  <notes>- fixed bug #13933: undefined variable in the dataobjectsimple driver
+- fixed bug #14323: wrong / no error from setLang() [cwiedmann]
  </notes>
  <contents>
   <dir name="/">
@@ -200,9 +201,10 @@ Currently, the following decorators are provided:
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2008-05-18</date>
+   <date>2008-07-17</date>
    <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
    <notes>- fixed bug #13933: undefined variable in the dataobjectsimple driver
+- fixed bug #14323: wrong / no error from setLang() [cwiedmann]
    </notes>
   </release>
   <release>
