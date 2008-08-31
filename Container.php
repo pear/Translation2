@@ -235,16 +235,19 @@ class Translation2_Container
                 $tmp[$aLang['id']] = $aLang;
             }
             break;
+        case 'id':
         case 'ids':
             foreach ($this->langs as $aLang) {
                 $tmp[] = $aLang['id'];
             }
             break;
+        case 'encoding':
         case 'encodings':
             foreach ($this->langs as $aLang) {
                 $tmp[] = $aLang['encoding'];
             }
             break;
+        case 'name':
         case 'names':
         default:
             foreach ($this->langs as $aLang) {
