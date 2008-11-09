@@ -73,15 +73,15 @@ class Translation2_Decorator_Lang extends Translation2_Decorator
      * @param string $option option name
      * @param mixed  $value  option value
      *
-     * @return void
+     * @return self
      */
     function setOption($option, $value=null)
     {
         if ($option == 'fallbackLang') {
             $this->fallbackLang = $value;
-        } else {
-            parent::setOption($option, $value);
+            return $this;
         }
+        return parent::setOption($option, $value);
     }
 
     // }}}

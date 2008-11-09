@@ -125,7 +125,7 @@ class Translation2_Decorator extends Translation2
      * @param string $option option name
      * @param mixed  $value  option value
      *
-     * @return void
+     * @return self
      */
     function setOption($option, $value=null)
     {
@@ -134,6 +134,7 @@ class Translation2_Decorator extends Translation2
         } elseif (is_a($this->translation2, 'Translation2_Decorator')) {
             $this->translation2->setOption($option, $value);
         }
+        return $this;
     }
 
     // }}}
