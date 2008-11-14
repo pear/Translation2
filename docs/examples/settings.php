@@ -43,10 +43,11 @@ $dbinfo = array(
 
 $params = array(
     'langs_avail_table' => TABLE_PREFIX.'langs_avail',
-    'lang_id_col'     => 'id',
-    'lang_name_col'   => 'name',
-    'lang_meta_col'   => 'meta',
-    'lang_errmsg_col' => 'error_text',
+    'lang_id_col'       => 'id',
+    'lang_name_col'     => 'name',
+    'lang_meta_col'     => 'meta',
+    'lang_errmsg_col'   => 'error_text',
+    'lang_encoding_col' => 'encoding',
     /*
     'strings_tables'  => array(
                             'en' => TABLE_PREFIX.'i18n',
@@ -62,10 +63,9 @@ $params = array(
                            //(use when db load is cheaper than network load)
 );
 
-$driver = 'MDB';
+$driver = 'MDB2';
 
 $cache_options = array(
     'cacheDir' => 'cache/', //default is /tmp/
     'lifeTime' => 3600*24,  //default is 3600 (1 minute)
 );
-?>

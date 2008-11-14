@@ -4,6 +4,7 @@
  * set parameters and options
  */
 require_once './settings.php';
+//require_once './settings_multitable.php';  //this one uses one table per lang
 require_once 'Translation2.php';
 
 //require_once 'Translation2/Admin.php';
