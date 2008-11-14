@@ -105,7 +105,7 @@ class Translation2_Decorator extends Translation2
      *
      * @param array $options decorator options
      *
-     * @return void
+     * @return self
      */
     function setOptions($options=array())
     {
@@ -114,6 +114,7 @@ class Translation2_Decorator extends Translation2
                 $this->setOption($option, $value);
             }
         }
+        return $this;
     }
 
     // }}}

@@ -189,7 +189,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
      * @param string $name  name of the option
      * @param string $value new value of the option
      *
-     * @return void
+     * @return self
      * @access public
      * @see Cache_Lite::setOption()
      */
@@ -197,6 +197,7 @@ class Translation2_Decorator_CacheLiteFunction extends Translation2_Decorator
     {
         $this->_prepare();
         $this->cacheLiteFunction->setOption($name, $value);
+        return $this;
     }
 
     // }}}

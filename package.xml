@@ -45,8 +45,8 @@ Currently, the following decorators are provided:
   <email>mike@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-11-09</date>
- <time>19:55:00</time>
+ <date>2008-11-14</date>
+ <time>16:24:00</time>
  <version>
   <release>2.0.1</release>
   <api>2.0.1</api>
@@ -59,7 +59,9 @@ Currently, the following decorators are provided:
  <notes>- fixed bug #13933: undefined variable in the dataobjectsimple driver
 - fixed bug #14323: wrong / no error from setLang() [cwiedmann]
 - fixed bug in getLangs(), where certain formats were not recognized
-- request #14979: fluent interface for decorator's setOption() method
+- request #14979: fluent interface for setPageID() and setParams() 
+  and for setOption() and setOptions() decorator methods
+- request #15000: added SQL example in the /docs/examples dir
  </notes>
  <contents>
   <dir name="/">
@@ -103,8 +105,10 @@ Currently, the following decorators are provided:
      <file baseinstalldir="Translation2" name="gettext_prepare.php" role="doc" />
      <file baseinstalldir="Translation2" name="gettext_settings.php" role="doc" />
      <file baseinstalldir="Translation2" name="settings.php" role="doc" />
+     <file baseinstalldir="Translation2" name="settings_multitable.php role="doc" />
      <file baseinstalldir="Translation2" name="Translation2_example.php" role="doc" />
      <file baseinstalldir="Translation2" name="Translation2_example.sql" role="doc" />
+     <file baseinstalldir="Translation2" name="Translation2_example_multitable.sql" role="doc" />
      <file baseinstalldir="Translation2" name="Translation2_gettext_example.php" role="doc" />
     </dir> <!-- /docs/examples -->
     <file baseinstalldir="Translation2" name="gettext_readme.txt" role="doc" />
@@ -203,12 +207,14 @@ Currently, the following decorators are provided:
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2008-11-09</date>
+   <date>2008-11-14</date>
    <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
    <notes>- fixed bug #13933: undefined variable in the dataobjectsimple driver
 - fixed bug #14323: wrong / no error from setLang() [cwiedmann]
 - fixed bug in getLangs(), where certain formats were not recognized
-- request #14979: fluent interface for decorator's setOption() method
+- request #14979: fluent interface for setPageID() and setParams() 
+  and for setOption() and setOptions() decorator methods
+- request #15000: added SQL example in the /docs/examples dir
    </notes>
   </release>
   <release>

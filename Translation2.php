@@ -319,11 +319,12 @@ class Translation2
      *
      * @param string $pageID ID of the default page
      *
-     * @return void
+     * @return self
      */
     function setPageID($pageID = null)
     {
         $this->currentPageID = $pageID;
+        return $this;
     }
 
     // }}}
@@ -392,7 +393,7 @@ class Translation2
      *
      * @param array $params array of replacement parameters
      *
-     * @return void
+     * @return self
      */
     function setParams($params = null)
     {
@@ -403,6 +404,7 @@ class Translation2
         } else {
             $this->params = array($params);
         }
+        return $this;
     }
 
     // }}}
