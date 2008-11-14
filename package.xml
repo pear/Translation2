@@ -48,20 +48,16 @@ Currently, the following decorators are provided:
  <date>2008-11-14</date>
  <time>16:24:00</time>
  <version>
-  <release>2.0.1</release>
-  <api>2.0.1</api>
+  <release>2.0.2</release>
+  <api>2.0.2</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
- <notes>- fixed bug #13933: undefined variable in the dataobjectsimple driver
-- fixed bug #14323: wrong / no error from setLang() [cwiedmann]
-- fixed bug in getLangs(), where certain formats were not recognized
-- request #14979: fluent interface for setPageID() and setParams() 
-  and for setOption() and setOptions() decorator methods
-- request #15000: added SQL example in the /docs/examples dir
+ <notes>
+ 
  </notes>
  <contents>
   <dir name="/">
@@ -198,6 +194,21 @@ Currently, the following decorators are provided:
  </dependencies>
  <phprelease />
  <changelog>
+  <release>
+   <version>
+    <release>2.0.2</release>
+    <api>2.0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-11-14</date>
+   <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
+   <notes>
+
+   </notes>
+  </release>
   <release>
    <version>
     <release>2.0.1</release>
