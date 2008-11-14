@@ -105,7 +105,7 @@ Currently, the following decorators are provided:
      <file baseinstalldir="Translation2" name="gettext_prepare.php" role="doc" />
      <file baseinstalldir="Translation2" name="gettext_settings.php" role="doc" />
      <file baseinstalldir="Translation2" name="settings.php" role="doc" />
-     <file baseinstalldir="Translation2" name="settings_multitable.php role="doc" />
+     <file baseinstalldir="Translation2" name="settings_multitable.php" role="doc" />
      <file baseinstalldir="Translation2" name="Translation2_example.php" role="doc" />
      <file baseinstalldir="Translation2" name="Translation2_example.sql" role="doc" />
      <file baseinstalldir="Translation2" name="Translation2_example_multitable.sql" role="doc" />
