@@ -45,8 +45,8 @@ Currently, the following decorators are provided:
   <email>mike@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-11-14</date>
- <time>16:24:00</time>
+ <date>2009-12-27</date>
+ <time>23:26:00</time>
  <version>
   <release>2.0.2</release>
   <api>2.0.2</api>
@@ -57,7 +57,7 @@ Currently, the following decorators are provided:
  </stability>
  <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
  <notes>
- 
+- fixed bug #16787: charset and collation options are ignored on i18n table creation
  </notes>
  <contents>
   <dir name="/">
@@ -203,10 +203,10 @@ Currently, the following decorators are provided:
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2008-11-14</date>
+   <date>2009-12-27</date>
    <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
    <notes>
-
+- fixed bug #16787: charset and collation options are ignored on i18n table creation
    </notes>
   </release>
   <release>

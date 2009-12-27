@@ -137,7 +137,11 @@ class Translation2_Admin_Container_mdb2 extends Translation2_Container_mdb2
             ),
         );
         ++$this->_queries;
-        $res = $this->db->manager->createTable($langData['table_name'], $table_definition);
+        $table_options = array(
+            'charset' => $charset,
+            'collate' => $collation,
+        );
+        $res = $this->db->manager->createTable($langData['table_name'], $table_definition, $table_options);
         if (PEAR::isError($res)) {
             return $res;
         }
