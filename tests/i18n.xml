@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE translation2 [
+  <!ELEMENT translation2 (languages,pages)>
+  <!ELEMENT languages (lang*)>
+  <!ELEMENT lang (name?,meta?,error_text?,encoding?)>
+  <!ATTLIST lang id ID #REQUIRED>
+  <!ELEMENT name (#PCDATA)>
+  <!ELEMENT meta (#PCDATA)>
+  <!ELEMENT error_text (#PCDATA)>
+  <!ELEMENT encoding (#PCDATA)>
+  <!ELEMENT pages (page*)>
+  <!ELEMENT page (string*)>
+  <!ATTLIST page key CDATA #REQUIRED>
+  <!ELEMENT string (tr*)>
+  <!ATTLIST string key CDATA #REQUIRED>
+  <!ELEMENT tr (#PCDATA)>
+  <!ATTLIST tr lang IDREF #REQUIRED>
+]>
+
+<translation2>
+  <languages>
+    <lang id="it">
+      <name> italiano </name>
+      <meta> charset: iso-8859-1 </meta>
+      <error_text> non disponibile in Italiano</error_text>
+      <encoding> iso-8859-1 </encoding>
+    </lang>
+    <lang id="en">
+      <name> english </name>
+      <meta> my meta info </meta>
+      <error_text> not available in English</error_text>
+      <encoding> iso-8859-1 </encoding>
+    </lang>
+    <lang id="de">
+      <name> deutsch </name>
+      <meta> charset: iso-8859-1 </meta>
+      <error_text> kein Text auf Deutsch verfügbar </error_text>
+      <encoding> iso-8859-1 </encoding>
+    </lang>
+  </languages>
+  <pages>
+    <page key="calendar">
+      <string key="month_01">
+        <tr lang="en"> january </tr>
+        <tr lang="it"> gennaio </tr>
+      </string>
+      <string key="month_02">
+        <tr lang="en"> february </tr>
+        <tr lang="it"> febbraio </tr>
+      </string>
+      <string key="month_03">
+        <tr lang="en"> march </tr>
+        <tr lang="it"> marzo </tr>
+      </string>
+      <string key="month_04">
+        <tr lang="en"> april </tr>
+        <tr lang="it"> aprile </tr>
+      </string>
+      <string key="month_05">
+        <tr lang="en"> may </tr>
+        <tr lang="it"> maggio </tr>
+      </string>
+      <string key="month_06">
+        <tr lang="en"> june </tr>
+        <tr lang="it"> giugno </tr>
+      </string>
+      <string key="month_07">
+        <tr lang="en"> july </tr>
+        <tr lang="it"> luglio </tr>
+      </string>
+      <string key="month_08">
+        <tr lang="en"> august </tr>
+        <tr lang="it"> agosto </tr>
+      </string>
+      <string key="month_09">
+        <tr lang="en"> september </tr>
+        <tr lang="it"> settembre </tr>
+      </string>
+      <string key="month_10">
+        <tr lang="en"> october </tr>
+        <tr lang="it"> ottobre </tr>
+      </string>
+      <string key="month_11">
+        <tr lang="en"> november </tr>
+        <tr lang="it"> novembre </tr>
+      </string>
+      <string key="month_12">
+        <tr lang="en"> december </tr>
+        <tr lang="it"> dicembre </tr>
+      </string>
+      <string key="day_0">
+        <tr lang="en"> sunday </tr>
+        <tr lang="it"> domenica </tr>
+      </string>
+      <string key="day_1">
+        <tr lang="en"> monday </tr>
+        <tr lang="it"> lunedi </tr>
+      </string>
+      <string key="day_2">
+        <tr lang="en"> tuesday </tr>
+        <tr lang="it"> martedi </tr>
+      </string>
+      <string key="day_3">
+        <tr lang="en"> wednesday </tr>
+        <tr lang="it"> mercoledi </tr>
+      </string>
+      <string key="day_4">
+        <tr lang="en"> thursday </tr>
+        <tr lang="it"> giovedi </tr>
+      </string>
+      <string key="day_5">
+        <tr lang="en"> friday </tr>
+        <tr lang="it"> venerdì </tr>
+      </string>
+      <string key="day_6">
+        <tr lang="en"> saturday </tr>
+        <tr lang="it"> sabato </tr>
+      </string>
+    </page>
+    <page key="#NULL">
+      <string key="only_english">
+        <tr lang="en"> only english text </tr>
+      </string>
+      <string key="only_italian">
+        <tr lang="it"> testo solo in italiano </tr>
+      </string>
+      <string key="hello_user">
+        <tr lang="en"> hello &amp;&amp;user&amp;&amp;, today is &amp;&amp;weekday&amp;&amp;, &amp;&amp;day&amp;&amp;th &amp;&amp;month&amp;&amp; &amp;&amp;year&amp;&amp; </tr>
+        <tr lang="it"> ciao, &amp;&amp;user&amp;&amp;, oggi è il &amp;&amp;day&amp;&amp; &amp;&amp;month&amp;&amp; &amp;&amp;year&amp;&amp; (&amp;&amp;weekday&amp;&amp;) </tr>
+      </string>
+      <string key="isempty">
+        <tr lang="de"> this string is empty in English and Italian, but not in German! </tr>
+      </string>
+      <string key="prova_conflitto">
+        <tr lang="en"> conflicting text - Global </tr>
+        <tr lang="it"> testo con conflitto - globale </tr>
+      </string>
+      <string key="test">
+        <tr lang="en"> this is a test string </tr>
+        <tr lang="it"> stringa di prova </tr>
+      </string>
+      <string key="Entirely new string">
+        <tr lang="en"> Entirely new string </tr>
+      </string>
+    </page>
+    <page key="small page">
+      <string key="first string">
+        <tr lang="en"> first string </tr>
+        <tr lang="it"> prima stringa </tr>
+      </string>
+      <string key="second string">
+        <tr lang="en"> second string </tr>
+        <tr lang="it"> seconda stringa </tr>
+      </string>
+    </page>
+    <page key="alone">
+      <string key="alone">
+        <tr lang="en"> all alone </tr>
+        <tr lang="it"> solo soletto </tr>
+      </string>
+    </page>
+    <page key="bbcode">
+      <string key="bbcode">
+        <tr lang="en"> [b]this text should be bold[/b],
+[i]italic[/i], 
+here's a link: http://www.server.com 
+email@address.com
+[email=email@address.com]write me![/email]
+        </tr>
+        <tr lang="it"> [b]grassetto[/b],
+[i]corsivo[/i],
+un link: http://www.server.com 
+email@address.com
+[email=email@address.com]write me![/email] 
+        </tr>
+      </string>
+    </page>
+    <page key="de">
+      <string key="Entirely new string">
+        <tr lang="en"> Entirely new string </tr>
+      </string>
+    </page>
+    <page key="samplePage">
+      <string key="Entirely new string">
+        <tr lang="en"> Entirely new string </tr>
+      </string>
+    </page>
+    <page key="in_page">
+      <string key="prova_conflitto">
+        <tr lang="en"> conflicting text - in page </tr>
+        <tr lang="it"> testo con conflitto - in page </tr>
+      </string>
+    </page>
+    <page key="#EMPTY">
+      <string key="pageid_vuoto">
+        <tr lang="en"> string with empty pageID (i.e. NOT NULL) </tr>
+        <tr lang="it"> stringa con pageID vuoto ma non nullo </tr>
+      </string>
+    </page>
+  </pages>
+</translation2>
