@@ -40,10 +40,10 @@ Currently, the following decorators are provided:
   <email>mike@php.net</email>
   <active>yes</active>
  </developer>
- <date>2010-10-25</date>
- <time>23:05:23</time>
+ <date>2010-12-06</date>
+ <time>09:26:04</time>
  <version>
-  <release>2.0.3</release>
+  <release>2.0.4</release>
   <api>2.0.2</api>
  </version>
  <stability>
@@ -52,34 +52,11 @@ Currently, the following decorators are provided:
  </stability>
  <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
  <notes>
-Automatically built QA release
-Req #16787 default &apos;latin1_swedish_ci&apos; db created with collation set to
-utf8_unicode_ci - quipo
+QA release
+Bug #18081 	Translation2.php installed in the wrong place
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <file baseinstalldir="Translation2" md5sum="b850917107ade89d68eca7a09973eddd" name="Admin/Decorator.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="8feb2090133ed9555204f334b8b237fd" name="Admin/Container/dataobjectsimple.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="0422ec2f01ce15c0a24df222626ffdeb" name="Admin/Container/db.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="2616b9f25a1d73d834715bea9a679948" name="Admin/Container/gettext.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="a8c671369efcf8fc0eddab98e553007e" name="Admin/Container/mdb.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="fabab0818ff38be8544052a553c69936" name="Admin/Container/mdb2.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="dd196ed0bfbbd3d5ff8b7874b25d27f8" name="Admin/Container/xml.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="6d408117221febec25747549c0007263" name="Admin/Decorator/Autoadd.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="ccb015552182403b72c5d63fcaa7db8a" name="Container/dataobjectsimple.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="ce0b5a99f1860e5e2ee8bf6f4168140c" name="Container/db.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="74f4a2d37461c3fe59f098a94db87ef3" name="Container/gettext.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="09eeab395ad3e8f127180db79825b30a" name="Container/mdb.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="3e870b020032c5df0610df8d3bd42a10" name="Container/mdb2.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="183dcd54e2fe0700cb6c4639cdc8bec8" name="Container/xml.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="e9cc6979b3f0b045c9174668b645e896" name="Decorator/CacheLiteFunction.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="a181d10912def57bd1ce73aee9def980" name="Decorator/CacheMemory.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="3061c273dde89231446af5a5e13c697b" name="Decorator/DefaultText.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="859192217a7bb8379799998d257837a3" name="Decorator/ErrorText.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="ed2bdd671e7837675ac2711689486216" name="Decorator/Iconv.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="1f558267c23615fb801072802e5b4920" name="Decorator/Lang.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="a3b828e01ff14f1549dfe2f893eae470" name="Decorator/SpecialChars.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="06718c76799d333ff131e1c195ccafdc" name="Decorator/UTF8.php" role="php" />
    <file baseinstalldir="Translation2" md5sum="60fe3be0922e2ab732401836d9e20d44" name="docs/gettext_readme.txt" role="doc" />
    <file baseinstalldir="Translation2" md5sum="d3bbc424218c165356bd3f9ea624742f" name="docs/examples/gettext_admin.php" role="doc" />
    <file baseinstalldir="Translation2" md5sum="07660adacbafe25b6cea15d007ef7cd4" name="docs/examples/gettext_domains.ini" role="doc" />
@@ -121,9 +98,31 @@ utf8_unicode_ci - quipo
    <file baseinstalldir="Translation2" md5sum="be5815005d52410654afa20c91e27703" name="tests/translation2_admin_include.php" role="test" />
    <file baseinstalldir="Translation2" md5sum="e4b52bf0092e051c70493191b94e4654" name="tests/translation2_include.php" role="test" />
    <file baseinstalldir="Translation2" md5sum="81ff999471291f06ba5b205e29dd67fd" name="tests/xml_test.php" role="test" />
-   <file baseinstalldir="Translation2" md5sum="afa20422724bb664edade1389f21eecd" name="Admin.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="98557869285aa753d3300e381b4e2a38" name="Container.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="e5ea1d80a42b5e77ed46ff6462d42fc7" name="Decorator.php" role="php" />
+   <file baseinstalldir="/" md5sum="10f34863ca5e4b05603e0590f3b2a2c3" name="Translation2/Admin.php" role="php" />
+   <file baseinstalldir="/" md5sum="4a83f3f285a679388b3aea941311b97a" name="Translation2/Container.php" role="php" />
+   <file baseinstalldir="/" md5sum="dece3e0ef93d46bcdf641eff647b3a8b" name="Translation2/Decorator.php" role="php" />
+   <file baseinstalldir="/" md5sum="045d7e74911d312e7b21e5ba0ce6ebf0" name="Translation2/Admin/Decorator.php" role="php" />
+   <file baseinstalldir="/" md5sum="b47d81857c1028b40dc9a40e8f3c4afe" name="Translation2/Admin/Container/dataobjectsimple.php" role="php" />
+   <file baseinstalldir="/" md5sum="d11f30bdbf49d12d813a7725732f4e58" name="Translation2/Admin/Container/db.php" role="php" />
+   <file baseinstalldir="/" md5sum="28d3d745d48dfc977b7831db931ef659" name="Translation2/Admin/Container/gettext.php" role="php" />
+   <file baseinstalldir="/" md5sum="729020e1a4c98afef0522b1b8c1489fa" name="Translation2/Admin/Container/mdb.php" role="php" />
+   <file baseinstalldir="/" md5sum="55a590a80c2c995e0d205fdf54177a59" name="Translation2/Admin/Container/mdb2.php" role="php" />
+   <file baseinstalldir="/" md5sum="8903f858a69f27d9188bf53ec824a338" name="Translation2/Admin/Container/xml.php" role="php" />
+   <file baseinstalldir="/" md5sum="984ddd9437d05e5cf3f807bd598df246" name="Translation2/Admin/Decorator/Autoadd.php" role="php" />
+   <file baseinstalldir="/" md5sum="0d0d12f634f0fda06d6dc55e3a990cf3" name="Translation2/Container/dataobjectsimple.php" role="php" />
+   <file baseinstalldir="/" md5sum="342a35a0cc3885f4a2020ecd7c9695fe" name="Translation2/Container/db.php" role="php" />
+   <file baseinstalldir="/" md5sum="db596bb4da3d8adb8cf6a961f38eef7c" name="Translation2/Container/gettext.php" role="php" />
+   <file baseinstalldir="/" md5sum="a4df1131f2ed48e083c44f6646f299c8" name="Translation2/Container/mdb.php" role="php" />
+   <file baseinstalldir="/" md5sum="86edee0040371f1192389db2158dbc20" name="Translation2/Container/mdb2.php" role="php" />
+   <file baseinstalldir="/" md5sum="3f22b9415fa3bd331029067919884d63" name="Translation2/Container/xml.php" role="php" />
+   <file baseinstalldir="/" md5sum="5fc42128b64af8c2f696b3b5e3822ba8" name="Translation2/Decorator/CacheLiteFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="3bbcb710a3016ce9e4602819ad17b21b" name="Translation2/Decorator/CacheMemory.php" role="php" />
+   <file baseinstalldir="/" md5sum="526f5c9d048d1bb117ae6f0696e9b55e" name="Translation2/Decorator/DefaultText.php" role="php" />
+   <file baseinstalldir="/" md5sum="4ba13dc8e09f9c029d2eee6c9ef6db95" name="Translation2/Decorator/ErrorText.php" role="php" />
+   <file baseinstalldir="/" md5sum="57c878ee905ce3315e2a67781690eb4d" name="Translation2/Decorator/Iconv.php" role="php" />
+   <file baseinstalldir="/" md5sum="f35a573e3b533e8d9ee58ce9921dd073" name="Translation2/Decorator/Lang.php" role="php" />
+   <file baseinstalldir="/" md5sum="5d6b1a88b5a71c531ef3431c79ff7497" name="Translation2/Decorator/SpecialChars.php" role="php" />
+   <file baseinstalldir="/" md5sum="2aff1bc43bc302397ea78b6156aa785f" name="Translation2/Decorator/UTF8.php" role="php" />
    <file baseinstalldir="/" md5sum="2a7d0c4e0a9f8899ecf257d099810900" name="Translation2.php" role="php" />
   </dir>
  </contents>
@@ -667,6 +666,22 @@ First alpha release
 Automatically built QA release
 Req #16787 default &apos;latin1_swedish_ci&apos; db created with collation set to
 utf8_unicode_ci - quipo
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.0.4</release>
+    <api>2.0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-12-06</date>
+   <license uri="http://www.debian.org/misc/bsd.license">BSD</license>
+   <notes>
+QA release
+Bug #18081 	Translation2.php installed in the wrong place
    </notes>
   </release>
  </changelog>
