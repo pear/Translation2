@@ -57,7 +57,7 @@ Req #16787 default &apos;latin1_swedish_ci&apos; db created with collation set t
 utf8_unicode_ci - quipo
  </notes>
  <contents>
-  <dir baseinstalldir="Translation2" name="/">
+  <dir baseinstalldir="/" name="/">
    <file baseinstalldir="Translation2" md5sum="b850917107ade89d68eca7a09973eddd" name="Admin/Decorator.php" role="php" />
    <file baseinstalldir="Translation2" md5sum="8feb2090133ed9555204f334b8b237fd" name="Admin/Container/dataobjectsimple.php" role="php" />
    <file baseinstalldir="Translation2" md5sum="0422ec2f01ce15c0a24df222626ffdeb" name="Admin/Container/db.php" role="php" />
@@ -124,7 +124,7 @@ utf8_unicode_ci - quipo
    <file baseinstalldir="Translation2" md5sum="afa20422724bb664edade1389f21eecd" name="Admin.php" role="php" />
    <file baseinstalldir="Translation2" md5sum="98557869285aa753d3300e381b4e2a38" name="Container.php" role="php" />
    <file baseinstalldir="Translation2" md5sum="e5ea1d80a42b5e77ed46ff6462d42fc7" name="Decorator.php" role="php" />
-   <file baseinstalldir="Translation2" md5sum="2a7d0c4e0a9f8899ecf257d099810900" name="Translation2.php" role="php" />
+   <file baseinstalldir="/" md5sum="2a7d0c4e0a9f8899ecf257d099810900" name="Translation2.php" role="php" />
   </dir>
  </contents>
  <dependencies>
