@@ -37,5 +37,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "*"
+    },
+    "suggest": {
+        "pear/cache_lite": "Install optionally via your project's composer.json"
     }
 }
